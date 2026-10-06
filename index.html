@@ -87,11 +87,11 @@ body.print #ui,body.print #progress,body.print #tip,body.static #ui{display:none
 .agenda h3{font-size:36px;margin:22px 0 18px}
 .agenda li{list-style:none;font-size:23px;color:#c8d5ea;line-height:1.5;margin:12px 0;padding-left:22px;position:relative}
 .agenda li::before{content:"";position:absolute;left:0;top:13px;width:9px;height:9px;border-radius:2px;background:var(--c3)}
-.kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;margin-top:56px}
-.kpi{padding:40px 38px;min-height:330px;position:relative;overflow:hidden}
+.kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;margin-top:90px}
+.kpi{padding:52px 40px;min-height:420px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
 .kpi .lab{font-size:24px;color:var(--mut)}
 .kpi .v{white-space:nowrap;font-size:76px;margin:18px 0 10px;line-height:1.05}
-.kpi .tag{display:inline-block;font-size:18px;padding:6px 14px;border-radius:20px;background:rgba(45,212,191,.15);color:var(--c1);margin-top:14px}
+.kpi .tag{display:inline-block;align-self:flex-start;font-size:18px;padding:6px 14px;border-radius:20px;background:rgba(45,212,191,.15);color:var(--c1);margin-top:14px}
 .kpi .glow{position:absolute;right:-60px;bottom:-60px;width:220px;height:220px;border-radius:50%;filter:blur(30px);opacity:.35}
 .strip{margin-top:34px;display:flex;gap:30px;align-items:center;font-size:24px;color:#c8d5ea}
 .strip b{color:var(--c3);font-size:34px;margin:0 6px}
@@ -177,8 +177,8 @@ body.print #ui,body.print #progress,body.print #tip,body.static #ui{display:none
     <h2 class="rv d1">由現況出發，規劃2027年AI課程</h2>
     <div class="agenda">
       <div class="card rv d2"><div class="k">01</div><h3>2026年回顧</h3><ul><li>課程費用與構成</li><li>截至9月的項次及人次</li><li>報名需求情況</li></ul></div>
-      <div class="card rv d3"><div class="k">02</div><h3>2027年預算規劃</h3><ul><li>課程體系與新增項目</li><li>高級認證考試</li><li>預算比較、構成及增幅</li><li>Token費用調整說明</li></ul></div>
-      <div class="card rv d4"><div class="k">03</div><h3>總結與請示</h3><ul><li>2027年總預算</li><li>重點摘要</li><li>懇請審批</li></ul></div>
+      <div class="card rv d3"><div class="k">02</div><h3>2027年預算規劃</h3><ul><li>課程體系與新增項目</li><li>高級認證考試</li><li>預算比較及構成</li><li>Token費用調整說明</li></ul></div>
+      <div class="card rv d4"><div class="k">03</div><h3>總結</h3><ul><li>2027年總預算</li><li>重點摘要</li></ul></div>
     </div>
   </div>
   <div class="foot"><span>澳門科學館　展教部</span><span>有關2027年AI課程規劃</span></div>
@@ -194,7 +194,6 @@ body.print #ui,body.print #progress,body.print #tip,body.static #ui{display:none
       <div class="card kpi rv d3"><div class="lab">AI課程總人次（截至9月）</div><div class="v num" style="color:var(--c2)"><span class="count" data-to="13305">13,305</span><span class="unit">人次</span></div><div class="tag" style="background:rgba(56,189,248,.15);color:var(--c2)">截至2026年9月</div><div class="glow" style="background:var(--c2)"></div></div>
       <div class="card kpi rv d4"><div class="lab">2026年AI課程總費用</div><div class="v num" style="color:var(--c3)"><span class="count" data-to="794900">794,900</span><span class="unit">澳門元</span></div><div class="tag" style="background:rgba(245,181,68,.15);color:var(--c3)">全年費用</div><div class="glow" style="background:var(--c3)"></div></div>
     </div>
-    <div class="strip rv d5"><span>平均每項次約<b class="num"><span class="count" data-to="24.7" data-dec="1">24.7</span></b>人次</span><span class="note">（13,305 人次 ÷ 538 項次）</span></div>
   </div>
   <div class="foot"><span>資料來源：展教部統計（截至2026年9月）</span><span>澳門科學館　展教部</span></div>
 </section>
@@ -286,17 +285,7 @@ body.print #ui,body.print #progress,body.print #tip,body.static #ui{display:none
   <div class="foot"><span>資料來源：2027年AI課程預算表</span><span>澳門科學館　展教部</span></div>
 </section>
 
-<!-- 10 增幅 -->
-<section class="slide" data-title="預算增幅分析">
-  <div class="pad">
-    <div class="eyebrow rv">二、2027年預算規劃</div>
-    <h2 class="rv d1">預算增加 <em class="num"><span class="count" data-to="360200">360,200</span></em> 澳門元（<span class="num"><span class="count" data-to="45.3" data-dec="1">45.3</span>%</span>），主要來自高級認證</h2>
-    <div class="chartbox rv d2" style="margin-top:26px"><svg id="wf" width="1408" height="590" viewBox="0 0 1408 590"></svg></div>
-  </div>
-  <div class="foot"><span>單位：澳門元　｜　增幅 = 2027年總預算 − 2026年總費用</span><span>澳門科學館　展教部</span></div>
-</section>
-
-<!-- 11 Token -->
+<!-- 10 Token -->
 <section class="slide" data-title="Token費用調整說明">
   <div class="pad">
     <div class="eyebrow rv">二、2027年預算規劃</div>
@@ -327,11 +316,11 @@ body.print #ui,body.print #progress,body.print #tip,body.static #ui{display:none
   <div class="foot"><span>註：表列課程數量40，平均每人預算約166.67澳門元（按40班×30人計）</span><span>澳門科學館　展教部</span></div>
 </section>
 
-<!-- 12 總結 -->
-<section class="slide" data-title="總結與請示">
+<!-- 11 總結 -->
+<section class="slide" data-title="總結">
   <div class="pad">
-    <div class="eyebrow rv">三、總結與請示</div>
-    <h2 class="rv d1">總結：懇請審批2027年AI課程預算</h2>
+    <div class="eyebrow rv">三、總結</div>
+    <h2 class="rv d1">總結</h2>
     <div class="ask">
       <div class="card rv d2" style="display:flex;flex-direction:column;justify-content:center;text-align:center;background:linear-gradient(160deg,rgba(45,212,191,.16),rgba(56,189,248,.08));border-color:rgba(45,212,191,.45)">
         <div style="font-size:26px;color:var(--mut)">2027年總預算</div>
@@ -353,7 +342,7 @@ body.print #ui,body.print #progress,body.print #tip,body.static #ui{display:none
 </section>
 
 </div></div>
-<div id="ui"><button id="prev" aria-label="上一頁">‹</button><span id="counter">1 / 12</span><button id="next" aria-label="下一頁">›</button></div>
+<div id="ui"><button id="prev" aria-label="上一頁">‹</button><span id="counter">1 / 11</span><button id="next" aria-label="下一頁">›</button></div>
 <div id="tip"></div>
 
 <script>
@@ -483,32 +472,6 @@ lad.appendChild(ar);
   const side=document.getElementById('cmpside');
   side.innerHTML=ITEMS.map(it=>{const d=it.v27-it.v26;const s=d===0?'<b class="flat">±0</b>':`<b class="up">+${fmt(d)}${it.v26?`（+${pct(d,it.v26)}）`:''}</b>`;return `<div class="dl" data-tip="<b>${it.name}</b><br>2026年：${it.v26?fmt(it.v26):'不適用'}<br>2027年：${fmt(it.v27)}"><span>${it.short||it.name}</span>${s}</div>`}).join('')+
   `<div class="card" style="padding:24px 26px;margin-top:6px;border-color:rgba(245,181,68,.5);background:rgba(245,181,68,.08)"><div style="font-size:20px;color:var(--mut)">合計（澳門元）</div><div style="display:flex;justify-content:space-between;font-size:22px;margin-top:12px"><span>2026年</span><b class="num">${fmt(T26)}</b></div><div style="display:flex;justify-content:space-between;font-size:22px;margin-top:8px"><span>2027年</span><b class="num">${fmt(T27)}</b></div><div style="display:flex;justify-content:space-between;font-size:24px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><span>增幅</span><b class="num up">+${fmt(T27-T26)}（+${pct(T27-T26,T26)}）</b></div></div>`;
-})();
-
-/* ---------- waterfall ---------- */
-(function(){
-  const svg=document.getElementById('wf');const L=120,R=1390,Tp=50,B=500,max=1250000;
-  const y=v=>B-(v/max)*(B-Tp);
-  for(let v=0;v<=max;v+=250000){el('line',{x1:L,x2:R,y1:y(v),y2:y(v),stroke:'rgba(255,255,255,'+(v?'.08':'.3')+')'},svg);el('text',{x:L-14,y:y(v)+7,'text-anchor':'end','font-size':18,fill:'#8aa0c0','font-family':FONT},svg,fmt(v))}
-  const inc=T27-T26;
-  const steps=[
-    {lab:'2026年總費用',from:0,to:T26,col:'#5b7397',txt:fmt(T26),tip:`<b>2026年總費用</b><br>${fmt(T26)} 澳門元`},
-    {lab:'初級考證課程',from:T26,to:T26,col:'#38bdf8',txt:'±0',tip:'<b>初級考證課程</b><br>沒有變化'},
-    {lab:'中級考證課程',from:T26,to:T26,col:'#2dd4bf',txt:'±0',tip:'<b>中級考證課程</b><br>沒有變化'},
-    {lab:'新增高級考證課程',from:T26,to:T26+320000,col:'#f5b544',txt:'+320,000',sub:'佔增幅約'+Math.round(320000/inc*100)+'%',tip:`<b>新增高級考證課程</b><br>160,000 × 2 班 = 320,000 澳門元<br>佔增幅 ${pct(320000,inc)}`},
-    {lab:'Token費用調升',from:T26+320000,to:T27,col:'#a78bfa',txt:'+40,200',sub:'佔增幅約'+Math.round(40200/inc*100)+'%',tip:`<b>Token費用調升</b><br>159,800 → 200,000<br>+40,200 澳門元，佔增幅 ${pct(40200,inc)}`},
-    {lab:'2027年總預算',from:0,to:T27,col:'#2dd4bf',txt:fmt(T27),tip:`<b>2027年總預算</b><br>${fmt(T27)} 澳門元<br>較2026年 +${fmt(inc)}（+${pct(inc,T26)}）`},
-  ];
-  const df=el('defs',{},svg);const g=el('linearGradient',{id:'wg',x1:0,y1:0,x2:0,y2:1},df);el('stop',{offset:0,'stop-color':'#2dd4bf'},g);el('stop',{offset:1,'stop-color':'#38bdf8'},g);
-  const gw=(R-L)/steps.length,bw=128;
-  steps.forEach((s,i)=>{
-    const x=L+gw*i+(gw-bw)/2;const top=y(Math.max(s.from,s.to)),bot=y(Math.min(s.from,s.to));const h=Math.max(bot-top,4);
-    const r=el('rect',{class:'bar',x,y:top,width:bw,height:h,rx:6,fill:s.col,'data-tip':s.tip},svg);r.style.transitionDelay=(.3+i*.25)+'s';
-    if(i<steps.length-1){el('line',{x1:x+bw,x2:x+gw,y1:y(s.to),y2:y(s.to),stroke:'rgba(255,255,255,.35)','stroke-dasharray':'5 5',class:'lbl'},svg)}
-    el('text',{class:'lbl',x:x+bw/2,y:top-14,'text-anchor':'middle','font-size':24,'font-weight':800,fill:i===3?'#f5b544':(i===4?'#c4b5fd':'#fff'),'font-family':FONT},svg,s.txt);
-    if(s.sub)el('text',{class:'lbl',x:x+bw/2,y:top-46,'text-anchor':'middle','font-size':18,fill:'#c8d5ea','font-family':FONT},svg,s.sub);
-    el('text',{x:x+bw/2,y:B+38,'text-anchor':'middle','font-size':21,'font-weight':700,fill:'#eef3fb','font-family':FONT},svg,s.lab);
-  });
 })();
 
 /* ---------- token bars ---------- */
