@@ -1,7 +1,12 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>量子電腦（超導量子電腦稀釋製冷機）｜3D 互動圖</title></head><body>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>量子電腦（超導量子電腦稀釋製冷機）｜互動圖</title></head><body>
 <!-- 由「科學結構 3D 互動圖生成器」製作。繪圖引擎 Colorfigures by April Zhu（MIT License, https://april-zhu.com/colorfigures）。 -->
 <script>
+/* MODE: ?mode=2d → 2D-only onescreen; otherwise 3D onescreen with left/right rails */
+const MODE = new URLSearchParams(location.search).get('mode') === '2d' ? '2d' : '3d';
+document.documentElement.dataset.mode = MODE;
+document.documentElement.classList.add('mode-' + MODE);
+
 /* ============================================================
    Colorfigures core: projection, shapes, shading, ink, labels, page shell.
    A figure page includes this file (scripts/build.py inlines it), then calls mountFigure({...}).
@@ -232,6 +237,62 @@ const CORE_CSS = `
   .toast.show{opacity:1}
   .made-with{width:100%;max-width:760px;margin-top:18px;text-align:right;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
   .made-with a{color:var(--muted);text-decoration:none} .made-with a:hover{color:var(--ink)}
+  /* ---- onescreen shell (mode=3d / mode=2d) ---- */
+  html.mode-3d, html.mode-3d body, html.mode-2d, html.mode-2d body{height:100%;overflow:hidden}
+  html.mode-3d body, html.mode-2d body{
+    padding:0;align-items:stretch;display:flex;flex-direction:column;max-width:none;width:100%;
+  }
+  .shell{display:none}
+  html.mode-3d .shell, html.mode-2d .shell{
+    display:grid;flex:1 1 auto;min-height:0;width:100%;height:100%;
+  }
+  html.mode-3d .shell{grid-template-columns:minmax(168px,210px) minmax(0,1fr) minmax(220px,300px);grid-template-rows:1fr}
+  html.mode-2d .shell{grid-template-columns:minmax(0,1fr) minmax(220px,300px);grid-template-rows:auto 1fr}
+  .rail{min-height:0;overflow:auto;padding:10px 10px 12px;display:flex;flex-direction:column;gap:10px;background:color-mix(in srgb,var(--paper) 92%,#fff)}
+  .rail-left{border-right:1px solid var(--rule)}
+  .rail-right{border-left:1px solid var(--rule)}
+  .stage-col{min-width:0;min-height:0;display:flex;flex-direction:column;position:relative;background:transparent}
+  html.mode-3d header, html.mode-2d header{
+    flex:0 0 auto;max-width:none!important;width:100%;padding:6px 12px 4px;border-bottom:1px solid var(--rule);
+    background:color-mix(in srgb,var(--paper) 88%,#fff)
+  }
+  html.mode-3d header h1, html.mode-2d header h1{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:min(70vw,720px)}
+  html.mode-3d header span, html.mode-2d header span{font-size:11px}
+  html.mode-3d .stage, html.mode-2d .stage{
+    position:relative;flex:1 1 auto;min-height:0;max-width:none!important;width:100%;height:100%;padding:0;margin:0;
+    display:flex;align-items:center;justify-content:center
+  }
+  html.mode-3d #fig, html.mode-2d #fig{
+    max-width:none!important;width:100%;height:100%;margin:0;display:block
+  }
+  html.mode-3d .actions{position:static;max-width:none;width:100%;gap:6px}
+  html.mode-3d .actions .cap{margin-bottom:2px}
+  html.mode-3d .viewbar{
+    position:static;max-width:none;justify-content:flex-start;flex-wrap:wrap;gap:5px;margin-top:2px
+  }
+  html.mode-3d .vw-hint{display:block;width:100%;margin:4px 0 0;line-height:1.35;font-size:10.5px;text-transform:none;letter-spacing:0}
+  html.mode-3d .controls, html.mode-2d .controls{
+    position:static;width:100%;max-width:none!important;border:0;padding:0;display:flex;flex-direction:column;gap:10px;margin:0
+  }
+  html.mode-3d .controls .ctl, html.mode-2d .controls .ctl{gap:4px}
+  html.mode-3d .made-with, html.mode-2d .made-with{
+    position:absolute;right:8px;bottom:4px;z-index:4;margin:0;max-width:none!important;width:auto;
+    font-size:9px;letter-spacing:.06em;opacity:.75;pointer-events:auto;text-align:right;line-height:1.2
+  }
+  html.mode-3d #readout, html.mode-2d #readout, html.mode-3d .idea, html.mode-2d .idea{display:none!important}
+  html.mode-3d .toast{left:8px;max-width:min(240px,90%)}
+  html.mode-3d .chips{left:0;top:calc(100% + 6px);max-width:min(260px,40vw);z-index:5}
+  html.mode-3d .bio-notes, html.mode-2d .bio-notes{display:none!important}
+  html.mode-3d .bio-2d{display:none!important}
+  html.mode-2d .stage-col > .stage, html.mode-2d .rail-left{display:none!important}
+  html.mode-2d .shell{grid-template-areas: "bar bar" "main side";}
+  html.mode-2d .b2-shell{grid-area:bar}
+  html.mode-2d .stage-col{grid-area:main}
+  html.mode-2d .rail-right{grid-area:side}
+  .rail .rail-title{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 0}
+  .rail .act{width:100%;text-align:left;padding:6px 12px}
+  .rail .stepwrap{width:100%}
+  .rail .viewbar button{font-size:11px;padding:4px 8px}
   .stats{position:absolute;top:4px;right:0;display:flex;flex-direction:column;align-items:flex-end;gap:10px;z-index:2;text-align:right}
   .stat .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   .stat .v{font-size:34px;font-weight:800;line-height:1.05;letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:var(--ink)}
@@ -251,7 +312,18 @@ const CORE_CSS = `
   .chip.current{background:var(--ink);color:var(--paper)} .chip.current:hover{background:var(--ink);transform:none}
   .chip.off{opacity:.45} .chip.off:hover{transform:none;background:var(--paper)}
   
-  @media (max-width:560px){body{padding:14px 12px 24px}header span,.actions .cap{display:none}.actions{flex-direction:row;flex-wrap:wrap;gap:6px}.act{font-size:12px;padding:4px 11px}.stats{position:static;flex-direction:row;justify-content:flex-end;gap:18px;margin-bottom:4px}.actions{position:static;max-width:none;margin:6px 0 4px}.chips{left:0;top:calc(100% + 8px)}}
+  @media (max-width:560px){
+    body{padding:14px 12px 24px}
+    header span,.actions .cap{display:none}
+    .actions{flex-direction:row;flex-wrap:wrap;gap:6px}
+    .act{font-size:12px;padding:4px 11px}
+    .stats{position:static;flex-direction:row;justify-content:flex-end;gap:18px;margin-bottom:4px}
+    .actions{position:static;max-width:none;margin:6px 0 4px}
+    .chips{left:0;top:calc(100% + 8px)}
+    html.mode-3d .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}
+    html.mode-3d .rail-left, html.mode-3d .rail-right{max-height:28vh;border:0;border-bottom:1px solid var(--rule)}
+    html.mode-3d body, html.mode-2d body{padding:0}
+  }
   .controls{width:100%;max-width:760px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 28px;border-top:1px solid var(--rule);padding-top:16px}
   .ctl{display:flex;flex-direction:column;gap:6px}
   .ctl label{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
@@ -369,7 +441,7 @@ function mountFigure(cfg){
       fit(anim){ let bb; try { const a = document.getElementById('art').getBBox(), l = document.getElementById('lbls').getBBox();
           bb = { x0: Math.min(a.x, l.width ? l.x : a.x), y0: Math.min(a.y, l.height ? l.y : a.y), x1: Math.max(a.x + a.width, l.width ? l.x + l.width : 0), y1: Math.max(a.y + a.height, l.height ? l.y + l.height : 0) }; } catch (_) { return; }
         if (!(bb.x1 > bb.x0)) return;
-        const left = window.innerWidth < 560 ? 0 : .2, bw = (bb.x1 - bb.x0) * 1.06, bh = (bb.y1 - bb.y0) * 1.08;
+        const left = (typeof MODE !== 'undefined' && MODE === '3d') || window.innerWidth < 560 ? 0 : .2, bw = (bb.x1 - bb.x0) * 1.06, bh = (bb.y1 - bb.y0) * 1.08;
         let w = Math.max(bw / (1 - left), bh * vbW / vbH); w = Math.max(vbW / 2.4, Math.min(vbW * 1.6, w)); const h = w * vbH / vbW;
         const to = { x: (bb.x0 + bb.x1) / 2 - w * (left + (1 - left) / 2), y: (bb.y0 + bb.y1) / 2 - h / 2, w, h };
         if (!anim){ Object.assign(VB, to); applyVB(); ui.render(); return; }
@@ -1367,9 +1439,9 @@ function mountBio(rawSpec, opts = {}){
   const mk = (label, min, max, step, val, on) => { const d = document.createElement('div'); d.className = 'ctl';
     const id = 'r' + Math.random().toString(36).slice(2, 7);
     d.innerHTML = `<label for="${id}">${label}</label><input id="${id}" type="range" min="${min}" max="${max}" step="${step}" value="${val}">`;
-    d.querySelector('input').oninput = e => { on(+e.target.value); ui.render(); }; controls.prepend(d); };
-  mk('分散距離', .5, 1.4, .05, 1, v => { st.spread = v; if (st.exp < .5) { st.exp = 1; if (st.cut < 1) st.cut = 1; } });
-  if (ct.shape !== 'none') mk(SOLID ? '切口高度' : '切面高度', .2, .9, .01, st.cutLevel, v => { st.cutLevel = v; if (st.cut < 1) st.cut = 1; });
+    d.querySelector('input').oninput = e => { on(+e.target.value); ui.render(); }; controls.prepend(d); return d; };
+  const ctlSpread = mk('分散距離', .5, 1.4, .05, 1, v => { st.spread = v; if (st.exp < .5) { st.exp = 1; if (st.cut < 1) st.cut = 1; } });
+  const ctlCut = (ct.shape !== 'none') ? mk(SOLID ? '切口高度' : '切面高度', .2, .9, .01, st.cutLevel, v => { st.cutLevel = v; if (st.cut < 1) st.cut = 1; }) : null;
   const notes = document.createElement('details'); notes.className = 'bio-notes';
   const li = arr => arr.length ? '<ul>' + arr.map(x => `<li>${bioEsc(x)}</li>`).join('') + '</ul>' : '';
   notes.innerHTML = `<summary>科學說明</summary>` + (spec.summary ? `<p>${bioEsc(spec.summary)}</p>` : '')
@@ -1380,49 +1452,139 @@ function mountBio(rawSpec, opts = {}){
     + (spec.review.length ? `<h4>AI 科學審核紀錄</h4>${li(spec.review)}` : '')
     + `<p class="bio-disc">本圖由 AI 協助生成結構資料，用於教學示意；正式使用前請由專業人員覆核。</p>`;
   document.querySelector('.controls').after(notes);
+
+  /* ---- onescreen layout: left ops / center stage / right sliders+info ---- */
+  (function layoutShell(){
+    const header = document.querySelector('header');
+    const actions = document.getElementById('btns');
+    const viewbar = document.querySelector('.viewbar');
+    const credit = document.querySelector('.made-with');
+    const shell = document.createElement('div'); shell.className = 'shell';
+    const left = document.createElement('aside'); left.className = 'rail rail-left'; left.setAttribute('aria-label', '操作與效果');
+    const mid = document.createElement('div'); mid.className = 'stage-col';
+    const right = document.createElement('aside'); right.className = 'rail rail-right'; right.setAttribute('aria-label', '參數與部件說明');
+
+    if (MODE === '3d'){
+      const t1 = document.createElement('div'); t1.className = 'rail-title'; t1.textContent = '視圖／效果'; left.appendChild(t1);
+      if (actions){ actions.classList.add('rail-actions'); left.appendChild(actions); }
+      if (viewbar){ const t2 = document.createElement('div'); t2.className = 'rail-title'; t2.textContent = '視角'; left.appendChild(t2); left.appendChild(viewbar); }
+      // effects: wobble / colour / labels stay on left
+      const fx = document.createElement('div'); fx.className = 'controls controls-fx';
+      ['wb','pals','lblctl'].forEach(id => {
+        const el = id === 'wb' ? document.getElementById('wb')?.closest('.ctl')
+          : id === 'pals' ? document.getElementById('pals')?.closest('.ctl')
+          : document.getElementById('lblctl');
+        if (el) fx.appendChild(el);
+      });
+      left.appendChild(fx);
+
+      const t3 = document.createElement('div'); t3.className = 'rail-title'; t3.textContent = '參數'; right.appendChild(t3);
+      const params = document.createElement('div'); params.className = 'controls controls-params';
+      if (ctlCut) params.appendChild(ctlCut);
+      if (ctlSpread) params.appendChild(ctlSpread);
+      right.appendChild(params);
+      right.appendChild(info);
+      mid.appendChild(stage);
+      if (credit) mid.appendChild(credit);
+      shell.append(left, mid, right);
+    } else {
+      // 2D mode: top bar + main 2D figure + right info; park 3D stage off-flow
+      stage.hidden = true;
+      if (actions) actions.hidden = true;
+      if (viewbar) viewbar.hidden = true;
+      controls.hidden = true;
+      const bar = two.querySelector('.b2-bar');
+      const barHost = document.createElement('div'); barHost.className = 'b2-shell';
+      if (bar) barHost.appendChild(bar);
+      mid.appendChild(two);
+      right.appendChild(info);
+      if (credit) mid.appendChild(credit);
+      shell.append(barHost, mid, right);
+      // keep stage in DOM (orbit code may reference it) but not in layout
+      document.body.appendChild(stage);
+      stage.setAttribute('hidden', '');
+      stage.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;pointer-events:none';
+    }
+
+    // insert shell after header
+    if (header) header.after(shell);
+    else document.body.prepend(shell);
+    // In 3D mode keep .bio-2d in DOM but out of flow (hidden by CSS) so sync2 stays safe
+    if (MODE === '3d' && two.parentNode !== document.body) { /* already placed */ }
+    if (MODE === '3d' && !two.parentNode) document.body.appendChild(two);
+    if (MODE === '3d' && two.parentNode === document.body) { two.setAttribute('hidden', ''); }
+    // detach leftover bottom controls from body flow
+    if (controls && controls.parentNode === document.body) controls.remove();
+    if (notes.parentNode !== document.body) document.body.appendChild(notes);
+    notes.hidden = true;
+    // strip any other body children that would cause page scroll
+    [...document.body.children].forEach(ch => {
+      if (ch === header || ch === shell || ch === notes || ch === two || ch === stage) return;
+      if (ch.id === 'readout' || ch.classList.contains('idea') || ch.classList.contains('controls') || ch.classList.contains('bio-info') || ch.classList.contains('made-with')) ch.remove();
+    });
+  })();
+
   const css = document.createElement('style'); css.textContent = BIO_CSS; document.head.appendChild(css);
+  // bio figures use .bio-tag; ensure Labels control is visible in 3D rail
+  const lblctl = document.getElementById('lblctl');
+  if (lblctl && MODE === '3d') lblctl.hidden = false;
   lastSel = null; ui.render(); sync2(true);
   if (ui.view) ui.view.fit(false);
+  // after layout, refit so SVG fills the center column
+  requestAnimationFrame(() => { if (ui.view && MODE === '3d') ui.view.fit(false); });
+  setTimeout(() => { if (ui.view && MODE === '3d') ui.view.fit(false); }, 80);
+  if (MODE === '2d') document.title = (spec.title || '互動圖') + '｜2D 互動圖';
+  else document.title = (spec.title || '互動圖') + '｜3D 互動圖';
   window.__spec = spec;
+  window.__mode = MODE;
   return ui;
 }
 
 const BIO_CSS = `
   body{font-family:${BIO_FONT};font-size:14px}
-  header,#fig,.stage,.controls,.made-with,.bio-info,.bio-2d,.bio-notes{max-width:980px!important}
   header h1{font-size:15px;font-weight:800;letter-spacing:.04em}
   .act,.chip,button{font-family:${BIO_FONT}}
   .act{font-weight:700}
   .bio-cap{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);max-width:min(560px,92%);background:var(--paper);border:1.5px solid var(--ink);border-radius:10px;
-    box-shadow:3px 3px 0 var(--ink);padding:7px 12px;font-size:13.5px;line-height:1.5;opacity:0;transition:opacity .25s;pointer-events:none;text-align:center}
+    box-shadow:3px 3px 0 var(--ink);padding:7px 12px;font-size:13.5px;line-height:1.5;opacity:0;transition:opacity .25s;pointer-events:none;text-align:center;z-index:3}
   .bio-cap.show{opacity:1}
-  .bio-info{width:100%;max-width:760px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px;margin:4px 0 16px}
-  .bio-card{border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;background:#fffaf0;box-shadow:3px 3px 0 var(--ink);min-height:96px}
-  .bio-card p{margin:.35em 0;line-height:1.6}
-  .bc-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-  .bc-h strong{font-size:17px} .bc-h span{color:var(--muted);font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
-  .bc-more{color:#4d463a} .bc-size{font-size:12.5px;color:var(--muted)} .bc-empty{color:#4d463a}
-  .bio-list{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
-  .bio-list button{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:4px 10px;border-radius:999px;border:1.5px solid var(--ink);background:var(--paper);cursor:pointer}
-  .bio-list button i{width:10px;height:10px;border-radius:50%;border:1px solid var(--ink);display:inline-block}
+  .bio-info{width:100%;max-width:none;display:flex;flex-direction:column;gap:10px;margin:0;min-height:0;flex:1 1 auto}
+  .bio-card{border:1.5px solid var(--ink);border-radius:12px;padding:10px 12px;background:#fffaf0;box-shadow:3px 3px 0 var(--ink);min-height:72px;flex:0 0 auto;overflow:auto;max-height:42%}
+  .bio-card p{margin:.3em 0;line-height:1.5;font-size:12.5px}
+  .bc-h{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .bc-h strong{font-size:15px} .bc-h span{color:var(--muted);font-size:11.5px;font-family:ui-monospace,Menlo,monospace}
+  .bc-more{color:#4d463a} .bc-size{font-size:11.5px;color:var(--muted)} .bc-empty{color:#4d463a;font-size:12.5px}
+  .bio-list{display:flex;flex-wrap:wrap;gap:5px;align-content:flex-start;overflow:auto;min-height:0;flex:1 1 auto;padding-bottom:4px}
+  .bio-list button{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:3px 8px;border-radius:999px;border:1.5px solid var(--ink);background:var(--paper);cursor:pointer}
+  .bio-list button i{width:9px;height:9px;border-radius:50%;border:1px solid var(--ink);display:inline-block}
   .bio-list button[aria-pressed=true]{background:#ffd23f}
-  .bio-notes{width:100%;max-width:760px;margin-top:16px;border-top:1px solid var(--rule);padding-top:12px;line-height:1.65}
-  .bio-notes summary{cursor:pointer;font-weight:800;letter-spacing:.06em}
-  .bio-notes h4{margin:12px 0 4px;font-size:13px;letter-spacing:.06em}
-  .bio-notes ul,.bio-notes ol{margin:4px 0;padding-left:20px}
+  .bio-notes{display:none}
   .bio-disc{font-size:12px;color:var(--muted)}
-  .bio-2d{width:100%;max-width:760px;margin:6px 0 18px;border-top:1px solid var(--rule);padding-top:14px}
-  .b2-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-  .b2-bar h2{font-size:14px;margin:0 6px 0 0;letter-spacing:.06em}
+  .bio-2d{width:100%;max-width:none;margin:0;border:0;padding:0;min-height:0;height:100%;display:flex;flex-direction:column}
+  .b2-shell{flex:0 0 auto;padding:8px 12px;border-bottom:1px solid var(--rule);background:color-mix(in srgb,var(--paper) 90%,#fff)}
+  .b2-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0}
+  .b2-bar h2{font-size:13px;margin:0 6px 0 0;letter-spacing:.06em}
   .b2-tabs,.b2-dl{display:flex;gap:6px;flex-wrap:wrap} .b2-dl{margin-left:auto}
-  .b2-tabs button,.b2-dl button{font-size:12.5px;padding:4px 11px}
+  .b2-tabs button,.b2-dl button{font-size:12px;padding:4px 10px}
   .b2-tabs button[aria-selected=true]{background:var(--ink);color:var(--paper)}
-  .b2-fig{border:1.5px solid var(--ink);border-radius:12px;overflow:hidden;background:#fbf8f1;box-shadow:3px 3px 0 var(--ink)}
-  .b2-fig svg{display:block;width:100%;height:auto}
+  .b2-fig{border:1.5px solid var(--ink);border-radius:12px;overflow:hidden;background:#fbf8f1;box-shadow:3px 3px 0 var(--ink);flex:1 1 auto;min-height:0;margin:8px;display:flex;align-items:center;justify-content:center}
+  .b2-fig svg{display:block;width:100%;height:100%;max-height:100%}
   .b2-fig [data-id]{cursor:pointer} .b2-fig .b2-part:hover>path{filter:brightness(1.06)}
-  .b2-note{font-size:12px;color:var(--muted);margin:8px 0 0}
-  .stage{padding-bottom:30px}
-  @media (max-width:640px){.bio-info{grid-template-columns:1fr}.bio-cap{position:static;transform:none;margin:6px auto 0}.viewbar{position:static;margin-top:6px;justify-content:flex-start}.vw-hint{display:none}.stage{padding-bottom:0}}
+  .b2-note{font-size:11px;color:var(--muted);margin:0 10px 8px;flex:0 0 auto}
+  html.mode-3d .stage{padding-bottom:0}
+  html.mode-2d .bio-2d .b2-bar{display:none} /* bar lifted into .b2-shell */
+  html.mode-2d .stage-col{min-height:0;overflow:hidden}
+  html.mode-2d .bio-card{max-height:36%}
+  html.mode-2d .rail-right{overflow:auto;min-height:0}
+  html.mode-2d .bio-2d{height:100%;min-height:0;overflow:hidden}
+  html.mode-2d .b2-fig{flex:1 1 auto;min-height:0;max-height:100%}
+  html.mode-2d, html.mode-2d body{overflow:hidden!important}
+  html.mode-3d, html.mode-3d body{overflow:hidden!important}
+  html.mode-3d .rail-left, html.mode-3d .rail-right{overflow:auto;min-height:0}
+  @media (max-width:640px){
+    .bio-cap{position:static;transform:none;margin:6px auto 0}
+    html.mode-3d .vw-hint{display:none}
+  }
 `;
 
 </script>
