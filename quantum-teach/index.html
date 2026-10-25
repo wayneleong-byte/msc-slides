@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="澳門科學館教學頁：超導量子電腦稀釋製冷機簡介、3D 互動圖與教學影片預留區。">
+  <meta name="description" content="澳門科學館教學頁：超導量子電腦稀釋製冷機 3D 互動圖與粵語教學影片。">
   <title>量子電腦（超導量子電腦稀釋製冷機）｜澳門科學館</title>
   <style>
     :root {
@@ -15,10 +15,9 @@
       --accent: #1f4e79;
       --accent-soft: #e8f0f8;
       --gold: #c9a227;
-      --gold-soft: #f7efd4;
-      --danger-soft: #f3ebe2;
       --radius: 14px;
       --shadow: 0 10px 30px rgba(31, 36, 48, 0.08);
+      --topbar-h: 108px;
       --font: "PingFang TC", "Hiragino Sans CNS", "Noto Sans TC", "Microsoft JhengHei",
               "Source Han Sans TC", "WenQuanYi Micro Hei", system-ui, -apple-system, sans-serif;
     }
@@ -29,70 +28,58 @@
       margin: 0;
       font-family: var(--font);
       color: var(--ink);
-      background:
-        radial-gradient(1200px 500px at 10% -10%, #e8f0f8 0%, transparent 55%),
-        radial-gradient(900px 400px at 100% 0%, #f7efd4 0%, transparent 50%),
-        var(--bg);
+      background: var(--bg);
       line-height: 1.65;
     }
 
     .app {
       min-height: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
     }
 
     .topbar {
-      position: sticky;
-      top: 0;
+      flex: 0 0 auto;
       z-index: 20;
-      backdrop-filter: blur(10px);
-      background: rgba(246, 244, 239, 0.92);
+      background: rgba(246, 244, 239, 0.96);
       border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
     }
 
     .topbar-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 14px 20px 0;
+      max-width: none;
+      margin: 0;
+      padding: 10px 16px 0;
     }
 
     .brand {
       display: flex;
       flex-wrap: wrap;
       align-items: baseline;
-      gap: 8px 14px;
-      margin-bottom: 12px;
+      gap: 6px 12px;
+      margin-bottom: 8px;
     }
 
     .brand .org {
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
       color: var(--accent);
       font-weight: 700;
     }
 
     .brand h1 {
       margin: 0;
-      font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
       font-weight: 700;
       letter-spacing: 0.02em;
-      line-height: 1.35;
-    }
-
-    .brand .sub {
-      width: 100%;
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.92rem;
+      line-height: 1.3;
     }
 
     .tabs {
       display: flex;
       gap: 4px;
       overflow-x: auto;
-      padding-bottom: 0;
       scrollbar-width: thin;
     }
 
@@ -105,7 +92,7 @@
       font: inherit;
       font-weight: 600;
       font-size: 0.95rem;
-      padding: 10px 14px 12px;
+      padding: 10px 14px 11px;
       cursor: pointer;
       white-space: nowrap;
       border-radius: 10px 10px 0 0;
@@ -121,35 +108,115 @@
       background: var(--surface);
       border-color: var(--line);
       border-bottom-color: var(--accent);
-      box-shadow: 0 -2px 0 var(--surface);
     }
 
     .main {
-      flex: 1;
-      max-width: 1120px;
+      flex: 1 1 auto;
+      min-height: 0;
       width: 100%;
-      margin: 0 auto;
-      padding: 22px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
     }
 
     .panel[hidden] { display: none !important; }
 
-    .panel-intro {
-      display: grid;
-      gap: 18px;
+    /* --- 3D: full viewport under tab bar --- */
+    .panel-3d {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
     }
 
-    .hero, .card {
+    .attach-bar {
+      flex: 0 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 12px;
+      padding: 8px 14px;
       background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .attach-bar .label {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .attach-bar .hint {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--accent);
+      background: #fff;
+      color: var(--accent);
+      font: inherit;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 7px 12px;
+      border-radius: 9px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:hover { filter: brightness(1.03); background: var(--accent-soft); }
+    .btn:focus-visible {
+      outline: 3px solid rgba(31, 78, 121, 0.35);
+      outline-offset: 2px;
+    }
+
+    .frame-wrap {
+      flex: 1 1 auto;
+      min-height: 0;
+      position: relative;
+      background: #fff;
+    }
+
+    .frame-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+
+    /* --- Videos --- */
+    .panel-videos {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding: 18px 20px 36px;
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8f0f8 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #f7efd4 0%, transparent 50%),
+        var(--bg);
+    }
+
+    .videos-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .videos-intro {
+      background:
+        linear-gradient(135deg, rgba(232,240,248,0.85), rgba(255,253,248,0.95) 45%, rgba(247,239,212,0.55));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-    }
-
-    .hero {
-      padding: clamp(18px, 3vw, 28px);
-      background:
-        linear-gradient(135deg, rgba(232,240,248,0.85), rgba(255,253,248,0.95) 45%, rgba(247,239,212,0.55));
+      padding: clamp(16px, 2.5vw, 24px);
     }
 
     .eyebrow {
@@ -162,168 +229,12 @@
       color: var(--accent);
       margin: 0 0 8px;
     }
-
     .eyebrow::before {
       content: "";
       width: 18px;
       height: 3px;
       border-radius: 99px;
       background: var(--gold);
-    }
-
-    .hero h2 {
-      margin: 0 0 10px;
-      font-size: clamp(1.35rem, 2.6vw, 1.85rem);
-      line-height: 1.35;
-    }
-
-    .hero .lead {
-      margin: 0;
-      font-size: 1.05rem;
-      max-width: 62ch;
-    }
-
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #fff;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    @media (max-width: 800px) {
-      .grid-2 { grid-template-columns: 1fr; }
-    }
-
-    .card { padding: 18px 20px; }
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 1.05rem;
-    }
-    .card p, .card li { color: var(--ink); }
-    .card p { margin: 0 0 10px; }
-    .card p:last-child, .card ul:last-child { margin-bottom: 0; }
-    .card ul {
-      margin: 0;
-      padding-left: 1.2em;
-    }
-    .card li + li { margin-top: 6px; }
-
-    .note {
-      background: var(--gold-soft);
-      border: 1px solid #e4d3a0;
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      color: #4a3f1f;
-      font-size: 0.92rem;
-    }
-
-    .note strong { color: #3a3118; }
-
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .btn {
-      appearance: none;
-      border: 1px solid var(--accent);
-      background: var(--accent);
-      color: #fff;
-      font: inherit;
-      font-weight: 700;
-      font-size: 0.92rem;
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn:hover { filter: brightness(1.05); }
-    .btn:focus-visible {
-      outline: 3px solid rgba(31, 78, 121, 0.35);
-      outline-offset: 2px;
-    }
-    .btn.secondary {
-      background: #fff;
-      color: var(--accent);
-    }
-
-    /* --- 3D panel: full-height iframe --- */
-    .panel-3d {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-height: calc(100vh - 150px);
-    }
-
-    .attach-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 10px 14px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-    }
-
-    .attach-bar .label {
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    .attach-bar .hint {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    .frame-wrap {
-      flex: 1;
-      min-height: min(78vh, 820px);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-
-    .frame-wrap iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-height: min(78vh, 820px);
-      border: 0;
-      background: #fff;
-    }
-
-    /* --- Videos --- */
-    .panel-videos {
-      display: grid;
-      gap: 16px;
     }
 
     .videos-intro h2 {
@@ -375,10 +286,6 @@
       background: var(--accent-soft);
       color: var(--accent);
     }
-    .badge.pending {
-      background: var(--danger-soft);
-      color: #7a4b1e;
-    }
 
     .video-card .meta {
       padding: 6px 16px 12px;
@@ -387,97 +294,14 @@
       font-size: 0.9rem;
     }
 
-    /* Drop a real YouTube iframe inside .embed-slot when ready.
-       Keep aspect-ratio 16/9. Example:
-       <iframe src="https://www.youtube.com/embed/VIDEO_ID"
-         title="……" loading="lazy" allowfullscreen
-         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-         referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    */
-    .embed-slot {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      background:
-        linear-gradient(180deg, #eef3f8 0%, #e6ebf2 100%);
-      border-top: 1px solid var(--line);
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .embed-slot iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .placeholder-box {
-      max-width: 36ch;
-    }
-
-    .placeholder-box .icon {
-      width: 52px;
-      height: 52px;
-      margin: 0 auto 10px;
-      border-radius: 14px;
-      background: #fff;
-      border: 1px solid var(--line);
-      display: grid;
-      place-items: center;
-      font-size: 1.4rem;
-      color: var(--accent);
-      box-shadow: 0 4px 12px rgba(31,36,48,0.06);
-    }
-
-    .placeholder-box strong {
-      display: block;
-      font-size: 1rem;
-      margin-bottom: 6px;
-      color: var(--ink);
-    }
-
-    .placeholder-box span {
-      display: block;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .howto {
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-    .howto code {
+    .file-code {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.84em;
+      font-size: 0.82em;
       background: #f0ebe2;
-      padding: 1px 5px;
+      padding: 1px 6px;
       border-radius: 5px;
       color: #3d3424;
     }
-
-    .footer {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 20px 28px;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
-
 
     .local-video-wrap {
       background: #0f141c;
@@ -490,35 +314,18 @@
       max-height: min(70vh, 720px);
       background: #0f141c;
     }
-    .video-section-label {
-      margin: 0;
-      padding: 10px 16px 0;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
+
+    .footer-note {
       color: var(--muted);
-      text-transform: none;
-    }
-    .embed-slot.compact {
-      min-height: 0;
-      aspect-ratio: 16 / 9;
-      max-height: 280px;
-    }
-    .file-code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.82em;
-      background: #f0ebe2;
-      padding: 1px 6px;
-      border-radius: 5px;
-      color: #3d3424;
+      font-size: 0.82rem;
+      margin: 4px 0 0;
     }
 
     @media (max-width: 640px) {
-      .topbar-inner { padding-left: 14px; padding-right: 14px; }
-      .main { padding-left: 14px; padding-right: 14px; }
+      .topbar-inner { padding-left: 12px; padding-right: 12px; }
+      .panel-videos { padding-left: 12px; padding-right: 12px; }
       .tab { padding-left: 12px; padding-right: 12px; font-size: 0.9rem; }
-      .panel-3d { min-height: calc(100vh - 170px); }
-      .frame-wrap, .frame-wrap iframe { min-height: 70vh; }
+      .attach-bar { padding: 8px 12px; }
     }
   </style>
 </head>
@@ -527,190 +334,107 @@
     <header class="topbar">
       <div class="topbar-inner">
         <div class="brand">
-          <div class="org">澳門科學館 · 教學頁（測試版）</div>
+          <div class="org">澳門科學館 · 教學頁</div>
           <h1>量子電腦（超導量子電腦稀釋製冷機）</h1>
-          <p class="sub">簡報／教學用靜態頁 · 可離線開啟 · 供內部測試</p>
         </div>
         <nav class="tabs" role="tablist" aria-label="教學內容分頁" id="tablist">
-          <button class="tab" role="tab" id="tab-intro" aria-controls="panel-intro" aria-selected="true" tabindex="0" data-tab="intro">簡介</button>
-          <button class="tab" role="tab" id="tab-3d" aria-controls="panel-3d" aria-selected="false" tabindex="-1" data-tab="3d">3D 互動圖</button>
+          <button class="tab" role="tab" id="tab-3d" aria-controls="panel-3d" aria-selected="true" tabindex="0" data-tab="3d">3D 互動圖</button>
           <button class="tab" role="tab" id="tab-videos" aria-controls="panel-videos" aria-selected="false" tabindex="-1" data-tab="videos">教學影片</button>
         </nav>
       </div>
     </header>
 
     <main class="main">
-      <!-- 簡介 -->
-      <section class="panel panel-intro" role="tabpanel" id="panel-intro" aria-labelledby="tab-intro">
-        <article class="hero">
-          <p class="eyebrow">公眾導賞 · 結構認識</p>
-          <h2>金色「吊燈」背後，是把量子晶片凍到接近絕對零度的製冷機</h2>
-          <p class="lead">
-            常見的「金色吊燈」其實是超導量子電腦的<strong>稀釋製冷機</strong>。
-            它由上到下分成多層金屬板，越往下越冷；最底層約 10 毫開爾文，比外太空還冷，
-            那裏放着真正進行運算的量子處理器晶片。微波訊號經同軸電纜往下送去控制量子位元，
-            讀取訊號則經放大器往上傳回室溫電子設備。
-          </p>
-          <div class="meta-row">
-            <span class="chip">對象：公眾</span>
-            <span class="chip">主題：超導量子電腦</span>
-            <span class="chip">附件：Colorfigures 3D 互動圖</span>
-          </div>
-          <div class="cta-row" style="margin-top:18px">
-            <button type="button" class="btn" data-goto="3d">打開 3D 互動圖</button>
-            <button type="button" class="btn secondary" data-goto="videos">查看影片預留區</button>
-          </div>
-        </article>
-
-        <div class="grid-2">
-          <article class="card">
-            <h3>這一頁可以學到什麼</h3>
-            <ul>
-              <li>認清「吊燈」主要是<strong>製冷系統</strong>，不是處理器本身。</li>
-              <li>沿溫度階梯認識各層冷板與屏蔽罩（約 50 K → 4 K → &lt;1 K → 約 10 mK）。</li>
-              <li>在 3D 圖中點擊部件，閱讀名稱與簡短說明（拖動旋轉、滾輪縮放）。</li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>使用建議（展場／課堂）</h3>
-            <ul>
-              <li>先讀本頁簡介，再切換至「3D 互動圖」標籤操作附件。</li>
-              <li>「教學影片」標籤已附兩條本地 MP4；上 YouTube 後再填各卡的 embed 預留位。</li>
-              <li>本頁為靜態檔，可整夾 <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.9em;background:#f0ebe2;padding:1px 5px;border-radius:5px;">site/</code> 部署至 GitHub Pages。</li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="note">
-          <strong>說明來源：</strong>
-          以上簡介與用詞取自同資料夾附件
-          《量子電腦（超導量子電腦稀釋製冷機）｜3D 互動圖》內建摘要與標籤，並未另加未經附件支持的物理結論。
-          若展場需要更短／更長文案，可由科學館提供定稿後替換本頁「簡介」區。
-        </div>
-      </section>
-
-      <!-- 3D 互動圖（獨立 TAG：嵌入附件，不修改附件內容） -->
-      <section class="panel panel-3d" role="tabpanel" id="panel-3d" aria-labelledby="tab-3d" hidden>
+      <!-- 3D 互動圖：預設落地、全視窗主舞台 -->
+      <section class="panel panel-3d" role="tabpanel" id="panel-3d" aria-labelledby="tab-3d">
         <div class="attach-bar">
           <div>
             <div class="label">附件 · 3D 互動圖</div>
-            <div class="hint">檔案：<code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:0.9em;">dilution-fridge-3d.html</code>（Colorfigures）· 拖動旋轉 · 滾輪縮放 · 點擊部件看說明</div>
+            <div class="hint">檔案：<span class="file-code">dilution-fridge-3d.html</span>（Colorfigures）· 拖動旋轉 · 滾輪縮放 · 點擊部件看說明</div>
           </div>
-          <a class="btn secondary" href="dilution-fridge-3d.html" target="_blank" rel="noopener">在新分頁開啟附件</a>
+          <a class="btn" href="dilution-fridge-3d.html" target="_blank" rel="noopener">在新分頁開啟附件</a>
         </div>
         <div class="frame-wrap">
           <iframe
             id="fridge-3d"
             title="量子電腦（超導量子電腦稀釋製冷機）3D 互動圖附件"
             src="dilution-fridge-3d.html"
-            loading="lazy"
+            loading="eager"
             referrerpolicy="no-referrer">
           </iframe>
         </div>
       </section>
 
-      <!-- 教學影片：本地 MP4 + YouTube embed 預留 -->
+      <!-- 教學影片：僅本地 MP4 -->
       <section class="panel panel-videos" role="tabpanel" id="panel-videos" aria-labelledby="tab-videos" hidden>
-        <div class="videos-intro hero" style="box-shadow:var(--shadow)">
-          <p class="eyebrow">影片區 · 測試版</p>
-          <h2>教學影片</h2>
-          <p>
-            以下兩條為<strong>本地 MP4</strong>（測試版以 <code>&lt;video controls&gt;</code> 播放）。
-            每條下方另預留 <strong>YouTube embed 位</strong>（空白／待補，不填虛構網址）；正式上架後再換成 iframe。
-            兩條皆為<strong>粵語女聲科普</strong>風格（幕僚長已辨聲），測試版並列本地播放；上 YouTube 後再填各卡 embed 預留位。
-          </p>
-        </div>
+        <div class="videos-inner">
+          <div class="videos-intro">
+            <p class="eyebrow">粵語教學影片</p>
+            <h2>教學影片</h2>
+            <p>以下三條為本地 MP4，可直接在本頁以播放器觀看（無需 YouTube）。</p>
+          </div>
 
-        <ul class="video-list" id="video-list" aria-label="教學影片列表">
-          <!-- VIDEO 1 -->
-          <li class="video-card" data-video-id="01-01M5RQBTZR4R9J4DYB90NF8DZS" data-status="local">
-            <div class="video-card-head">
-              <h3>影片 1 · 硬幣／量子位元疊加態比喻</h3>
-              <span class="badge">粵語女聲 · 約 72 秒</span>
-            </div>
-            <p class="meta">正面反面、一睇就定 · 檔案：<span class="file-code">videos/01-01M5RQBTZR4R9J4DYB90NF8DZS.mp4</span> · 1920×1080 · 粵語女聲科普</p>
-            <p class="video-section-label">本地播放（測試）</p>
-            <div class="local-video-wrap">
-              <video controls preload="none" playsinline
-                poster=""
-                aria-label="影片 1 本地播放">
-                <source src="videos/01-01M5RQBTZR4R9J4DYB90NF8DZS.mp4" type="video/mp4">
-                您的瀏覽器不支援 HTML5 影片播放。請直接開啟
-                <a href="videos/01-01M5RQBTZR4R9J4DYB90NF8DZS.mp4">此 MP4 檔</a>。
-              </video>
-            </div>
-            <p class="video-section-label">YouTube embed 位（待補）</p>
-            <div class="embed-slot compact" data-youtube-slot="01">
-              <!-- 待填入：YouTube iframe。請勿虛構 URL。 -->
-              <div class="placeholder-box">
-                <div class="icon" aria-hidden="true">▶</div>
-                <strong>待加入：YouTube embed</strong>
-                <span>上載完成後，將「硬幣／疊加態」這條的 YouTube embed 貼入此區塊。</span>
+          <ul class="video-list" id="video-list" aria-label="教學影片列表">
+            <li class="video-card" data-video-id="01-01M5RQBTZR4R9J4DYB90NF8DZS">
+              <div class="video-card-head">
+                <h3>影片 1 · 硬幣／量子位元疊加態比喻</h3>
+                <span class="badge">粵語女聲 · 約 72 秒</span>
               </div>
-            </div>
-          </li>
-
-          <!-- VIDEO 2 -->
-          <li class="video-card" data-video-id="02-01M5RQCRYZ38V9F15VVGTN85JA" data-status="local">
-            <div class="video-card-head">
-              <h3>影片 2 · 密碼組合／迷宮比喻</h3>
-              <span class="badge">粵語女聲 · 約 83 秒</span>
-            </div>
-            <p class="meta">量子同時握住所有組合 · 檔案：<span class="file-code">videos/02-01M5RQCRYZ38V9F15VVGTN85JA.mp4</span> · 1920×1080 · 粵語女聲科普</p>
-            <p class="video-section-label">本地播放（測試）</p>
-            <div class="local-video-wrap">
-              <video controls preload="none" playsinline
-                aria-label="影片 2 本地播放">
-                <source src="videos/02-01M5RQCRYZ38V9F15VVGTN85JA.mp4" type="video/mp4">
-                您的瀏覽器不支援 HTML5 影片播放。請直接開啟
-                <a href="videos/02-01M5RQCRYZ38V9F15VVGTN85JA.mp4">此 MP4 檔</a>。
-              </video>
-            </div>
-            <p class="video-section-label">YouTube embed 位（待補）</p>
-            <div class="embed-slot compact" data-youtube-slot="02">
-              <!-- 待填入：YouTube iframe。請勿虛構 URL。 -->
-              <div class="placeholder-box">
-                <div class="icon" aria-hidden="true">▶</div>
-                <strong>待加入：YouTube embed</strong>
-                <span>上載完成後，將「密碼組合／迷宮」這條的 YouTube embed 貼入此區塊。</span>
+              <p class="meta">正面反面、一睇就定 · <span class="file-code">videos/01-01M5RQBTZR4R9J4DYB90NF8DZS.mp4</span> · 1920×1080</p>
+              <div class="local-video-wrap">
+                <video controls preload="none" playsinline aria-label="影片 1：硬幣／量子位元疊加態比喻">
+                  <source src="videos/01-01M5RQBTZR4R9J4DYB90NF8DZS.mp4" type="video/mp4">
+                  您的瀏覽器不支援 HTML5 影片。請<a href="videos/01-01M5RQBTZR4R9J4DYB90NF8DZS.mp4">下載此 MP4</a>。
+                </video>
               </div>
-            </div>
-          </li>
-        </ul>
-
-        <article class="card howto">
-          <h3>如何換成 YouTube／新增更多影片</h3>
-          <ol>
-            <li>上載 YouTube 後，在對應卡片的 <code>data-youtube-slot</code> 區塊放入 iframe（保留 16:9），並刪除該卡內的 <code>.placeholder-box</code>。</li>
-            <li>兩條皆為粵語女聲科普，皆要上架；測試版先以本地 <code>&lt;video&gt;</code> 並列播放。</li>
-            <li>本地 <code>&lt;video&gt;</code> 可在上架後保留作離線備援，或改為隱藏。</li>
-            <li>若要新增第 3 條：複製任一 <code>&lt;li class="video-card"&gt;…&lt;/li&gt;</code> 到 <code>#video-list</code> 末尾，改檔名、標題與 <code>data-video-id</code>。</li>
-            <li>YouTube iframe 範例（請換成真實 VIDEO_ID）：
-              <br><code>&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID" title="影片標題" loading="lazy" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"&gt;&lt;/iframe&gt;</code>
             </li>
-          </ol>
-          <p style="margin:10px 0 0">本頁<strong>不填入任何虛構的 YouTube 網址</strong>。</p>
-        </article>
+
+            <li class="video-card" data-video-id="02-01M5RQCRYZ38V9F15VVGTN85JA">
+              <div class="video-card-head">
+                <h3>影片 2 · 密碼組合／迷宮比喻</h3>
+                <span class="badge">粵語女聲 · 約 83 秒</span>
+              </div>
+              <p class="meta">量子同時握住所有組合 · <span class="file-code">videos/02-01M5RQCRYZ38V9F15VVGTN85JA.mp4</span> · 1920×1080</p>
+              <div class="local-video-wrap">
+                <video controls preload="none" playsinline aria-label="影片 2：密碼組合／迷宮比喻">
+                  <source src="videos/02-01M5RQCRYZ38V9F15VVGTN85JA.mp4" type="video/mp4">
+                  您的瀏覽器不支援 HTML5 影片。請<a href="videos/02-01M5RQCRYZ38V9F15VVGTN85JA.mp4">下載此 MP4</a>。
+                </video>
+              </div>
+            </li>
+
+            <li class="video-card" data-video-id="03-new-attachment">
+              <div class="video-card-head">
+                <h3>影片 3 · 教學影片 3</h3>
+                <span class="badge">本地可播 · 約 105 秒</span>
+              </div>
+              <p class="meta">新附件 · <span class="file-code">videos/03-new-attachment.mp4</span> · 1920×1080 · 標題待補</p>
+              <div class="local-video-wrap">
+                <video controls preload="none" playsinline aria-label="影片 3：教學影片 3">
+                  <source src="videos/03-new-attachment.mp4" type="video/mp4">
+                  您的瀏覽器不支援 HTML5 影片。請<a href="videos/03-new-attachment.mp4">下載此 MP4</a>。
+                </video>
+              </div>
+            </li>
+          </ul>
+
+          <p class="footer-note">澳門科學館教學材料 · 3D 圖由 Colorfigures（MIT）繪製 · 靜態 HTML，可離線開啟。</p>
+        </div>
       </section>
-
     </main>
-
-    <footer class="footer">
-      <p>澳門科學館教學材料測試頁 · 3D 圖由 Colorfigures（MIT）繪製 · 本頁為靜態 HTML，無需伺服器即可本機開啟。</p>
-    </footer>
   </div>
 
   <script>
     (function () {
       const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
       const panels = {
-        intro: document.getElementById('panel-intro'),
         '3d': document.getElementById('panel-3d'),
         videos: document.getElementById('panel-videos')
       };
+      const DEFAULT_TAB = '3d';
 
       function selectTab(id, { focus = false, pushHash = true } = {}) {
-        if (!panels[id]) id = 'intro';
+        if (!panels[id]) id = DEFAULT_TAB;
         tabs.forEach((tab) => {
           const on = tab.dataset.tab === id;
           tab.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -726,14 +450,9 @@
           const next = '#' + id;
           if (location.hash !== next) history.replaceState(null, '', next);
         }
-        // Lazy-refresh 3D iframe once when first shown (helps some browsers after hidden)
-        if (id === '3d') {
-          const frame = document.getElementById('fridge-3d');
-          if (frame && !frame.dataset.activated) {
-            frame.dataset.activated = '1';
-            // ensure src is set (already is); no-op reload unless needed
-          }
-        }
+        // Keep layout filling viewport when 3D is shown
+        document.documentElement.classList.toggle('on-3d', id === '3d');
+        document.body.classList.toggle('on-3d', id === '3d');
       }
 
       tabs.forEach((tab, index) => {
@@ -756,14 +475,13 @@
         });
       });
 
-      document.querySelectorAll('[data-goto]').forEach((btn) => {
-        btn.addEventListener('click', () => selectTab(btn.getAttribute('data-goto'), { focus: true }));
-      });
-
       const fromHash = (location.hash || '').replace(/^#/, '');
-      selectTab(panels[fromHash] ? fromHash : 'intro', { pushHash: !!fromHash });
+      // Legacy #intro links land on 3D
+      const initial = (fromHash === 'intro' || !panels[fromHash]) ? DEFAULT_TAB : fromHash;
+      selectTab(initial, { pushHash: fromHash !== initial });
       window.addEventListener('hashchange', () => {
-        const id = (location.hash || '').replace(/^#/, '');
+        let id = (location.hash || '').replace(/^#/, '');
+        if (id === 'intro') id = DEFAULT_TAB;
         if (panels[id]) selectTab(id, { pushHash: false });
       });
     })();
