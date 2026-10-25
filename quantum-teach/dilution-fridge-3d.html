@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>量子電腦（超導量子電腦稀釋製冷機）｜3D 互動圖</title></head><body>
+<!-- 由「科學結構 3D 互動圖生成器」製作。繪圖引擎 Colorfigures by April Zhu（MIT License, https://april-zhu.com/colorfigures）。 -->
+<script>
+/* ============================================================
+   Colorfigures core: projection, shapes, shading, ink, labels, page shell.
+   A figure page includes this file (scripts/build.py inlines it), then calls mountFigure({...}).
+   See SKILL.md for the drawing contract and conventions.
+   One fixed view (front-left-top) and one fixed light (from above, behind the viewer's right shoulder: the front is lit,
+   the left side is in shade, and cast shadows fall toward the lower left of the screen).
+   ============================================================ */
+
+/* ---------- palettes ---------- */
+const PALS = {
+  mustard: { l:'#f4b829', m:'#d49c1f', d:'#4e4a18' },
+  tomato:  { l:'#ef6a4c', m:'#cf5038', d:'#4a2219' },
+  mint:    { l:'#93d3b0', m:'#71b693', d:'#1f4034' },
+  cobalt:  { l:'#76a0e2', m:'#5a82c6', d:'#1c2948' },
+  blush:   { l:'#f3a6bb', m:'#d8869c', d:'#4b2430' },
+};
+const METAL   = { l:'#eef0f0', m:'#c6ccce', d:'#8f989b' };
+const CLEAR   = { l:'#e4f2f4', m:'#c4dfe4', d:'#97b9c0' };
+const CERAMIC = { l:'#fbfaf3', m:'#e3e0d2', d:'#bdb8a6' };
+const DARK    = { l:'#55504a', m:'#3d3935', d:'#272421' };
+const INK = '#231e16';
+const SHADOW = '#41538f';
+
+/* ---------- projection (x = depth toward viewer-right, y = toward viewer-left, z = up) ---------- */
+const C = Math.cos(Math.PI/6), S = Math.sin(Math.PI/6);
+let OX = 0, OY = 0;
+/* VIEW turns the object in 90° steps about a vertical axis through its centre (RC):
+   0 = front (+x) and left (+y) faces toward the viewer, 1 = turned once (the +y side becomes the front)…
+   Figures keep modelling in their own coordinates; P / Dv / vis / tone / depthOf all apply the turn. */
+let VIEW = 0, RC = [0, 0], RCZ = 0;
+/* free camera (added): YAW turns about the vertical axis through (RC, RCZ), PITCH = degrees above the horizon.
+   YAW 0 / PITCH 35.26 reproduces the classic isometric view exactly. */
+let YAW = 0, PITCH = 35.2644, CAM = null;
+function setCam(){ const a = (VIEW*90 + YAW) * Math.PI/180, ph = PITCH*Math.PI/180, r2 = Math.SQRT1_2, K = Math.sqrt(1.5);
+  CAM = { ca: Math.cos(a), sa: Math.sin(a), V: [Math.cos(ph)*r2, Math.cos(ph)*r2, Math.sin(ph)], R: [r2*K, -r2*K, 0],
+    U: [-Math.sin(ph)*r2*K, -Math.sin(ph)*r2*K, Math.cos(ph)*K], c0: [(RC[0]-RC[1])*C, (RC[0]+RC[1])*S - RCZ] }; }
+const VIEW_NAMES = ['front', 'left side', 'back', 'right side'];
+const TURNS = [0, 2];                 // the views the UI offers: front and back (figures still draw correctly in all four)
+const rotV = ([x,y,z]) => [x*CAM.ca + y*CAM.sa, -x*CAM.sa + y*CAM.ca, z];
+const unrotV = ([x,y,z]) => [x*CAM.ca - y*CAM.sa, x*CAM.sa + y*CAM.ca, z];
+const rotXY = (x,y) => { const r = rotV([x-RC[0], y-RC[1], 0]); return [r[0]+RC[0], r[1]+RC[1]]; };
+// P0 projects coordinates that are already turned (about RC)
+const P0 = (x,y,z) => { const d0 = x-RC[0], d1 = y-RC[1], d2 = z-RCZ, R = CAM.R, U = CAM.U;
+  return [d0*R[0] + d1*R[1] + CAM.c0[0] + OX, -(d0*U[0] + d1*U[1] + d2*U[2]) + CAM.c0[1] + OY]; };
+const P  = (x,y,z) => { const [a,b] = rotXY(x,y); return P0(a,b,z); };
+const Dv = (x,y,z) => { const r = rotV([x,y,z]); return [dot(r, CAM.R), -dot(r, CAM.U)]; };
+// distance toward the viewer in the current view: draw parts with smaller depth first
+const depthOf = p => { const r = rotV([p[0]-RC[0], p[1]-RC[1], p[2]-RCZ]); return r[0]*CAM.V[0] + r[1]*CAM.V[1] + r[2]*CAM.V[2]; };
+// direction toward the viewer, in model coordinates
+const viewDir = () => unrotV(CAM.V);
+const byDepth = parts => parts.filter(Boolean).sort((p,q) => depthOf(p.at) - depthOf(q.at)).map(p => p.svg).join('');
+const f  = v => v.toFixed(1);
+const pd = (pts, close=true) => 'M' + pts.map(p => { const q = P(p[0],p[1],p[2]); return f(q[0])+' '+f(q[1]); }).join('L') + (close ? 'Z' : '');
+const sp = pts => 'M' + pts.map(q => f(q[0])+' '+f(q[1])).join('L') + 'Z';
+
+/* ---------- 2D shapes in a plane's (u,v) coords (v up), mapped to 3D by a plane ---------- */
+const arcUV  = (cu,cv,r,a0,a1,n=7) => { const o=[]; for (let i=0;i<=n;i++){ const a=(a0+(a1-a0)*i/n)*Math.PI/180; o.push([cu+r*Math.cos(a), cv+r*Math.sin(a)]); } return o; };
+const rrUV   = (u0,v0,u1,v1,r,n=7) => r <= 0 ? rectUV(u0,v0,u1,v1) : [...arcUV(u1-r,v0+r,r,-90,0,n), ...arcUV(u1-r,v1-r,r,0,90,n), ...arcUV(u0+r,v1-r,r,90,180,n), ...arcUV(u0+r,v0+r,r,180,270,n)];
+const rectUV = (u0,v0,u1,v1) => [[u0,v0],[u1,v0],[u1,v1],[u0,v1]];
+const ellUV  = (cu,cv,ru,rv,n=24) => Array.from({length:n}, (_,i) => { const a=i/n*2*Math.PI; return [cu+ru*Math.cos(a), cv+rv*Math.sin(a)]; });
+const PX = x => ([u,v]) => [x,u,v];      // front-facing plane x = const   (u = y, v = z)
+const PY = y => ([u,v]) => [u,y,v];      // side plane y = const           (u = x, v = z)
+const PZ = z => ([u,v]) => [u,v,z];      // horizontal plane z = const     (u = x, v = y)
+const on = (plane, uv) => uv.map(plane);
+
+/* ---------- vectors + shading ---------- */
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]], dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+const norm=a=>{ const l=Math.hypot(...a)||1; return a.map(v=>v/l); };
+const avg=ps=>ps.reduce((s,p)=>[s[0]+p[0]/ps.length,s[1]+p[1]/ps.length,s[2]+p[2]/ps.length],[0,0,0]);
+const vis = n => { const r = rotV(n); return r[0]*CAM.V[0]+r[1]*CAM.V[1]+r[2]*CAM.V[2] > 1e-6; };   // viewer looks from (+1,+1,+1) after the turn
+const facing = vis;                                                       // readable alias: is this face toward the viewer?
+const SHADOW_K = 0.85, AZ_MIN = 20, AZ_MAX = 160;
+// cast shadows are drawn shorter than the shading light implies (0.45 × height instead of 0.85 ×): long shadows of tall
+// parts on thin supports (a lamp shade, a fan head) land far from the object and read as separate blobs
+const SHADOW_LEN = 0.45;
+let L = [0,0,1], SH = [0,0];
+function setLight(deg){ const a=deg*Math.PI/180; SH=[SHADOW_K*Math.cos(a), SHADOW_K*Math.sin(a)]; L=norm([-SH[0],-SH[1],1]); }
+setCam();
+const LIN = norm([.6,.2,1]);                       // fixed light for interiors / small props
+const tone  = (n,m) => { const d=dot(rotV(n),L);   return d>-.15 ? m.l : d>-.45 ? m.m : m.d; };   // exterior, follows the sun
+const toneI = (n,m) => { const d=dot(rotV(n),LIN); return d>.6 ? m.l : d>.05 ? m.m : m.d; };      // interior / props
+const mix = (a,b,t) => '#' + [1,3,5].map(i => Math.round(parseInt(a.substr(i,2),16)*(1-t) + parseInt(b.substr(i,2),16)*t).toString(16).padStart(2,'0')).join('');
+const matOf = hex => ({ l:hex, m:mix(hex,'#000000',.16), d:mix(hex,'#000000',.42) });
+const ease = t => t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+
+/* ---------- drawing primitives (all return SVG strings) ---------- */
+const ink   = (d,w=1.0) => `<path d="${d}" fill="none" stroke="${INK}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
+const fill  = (d,c,extra='') => `<path d="${d}" fill="${c}" ${extra}/>`;
+const face  = (d,c) => `<path d="${d}" fill="${c}" stroke="${c}" stroke-width=".7" stroke-linejoin="round"/>`;
+const shape = (pts,c,w=.9) => fill(pd(pts),c) + (w ? ink(pd(pts),w) : '');
+const line  = (pts,w=.9) => ink(pd(pts,false),w);
+// Loft between two rings of equal length (closed). colour(n) picks each strip's fill; flip = seen from inside.
+function loft(A, B, colour, flip=false){
+  const n=A.length, cen=avg(A.concat(B)); let s='';
+  for (let i=0;i<n;i++){
+    const a0=A[i], a1=A[(i+1)%n], b1=B[(i+1)%n], b0=B[i];
+    let nr = norm(cross(sub(a1,a0), sub(b0,a0)));
+    if (!isFinite(nr[0])) continue;
+    if (dot(nr, sub(avg([a0,a1,b1,b0]), cen)) < 0) nr = nr.map(v=>-v);
+    if (flip) nr = nr.map(v=>-v);
+    if (vis(nr)) s += face(pd([a0,a1,b1,b0]), colour(nr));
+  }
+  return s;
+}
+function hull(pts){
+  pts = pts.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);
+  const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]); const lo=[], up=[];
+  for (const p of pts){ while(lo.length>=2 && cr(lo[lo.length-2],lo[lo.length-1],p)<=0) lo.pop(); lo.push(p); }
+  for (const p of pts.reverse()){ while(up.length>=2 && cr(up[up.length-2],up[up.length-1],p)<=0) up.pop(); up.push(p); }
+  lo.pop(); up.pop(); return lo.concat(up);
+}
+// Silhouette ink, weighted by how thick the part is on screen (like a hand inker): the w you pass is the most it gets.
+// Thickness = 2 × area / perimeter of the outline (a rod's diameter, about half a box's width), as a share of the
+// frame width. A long thin rod, a handle or a knob stays light (~1–1.5); a grinder, kettle or machine body gets the
+// heavy ~2.4–2.8. Thin parts stay thin and parts keep air between them.
+const hullInk = (pts3, w=1.4) => { const h = hull(pts3.map(p=>P(...p))); let a = 0, per = 0;
+  for (let i = 0; i < h.length; i++){ const p = h[i], q = h[(i+1) % h.length]; a += p[0]*q[1] - q[0]*p[1]; per += Math.hypot(q[0]-p[0], q[1]-p[1]); }
+  const thick = per ? Math.abs(a) / per / (INK_K * INK_REF_VB) : 0;
+  return ink(sp(h), Math.min(w, .9 + 20*thick)); };
+// Axis-aligned box: three visible faces, shaded, each outlined. shade = tone (sunlit) or toneI (interior).
+function box(x0,y0,z0,x1,y1,z1,m,shade=toneI,w=.9){
+  // all six faces, drawn only when they face the viewer (sides first, then top) — correct in every VIEW
+  const F = [
+    [[0,1,0],  [[x0,y1,z0],[x1,y1,z0],[x1,y1,z1],[x0,y1,z1]]],
+    [[1,0,0],  [[x1,y0,z0],[x1,y1,z0],[x1,y1,z1],[x1,y0,z1]]],
+    [[0,-1,0], [[x0,y0,z0],[x1,y0,z0],[x1,y0,z1],[x0,y0,z1]]],
+    [[-1,0,0], [[x0,y0,z0],[x0,y1,z0],[x0,y1,z1],[x0,y0,z1]]],
+    [[0,0,1],  [[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]]] ];
+  return F.filter(([n]) => vis(n)).map(([n,q]) => shape(q, shade(n,m), w)).join('');
+}
+// Rounded-profile extrusion: profile (u=y, v=z) swept along x from x0 to x1. Body of most machines.
+function extrude(profileUV, x0, x1, m, shade=tone){ return loft(on(PX(x0),profileUV), on(PX(x1),profileUV), n=>shade(n,m)); }
+// Vertical cylinder (axis z) centred (x,y), radius r from z0 to z1, with top cap.
+function cyl(x,y,z0,z1,r,m,shade=toneI,w=1.2,n=24){
+  const A=on(PZ(z0),ellUV(x,y,r,r,n)), B=on(PZ(z1),ellUV(x,y,r,r,n));
+  return loft(A,B,nr=>shade(nr,m)) + fill(pd(B),shade([0,0,1],m)) + hullInk([...A,...B],w) + ink(pd(B),w*.8);
+}
+// Cylinder lying along x (e.g. a knob or dial sticking out of a front face): centred (y,z), from x0 to x1.
+function cylX(x0,x1,y,z,r,m,shade=toneI,w=1.1,n=20){
+  const A=on(PX(x0),ellUV(y,z,r,r,n)), B=on(PX(x1),ellUV(y,z,r,r,n));
+  // cap on whichever end faces the viewer (the +x end in VIEW 0)
+  const capB = vis([1,0,0]), cap = capB ? B : A, cn = capB ? [1,0,0] : [-1,0,0];
+  return loft(A,B,nr=>shade(nr,m)) + (vis(cn) ? fill(pd(cap),shade(cn,m)) : '') + hullInk([...A,...B],w) + (vis(cn) ? ink(pd(cap),w*.8) : '');
+}
+// Cylinder between any two 3D points a and b (a lamp arm, a rod, a pipe at an angle, a handle bar), radius r.
+// The end facing the viewer gets a cap. For a tapered part (a cone, a lamp shade) pass r1 for the radius at b.
+function rod(a, b, r, m, shade=toneI, w=1, r1=r, n=16){
+  const d = norm(sub(b, a)), u = norm(cross(d, Math.abs(d[2]) < .9 ? [0,0,1] : [1,0,0])), v = cross(d, u);
+  const ring = (p, rr) => Array.from({length:n}, (_,i) => { const t = i/n*2*Math.PI, c = Math.cos(t)*rr, s2 = Math.sin(t)*rr;
+    return [p[0] + u[0]*c + v[0]*s2, p[1] + u[1]*c + v[1]*s2, p[2] + u[2]*c + v[2]*s2]; });
+  const A = ring(a, r), B = ring(b, r1), capB = vis(d), cap = capB ? B : A, cn = capB ? d : d.map(x => -x);
+  return loft(A, B, nr => shade(nr, m)) + (Math.max(r, r1) > 0 ? fill(pd(cap), shade(cn, m)) + ink(pd(cap), w*.8) : '') + hullInk([...A, ...B], w);
+}
+// Text lying flat on a front plane x = const, centred at (y,z) baseline; reads left-to-right on screen.
+const txM = (o, U, V) => `matrix(${U[0].toFixed(4)} ${U[1].toFixed(4)} ${V[0].toFixed(4)} ${V[1].toFixed(4)} ${f(o[0])} ${f(o[1])})`;
+const tx = (x,y,z,str,size,col=INK,weight=700) => { const o=P(x,y,z);
+  return `<text transform="${txM(o, Dv(0,-1,0), Dv(0,0,-1))}" font-size="${size}" fill="${col}" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-weight="${weight}" letter-spacing=".04em">${str}</text>`; };
+// Text on a side plane y = const, centred at (x,z).
+const txY = (x,y,z,str,size,col=INK,weight=700) => { const o=P(x,y,z);
+  return `<text transform="${txM(o, Dv(1,0,0), Dv(0,0,-1))}" font-size="${size}" fill="${col}" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-weight="${weight}" letter-spacing=".04em">${str}</text>`; };
+// Cast shadow of a set of 3D points (any outline of the object), pushed along the light onto z = 0.
+// the light stays put relative to the viewer, so the shadow is cast in turned coordinates
+// z0: the surface it falls on (a board, a counter); clip it to that surface with clipTo(...) if it could spill off.
+// clip: the 3D outline of the surface it falls on (e.g. boardTop(...)), so it can't spill over the edge.
+const castShadow = (pts3, z0=0, clip=null) => { const k = SHADOW_LEN / SHADOW_K;
+  const s = fill(sp(hull(pts3.map(([x,y,z]) => { const [a,b] = rotXY(x,y); return P0(a+(z-z0)*SH[0]*k, b+(z-z0)*SH[1]*k, z0); }))), SHADOW);
+  return clip ? clipTo(clip, s) : s; };
+// A board for the object to stand on (a tray, a desk top, a counter): a rounded slab from (x0,y0) to (x1,y1), h thick.
+// Draw it first; then castShadow(points, h, boardTop(x0,y0,x1,y1,h,r)) so shadows lie on it and stop at its edge.
+const BOARD = { l:'#e6e1d4', m:'#cfc8b8', d:'#aaa293' }, WOOD = { l:'#d9a86c', m:'#bf8a4f', d:'#8e6236' };
+const boardTop = (x0,y0,x1,y1,h=3,r=5) => on(PZ(h), rrUV(x0,y0,x1,y1,r));
+function board(x0,y0,x1,y1,h=3,r=5,m=BOARD){
+  const A = on(PZ(0), rrUV(x0,y0,x1,y1,r)), B = boardTop(x0,y0,x1,y1,h,r);
+  return loft(A, B, n => toneI(n, m)) + fill(pd(B), m.l) + ink(pd(B), 1) + hullInk([...A, ...B], 1.8);
+}
+// Group helpers: clickable target, clip to an opening.
+const act  = (name, inner, data='') => `<g data-act="${name}" ${data}>${inner}</g>`;
+let _clipN = 0;
+// Part label (for "how does it work" figures): a cream pill with a leader line to a 3D point on the part.
+// dx, dy = where the pill sits, in screen units at the reference zoom (they scale with the figure like stroke widths).
+// on = that part is working right now (the pill turns the accent colour). Labels can be hidden with the Labels switch.
+function tag(p3, dx, dy, text, on=false){
+  const k = INK_K, [X,Y] = P(...p3), fs = 8.6*k, w = text.length*fs*.62 + fs*1.5, h = fs*1.8, cx = X + dx*k, cy = Y + dy*k;
+  return `<g class="tag${on ? ' on' : ''}"><path d="M${f(X)} ${f(Y)}L${f(cx)} ${f(cy)}" fill="none" stroke="${INK}" stroke-width="1"/>`
+    + `<circle cx="${f(X)}" cy="${f(Y)}" r="${f(1.3*k)}" fill="${INK}"/>`
+    + `<rect x="${f(cx-w/2)}" y="${f(cy-h/2)}" width="${f(w)}" height="${f(h)}" rx="${f(h/2)}" fill="${on ? 'var(--accent,#f4b829)' : '#fff4d6'}" stroke="${INK}" stroke-width="1.2"/>`
+    + `<text x="${f(cx)}" y="${f(cy+fs*.36)}" font-size="${f(fs)}" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-weight="800" letter-spacing=".04em" fill="${INK}">${text}</text></g>`;
+}
+const clipTo = (pts3, inner) => { const id = 'k' + (++_clipN); return `<clipPath id="${id}"><path d="${pd(pts3)}"/></clipPath><g clip-path="url(#${id})">${inner}</g>`; };
+
+/* ---------- constant on-screen line weight ----------
+   Stroke widths are written in model units, and each figure is zoomed to fill the frame, so a small
+   object would get fat lines. INK_K rescales every stroke-width (and the wobble/grain filter) so all
+   figures match the reference zoom of the booth / vending machine (viewBox ≈ 585 units wide). */
+const INK_REF_VB = 585;
+let INK_K = 1;
+const inkScale = svg => INK_K === 1 ? svg : svg.replace(/stroke-width="([\d.]+)"/g, (_, w) => `stroke-width="${(+w * INK_K).toFixed(2)}"`);
+
+/* ---------- page shell ---------- */
+const CORE_CSS = `
+  :root{--paper:#f2efe7;--ink:#231e16;--muted:#857d6e;--rule:#ddd6c8}
+  *{box-sizing:border-box} html,body{margin:0;height:100%}
+  body{background-color:var(--paper);
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .39  0 0 0 0 .33  .16 0 0 0 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>");
+    overflow-x:hidden;color:var(--ink);font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;display:flex;flex-direction:column;align-items:center;padding:24px 16px 32px}
+  header{width:100%;max-width:760px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  header h1{font-size:13px;font-weight:600;margin:0;letter-spacing:.02em} header span{color:var(--muted)}
+  #fig{width:100%;max-width:760px;height:auto;display:block;margin:4px 0 8px;user-select:none;overflow:visible}
+  #fig [data-act]{cursor:pointer}
+  #readout, .idea{display:none}   /* status line + big idea are off: the buttons and motion tell the story */
+  .idea{width:100%;max-width:760px;margin:-6px 0 16px;font-size:12.5px;line-height:1.5;text-align:center;color:var(--ink)}
+  .idea strong{letter-spacing:.12em;text-transform:uppercase;font-size:11px;margin-right:8px}
+  #readout{position:relative;min-height:1.4em;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;text-align:center;text-shadow:0 0 3px var(--paper),0 0 6px var(--paper),0 0 10px var(--paper)}
+  .stage{position:relative;width:100%;max-width:760px}
+  .actions{position:absolute;top:4px;left:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px;z-index:2;max-width:220px}
+  .actions .cap{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 2px}
+  html.nolabels #fig .tag{display:none} html.nolabels #fig .bio-tag{display:none}
+  .ctl[hidden]{display:none}
+  .viewbar{position:absolute;right:0;bottom:4px;display:flex;gap:4px;align-items:center;flex-wrap:wrap;justify-content:flex-end;z-index:2;max-width:100%}
+  .viewbar button{font:inherit;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--paper);border:1.5px solid var(--ink);cursor:pointer;min-width:30px}
+  .viewbar button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+  .vw-hint{font-size:11px;color:var(--muted);margin-left:4px}
+  #fig.dragging{cursor:grabbing} #fig{cursor:grab}
+  /* ui.flash(text): a short note under the buttons ("the can is empty — refill it"); the status line itself stays hidden */
+  .toast{position:absolute;left:0;z-index:3;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;background:var(--paper);
+    border:1.5px solid var(--ink);border-radius:8px;padding:4px 9px;box-shadow:2px 2px 0 var(--ink);opacity:0;transition:opacity .2s;pointer-events:none;max-width:240px}
+  .toast.show{opacity:1}
+  .made-with{width:100%;max-width:760px;margin-top:18px;text-align:right;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+  .made-with a{color:var(--muted);text-decoration:none} .made-with a:hover{color:var(--ink)}
+  .stats{position:absolute;top:4px;right:0;display:flex;flex-direction:column;align-items:flex-end;gap:10px;z-index:2;text-align:right}
+  .stat .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .stat .v{font-size:34px;font-weight:800;line-height:1.05;letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .stat.small .v{font-size:20px}
+  .stat .v.bump{animation:bump .35s ease-out}
+  @keyframes bump{0%{transform:scale(1.18)}100%{transform:none}}
+  .stepwrap{position:relative;display:flex;align-items:center;gap:8px}
+  .act{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer;white-space:nowrap}
+  .act:hover{background:color-mix(in srgb,var(--paper) 92%,var(--ink))}
+  .act .car{margin-left:6px;font-size:10px}
+  .act:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .chips{display:none;flex-wrap:wrap;gap:6px;background:var(--paper);border:2px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);
+    padding:8px;width:max-content;max-width:min(300px,62vw);position:absolute;left:calc(100% + 10px);top:-4px;z-index:3}
+  .stepwrap.open .chips{display:flex}
+  .chip{white-space:nowrap;font:inherit;font-size:11.5px;font-weight:700;color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:8px;padding:4px 8px;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+  .chip:hover{background:var(--accent,#f4b829);transform:translate(-1px,-1px)}
+  .chip.current{background:var(--ink);color:var(--paper)} .chip.current:hover{background:var(--ink);transform:none}
+  .chip.off{opacity:.45} .chip.off:hover{transform:none;background:var(--paper)}
+  
+  @media (max-width:560px){body{padding:14px 12px 24px}header span,.actions .cap{display:none}.actions{flex-direction:row;flex-wrap:wrap;gap:6px}.act{font-size:12px;padding:4px 11px}.stats{position:static;flex-direction:row;justify-content:flex-end;gap:18px;margin-bottom:4px}.actions{position:static;max-width:none;margin:6px 0 4px}.chips{left:0;top:calc(100% + 8px)}}
+  .controls{width:100%;max-width:760px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 28px;border-top:1px solid var(--rule);padding-top:16px}
+  .ctl{display:flex;flex-direction:column;gap:6px}
+  .ctl label{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  input[type=range]{width:100%;accent-color:var(--ink)}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  button{font:inherit;color:var(--ink);background:transparent;border:1.5px solid var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer}
+  button:hover{background:#0000000d}
+  .sw{width:26px;height:26px;padding:0;border-radius:50%} .sw[aria-pressed=true]{outline:2px solid var(--ink);outline-offset:2px}`;
+
+const filterFor = k => `<filter id="hand" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency="${(0.045/k).toFixed(4)}" numOctaves="2" seed="4" result="warp"/>
+  <feDisplacementMap id="wob" in="SourceGraphic" in2="warp" scale="${(2.4*k).toFixed(2)}" xChannelSelector="R" yChannelSelector="G" result="wob"/>
+  <feTurbulence type="fractalNoise" baseFrequency="${(0.9/k).toFixed(4)}" numOctaves="3" seed="11" result="n1"/>
+  <feColorMatrix in="n1" type="matrix" values=".3 0 0 0 .84  .3 0 0 0 .84  .3 0 0 0 .84  0 0 0 0 1" result="grain"/>
+  <feTurbulence type="fractalNoise" baseFrequency="${(0.012/k).toFixed(4)}" numOctaves="2" seed="7" result="n2"/>
+  <feColorMatrix in="n2" type="matrix" values=".3 0 0 0 .85  .3 0 0 0 .85  .3 0 0 0 .85  0 0 0 0 1" result="blot"/>
+  <feBlend in="wob" in2="grain" mode="multiply" result="g1"/><feBlend in="g1" in2="blot" mode="multiply" result="g2"/>
+  <feComposite in="g2" in2="wob" operator="in"/></filter>`;
+
+/* mountFigure({
+     fig:'03', title:'Photo booth', hint:'click the curtain…',
+     size:[W,D,H],                 // bounding box, used to frame the view (shadow range included)
+     palette:'mustard',            // default PALS key
+     state:{...},                  // figure state (st.pal is built in)
+     scene: (st, m) => svgString,  // m = current palette {l,m,d}
+     readout: st => 'text',        // status line under the figure
+     buttons: [{label, onClick(st, ui)}      // listed in the order the user should do them
+               | {label, choices: st => [{label, onClick(st,ui), current?, disabled?, why?}]}],   // opens a picker
+     stats: st => [{label, value, small?}],   // optional: big numbers top-right (credit, change, score)
+     credit: false,                // optional: hide the small "Made with Colorfigures" link
+     acts: { name(st, el, ui){} },  // clicks on act(name, …) groups; el has dataset
+     params(st, q){}               // optional: read URLSearchParams for screenshot states
+   })  -> ui = { st, render, animate(stepFn), flash(text,ms) }
+   animate(step): calls step(dt seconds) every frame and re-renders until step returns false. */
+addEventListener('error', e => { document.documentElement.dataset.errors = (document.documentElement.dataset.errors || '') + ' ' + e.message + ';'; });
+function mountFigure(cfg){
+  document.title = cfg.title;
+  const style = document.createElement('style'); style.textContent = CORE_CSS; document.head.appendChild(style);
+  // title / hint may come from AI output or user-edited JSON: always insert them as text
+  const escT = s => String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
+  document.body.innerHTML = `
+    <header><h1>${cfg.fig ? 'Fig. '+escT(cfg.fig)+' — ' : ''}${escT(cfg.title)}</h1><span>${escT(cfg.hint)}</span></header>
+    <div class="stage">
+      ${cfg.buttons && cfg.buttons.length ? `<div class="actions" id="btns"><div class="cap">${escT(cfg.buttonsLabel || 'Try it')}</div></div>` : ''}
+      ${cfg.stats ? '<div class="stats" id="stats"></div>' : ''}
+      <div class="toast" id="toast" role="status"></div>
+      <svg id="fig" role="img" aria-label="${escT(cfg.title)}"><defs id="fdefs"></defs><g id="art" filter="url(#hand)"></g><g id="lbls"></g></svg>
+    </div>
+    <div id="readout"></div>
+    ${cfg.idea ? `<p class="idea"><strong>The big idea</strong>${cfg.idea}</p>` : ''}
+    <div class="controls">
+      <div class="ctl"><label for="wb">${(cfg.txt||{}).wobble||'Hand-drawn wobble'}</label><input id="wb" type="range" min="0" max="7" step="0.1" value="2.4"></div>
+      <div class="ctl"><label>${(cfg.txt||{}).colour||'Colour'}</label><div class="row" id="pals"></div></div>
+      <div class="ctl" id="lblctl" hidden><label>${(cfg.txt||{}).labels||'Labels'}</label><div class="row"><button id="lbl" aria-pressed="true">${(cfg.txt||{}).on||'On'}</button></div></div>
+    </div>
+    ${cfg.credit === false ? '' : '<footer class="made-with"><a href="https://april-zhu.com/colorfigures" target="_blank" rel="noopener">Made with Colorfigures ↗</a></footer>'}`;
+  const st = cfg.state || {};            // kept as the same object, so a figure may hold on to it
+  if (!st.pal) st.pal = cfg.palette || 'mustard';
+  if (st.az == null) st.az = 105;
+  const q = new URLSearchParams(location.search);
+  if (PALS[q.get('pal')]) st.pal = q.get('pal');
+  if (cfg.params) cfg.params(st, q);
+
+  // frame on the object itself: centred, filling ~60% of the width / ~78% of the height of a 4:3 view.
+  // The cast shadow is allowed to spill outside the frame (svg overflow is visible).
+  const [W,D,H] = cfg.size, pts = [];
+  OX = OY = 0; RC = cfg.center || [W/2, D/2];
+  VIEW = 0; YAW = 0; PITCH = 35.2644; RCZ = cfg.centerZ != null ? cfg.centerZ : H * .45; setCam();
+  for (const x of [0,W]) for (const y of [0,D]) for (const z of [0,H]) pts.push(P(x,y,z));
+  const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]);
+  const bw = Math.max(...xs)-Math.min(...xs), bh = Math.max(...ys)-Math.min(...ys);
+  // the object fills ~74% of the width / ~88% of the height, nudged right of centre so the buttons (top left) stay clear
+  const vbW = Math.max(bw/.74, bh/.88/.75), vbH = vbW*.75;
+  OX = (vbW-bw)/2 + vbW*.06 - Math.min(...xs); OY = vbH*.04 - Math.min(...ys);   // sit a little high: shadows fall downward
+  const svg = document.getElementById('fig');
+  svg.setAttribute('viewBox', `0 0 ${f(vbW)} ${f(vbH)}`);
+  INK_K = vbW / INK_REF_VB;
+  document.getElementById('fdefs').innerHTML = filterFor(INK_K);
+
+  const art = document.getElementById('art'), readout = document.getElementById('readout');
+  const ui = { st };
+  ui.render = () => { _clipN = 0; document.documentElement.style.setProperty('--accent', PALS[st.pal].l); { const out = cfg.scene(st, PALS[st.pal]), cut = out.indexOf('<!--LABELS-->'); art.innerHTML = inkScale(cut < 0 ? out : out.slice(0, cut)); document.getElementById('lbls').innerHTML = cut < 0 ? '' : inkScale(out.slice(cut + 13)); } if (!ui._flash) readout.textContent = cfg.readout ? cfg.readout(st) : ''; if (ui.drawStats) ui.drawStats(); };
+  // big numbers in the top-right corner (credit, change, score…); a value that changes gets a little bump
+  const statsEl = document.getElementById('stats'), prevStats = {};
+  ui.drawStats = () => { if (!statsEl) return;
+    const list = cfg.stats(st).filter(Boolean), html = list.map(x => `<div class="stat${x.small ? ' small' : ''}"><div class="k">${x.label}</div><div class="v" data-k="${x.label}">${x.value}</div></div>`).join('');
+    if (statsEl._html !== html){ statsEl._html = html; statsEl.innerHTML = html;
+      statsEl.querySelectorAll('.v').forEach(v => { if (prevStats[v.dataset.k] != null && prevStats[v.dataset.k] !== v.textContent) v.classList.add('bump'); prevStats[v.dataset.k] = v.textContent; }); } };
+  let flashT = 0;
+  const toast = document.getElementById('toast');
+  ui.flash = (text, ms=1600) => { ui._flash = true; readout.textContent = text; toast.textContent = text;
+    toast.style.top = ((document.getElementById('btns') ? document.getElementById('btns').offsetTop + document.getElementById('btns').offsetHeight : 0) + 8) + 'px'; toast.classList.add('show');
+    clearTimeout(flashT); flashT = setTimeout(() => { ui._flash = false; toast.classList.remove('show'); ui.render(); }, ms); };
+  // animations run on a ~60 fps timer rather than requestAnimationFrame, so they also run in headless test shots
+  ui.animate = step => { let last = performance.now();
+    const loop = () => { const now = performance.now(), dt = Math.max(0, Math.min(.05,(now-last)/1000)); last = now; const more = step(dt) !== false; ui.render(); if (more) setTimeout(loop, 16); };
+    setTimeout(loop, 16); };
+
+  // clickable parts react on press, not on click: while something animates, the scene is redrawn every frame, so the
+  // element under the pointer is replaced between press and release and a 'click' would never fire
+  const runAct = a => { if (!a || !cfg.acts || !cfg.acts[a.dataset.act]) return; cfg.acts[a.dataset.act](st, a, ui); ui.render(); };
+  if (!cfg.orbit) svg.addEventListener('pointerdown', e => { if (e.button) return; const a = e.target.closest('[data-act]'); if (!a || !cfg.acts || !cfg.acts[a.dataset.act]) return;
+    e.preventDefault(); runAct(a); });
+  /* ----- orbit camera (added): drag = turn, wheel / pinch = zoom, right-drag / Shift-drag / two fingers = pan ----- */
+  if (cfg.orbit){
+    const T = cfg.txt || {}, VB = { x: 0, y: 0, w: vbW, h: vbH };
+    const applyVB = () => svg.setAttribute('viewBox', `${f(VB.x)} ${f(VB.y)} ${f(VB.w)} ${f(VB.h)}`);
+    let raf = 0; const redraw = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; setCam(); ui.render(); if (ui.onView) ui.onView(); }); };
+    ui.view = { get yaw(){ return YAW; }, get pitch(){ return PITCH; }, get zoom(){ return vbW / VB.w; },
+      set(y, p2){ if (y != null) YAW = ((y % 360) + 540) % 360 - 180; if (p2 != null) PITCH = Math.max(2, Math.min(89, p2)); redraw(); },
+      zoomBy(k, fx = .5, fy = .5){ const w2 = Math.max(vbW / 6, Math.min(vbW * 1.6, VB.w / k)), h2 = w2 * vbH / vbW;
+        VB.x += fx * (VB.w - w2); VB.y += fy * (VB.h - h2); VB.w = w2; VB.h = h2; applyVB(); redraw(); },
+      reset(){ Object.assign(VB, { x: 0, y: 0, w: vbW, h: vbH }); applyVB(); YAW = 0; PITCH = 35.2644; setCam(); ui.render(); ui.view.fit(true); },
+      // frame what is drawn (art + labels), keeping the aspect ratio; leaves room for the buttons at the top left
+      fit(anim){ let bb; try { const a = document.getElementById('art').getBBox(), l = document.getElementById('lbls').getBBox();
+          bb = { x0: Math.min(a.x, l.width ? l.x : a.x), y0: Math.min(a.y, l.height ? l.y : a.y), x1: Math.max(a.x + a.width, l.width ? l.x + l.width : 0), y1: Math.max(a.y + a.height, l.height ? l.y + l.height : 0) }; } catch (_) { return; }
+        if (!(bb.x1 > bb.x0)) return;
+        const left = window.innerWidth < 560 ? 0 : .2, bw = (bb.x1 - bb.x0) * 1.06, bh = (bb.y1 - bb.y0) * 1.08;
+        let w = Math.max(bw / (1 - left), bh * vbW / vbH); w = Math.max(vbW / 2.4, Math.min(vbW * 1.6, w)); const h = w * vbH / vbW;
+        const to = { x: (bb.x0 + bb.x1) / 2 - w * (left + (1 - left) / 2), y: (bb.y0 + bb.y1) / 2 - h / 2, w, h };
+        if (!anim){ Object.assign(VB, to); applyVB(); ui.render(); return; }
+        const from = { ...VB }; let t = 0; const tick = () => { t = Math.min(1, t + .08); const e = t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
+          for (const k of ['x', 'y', 'w', 'h']) VB[k] = from[k] + (to[k] - from[k]) * e; applyVB(); if (t < 1) setTimeout(tick, 16); else ui.render(); }; tick(); } };
+    const art = document.getElementById('art'); let filt = null;
+    const ptrs = new Map(); let drag = null, spin = 0;
+    const stopSpin = () => { if (spin){ clearInterval(spin); spin = 0; const b = document.getElementById('vw-spin'); if (b) b.setAttribute('aria-pressed', 'false'); } };
+    ui.spin = on => { stopSpin(); if (on === false) return; const b = document.getElementById('vw-spin'); if (b) b.setAttribute('aria-pressed', 'true');
+      spin = setInterval(() => { ui.view.set(YAW - .5); }, 30); };
+    svg.style.touchAction = 'none';
+    svg.addEventListener('contextmenu', e => e.preventDefault());
+    svg.addEventListener('pointerdown', e => { stopSpin();
+      ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      try { svg.setPointerCapture(e.pointerId); } catch (_) {}
+      if (ptrs.size === 1) drag = { x: e.clientX, y: e.clientY, moved: false, mode: (e.button === 2 || e.shiftKey) ? 'pan' : 'turn', act: e.target.closest('[data-act]') };
+      else if (drag){ drag.moved = true; drag.mode = 'pinch'; const [p1, p2] = [...ptrs.values()]; drag.d0 = Math.hypot(p1.x - p2.x, p1.y - p2.y); drag.mx = (p1.x + p2.x) / 2; drag.my = (p1.y + p2.y) / 2; }
+      e.preventDefault(); });
+    svg.addEventListener('pointermove', e => { if (!drag || !ptrs.has(e.pointerId)) return;
+      const prev = ptrs.get(e.pointerId); ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      const rect = svg.getBoundingClientRect(), sx = VB.w / rect.width;
+      if (drag.mode === 'pinch' && ptrs.size >= 2){ const [p1, p2] = [...ptrs.values()], d = Math.hypot(p1.x - p2.x, p1.y - p2.y), mx = (p1.x + p2.x) / 2, my = (p1.y + p2.y) / 2;
+        VB.x -= (mx - drag.mx) * sx; VB.y -= (my - drag.my) * sx; drag.mx = mx; drag.my = my;
+        if (drag.d0 > 0){ ui.view.zoomBy(d / drag.d0, (mx - rect.left) / rect.width, (my - rect.top) / rect.height); drag.d0 = d; } else applyVB(); return; }
+      if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 5) return;
+      if (!drag.moved){ drag.moved = true; filt = art.getAttribute('filter'); art.removeAttribute('filter'); svg.classList.add('dragging'); }
+      const dx = e.clientX - prev.x, dy = e.clientY - prev.y;
+      if (drag.mode === 'pan'){ VB.x -= dx * sx; VB.y -= dy * sx; applyVB(); }
+      else ui.view.set(YAW - dx * .45, PITCH + dy * .3); });
+    const end = e => { if (!ptrs.has(e.pointerId)) return; ptrs.delete(e.pointerId);
+      if (ptrs.size) return;
+      const d = drag; drag = null; svg.classList.remove('dragging');
+      if (filt){ art.setAttribute('filter', filt); filt = null; }
+      if (d && !d.moved && e.type === 'pointerup') runAct(d.act); };
+    svg.addEventListener('pointerup', end); svg.addEventListener('pointercancel', end);
+    svg.addEventListener('wheel', e => { e.preventDefault(); stopSpin(); const rect = svg.getBoundingClientRect();
+      ui.view.zoomBy(Math.exp(-e.deltaY * (e.deltaMode ? .05 : .0015)), (e.clientX - rect.left) / rect.width, (e.clientY - rect.top) / rect.height); }, { passive: false });
+    svg.addEventListener('dblclick', e => { e.preventDefault(); ui.view.reset(); });
+    // a small view bar on the stage
+    const bar = document.createElement('div'); bar.className = 'viewbar'; bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', T.view || 'View');
+    const vb = (id, label, title, fn) => { const b = document.createElement('button'); b.id = id; b.type = 'button'; b.innerHTML = label; b.title = title; b.setAttribute('aria-label', title); b.onclick = e => { e.stopPropagation(); fn(b); }; bar.appendChild(b); return b; };
+    vb('vw-in', '＋', T.zoomIn || 'Zoom in', () => ui.view.zoomBy(1.25));
+    vb('vw-out', '－', T.zoomOut || 'Zoom out', () => ui.view.zoomBy(1 / 1.25));
+    vb('vw-front', T.front || 'Front', T.front || 'Front', () => { stopSpin(); ui.view.set(0, 35.2644); });
+    vb('vw-side', T.side || 'Side', T.side || 'Side', () => { stopSpin(); ui.view.set(-90, 20); });
+    vb('vw-top', T.top || 'Top', T.top || 'Top', () => { stopSpin(); ui.view.set(YAW, 89); });
+    vb('vw-spin', T.spin || 'Spin', T.spin || 'Auto-rotate', b => spin ? stopSpin() : ui.spin()).setAttribute('aria-pressed', 'false');
+    vb('vw-reset', T.resetView || 'Reset', T.resetView || 'Reset view', () => { stopSpin(); ui.view.reset(); });
+    const hint = document.createElement('span'); hint.className = 'vw-hint'; hint.textContent = T.orbitHint || 'Drag to turn · scroll to zoom'; bar.appendChild(hint);
+    document.querySelector('.stage').appendChild(bar);
+  }
+  const btns = document.getElementById('btns');
+  const stepEls = [];
+  if (btns) cfg.buttons.forEach((b, i) => {
+    const wrap = document.createElement('div'); wrap.className = 'stepwrap';
+    const el = document.createElement('button'); el.className = 'act';
+    el.innerHTML = `${b.label}${b.choices ? '<span class="car">▾</span>' : ''}`;
+    wrap.appendChild(el); btns.appendChild(wrap); stepEls.push(el);
+    if (!b.choices){ el.onclick = () => { closeChips(); b.onClick(st, ui); ui.render(); }; return; }
+    const chips = document.createElement('div'); chips.className = 'chips'; wrap.appendChild(chips);
+    el.onclick = e => { e.stopPropagation(); const open = !wrap.classList.contains('open'); closeChips();
+      if (!open) return;
+      chips.innerHTML = '';
+      // every choice stays clickable, so nothing silently ignores a press:
+      //   current:true  = the one in use (shown selected); a press just says so
+      //   disabled:true = not possible right now (shown faded); a press says why (c.why, or a generic note)
+      for (const c of b.choices(st)){ const ch = document.createElement('button'); ch.className = 'chip' + (c.current ? ' current' : c.disabled ? ' off' : ''); ch.textContent = c.label;
+        if (c.current) ch.setAttribute('aria-pressed', 'true');
+        ch.onclick = ev => { ev.stopPropagation(); closeChips();
+          if (c.current) return ui.flash(`${c.label} — ${(cfg.txt||{}).already||'already set'}`);
+          if (c.disabled) return ui.flash(c.why || `${c.label} — ${(cfg.txt||{}).notnow||"isn't possible right now"}`);
+          c.onClick(st, ui); ui.render(); }; chips.appendChild(ch); }
+      wrap.classList.add('open'); };
+  });
+  function closeChips(){ document.querySelectorAll('.stepwrap.open').forEach(w => w.classList.remove('open')); }
+  document.addEventListener('click', closeChips);
+
+  document.getElementById('wb').oninput = e => document.getElementById('wob').setAttribute('scale', (e.target.value * INK_K).toFixed(2));
+  const pals = document.getElementById('pals');
+  for (const [k,p] of Object.entries(PALS)){
+    const b = document.createElement('button'); b.className='sw'; b.title=k; b.style.background=p.l; b.setAttribute('aria-pressed', k===st.pal);
+    b.onclick = () => { st.pal=k; [...pals.children].forEach(c=>c.setAttribute('aria-pressed', c===b)); ui.render(); };
+    pals.appendChild(b);
+  }
+  // labels: the switch appears when the figure draws any tag(); ?labels=0 starts with them hidden
+  const lblctl = document.getElementById('lblctl'), lbl = document.getElementById('lbl');
+  const setLabels = on => { document.documentElement.classList.toggle('nolabels', !on); lbl.textContent = on ? ((cfg.txt||{}).on||'On') : ((cfg.txt||{}).off||'Off'); lbl.setAttribute('aria-pressed', on); };
+  lbl.onclick = () => setLabels(document.documentElement.classList.contains('nolabels'));
+  if (q.get('labels') === '0') setLabels(false);
+  // testing: ?press=Label@ms,Label@ms clicks the buttons whose text starts with Label at those times after load
+  // (any order, repeats allowed); Label>Choice picks a choice from a picker button (?press=Speed>3@300).
+  // Script errors and unknown labels are recorded on <html data-errors="…">
+  window.__st = st;
+  const noteErr = m => { document.documentElement.dataset.errors = (document.documentElement.dataset.errors || '') + ' ' + m + ';'; };
+  const starts = (el, t) => el.textContent.trim().toLowerCase().startsWith(t.trim().toLowerCase());
+  if (q.has('press')) q.get('press').split(',').forEach(item => { const [what, ms] = item.split('@'), [label, choice] = what.split('>');
+    setTimeout(() => { const b = [...document.querySelectorAll('.act')].find(b => starts(b, label));
+      if (!b) return noteErr(`no button "${label}"`);
+      b.click(); if (choice == null) return;
+      const c = [...b.parentElement.querySelectorAll('.chip')].find(c => starts(c, choice));
+      if (c && !c.disabled) c.click(); else noteErr(`no choice "${choice}" in "${label}"`); }, +ms || 0); });
+  setLight(st.az); ui.render();
+  if (svg.querySelector('.tag')) lblctl.hidden = false;
+  return ui;
+}
+
+</script>
+<script>
+/* ============================================================
+   Bio layer for Colorfigures (MIT) — 生物結構互動圖
+   Draws a biology "spec" (JSON) with the Colorfigures engine: a container (cell membrane, capsid, shell…)
+   that can be cut open, parts inside it (organelles…) that can be exploded outward, labels, a click-to-learn
+   info card, a guided tour and step-by-step processes (a particle travels along the real pathway).
+   Coordinates in a spec: x = front/back, y = left/right, z = up, in "units" (a container is ~100 units across);
+   every part's `at` is relative to the container centre (children: relative to their parent's centre).
+   ============================================================ */
+const BIO_FONT = "'Noto Sans TC','PingFang TC','Hiragino Sans TC','Microsoft JhengHei','Heiti TC',sans-serif";
+const BIO_SHAPES = ['ellipsoid','capsule','cylinder','box','stack','tube','dots','spikes','cone','torus','helix','blob','plate'];
+const BIO_TEXTURES = ['none','cristae','grana','pores','spots','rings','stripes','folds','grid'];
+const bioN = (v, d) => (v === null || v === undefined || v === '' || !Number.isFinite(+v)) ? d : +v;
+const bioCl = (v, a, b) => Math.max(a, Math.min(b, v));
+const bioV3 = (v, d) => Array.isArray(v) && v.length >= 3 ? [bioN(v[0], d[0]), bioN(v[1], d[1]), bioN(v[2], d[2])] : d.slice();
+const bioHex = (c, d) => typeof c === 'string' && /^#[0-9a-fA-F]{6}$/.test(c.trim()) ? c.trim().toLowerCase() : d;
+/* Exploded-view directions: every part moves away from the object's centre along its own direction.
+   Parts sitting at the centre get evenly spread directions, and directions that are too close are pushed apart
+   so that each part ends up in a different place. zMin keeps parts from diving into the stage. */
+function bioSpreadDirs(vecs, R, zMin = -.35){
+  const n = vecs.length, golden = Math.PI * (3 - Math.sqrt(5)), near = vecs.filter(v => Math.hypot(...v) < R * .12).length;
+  const nrm = v => { const l = Math.hypot(...v) || 1; return v.map(c => c / l); };
+  let k = 0;
+  const dirs = vecs.map(v => { const l = Math.hypot(...v); if (l >= R * .12) return nrm([v[0], v[1], Math.max(v[2], zMin * l)]);
+    const i = k++, m = Math.max(1, near), z = m === 1 ? 1 : .95 - 1.2 * i / (m - 1), r = Math.sqrt(Math.max(0, 1 - z * z)), a = i * golden + .6;
+    return nrm([r * Math.cos(a), r * Math.sin(a), z]); });
+  const orig = dirs.map(d => d.slice()), sep = Math.min(1.1, 2.6 / Math.sqrt(Math.max(1, n)));
+  for (let it = 0; it < 80; it++) for (let i = 0; i < n; i++){ const di = dirs[i], f = [0, 0, 0];
+    for (let j = 0; j < n; j++){ if (i === j) continue; const dj = dirs[j], dot = Math.max(-1, Math.min(1, di[0]*dj[0] + di[1]*dj[1] + di[2]*dj[2])), ang = Math.acos(dot);
+      if (ang >= sep) continue; let aw = [di[0] - dj[0], di[1] - dj[1], di[2] - dj[2]];
+      if (Math.hypot(...aw) < 1e-4){ const t = (i * 2.399 + j) % (2 * Math.PI); aw = [Math.cos(t), Math.sin(t), 0]; }
+      aw = nrm(aw); const push = .35 * (sep - ang) / sep; f[0] += aw[0] * push; f[1] += aw[1] * push; f[2] += aw[2] * push; }
+    for (let a = 0; a < 3; a++) f[a] += (orig[i][a] - di[a]) * .04;
+    const nd = nrm([di[0] + f[0], di[1] + f[1], di[2] + f[2]]); if (nd[2] < zMin){ nd[2] = zMin; } dirs[i] = nrm(nd); }
+  return dirs; }
+const bioEsc = s => String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[ch]));
+const bioStr = (s, n = 400) => String(s == null ? '' : s).slice(0, n);
+const BIO_FALLBACK = ['#9b7fd1','#ef6a4c','#f4b829','#7fb2e6','#93d3b0','#f3a6bb','#d9a86c','#76a0e2','#c7b3ee','#5fb27a'];
+
+/* ---------- normalise a spec from the model: clamp numbers, fill defaults, drop what can't be drawn ---------- */
+function bioNormalize(raw){
+  const sp0 = typeof raw === 'string' ? JSON.parse(raw) : (raw || {});
+  const o = { title: bioStr(sp0.title || '結構圖', 40), title_en: bioStr(sp0.title_en, 60), summary: bioStr(sp0.summary, 600),
+    level: bioStr(sp0.level, 30), stage: ['slide','board','none'].includes(sp0.stage) ? sp0.stage : 'board' };
+  const c0 = sp0.container || {};
+  const cshape = ['ellipsoid','capsule','cylinder','box','none'].includes(c0.shape) ? c0.shape : 'ellipsoid';
+  const csz = bioV3(c0.size, [50, 50, 40]).map(v => bioCl(Math.abs(v), 12, 90));
+  const layers = (Array.isArray(c0.layers) && c0.layers.length ? c0.layers : [{ name:'外層', color:'#f3a6bb' }]).slice(0, 7).map((l, i) => ({
+    id: bioStr(l.id || 'layer' + i, 40), name: bioStr(l.name || '外層', 24), name_en: bioStr(l.name_en, 50),
+    color: bioHex(l.color, BIO_FALLBACK[(i + 5) % 10]), thickness: bioCl(bioN(l.thickness, 1.6), .5, 45), texture: BIO_TEXTURES.includes(l.texture) ? l.texture : 'none',
+    desc: bioStr(l.desc, 400), more: bioStr(l.more, 500), real_size: bioStr(l.real_size, 80) }));
+  const it0 = c0.interior || {};
+  // layers can't eat the whole container
+  { const minS = Math.min(...csz), tot = layers.reduce((t, l) => t + l.thickness, 0); if (tot > minS * .92){ const k = minS * .92 / tot; layers.forEach(l => l.thickness = Math.max(.4, l.thickness * k)); } }
+  o.container = { shape: cshape, size: csz, layers, solid: !!c0.solid && cshape !== 'none', opacity: bioCl(bioN(c0.opacity, .55), .25, .9), texture: BIO_TEXTURES.includes(c0.texture) ? c0.texture : 'none',
+    cutLevel: bioCl(bioN(c0.cutLevel, c0.solid ? .5 : .62), .2, .9),
+    interior: { id: bioStr(it0.id || 'interior', 40), name: bioStr(it0.name || '內部', 24), name_en: bioStr(it0.name_en, 50),
+      color: bioHex(it0.color, '#fbe3c4'), desc: bioStr(it0.desc, 400), more: bioStr(it0.more, 500), real_size: bioStr(it0.real_size, 80) } };
+  const seen = new Set(layers.map(l => l.id).concat([o.container.interior.id]));
+  o.parts = [];
+  (Array.isArray(sp0.parts) ? sp0.parts : []).slice(0, 28).forEach((p, i) => {
+    if (!p || !BIO_SHAPES.includes(p.shape)) return;
+    let id = bioStr(p.id || 'p' + i, 40).replace(/[^\w-]/g, '_'); while (seen.has(id)) id += '_'; seen.add(id);
+    const sz = bioV3(p.size, [8, 8, 8]).map(v => bioCl(Math.abs(v), .4, 80));
+    const inst = (Array.isArray(p.instances) && p.instances.length ? p.instances : [{ at: p.at, rot: p.rot }]).slice(0, 12)
+      .map(q => ({ at: bioV3(q && q.at, [0, 0, 0]).map(v => bioCl(v, -95, 95)), rot: bioV3(q && q.rot, bioV3(p.rot, [0, 0, 0])) }));
+    const path = Array.isArray(p.path) ? p.path.slice(0, 40).map(q => bioV3(q, [0, 0, 0]).map(v => bioCl(v, -110, 110))) : [];
+    if (p.shape === 'tube' && path.length < 2) return;
+    // plate: an outline (u right, v up, seen from above) extruded to a thin slab; centred on its own middle
+    let outline = null;
+    if (p.shape === 'plate'){ const pts = (Array.isArray(p.outline) ? p.outline : []).slice(0, 120).map(q => Array.isArray(q) ? [bioN(q[0], 0), bioN(q[1], 0)] : null).filter(Boolean).map(([u, v]) => [bioCl(-v, -110, 110), bioCl(-u, -110, 110)]);
+      if (pts.length < 3) return;
+      const xs = pts.map(q => q[0]), ys = pts.map(q => q[1]), cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+      outline = pts.map(q => [q[0] - cx, q[1] - cy]);
+      sz[0] = Math.max(.5, (Math.max(...xs) - Math.min(...xs)) / 2); sz[1] = Math.max(.5, (Math.max(...ys) - Math.min(...ys)) / 2); sz[2] = bioCl(Math.abs(bioN(p.size && p.size[2], 1.5)), .3, 8);
+      inst.forEach(q => { q.at = [q.at[0] + cx, q.at[1] + cy, q.at[2]]; q.rot = [0, 0, 0]; }); }
+    o.parts.push({ id, name: bioStr(p.name || id, 24), name_en: bioStr(p.name_en, 50), shape: p.shape, size: sz,
+      color: bioHex(p.color, BIO_FALLBACK[i % 10]), instances: inst, parent: p.parent ? bioStr(p.parent, 40) : '',
+      external: !!p.external, texture: BIO_TEXTURES.includes(p.texture) ? p.texture : 'none', taper: bioCl(bioN(p.taper, 0), 0, 1), strands: bioN(p.strands, 1) >= 2 ? 2 : 1, turns: bioCl(bioN(p.turns, 3), .5, 12), rough: bioCl(bioN(p.rough, .12), 0, .35),
+      count: Math.round(bioCl(bioN(p.count, p.shape === 'dots' ? 30 : p.shape === 'spikes' ? 24 : 5), 1, 120)),
+      radius: bioCl(bioN(p.radius, p.shape === 'tube' ? 1.6 : 1.1), .3, 12), path, beads: !!p.beads,
+      length: bioCl(bioN(p.length, 8), 1, 90), opacity: bioCl(bioN(p.opacity, 1), .2, 1),
+      explode: p.explode === undefined ? !['dots','spikes'].includes(p.shape) : !!p.explode,
+      label: p.label !== false, outline, desc: bioStr(p.desc, 400), more: bioStr(p.more, 500), real_size: bioStr(p.real_size, 80) });
+  });
+  const ids = new Set(o.parts.map(p => p.id));
+  o.parts.forEach(p => { if (p.parent && (!ids.has(p.parent) || p.parent === p.id)) p.parent = ''; });
+  // children of children are flattened onto the top parent (only one level of nesting is drawn)
+  o.parts.forEach(p => { const par = o.parts.find(q => q.id === p.parent); if (par && par.parent) p.parent = par.parent; });
+  const allIds = new Set([...seen]);
+  o.processes = (Array.isArray(sp0.processes) ? sp0.processes : []).slice(0, 4).map(pr => ({
+    name: bioStr(pr && pr.name || '過程', 20),
+    steps: (Array.isArray(pr && pr.steps) ? pr.steps : []).slice(0, 8).filter(s => s && allIds.has(s.part)).map(s => ({ part: s.part, text: bioStr(s.text, 160) }))
+  })).filter(pr => pr.steps.length >= 2);
+  const n0 = sp0.notes || {};
+  o.notes = { scale: bioStr(n0.scale, 300), simplifications: (Array.isArray(n0.simplifications) ? n0.simplifications : []).slice(0, 8).map(s => bioStr(s, 200)),
+    misconceptions: (Array.isArray(n0.misconceptions) ? n0.misconceptions : []).slice(0, 6).map(s => bioStr(s, 200)) };
+  o.review = (Array.isArray(sp0.review) ? sp0.review : []).slice(0, 12).map(s => bioStr(s, 240));
+  return o;
+}
+
+/* ---------- small linear algebra ---------- */
+function bioRotM(r){
+  const [a, b, c] = (r || [0, 0, 0]).map(d => bioN(d, 0) * Math.PI / 180);
+  const ca = Math.cos(a), sa = Math.sin(a), cb = Math.cos(b), sb = Math.sin(b), cc = Math.cos(c), sc = Math.sin(c);
+  return [[ca*cb, ca*sb*sc - sa*cc, ca*sb*cc + sa*sc], [sa*cb, sa*sb*sc + ca*cc, sa*sb*cc - ca*sc], [-sb, cb*sc, cb*cc]];
+}
+const bioMul = (M, v) => [M[0][0]*v[0] + M[0][1]*v[1] + M[0][2]*v[2], M[1][0]*v[0] + M[1][1]*v[1] + M[1][2]*v[2], M[2][0]*v[0] + M[2][1]*v[1] + M[2][2]*v[2]];
+const bioMulT = (M, v) => [M[0][0]*v[0] + M[1][0]*v[1] + M[2][0]*v[2], M[0][1]*v[0] + M[1][1]*v[1] + M[2][1]*v[2], M[0][2]*v[0] + M[1][2]*v[1] + M[2][2]*v[2]];
+const bioAdd = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+const bioSc = (a, k) => [a[0]*k, a[1]*k, a[2]*k];
+function bioNewell(p){ const n = [0, 0, 0];
+  for (let i = 0; i < p.length; i++){ const a = p[i], b = p[(i + 1) % p.length];
+    n[0] += (a[1] - b[1]) * (a[2] + b[2]); n[1] += (a[2] - b[2]) * (a[0] + b[0]); n[2] += (a[0] - b[0]) * (a[1] + b[1]); }
+  return norm(n); }
+let bioSeed = 1;
+const bioRand = () => { bioSeed = (bioSeed * 16807) % 2147483647; return (bioSeed - 1) / 2147483646; };
+
+/* ---------- convex meshes (local coords, centred at 0) → world polygons with outward normals ---------- */
+function bioRings(rings, caps){
+  const polys = [];
+  for (let i = 0; i < rings.length - 1; i++){ const A = rings[i], B = rings[i + 1], n = A.length;
+    for (let j = 0; j < n; j++){ const q = [A[j], A[(j + 1) % n], B[(j + 1) % n], B[j]];
+      const u = q.filter((p, k) => k === 0 || Math.hypot(...sub(p, q[k - 1])) > 1e-6);
+      if (u.length >= 3) polys.push(u); } }
+  if (caps){ polys.push(rings[0].slice().reverse()); polys.push(rings[rings.length - 1].slice()); }
+  return polys;
+}
+// mesh resolution grows with the part's size, so big containers are smooth and tiny parts stay cheap
+const bioRes = s => Math.round(bioCl(10 + Math.max(...s) * .55, 12, 36));
+// smooth value noise on a sphere direction (for 'blob' shapes): a few seeded bumps
+function bioBumps(seed, n = 7){ bioSeed = 101 + seed * 37; const out = [];
+  for (let i = 0; i < n; i++){ const z = bioRand()*2 - 1, t = bioRand() * 2 * Math.PI, r = Math.sqrt(1 - z*z); out.push({ d: [r*Math.cos(t), r*Math.sin(t), z], k: bioRand()*2 - 1, w: 1.5 + bioRand()*2.5 }); }
+  return out; }
+function bioLocalMesh(shape, s, opt = {}){
+  const [a, b, c] = s, NJ = opt.nj || bioRes(s);
+  if (shape === 'plate' && opt.outline){ let o = opt.outline; const ar = o.reduce((t, q, i) => { const r = o[(i + 1) % o.length]; return t + q[0]*r[1] - r[0]*q[1]; }, 0); if (ar < 0) o = o.slice().reverse();
+    const polys = []; for (let i = 0; i < o.length; i++){ const q = o[i], r = o[(i + 1) % o.length]; const side = [[q[0], q[1], -c], [r[0], r[1], -c], [r[0], r[1], c], [q[0], q[1], c]]; side.side = true; polys.push(side); }
+    const top = o.map(q => [q[0], q[1], c]); top.top = true; polys.push(top); const bot = o.map(q => [q[0], q[1], -c]).reverse(); bot.bot = true; polys.push(bot); return polys; }
+  if (shape === 'box') { const x = a, y = b, z = c;
+    return [[[x,-y,-z],[x,y,-z],[x,y,z],[x,-y,z]], [[-x,-y,-z],[-x,-y,z],[-x,y,z],[-x,y,-z]], [[-x,y,-z],[-x,y,z],[x,y,z],[x,y,-z]],
+      [[-x,-y,-z],[x,-y,-z],[x,-y,z],[-x,-y,z]], [[-x,-y,z],[x,-y,z],[x,y,z],[-x,y,z]], [[-x,-y,-z],[-x,y,-z],[x,y,-z],[x,-y,-z]]]; }
+  if (shape === 'cylinder' || shape === 'cone') { const tp = shape === 'cone' ? (opt.taper || 0) : 1, NZ = shape === 'cone' ? 4 : 1, rings = [];
+    for (let k = 0; k <= NZ; k++){ const t = k / NZ, z = -c + 2*c*t, rr = 1 - (1 - tp) * t;
+      rings.push(Array.from({ length: NJ }, (_, j) => { const th = j / NJ * 2 * Math.PI; return [a*rr*Math.cos(th), b*rr*Math.sin(th), z]; })); }
+    const polys = bioRings(rings, false); polys.push(rings[0].slice().reverse()); if (tp > .02) polys.push(rings[NZ].slice()); return polys; }
+  if (shape === 'capsule') { // long axis = local x; a = half length, b/c = radii
+    const r = Math.min(b, c), core = Math.max(0, a - r), xs = [], NE = Math.max(4, Math.round(NJ / 4));
+    for (let k = 0; k <= NE; k++){ const t = Math.PI / 2 * (1 - k / NE); xs.push([-core - r*Math.sin(t), Math.cos(t)]); }
+    for (let k = 1; k <= 3; k++) xs.push([-core + 2*core*k/4, 1]);
+    for (let k = 0; k <= NE; k++){ const t = Math.PI / 2 * k / NE; xs.push([core + r*Math.sin(t), Math.cos(t)]); }
+    return bioRings(xs.map(([x, s2]) => Array.from({ length: NJ }, (_, j) => { const t = j / NJ * 2 * Math.PI; return [x, b*s2*Math.cos(t), c*s2*Math.sin(t)]; })), false); }
+  if (shape === 'torus') { // ring lying flat: a, b = radius of the ring's centre line, c = radius of the tube
+    const NT = Math.max(8, Math.round(NJ / 2)), rings = [];
+    for (let i = 0; i <= NJ; i++){ const u = i / NJ * 2 * Math.PI;
+      rings.push(Array.from({ length: NT }, (_, j) => { const v = j / NT * 2 * Math.PI, rr = 1 + (c / Math.max(a, b)) * Math.cos(v); return [a*Math.cos(u)*rr, b*Math.sin(u)*rr, c*Math.sin(v)]; })); }
+    return bioRings(rings, false); }
+  // ellipsoid / blob
+  const NL = Math.max(6, Math.round(NJ / 2)), rings = [], bumps = shape === 'blob' ? bioBumps(opt.seed || 1) : null, amp = opt.rough == null ? .12 : opt.rough;
+  for (let i = 0; i <= NL; i++){ const th = Math.PI * i / NL;
+    rings.push(Array.from({ length: NJ }, (_, j) => { const ph = 2 * Math.PI * j / NJ, d = [Math.sin(th)*Math.cos(ph), Math.sin(th)*Math.sin(ph), -Math.cos(th)];
+      let k = 1; if (bumps){ let n = 0; for (const q of bumps) n += q.k * Math.exp(-q.w * (1 - dot(d, q.d))); k = 1 + amp * n; }
+      return [a*d[0]*k, b*d[1]*k, c*d[2]*k]; })); }
+  return bioRings(rings, false);
+}
+function bioMesh(shape, s, M, c, opt){
+  return bioLocalMesh(shape, s, opt).map(q => { let n = bioNewell(q); const m = avg(q);
+    let ref = m; if (shape === 'torus'){ const u = Math.atan2(m[1] / s[1], m[0] / s[0]); ref = sub(m, [s[0]*Math.cos(u), s[1]*Math.sin(u), 0]); }
+    if (shape !== 'plate' && dot(n, ref) < 0) n = n.map(v => -v);
+    return { pts: q.map(p => bioAdd(c, bioMul(M, p))), n: bioMul(M, n), top: !!q.top, side: !!q.side }; });
+}
+function bioClipBelow(poly, zc){ const out = [];
+  for (let i = 0; i < poly.length; i++){ const a = poly[i], b = poly[(i + 1) % poly.length], ai = a[2] <= zc, bi = b[2] <= zc;
+    if (ai) out.push(a);
+    if (ai !== bi){ const t = (zc - a[2]) / (b[2] - a[2]); out.push([a[0] + (b[0] - a[0])*t, a[1] + (b[1] - a[1])*t, zc]); } }
+  return out.length >= 3 ? out : null; }
+// cross-section ring of a convex mesh at z = zc (3D points, convex, in order)
+function bioRim(mesh, zc0){ const pts = [], zc = zc0 + 1.37e-3;
+  for (const { pts: q } of mesh) for (let i = 0; i < q.length; i++){ const a = q[i], b = q[(i + 1) % q.length];
+    if ((a[2] - zc) * (b[2] - zc) < 0){ const t = (zc - a[2]) / (b[2] - a[2]); pts.push([a[0] + (b[0] - a[0])*t, a[1] + (b[1] - a[1])*t]); } }
+  if (pts.length < 3) return null;
+  return hull(pts).map(([x, y]) => [x, y, zc0]); }
+const bioShrink = (ring, d) => { const c = avg(ring); return ring.map(p => { const v = sub(p, c), l = Math.hypot(v[0], v[1]) || 1, k = Math.max(0, (l - d) / l); return [c[0] + v[0]*k, c[1] + v[1]*k, p[2]]; }); };
+const bioScreenHull = pts3 => hull(pts3.map(p => P(...p)));
+
+/* ---------- materials ---------- */
+const bioMat = hex => ({ l: hex, m: mix(hex, '#000000', .16), d: mix(hex, '#000000', .42) });
+const bioLite = hex => mix(hex, '#ffffff', .45);
+// smooth shading: 11 light levels between a deep shade and a soft highlight, plus a slightly darker rim near the silhouette
+const BIO_TC = {};
+function bioTone(n, hex){
+  const r = rotV(n), d = r[0]*LIN[0] + r[1]*LIN[1] + r[2]*LIN[2], e = r[0]*CAM.V[0] + r[1]*CAM.V[1] + r[2]*CAM.V[2];
+  const lv = Math.round(Math.max(0, Math.min(1, (d + .4) / 1.4)) * 10), rim = e < .2 ? 1 : 0, key = hex + lv + rim;
+  let c = BIO_TC[key]; if (c) return c;
+  const t = lv / 10, dark = mix(hex, '#20180f', .5), light = mix(hex, '#ffffff', .3);
+  c = t < .62 ? mix(dark, hex, t / .62) : mix(hex, light, (t - .62) / .38);
+  if (rim) c = mix(c, '#20180f', .1);
+  return (BIO_TC[key] = c); }
+const bioHash = s => [...String(s)].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) % 9973, 7);
+
+/* polygon clipping against an axis plane: keep the side where sgn * (p[k] - v) <= 0 */
+function bioClipS(poly, k, v, sgn){ if (!poly) return null; const out = [];
+  for (let i = 0; i < poly.length; i++){ const a = poly[i], b = poly[(i + 1) % poly.length], da = sgn * (a[k] - v), db = sgn * (b[k] - v);
+    if (da <= 0) out.push(a);
+    if ((da < 0 && db > 0) || (da > 0 && db < 0)){ const t = da / (da - db); out.push([a[0] + (b[0] - a[0])*t, a[1] + (b[1] - a[1])*t, a[2] + (b[2] - a[2])*t]); } }
+  return out.length >= 3 ? out : null; }
+// cross-section of a (convex) mesh by the plane p[k] = v, as a convex 3D polygon
+function bioSection(mesh, k, v0){ const u = (k + 1) % 3, w = (k + 2) % 3, pts = [], v = v0 + 1.37e-3;
+  for (const { pts: q } of mesh) for (let i = 0; i < q.length; i++){ const a = q[i], b = q[(i + 1) % q.length];
+    if ((a[k] - v) * (b[k] - v) < 0){ const t = (v - a[k]) / (b[k] - a[k]); pts.push([a[u] + (b[u] - a[u])*t, a[w] + (b[w] - a[w])*t]); } }
+  if (pts.length < 3) return null;
+  return hull(pts).map(([pu, pw]) => { const o = [0, 0, 0]; o[k] = v0; o[u] = pu; o[w] = pw; return o; }); }
+
+/* ---------- the figure ---------- */
+function mountBio(rawSpec, opts = {}){
+  const spec = bioNormalize(rawSpec), ct = spec.container;
+  const byId = {}; spec.parts.forEach(p => byId[p.id] = p);
+  // true extent of everything, relative to the container centre (parts can stick out: tails, flagella)
+  const EX = [[1e9, 1e9, 1e9], [-1e9, -1e9, -1e9]];
+  const grow = (v, r) => { for (let i = 0; i < 3; i++){ EX[0][i] = Math.min(EX[0][i], v[i] - r); EX[1][i] = Math.max(EX[1][i], v[i] + r); } };
+  if (ct.shape !== 'none'){ grow([0, 0, 0], 0); const [a0, b0, c0] = ct.size; grow([-a0, -b0, -c0], 0); grow([a0, b0, c0], 0);
+    const sp1 = spec.parts.filter(p => p.shape === 'spikes' && !p.parent).reduce((m, p) => Math.max(m, p.length), 0); if (sp1){ grow([-a0, -b0, -c0], sp1); grow([a0, b0, c0], sp1); } }
+  spec.parts.forEach(p => { if (p.parent || p.shape === 'spikes') return;
+    p.instances.forEach(i => { const M = bioRotM(i.rot);
+      if (p.shape === 'tube') p.path.forEach(q => grow(bioAdd(i.at, bioMul(M, q)), p.radius));
+      else if (p.shape === 'dots') grow(i.at, Math.max(...p.size) * .9);
+      else if (p.shape === 'plate'){ grow(bioAdd(i.at, p.size.map(v => -v)), 0); grow(bioAdd(i.at, p.size), 0); }
+      else grow(i.at, Math.max(...p.size)); }); });
+  if (EX[0][0] > EX[1][0]){ grow([-30, -30, -25], 0); grow([30, 30, 25], 0); }
+  const [ca, cb, cc] = ct.shape === 'none' ? [0, 1, 2].map(i => Math.max(8, (EX[1][i] - EX[0][i]) / 2)) : ct.size;
+  const R = Math.max(ca, cb), stageH = spec.stage === 'none' ? 0 : 3;
+  const PAD = R * .36;
+  const CW = ct.shape === 'none'
+    ? [PAD - EX[0][0], PAD - EX[0][1], stageH - EX[0][2] + 1]
+    : [PAD - EX[0][0], PAD - EX[0][1], stageH - Math.min(-cc, EX[0][2]) + (spec.stage === 'none' ? 0 : 1.5)];
+  const ZTOP = CW[2] + Math.max(ct.shape === 'none' ? 0 : cc, EX[1][2]);
+  const tops = spec.parts.filter(p => !p.parent);
+  const kids = id => spec.parts.filter(p => p.parent === id);
+  const hasKids = id => spec.parts.some(p => p.parent === id);
+  const SOLID = ct.solid;
+
+  // exploded targets for the top-level parts that move (spread on a ring above the opened container)
+  const movers = tops.filter(p => p.explode && !p.external);
+  const angOf = p => { const a = avg(p.instances.map(i => i.at)); return Math.atan2(a[1] + .001, a[0] + .002); };
+  const EXP = {}, EXPI = {};
+  const RADIAL = movers.length > 1 && movers.filter(p => p.shape === 'plate').length >= movers.length * .5;
+  // the object's centre is the origin of the explosion (container centre, or the middle of all parts)
+  const C0 = ct.shape === 'none' ? [0, 1, 2].map(i => (EX[0][i] + EX[1][i]) / 2) : [0, 0, 0];
+  if (RADIAL) movers.forEach((p, i) => { const a = avg(p.instances.map(q => q.at)); EXP[p.id] = [(a[0] - C0[0]) * .42, (a[1] - C0[1]) * .42, R * .1 + (i % 3) * R * .05]; EXPI[p.id] = p.instances.map(() => EXP[p.id]); });
+  else if (movers.length){
+    const dirs = bioSpreadDirs(movers.map(p => sub(avg(p.instances.map(q => q.at)), C0)), R, spec.stage === 'none' ? -.6 : -.12);
+    movers.forEach((p, i) => { const a = sub(avg(p.instances.map(q => q.at)), C0), l = Math.hypot(...a), big = Math.max(...p.size);
+      const D = R * .95 + l * .45 + big * .8; EXP[p.id] = bioSc(dirs[i], D);
+      // copies of the same part (e.g. several mitochondria) each move out along their own direction
+      EXPI[p.id] = p.instances.map(q => { const v = sub(q.at, C0), lv = Math.hypot(...v);
+        if (p.instances.length < 2 || lv < R * .12) return EXP[p.id];
+        const dv = v.map(c => c / lv); const mix = [dv[0] * .6 + dirs[i][0] * .4, dv[1] * .6 + dirs[i][1] * .4, Math.max(spec.stage === 'none' ? -.6 : -.12, dv[2] * .6 + dirs[i][2] * .4)], lm = Math.hypot(...mix) || 1;
+        return bioSc(mix.map(c => c / lm), R * .95 + lv * .45 + big * .8); }); }); }
+  const maxLift = Math.max(0, ...Object.values(EXPI).flat().map(v => v[2]));
+  const HFR = ZTOP + Math.max(maxLift * .62, R * .12) + 4;
+  const SIZE = [CW[0] + Math.max(ca, EX[1][0]) + PAD, CW[1] + Math.max(cb, EX[1][1]) + PAD, HFR];
+
+  const st = { cut: opts.closed ? 0 : 1, exp: 0, sel: '', tour: -1, proc: null, cutLevel: ct.cutLevel, spread: 1, busy: false };
+  let ui;
+
+  const ease2 = t => t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
+  const zCut = () => { const lo = CW[2] - cc, z0 = lo + 2 * cc * st.cutLevel; return ZTOP + 1 - (ZTOP + 1 - z0) * ease2(st.cut); };
+  const isCut = () => st.cut > .02 && ct.shape !== 'none';
+  const expK = () => ease2(st.exp) * st.spread;
+  const clusterOf = (p, j) => { const n = p.instances.length; if (n < 2) return [0, 0, 0];
+    const big = Math.max(...p.size), rr = Math.max(big * 1.3, 2.3 * big * n / (2 * Math.PI)), a = 2 * Math.PI * j / n + .4;
+    return [rr * Math.cos(a), rr * Math.sin(a), 0]; };
+  const homeOf = (p, inst) => { const top = p.parent ? byId[p.parent] : null;
+    return top ? bioAdd(bioAdd(CW, top.instances[0].at), inst.at) : bioAdd(CW, inst.at); };
+  const centreOf = (p, inst) => { const top = p.parent ? byId[p.parent] : p, e = EXP[top.id], home = homeOf(p, inst);
+    if (!e || st.exp < .001) return home;
+    const k = expK();
+    if (p.parent){ const t0 = top.instances[0]; return bioAdd(home, sub(centreOf(top, t0), homeOf(top, t0))); }
+    const j = Math.max(0, p.instances.indexOf(inst)), off = (EXPI[top.id] && EXPI[top.id][j]) || e;
+    return bioAdd(home, bioSc(off, k)); };
+
+  /* ----- drawing helpers ----- */
+  const meshSvg = (mesh, hex, opacity = 1, keep) => {
+    const vs = []; for (const q of mesh) if (vis(q.n)) vs.push({ q, d: q.top ? 1e9 : depthOf(avg(q.pts)) });
+    vs.sort((a, b) => a.d - b.d); let s = '';
+    for (const { q } of vs) s += face(pd(q.pts), bioTone(q.n, hex));
+    return opacity < 1 ? `<g opacity="${opacity}">${s}</g>` : s; };
+  const hullOf = mesh => mesh.flatMap(q => q.pts);
+  const selRing = pts3 => { const h = bioScreenHull(pts3); return `<path d="${sp(h)}" fill="none" stroke="#ffd23f" stroke-width="5" stroke-linejoin="round" opacity=".95"/>`; };
+  function tubeSvg(pts3, r, mat, sm = true){
+    let q = sm ? smooth3(pts3) : pts3; const d = pd(q, false), sw = w => `style="stroke-width:${f(w)}"`, capS = 'fill="none" stroke-linecap="round" stroke-linejoin="round"';
+    const hl = 'M' + q.map(p => { const [X, Y] = P(...p); return f(X - r*.3) + ' ' + f(Y - r*.35); }).join('L');
+    return `<path d="${d}" ${capS} stroke="${INK}" ${sw(2*r + 1.6*INK_K)}/>` + `<path d="${d}" ${capS} stroke="${mat.m}" ${sw(2*r)}/>` + `<path d="${hl}" ${capS} stroke="${mat.l}" ${sw(r*.6)} opacity=".9"/>`;
+  }
+  function smooth3(pts, it = 3){ for (let k = 0; k < it; k++){ const o = [pts[0]];
+      for (let i = 0; i < pts.length - 1; i++){ const a = pts[i], b = pts[i + 1]; o.push(a.map((v, j) => v*.75 + b[j]*.25), a.map((v, j) => v*.25 + b[j]*.75)); }
+      o.push(pts[pts.length - 1]); pts = o; } return pts; }
+  const ball = (c, r, hex, w = .8) => { const [X, Y] = P(...c), rr = r * 1.2247, m = bioMat(hex);
+    return `<circle cx="${f(X)}" cy="${f(Y)}" r="${f(rr)}" fill="${m.m}" stroke="${INK}" stroke-width="${w}"/>` +
+      (rr > 1.4 ? `<circle cx="${f(X - rr*.22)}" cy="${f(Y - rr*.24)}" r="${f(rr*.62)}" fill="${m.l}"/>` : ''); };
+  const viewLocal = M => norm(bioMulT(M, viewDir()));
+  const meshOpt = p => ({ taper: p.taper, seed: bioHash(p.id), rough: p.rough, outline: p.outline });
+  const meshShape = sh => ['ellipsoid','capsule','cylinder','box','cone','torus','blob','plate'].includes(sh) ? sh : 'ellipsoid';
+
+  // a point + normal on a part's surface at parameters (u around, v from bottom 0 to top π), local coords
+  function surfPt(p, s, u, v){
+    if (p.shape === 'cylinder' || p.shape === 'cone' || p.shape === 'box'){ const t = v / Math.PI, rr = p.shape === 'cone' ? 1 - (1 - p.taper) * t : 1;
+      return { q: [s[0]*rr*Math.cos(u), s[1]*rr*Math.sin(u), -s[2] + 2*s[2]*t], n: [Math.cos(u) / s[0], Math.sin(u) / s[1], p.shape === 'cone' ? (1 - p.taper) / (2*s[2]) : 0] }; }
+    const d = [Math.sin(v)*Math.cos(u), Math.sin(v)*Math.sin(u), -Math.cos(v)];
+    let k = 1; if (p.shape === 'blob'){ let n0 = 0; for (const b of bioBumps(bioHash(p.id))) n0 += b.k * Math.exp(-b.w * (1 - dot(d, b.d))); k = 1 + p.rough * n0; }
+    return { q: [s[0]*d[0]*k*1.01, s[1]*d[1]*k*1.01, s[2]*d[2]*k*1.01], n: [d[0] / s[0], d[1] / s[1], d[2] / s[2]] }; }
+  // draws a curve given in surface parameters; only the parts on the visible side (and kept by keep()) are inked
+  function surfCurve(p, c, M, s, uv, col, w, keep){ const vL = viewLocal(M); let runs = [], cur = [];
+    for (const [u, v] of uv){ const { q, n } = surfPt(p, s, u, v), wq = bioAdd(c, bioMul(M, q));
+      const ok = dot(norm(n), vL) > .04 && (!keep || keep(wq));
+      if (ok) cur.push(wq); else { if (cur.length > 1) runs.push(cur); cur = []; } }
+    if (cur.length > 1) runs.push(cur);
+    return runs.map(r => `<path d="${pd(r, false)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`).join(''); }
+
+  function texture(p, c, M, s, keep){
+    const t = p.texture, mat = bioMat(p.color), v = viewLocal(M); let o = '';
+    if (t === 'cristae' && p.shape === 'capsule'){
+      const r = Math.min(s[1], s[2]), yz = norm([0, v[1], v[2]]), side = [0, -yz[2], yz[1]], core = Math.max(0, s[0] - r);
+      const inner = []; const N = 9;
+      for (let i = 0; i <= N * 2; i++){ const x = -core*.95 + (2*core*.95) * i / (N*2), k = i % 2 ? .55 : -.55;
+        inner.push(bioAdd(c, bioMul(M, [x, yz[1]*r*.62 + side[1]*r*k, yz[2]*r*.62 + side[2]*r*k]))); }
+      const rim = []; for (let i = 0; i < 20; i++){ const a = i / 20 * 2 * Math.PI;
+        rim.push(bioAdd(c, bioMul(M, [Math.cos(a) * (core + r*.55), yz[1]*r*.62 + side[1]*r*.72*Math.sin(a), yz[2]*r*.62 + side[2]*r*.72*Math.sin(a)]))); }
+      o += fill(sp(bioScreenHull(rim)), bioLite(p.color)) + ink(sp(bioScreenHull(rim)), .8) + ink(pd(smooth3(inner, 1), false), 1.1);
+    }
+    if (t === 'grana'){
+      const n = Math.max(3, Math.min(8, p.count)), r = Math.min(s[0], s[1]) * .18;
+      const items = [];
+      for (let i = 0; i < n; i++){ const u = -s[0]*.58 + s[0]*1.16 * i / Math.max(1, n - 1), w2 = (i % 2 ? .25 : -.2) * s[1];
+        const base = bioAdd(c, bioMul(M, [u, w2, s[2]*.1]));
+        let g = ''; for (let k = 0; k < 4; k++) g += cyl(base[0], base[1], base[2] + k*r*.42, base[2] + k*r*.42 + r*.3, r, bioMat('#3f8f4a'), toneI, .6, 12);
+        items.push({ at: base, svg: g }); }
+      o += byDepth(items);
+    }
+    if (t === 'pores' || t === 'spots'){
+      const n = t === 'pores' ? 22 : Math.min(40, p.count * 2 || 16), cnt = { k: 0 };
+      for (let i = 0; i < n * 3 && cnt.k < n; i++){
+        const z1 = 1 - 2 * ((i + .5) / (n * 3)), th = i * 2.39996, rr = Math.sqrt(1 - z1*z1), d = [rr*Math.cos(th), rr*Math.sin(th), z1];
+        if (dot(d, v) < .3) continue;
+        const q = bioAdd(c, bioMul(M, [d[0]*s[0], d[1]*s[1], d[2]*s[2]])); if (keep && !keep(q)) continue;
+        const [X, Y] = P(...q), r0 = Math.min(...s) * (t === 'pores' ? .06 : .08); cnt.k++;
+        o += t === 'pores' ? `<ellipse cx="${f(X)}" cy="${f(Y)}" rx="${f(r0*1.2)}" ry="${f(r0*.8)}" fill="${mat.d}" stroke="${bioLite(p.color)}" stroke-width=".5"/>` : `<circle cx="${f(X)}" cy="${f(Y)}" r="${f(r0)}" fill="${bioLite(p.color)}"/>`;
+      }
+    }
+    if (t === 'rings' && p.shape === 'capsule'){
+      const r = Math.min(s[1], s[2]);
+      for (let k = 1; k <= 4; k++){ const x = -s[0]*.65 + s[0]*1.3 * k / 5;
+        const ring = Array.from({ length: 13 }, (_, j) => { const a = -Math.PI/2 + Math.PI * j / 12; const d = norm([0, v[1], v[2]]), sd = [0, -d[2], d[1]];
+          return bioAdd(c, bioMul(M, [x, (d[1]*Math.cos(a) + sd[1]*Math.sin(a)) * r, (d[2]*Math.cos(a) + sd[2]*Math.sin(a)) * r])); });
+        o += ink(pd(ring, false), .7); }
+    }
+    const col = mix(p.color, '#20180f', .45);
+    if (t === 'stripes' || t === 'grid' || (t === 'rings' && p.shape !== 'capsule')){
+      const n = Math.max(3, Math.min(10, p.count || 5));
+      for (let k = 1; k <= n; k++){ const vv = Math.PI * k / (n + 1); o += surfCurve(p, c, M, s, Array.from({ length: 49 }, (_, j) => [j / 48 * 2 * Math.PI, vv]), col, .8, keep); }
+      if (t === 'grid') for (let k = 0; k < n * 2; k++){ const uu = Math.PI * k / n; o += surfCurve(p, c, M, s, Array.from({ length: 25 }, (_, j) => [uu, .05 + j / 24 * (Math.PI - .1)]), col, .7, keep); }
+    }
+    if (t === 'folds'){ bioSeed = 31 + bioHash(p.id); const n = Math.max(5, Math.min(14, p.count || 9));
+      for (let k = 0; k < n; k++){ let u = bioRand() * 2 * Math.PI, vv = .35 + bioRand() * (Math.PI - .7), dir = bioRand() * 2 * Math.PI; const pts = [];
+        for (let j = 0; j < 30; j++){ pts.push([u, vv]); dir += (bioRand() - .5) * 1.6; u += Math.cos(dir) * .09; vv = bioCl(vv + Math.sin(dir) * .07, .2, Math.PI - .2); }
+        o += surfCurve(p, c, M, s, pts, col, 1.1, keep); }
+    }
+    return o;
+  }
+
+  // a helix (spring, DNA): local points, drawn so it reads right-handed on screen
+  const helixPts = (p, ph) => { const N = Math.round(p.turns * 18), s = p.size, out = [];
+    for (let i = 0; i <= N; i++){ const t = i / N, a = t * p.turns * 2 * Math.PI + ph; out.push([s[0]*Math.cos(a), -s[1]*Math.sin(a), -s[2] + 2*s[2]*t]); } return out; };
+  function helixSvg(p, c, M){
+    const mat = bioMat(p.color), strands = p.strands === 2 ? [0, Math.PI] : [0], segs = [], all = [];
+    strands.forEach((ph, si) => { const pts = helixPts(p, ph).map(q => bioAdd(c, bioMul(M, q))); all.push(...pts);
+      for (let i = 0; i < pts.length - 1; i += 4){ const seg = pts.slice(i, Math.min(pts.length, i + 5)); segs.push({ at: avg(seg), svg: tubeSvg(seg, p.radius, si ? bioMat(mix(p.color, '#ffffff', .25)) : mat, false) }); } });
+    if (p.strands === 2){ const A = helixPts(p, 0), B = helixPts(p, Math.PI);
+      for (let i = 2; i < A.length - 1; i += 3){ const a = bioAdd(c, bioMul(M, A[i])), b = bioAdd(c, bioMul(M, B[i])), m = avg([a, b]);
+        const rc = ['#ef6a4c', '#f4b829', '#76a0e2', '#93d3b0'][i % 4];
+        segs.push({ at: m, svg: `<path d="${pd([a, m], false)}" stroke="${INK}" style="stroke-width:${f(p.radius*1.1 + 1.2*INK_K)}" stroke-linecap="round"/><path d="${pd([a, m], false)}" stroke="${rc}" style="stroke-width:${f(p.radius*1.1)}" stroke-linecap="round"/>`
+          + `<path d="${pd([m, b], false)}" stroke="${INK}" style="stroke-width:${f(p.radius*1.1 + 1.2*INK_K)}" stroke-linecap="round"/><path d="${pd([m, b], false)}" stroke="${['#93d3b0', '#76a0e2', '#f4b829', '#ef6a4c'][i % 4]}" style="stroke-width:${f(p.radius*1.1)}" stroke-linecap="round"/>` }); } }
+    return { svg: byDepth(segs), pts: all };
+  }
+
+  // one instance of one part, drawn whole. returns {svg, pts}
+  function partInst(p, inst, opts2 = {}){
+    const c = centreOf(p, inst), M = bioRotM(inst.rot), s = p.size, mat = bioMat(p.color);
+    if (p.shape === 'tube'){
+      const pts = p.path.map(q => bioAdd(c, bioMul(M, q)));
+      let o = (st.sel === p.id ? `<path d="${pd(smooth3(pts), false)}" fill="none" stroke="#ffd23f" style="stroke-width:${f(2*p.radius + 6*INK_K)}" stroke-linecap="round" stroke-linejoin="round"/>` : '') + tubeSvg(pts, p.radius, mat);
+      if (p.beads){ const q = smooth3(pts, 2); for (let i = 1; i < q.length; i += 2){ const a = q[i], b = q[Math.min(q.length - 1, i + 1)], d = norm(sub(b, a)), side = norm(cross(d, [0, 0, 1]));
+          o += ball(bioAdd(a, bioSc(side, p.radius * 1.15)), p.radius * .42, '#5a3d99', .5); } }
+      return { svg: o, pts };
+    }
+    if (p.shape === 'helix'){ const r = helixSvg(p, c, M);
+      return { svg: (st.sel === p.id ? `<path d="${pd(r.pts, false)}" fill="none" stroke="#ffd23f" style="stroke-width:${f(2*p.radius + 6*INK_K)}" stroke-linecap="round"/>` : '') + r.svg, pts: r.pts, line: true }; }
+    if (p.shape === 'dots'){
+      bioSeed = 11 + p.id.length * 7; let items = [];
+      for (let i = 0; i < p.count; i++){ let d; do { d = [bioRand()*2 - 1, bioRand()*2 - 1, bioRand()*2 - 1]; } while (Math.hypot(...d) > 1);
+        const q = bioAdd(c, bioMul(M, [d[0]*s[0], d[1]*s[1], d[2]*s[2]]));
+        if (opts2.zc != null && q[2] > opts2.zc) continue;
+        if (opts2.inside && !opts2.inside(q)) continue;
+        items.push(q); }
+      items.sort((a, b) => depthOf(a) - depthOf(b));
+      return { svg: items.map(q => ball(q, p.radius, p.color, .6)).join(''), pts: items.length ? items : [c] };
+    }
+    if (p.shape === 'stack'){
+      const n = Math.max(2, Math.min(9, p.count)), meshes = [];
+      for (let i = 0; i < n; i++){ const t = n === 1 ? 0 : i / (n - 1) - .5, sh = 1 - .45 * Math.abs(t) * 2;
+        const lc = [s[0] * .5 * (t*t*4) , 0, t * s[2] * 2 * .92];
+        meshes.push(bioMesh('ellipsoid', [s[0]*sh, s[1]*(.75 + .25*sh), Math.max(.7, s[2] / n * .55)], M, bioAdd(c, bioMul(M, lc)))); }
+      meshes.sort((A, B) => depthOf(avg(hullOf(A))) - depthOf(avg(hullOf(B))));
+      const all = meshes.flatMap(hullOf);
+      return { svg: meshes.map(m2 => meshSvg(m2, p.color) + hullInk(hullOf(m2), 1.1)).join(''), pts: all };
+    }
+    const mesh = bioMesh(meshShape(p.shape), s, M, c, meshOpt(p)), pts = hullOf(mesh);
+    if (p.shape === 'plate'){ const top = mesh.find(q => q.top), sides = mesh.filter(q => q.side && vis(q.n));
+      let edges = sides.map(q => ink(pd([q.pts[0], q.pts[1]], false), 1.4) + ink(pd([q.pts[1], q.pts[2]], false), .7)).join('');
+      return { svg: meshSvg(mesh, p.color, p.opacity) + edges + (top && vis(top.n) ? ink(pd(top.pts), 1.3) : ''), pts, mesh }; }
+    return { svg: meshSvg(mesh, p.color, p.opacity) + texture(p, c, M, s) + hullInk(pts, 1.6), pts, mesh };
+  }
+
+  // a parent part with children, opened at its own middle while the container is cut
+  function partOpen(p, inst, k){
+    const c = centreOf(p, inst), M = bioRotM(inst.rot), s = p.size;
+    const mesh = bioMesh(['capsule','box','cylinder','cone','blob'].includes(p.shape) ? p.shape : 'ellipsoid', s, M, c, meshOpt(p));
+    const top = Math.max(...mesh.flatMap(q => q.pts.map(v => v[2])));
+    const zc = top + .5 - (top + .5 - (c[2] + s[2] * .15)) * k;
+    const backs = [], fronts = [];
+    for (const q of mesh){ const cl = bioClipBelow(q.pts, zc); if (!cl) continue;
+      if (!vis(q.n)) backs.push({ at: avg(cl), svg: face(pd(cl), bioTone(q.n.map(v => -v), mix(p.color, '#ffffff', .25))) });
+      else fronts.push({ at: avg(cl), svg: face(pd(cl), bioTone(q.n, p.color)) }); }
+    const rim = bioRim(mesh, zc), allPts = mesh.flatMap(q => q.pts).filter(v => v[2] <= zc + .01).concat(rim || []);
+    let kidsSvg = [];
+    for (const ch of kids(p.id)) for (const ci of ch.instances){ const r = partInst(ch, ci, { zc: ch.shape === 'dots' ? zc : null });
+      kidsSvg.push({ at: centreOf(ch, ci), svg: act('part', r.svg + (st.sel === ch.id && !r.line ? selRing(r.pts) : ''), `data-id="${ch.id}"`) }); }
+    let rimSvg = '';
+    if (rim){ const inner = bioShrink(rim, Math.max(.8, Math.min(...s) * .08));
+      rimSvg = `<path d="${pd(rim)}${pd(inner.slice().reverse())}" fill="${bioLite(p.color)}" fill-rule="evenodd"/>` + ink(pd(rim), 1) + ink(pd(inner), .7); }
+    return { svg: byDepth(backs) + byDepth(kidsSvg) + `<g opacity=".55">${byDepth(fronts)}</g>` + rimSvg + hullInk(allPts, 1.7), pts: allPts };
+  }
+
+  /* ----- container ----- */
+  const I3 = bioRotM([0, 0, 0]);
+  const cMesh = ct.shape === 'none' ? [] : bioMesh(ct.shape, ct.size, I3, CW, { seed: 3 });
+  const cPart = { id: 'ct', shape: ct.shape, size: ct.size, color: ct.layers[0].color, texture: ct.texture, count: 8, rough: .12, taper: 0 };
+  // solid containers: one mesh per layer (outer → inner) and the core (interior)
+  const layerMeshes = []; if (SOLID){ let cum = 0;
+    ct.layers.forEach(L => { layerMeshes.push({ id: L.id, color: L.color, mesh: bioMesh(ct.shape, ct.size.map(v => Math.max(.8, v - cum)), I3, CW, { seed: 3 }) }); cum += L.thickness; });
+    layerMeshes.push({ id: ct.interior.id, color: ct.interior.color, mesh: bioMesh(ct.shape, ct.size.map(v => Math.max(.8, v - cum)), I3, CW, { seed: 3 }) }); }
+  const insideC = q => { if (ct.shape === 'none') return true; const d = sub(q, CW);
+    if (ct.shape === 'box') return Math.abs(d[0]) < ca && Math.abs(d[1]) < cb && Math.abs(d[2]) < cc;
+    if (ct.shape === 'cylinder') return (d[0]/ca)**2 + (d[1]/cb)**2 < 1 && Math.abs(d[2]) < cc;
+    if (ct.shape === 'capsule'){ const r = Math.min(cb, cc), core = Math.max(0, ca - r), x = Math.max(0, Math.abs(d[0]) - core); return (x*x + d[1]*d[1] + d[2]*d[2]) < r*r; }
+    return (d[0]/ca)**2 + (d[1]/cb)**2 + (d[2]/cc)**2 < 1; };
+  const bioGloss = () => { const vd = viewDir(), dir = norm([vd[0] * .7 + .1, vd[1] * .7 - .1, vd[2] * .6 + .7]);
+    const c = bioAdd(CW, [ca*dir[0]*.86, cb*dir[1]*.86, cc*dir[2]*.86]); const [X, Y] = P(...c), r = Math.min(ca, cb) * .28;
+    return `<ellipse cx="${f(X)}" cy="${f(Y)}" rx="${f(r)}" ry="${f(r*.42)}" transform="rotate(-18 ${f(X)} ${f(Y)})" fill="#fff" opacity=".3"/>`; };
+  const frontPoint = (k = .85) => { const vd = viewDir(), d = norm([vd[0] + .3, vd[1] - .2, vd[2] * .6]); return bioAdd(CW, [ca*d[0]*k, cb*d[1]*k, cc*d[2]*k]); };
+  function containerSvg(m0, cutOn){
+    const L0 = ct.layers[0];
+    if (!cutOn) return { back: '', front: meshSvg(cMesh, L0.color) + texture(cPart, CW, I3, ct.size) + (ct.shape === 'box' ? '' : bioGloss()), ink: hullInk(hullOf(cMesh), 2.8), rim: '' };
+    const zc = zCut(); const backs = [], fronts = [];
+    for (const q of cMesh){ const cl = bioClipBelow(q.pts, zc); if (!cl) continue;
+      if (!vis(q.n)) backs.push({ at: avg(cl), svg: face(pd(cl), bioTone(q.n.map(v => -v), ct.interior.color)) });
+      else fronts.push({ at: avg(cl), svg: face(pd(cl), bioTone(q.n, L0.color)) }); }
+    const rim = bioRim(cMesh, zc); let rimSvg = '';
+    if (rim){ let outer = rim;
+      ct.layers.forEach((L, i) => { const inner = bioShrink(outer, L.thickness);
+        rimSvg += act('part', `<path d="${pd(outer)}${pd(inner.slice().reverse())}" fill="${bioLite(L.color)}" fill-rule="evenodd"/>` + ink(pd(inner), .7) + (st.sel === L.id ? `<path d="${pd(outer)}" fill="none" stroke="#ffd23f" stroke-width="3"/>` : ''), `data-id="${L.id}"`);
+        outer = inner; });
+      rimSvg += ink(pd(rim), 1.4); }
+    const pts = hullOf(cMesh).filter(v => v[2] <= zc + .01).concat(rim || []);
+    return { back: act('part', byDepth(backs), `data-id="${ct.interior.id}"`), front: `<g opacity="${ct.opacity}" pointer-events="none">${byDepth(fronts)}${texture(cPart, CW, I3, ct.size, q => q[2] < zc)}</g>`, rim: rimSvg, ink: hullInk(pts, 2.8), pts };
+  }
+
+  /* ----- solid cutaway: an octant facing the viewer is removed, the three cut faces show every layer ----- */
+  const solidCorner = () => { const vd = viewDir(), sx = vd[0] >= 0 ? 1 : -1, sy = vd[1] >= 0 ? 1 : -1, e = ease2(st.cut);
+    const z0 = CW[2] + (st.cutLevel - .5) * 2 * cc * .8;
+    return { sx, sy, X: CW[0] + sx * (ca + 2) * (1 - e), Y: CW[1] + sy * (cb + 2) * (1 - e), Z: z0 + (CW[2] + cc + 2 - z0) * (1 - e) }; };
+  const inNotch = (q, K) => K.sx * (q[0] - K.X) > 0 && K.sy * (q[1] - K.Y) > 0 && q[2] > K.Z;
+  const keepOut = poly => [];
+  function notchPieces(poly, K){ const out = [];
+    const A = bioClipS(poly, 0, K.X, K.sx); if (A) out.push(A);
+    const r1 = bioClipS(poly, 0, K.X, -K.sx);
+    const B = bioClipS(r1, 1, K.Y, K.sy); if (B) out.push(B);
+    const Cc = bioClipS(bioClipS(r1, 1, K.Y, -K.sy), 2, K.Z, 1); if (Cc) out.push(Cc);
+    return out; }
+  function faceOf(mesh, plane, K){
+    let sec = bioSection(mesh, plane, plane === 0 ? K.X : plane === 1 ? K.Y : K.Z); if (!sec) return null;
+    if (plane === 0){ sec = bioClipS(sec, 1, K.Y, -K.sy); sec = bioClipS(sec, 2, K.Z, -1); }
+    if (plane === 1){ sec = bioClipS(sec, 0, K.X, -K.sx); sec = bioClipS(sec, 2, K.Z, -1); }
+    if (plane === 2){ sec = bioClipS(sec, 0, K.X, -K.sx); sec = bioClipS(sec, 1, K.Y, -K.sy); }
+    return sec; }
+  function solidSvg(){
+    const K = solidCorner(), L0 = ct.layers[0], faces = [];
+    for (const q of cMesh){ if (!vis(q.n)) continue; for (const pc of notchPieces(q.pts, K)) faces.push({ at: avg(pc), svg: face(pd(pc), bioTone(q.n, L0.color)) }); }
+    let o = byDepth(faces) + texture(cPart, CW, I3, ct.size, q => !inNotch(q, K));
+    const planes = [0, 1, 2].map(k => { const n = [0, 0, 0]; n[k] = k === 0 ? K.sx : k === 1 ? K.sy : 1; return { k, n }; }).filter(pl => vis(pl.n));
+    const secItems = [], anchors = {};
+    const solids = layerMeshes.map(L => ({ id: L.id, color: L.color, mesh: L.mesh, cut: true }));
+    // parts embedded in the solid show only where the cut passes through them
+    const expOn = st.exp > .01;
+    for (const p of tops){ if (p.external || ['spikes','tube','dots','helix','stack','torus'].includes(p.shape)) continue;
+      for (const inst of p.instances){ const c = homeOf(p, inst), M = bioRotM(inst.rot);
+        solids.push({ id: p.id, color: p.color, mesh: bioMesh(meshShape(p.shape), p.size, M, c, meshOpt(p)), hole: expOn && EXP[p.id] });
+        for (const ch of kids(p.id)) if (!['spikes','tube','dots','helix','stack','torus'].includes(ch.shape)) for (const ci of ch.instances){
+          solids.push({ id: ch.id, color: ch.color, mesh: bioMesh(meshShape(ch.shape), ch.size, bioRotM(ci.rot), homeOf(ch, ci), meshOpt(ch)), hole: expOn && EXP[p.id] }); } } }
+    for (const pl of planes){ let g = '';
+      solids.forEach((S, si) => { const sec = faceOf(S.mesh, pl.k, K); if (!sec) return;
+        const colr = S.hole ? mix(L0.color, '#20180f', .55) : mix(S.color, '#ffffff', pl.k === 2 ? .12 : 0);
+        g += act('part', `<path d="${pd(sec)}" fill="${colr}" stroke="${INK}" stroke-width="${si === 0 ? 1.4 : .8}" stroke-linejoin="round"/>` + (st.sel === S.id ? `<path d="${pd(sec)}" fill="none" stroke="#ffd23f" stroke-width="3.5" stroke-linejoin="round"/>` : ''), `data-id="${S.id}"`);
+        const a = avg(sec), area = sec.length; if (!anchors[S.id] || pl.k === 2) anchors[S.id] = { sec, pl: pl.k }; });
+      secItems.push({ at: [pl.k === 0 ? K.X : CW[0] + K.sx * ca * .5, pl.k === 1 ? K.Y : CW[1] + K.sy * cb * .5, pl.k === 2 ? K.Z : K.Z + cc * .4], svg: g }); }
+    o += byDepth(secItems);
+    o += hullInk(hullOf(cMesh).filter(q => !inNotch(q, K)).concat([[K.X, K.Y, K.Z]]), 2.8);
+    return { svg: o, anchors, K };
+  }
+
+  /* ----- spikes on the container surface (virus spikes, cilia, microvilli) ----- */
+  function spikeItems(p, zc, K){
+    const items = [], n = p.count, mat = bioMat(p.color);
+    for (let i = 0; i < n; i++){ const z1 = 1 - 2 * (i + .5) / n, th = i * 2.39996, rr = Math.sqrt(1 - z1*z1);
+      const d = [rr*Math.cos(th), rr*Math.sin(th), z1];
+      let base, nrm;
+      if (ct.shape === 'box'){ base = bioAdd(CW, [d[0]*ca, d[1]*cb, cc]); nrm = [0, 0, 1]; }
+      else { base = bioAdd(CW, [d[0]*ca, d[1]*cb, d[2]*cc]); nrm = norm([d[0]/ca, d[1]/cb, d[2]/cc]); }
+      if (zc != null && base[2] > zc - .5) continue;
+      if (K && inNotch(base, K)) continue;
+      const tip = bioAdd(base, bioSc(nrm, p.length));
+      const front = vis(nrm);
+      let svg = rod(base, tip, p.radius, mat, toneI, .8, p.radius * (p.texture === 'spots' ? .6 : .9), 8);
+      if (p.texture === 'spots' || p.texture === 'pores') svg += ball(tip, p.radius * 1.6, p.color, .7);
+      items.push({ at: tip, svg, front, pts: [base, tip] }); }
+    return items;
+  }
+
+  /* ----- labels (outside the wobble filter, in two tidy columns) ----- */
+  const cjkW = (t, fs) => [...t].reduce((w, ch) => w + (/[\u2e80-\uffff]/.test(ch) ? fs : fs * .6), 0);
+  function labelCols(list, bbox, fs, k, cls){
+    const h = fs * 1.85, gap = 4 * k, cx0 = (bbox[0] + bbox[2]) / 2;
+    const L = [], Rr = [];
+    list.forEach(it => (it.X < cx0 ? L : Rr).push(it));
+    const lay = (arr, side) => { arr.sort((a, b) => a.Y - b.Y); let y = -1e9;
+      arr.forEach(it => { it.ty = Math.max(it.Y, y + h + gap); y = it.ty; });
+      const over = arr.length ? arr[arr.length - 1].ty - (bbox[3] + h) : 0; if (over > 0) arr.forEach(it => it.ty -= over);
+      let y2 = 1e9; for (let i = arr.length - 1; i >= 0; i--){ arr[i].ty = Math.min(arr[i].ty, y2 - h - gap); y2 = arr[i].ty; }
+      return arr.map(it => { const w = cjkW(it.text, fs) + fs * 1.4, x = side < 0 ? bbox[0] - 10*k - w : bbox[2] + 10*k, ex = side < 0 ? x + w : x;
+        const on = it.on, fillC = on ? '#ffd23f' : '#fff4d6';
+        return `<g class="${cls}" data-act="part" data-id="${it.id}" style="cursor:pointer"><path d="M${f(it.X)} ${f(it.Y)}L${f(ex + (side < 0 ? 4*k : -4*k))} ${f(it.ty)}L${f(ex)} ${f(it.ty)}" fill="none" stroke="${INK}" stroke-width="${f(k)}"/>`
+          + `<circle cx="${f(it.X)}" cy="${f(it.Y)}" r="${f(1.6*k)}" fill="${INK}"/>`
+          + `<rect x="${f(x)}" y="${f(it.ty - h/2)}" width="${f(w)}" height="${f(h)}" rx="${f(h/2)}" fill="${fillC}" stroke="${INK}" stroke-width="${f((on ? 1.8 : 1.2) * k)}"/>`
+          + `<text x="${f(x + w/2)}" y="${f(it.ty + fs*.36)}" font-size="${f(fs)}" text-anchor="middle" font-family="${BIO_FONT}" font-weight="700" fill="${INK}">${bioEsc(it.text)}</text></g>`; }).join(''); };
+    return lay(L, -1) + lay(Rr, 1);
+  }
+  const labelsSvg = (list, bbox) => { const z = ui && ui.view ? Math.pow(ui.view.zoom, .75) : 1, k = INK_K / z;
+    return labelCols(list, bbox, 10.5 * k, k, 'bio-tag').replace(/stroke-width="([\d.]+)"/g, (m0, w) => `stroke-width="${(+w / INK_K).toFixed(2)}"`); };
+
+  /* ----- process particle ----- */
+  const procPos = (id, from) => {
+    if (ct.layers.some(l => l.id === id)){ const a = Math.atan2(cb, ca) * .2 + Math.PI / 4; const li = ct.layers.findIndex(l => l.id === id), cum = ct.layers.slice(0, li).reduce((t, l) => t + l.thickness, 0) + ct.layers[li].thickness / 2;
+      const k = SOLID ? Math.max(.1, 1 - cum / Math.min(ca, cb)) : .98; return bioAdd(CW, [ca*k*Math.cos(a), cb*k*Math.sin(a), SOLID ? (st.cutLevel - .5) * 2 * cc * .8 : -cc*.15]); }
+    if (id === ct.interior.id) return SOLID ? bioAdd(CW, [0, 0, (st.cutLevel - .5) * 2 * cc * .8]) : bioAdd(CW, [ca*.35, cb*.35, -cc*.1]);
+    const p = byId[id]; if (!p) return CW;
+    if (p.shape === 'tube'){ const c = centreOf(p, p.instances[0]), M = bioRotM(p.instances[0].rot); return bioAdd(c, bioMul(M, p.path[Math.floor(p.path.length / 2)])); }
+    if (p.shape === 'spikes'){ const it = spikeItems(p, null).filter(s => s.front); return it.length ? it[0].at : CW; }
+    let best = null, bd = 1e9; for (const i of p.instances){ const c = centreOf(p, i), d = from ? Math.hypot(...sub(c, from)) : 0; if (d < bd){ bd = d; best = c; } }
+    return best;
+  };
+
+  /* ----- the scene ----- */
+  function scene(st0, m0){
+    const cutOn = isCut(), zc = cutOn && !SOLID ? zCut() : null, k = Math.min(1, st.cut * 1.6);
+    let o = '';
+    const fx0 = CW[0] + Math.min(-ca, EX[0][0]) - 6, fy0 = CW[1] + Math.min(-cb, EX[0][1]) - 6, fx1 = CW[0] + Math.max(ca, EX[1][0]) + 6, fy1 = CW[1] + Math.max(cb, EX[1][1]) + 6;
+    if (spec.stage !== 'none'){ o += board(fx0, fy0, fx1, fy1, stageH, 5, spec.stage === 'slide' ? { l:'#e7f3f5', m:'#c9e1e6', d:'#9fbfc6' } : BOARD); }
+    const clip = spec.stage === 'none' ? null : boardTop(fx0, fy0, fx1, fy1, stageH, 5);
+    if (ct.shape !== 'none') o += castShadow(hullOf(cMesh).filter((_, i) => i % 3 === 0), stageH, clip);
+    else tops.filter(p => p.shape !== 'plate').forEach(p => p.instances.forEach(i => { const r = partInst(p, i); o += castShadow(r.pts.filter((_, j) => j % 3 === 0), stageH, clip); }));
+
+    const spikes = tops.filter(p => p.shape === 'spikes');
+    const ext = tops.filter(p => p.external && p.shape !== 'spikes');
+    const inner = tops.filter(p => !p.external && p.shape !== 'spikes');
+    const labelList = [];
+    const addLabel = (id, text, pts, on) => { if (!pts || !pts.length) return; let h = pts.length >= 3 ? bioScreenHull(pts) : []; if (h.length < 1) h = pts.map(p => P(...p)); const cx = h.reduce((s, q) => s + q[0], 0) / h.length, cy = h.reduce((s, q) => s + q[1], 0) / h.length;
+      labelList.push({ id, text, X: cx, Y: cy, on }); };
+    const SV = SOLID && cutOn ? solidSvg() : null;
+
+    const spk = spikes.flatMap(p => spikeItems(p, zc, SV && SV.K).map(s => ({ ...s, p })));
+    o += byDepth(spk.filter(s => !s.front).map(s => ({ at: s.at, svg: act('part', s.svg, `data-id="${s.p.id}"`) })));
+    const extItems = ext.flatMap(p => p.instances.map(i => { const r = partInst(p, i); return { at: centreOf(p, i), p, r }; }));
+    const behind = it => depthOf(it.at) < depthOf(CW);
+    const partG = (p, r) => act('part', r.svg + (st.sel === p.id && p.shape !== 'tube' && !r.line ? selRing(r.pts) : ''), `data-id="${p.id}"`);
+    o += byDepth(extItems.filter(behind).map(it => ({ at: it.at, svg: partG(it.p, it.r) })));
+
+    const expOn = st.exp > .01;
+    if (SV){
+      o += SV.svg;
+      Object.entries(SV.anchors).forEach(([id, a]) => { const e = entry(id); if (!e || e.label === false) return;
+        // a point inside this solid's own band of the cut face (not inside the next layer)
+        const c0 = avg(a.sec); let pt = c0;
+        if (ct.layers.some(l => l.id === id)){ const li = ct.layers.findIndex(l => l.id === id), nxt = layerMeshes[li + 1] && faceOf(layerMeshes[li + 1].mesh, a.pl, SV.K);
+          const far = q => a.sec.reduce((b, v) => (Math.hypot(...sub(v, q)) > Math.hypot(...sub(b, q)) ? v : b), a.sec[0]);
+          const corner = [SV.K.X, SV.K.Y, SV.K.Z], fo = far(corner), t0 = (li + 1) / (ct.layers.length + 1);
+          const dir = norm(sub(fo, corner)), rOut = Math.hypot(...sub(fo, corner));
+          const rIn = nxt ? Math.max(...nxt.map(v => dot(sub(v, corner), dir))) : 0; pt = bioAdd(corner, bioSc(dir, (rOut + Math.max(0, rIn)) / 2));
+          // spread the layer labels a little around the corner
+          const sideA = norm(cross(dir, a.pl === 2 ? [0, 0, 1] : a.pl === 0 ? [1, 0, 0] : [0, 1, 0])); pt = bioAdd(pt, bioSc(sideA, (t0 - .5) * rOut * .5)); }
+        addLabel(id, e.name, [pt], st.sel === id); });
+    } else if (ct.shape === 'none' || cutOn){
+      const CS = containerSvg(m0, cutOn);
+      o += CS.back;
+      const items = [];
+      for (const p of inner){
+        if (expOn && EXP[p.id]) continue;
+        for (const inst of p.instances){
+          const c = centreOf(p, inst);
+          if (ct.shape !== 'none' && p.shape !== 'dots' && c[2] - Math.min(...p.size) * .4 > zc) continue;   // removed with the cap
+          const r = hasKids(p.id) && st.cut > .02 ? partOpen(p, inst, k) : partInst(p, inst, { zc: ct.shape === 'none' ? null : zc, inside: p.shape === 'dots' ? insideC : null });
+          items.push({ at: c, svg: partG(p, r), id: p.id, pts: r.pts });
+        }
+      }
+      o += byDepth(items);
+      o += CS.front + CS.rim + (ct.shape === 'none' ? '' : CS.ink);
+      const seenIds = new Set();
+      items.forEach(it => { const p = byId[it.id]; if (!p.label || seenIds.has(it.id)) return; seenIds.add(it.id); addLabel(it.id, p.name, it.pts, st.sel === it.id); });
+      if (st.cut > .02) inner.forEach(p => { if (!hasKids(p.id) || (expOn && EXP[p.id])) return; kids(p.id).forEach(ch => { if (!ch.label || seenIds.has(ch.id)) return; seenIds.add(ch.id);
+        const pts = ch.instances.map(i => centreOf(ch, i)); addLabel(ch.id, ch.name, pts, st.sel === ch.id); }); });
+      if (cutOn && CS.pts){ const rim = CS.pts.filter(v => Math.abs(v[2] - zc) < .02);
+        if (rim.length){ const fr = rim.reduce((b, v) => depthOf(v) > depthOf(b) ? v : b, rim[0]);
+          addLabel(ct.layers[0].id, ct.layers[0].name, [fr], st.sel === ct.layers[0].id);
+          let acc = ct.layers[0].thickness;
+          ct.layers.slice(1).forEach((L, i) => { const fr2 = bioShrink(rim, acc + L.thickness * .5).reduce((b, v) => (P(...v)[0] < P(...b)[0]) === (i % 2 === 0) ? v : b); acc += L.thickness;
+            addLabel(L.id, L.name, [fr2], st.sel === L.id); });
+          const vd = viewDir(), ip = bioAdd(CW, [ -ca*.45*Math.sign(vd[0] || 1), cb*.4*Math.sign(vd[1] || 1), zc - CW[2] - 1 ]); addLabel(ct.interior.id, ct.interior.name, [ip], st.sel === ct.interior.id); } }
+    } else {
+      const CS = containerSvg(m0, false);
+      o += act('part', CS.front, `data-id="${ct.layers[0].id}"`) + CS.ink;
+      addLabel(ct.layers[0].id, ct.layers[0].name, [frontPoint()], st.sel === ct.layers[0].id);
+      if (st.sel === ct.layers[0].id) o += selRing(hullOf(cMesh));
+    }
+    o += byDepth(spk.filter(s => s.front).map(s => ({ at: s.at, svg: act('part', s.svg, `data-id="${s.p.id}"`) })));
+    o += byDepth(extItems.filter(it => !behind(it)).map(it => ({ at: it.at, svg: partG(it.p, it.r) })));
+    spikes.forEach(p => { const fr = spk.filter(s => s.p === p && s.front); if (fr.length && p.label) addLabel(p.id, p.name, fr.slice(0, 1).flatMap(s => s.pts), st.sel === p.id); });
+    ext.forEach(p => { const its = extItems.filter(i => i.p === p); if (its.length && p.label) addLabel(p.id, p.name, its[0].r.pts, st.sel === p.id); });
+
+    if (expOn){
+      const lead = [], items = [];
+      for (const p of inner){ if (!EXP[p.id]) continue;
+        for (const inst of p.instances){
+          const c = centreOf(p, inst), home = homeOf(p, inst);
+          const hq = P(...home), kk = Math.min(1, st.exp * 1.5);
+          lead.push(`<path d="${pd([home, c], false)}" fill="none" stroke="${INK}" stroke-width="1.1" stroke-dasharray="3 3" opacity="${f(.8 * kk)}"/><circle cx="${f(hq[0])}" cy="${f(hq[1])}" r="2.4" fill="${p.color}" stroke="${INK}" stroke-width=".9" opacity="${f(.9 * kk)}"/>`);
+          const r = hasKids(p.id) ? partOpen(p, inst, 1) : partInst(p, inst);
+          items.push({ at: c, svg: partG(p, r), id: p.id, pts: r.pts }); }
+      }
+      o += lead.join('') + byDepth(items);
+      const seen2 = new Set();
+      items.forEach(it => { const p = byId[it.id]; if (!p.label || seen2.has(it.id)) return; seen2.add(it.id); addLabel(it.id, p.name, it.pts, st.sel === it.id); });
+      inner.forEach(p => { if (!EXP[p.id] || !hasKids(p.id)) return; kids(p.id).forEach(ch => { if (!ch.label) return; addLabel(ch.id, ch.name, ch.instances.map(i => centreOf(ch, i)), st.sel === ch.id); }); });
+    }
+
+    if (st.proc){ const pr = st.proc, a = pr.from, b = pr.to, t = ease2(Math.min(1, pr.t)), pos = [a[0] + (b[0] - a[0])*t, a[1] + (b[1] - a[1])*t, a[2] + (b[2] - a[2])*t + Math.sin(t*Math.PI) * 10];
+      const [X, Y] = P(...pos);
+      o += `<circle cx="${f(X)}" cy="${f(Y)}" r="${f(4.2*INK_K)}" fill="#ffd23f" stroke="${INK}" stroke-width="1.4"/><circle cx="${f(X - 1.2*INK_K)}" cy="${f(Y - 1.3*INK_K)}" r="${f(1.4*INK_K)}" fill="#fff"/>`; }
+
+    let bx = [1e9, 1e9, -1e9, -1e9];
+    const ext3 = (ct.shape === 'none' ? tops.flatMap(p => p.instances.map(i => centreOf(p, i))) : hullOf(cMesh));
+    ext3.forEach(v => { const [X, Y] = P(...v); bx = [Math.min(bx[0], X), Math.min(bx[1], Y), Math.max(bx[2], X), Math.max(bx[3], Y)]; });
+    labelList.forEach(l => { bx[0] = Math.min(bx[0], l.X); bx[2] = Math.max(bx[2], l.X); bx[1] = Math.min(bx[1], l.Y); });
+    o += '<!--LABELS-->' + labelsSvg(labelList, bx);
+    bioSync();
+    return o;
+  }
+
+  /* ----- 2D diagram: a flat, textbook-style section through the middle, with every part projected onto it ----- */
+  const V2 = { front: { k: 0, name: '正視剖面', to: q => [-(q[1] - CW[1]), -(q[2] - CW[2])], dep: q => q[0] },
+               side:  { k: 1, name: '側視剖面', to: q => [q[0] - CW[0], -(q[2] - CW[2])], dep: q => q[1] },
+               top:   { k: 2, name: '俯視剖面', to: q => [-(q[1] - CW[1]), q[0] - CW[0]], dep: q => q[2] } };
+  // start the 2D diagram from the direction in which the parts are most spread out
+  let view2 = (() => { const cs = tops.flatMap(p => p.instances.map(i => i.at)); if (cs.length < 2) return 'front';
+    const sd = k => { const m = cs.reduce((t, q) => t + q[k], 0) / cs.length; return Math.sqrt(cs.reduce((t, q) => t + (q[k] - m) ** 2, 0) / cs.length) + 1e-6; };
+    const sx = sd(0), sy = sd(1), sz = sd(2), sc = { front: sy * sz, side: sx * sz, top: sx * sy }; return Object.keys(sc).reduce((b, k) => sc[k] > sc[b] * 1.15 ? k : b, 'front'); })();
+  const hull2 = pts => pts.length >= 3 ? hull(pts) : pts;
+  const path2 = (pts, close = true) => 'M' + pts.map(q => f(q[0]) + ' ' + f(q[1])).join('L') + (close ? 'Z' : '');
+  const cen2 = pts => [pts.reduce((s, q) => s + q[0], 0) / pts.length, pts.reduce((s, q) => s + q[1], 0) / pts.length];
+  function rayOut(poly, c, d){ let best = 0;
+    for (let i = 0; i < poly.length; i++){ const a = poly[i], b = poly[(i + 1) % poly.length], ex = b[0] - a[0], ey = b[1] - a[1], den = d[0]*ey - d[1]*ex; if (Math.abs(den) < 1e-9) continue;
+      const t = ((a[0] - c[0])*ey - (a[1] - c[1])*ex) / den, u = ((a[0] - c[0])*d[1] - (a[1] - c[1])*d[0]) / den; if (t > 0 && u >= 0 && u <= 1) best = Math.max(best, t); }
+    return best; }
+  function texture2(p, poly, axis, k2){ const t = p.texture; if (t === 'none') return '';
+    const c = cen2(poly), ax = norm([axis[0], axis[1], 0]), nx = [-ax[1], ax[0]];
+    const ext = (d) => rayOut(poly, c, d), L = ext(ax), Lb = ext(ax.map(v => -v)), W = Math.min(ext(nx), ext(nx.map(v => -v)));
+    const col = mix(p.color, '#20180f', .5), at = (u, w) => [c[0] + ax[0]*u + nx[0]*w, c[1] + ax[1]*u + nx[1]*w];
+    let o = '';
+    if (t === 'cristae'){ const pts = []; const n = 11; for (let i = 0; i <= n; i++){ const u = -Lb*.82 + (L + Lb)*.82 * i / n; pts.push(at(u, (i % 2 ? .62 : -.62) * W)); }
+      const inner = poly.map(q => [c[0] + (q[0] - c[0]) * .8, c[1] + (q[1] - c[1]) * .8]);
+      o += `<path d="${path2(inner)}" fill="${bioLite(p.color)}" stroke="${col}" stroke-width=".8"/><path d="${path2(pts, false)}" fill="none" stroke="${INK}" stroke-width="1.1" stroke-linejoin="round"/>`; }
+    else if (t === 'grana'){ const n = Math.max(3, Math.min(8, p.count)); for (let i = 0; i < n; i++){ const u = -Lb*.7 + (L + Lb)*.7 * i / Math.max(1, n - 1), q = at(u, (i % 2 ? .25 : -.2) * W), w2 = W * .32, h2 = W * .12;
+        for (let j = 0; j < 4; j++) o += `<rect x="${f(q[0] - w2/2)}" y="${f(q[1] - 2*h2 + j*h2*1.1)}" width="${f(w2)}" height="${f(h2*.85)}" rx="${f(h2*.4)}" fill="#3f8f4a" stroke="${INK}" stroke-width=".5"/>`; } }
+    else if (t === 'pores'){ const n = 16; for (let i = 0; i < n; i++){ const a = i / n * 2 * Math.PI, d = [Math.cos(a), Math.sin(a)], r = rayOut(poly, c, d); const q = [c[0] + d[0]*r, c[1] + d[1]*r];
+        o += `<circle cx="${f(q[0])}" cy="${f(q[1])}" r="${f(1.6)}" fill="${bioLite(p.color)}" stroke="${INK}" stroke-width=".6"/>`; } }
+    else if (t === 'spots'){ bioSeed = 5 + bioHash(p.id); const n = Math.min(30, p.count * 2 || 14); for (let i = 0; i < n; i++){ const q = at((bioRand()*2 - 1) * L * .7, (bioRand()*2 - 1) * W * .7);
+        o += `<circle cx="${f(q[0])}" cy="${f(q[1])}" r="${f(Math.max(1, W * .07))}" fill="${bioLite(p.color)}"/>`; } }
+    else if (t === 'stripes' || t === 'rings' || t === 'grid'){ const n = Math.max(3, Math.min(10, p.count || 5));
+      for (let i = 1; i <= n; i++){ const u = -Lb + (L + Lb) * i / (n + 1), a = at(u, -W * 2), b = at(u, W * 2); o += `<path d="M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}" stroke="${col}" stroke-width=".8"/>`; }
+      if (t === 'grid') for (let i = 1; i <= n; i++){ const w = -W + 2 * W * i / (n + 1), a = at(-Lb * 2, w), b = at(L * 2, w); o += `<path d="M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}" stroke="${col}" stroke-width=".7"/>`; } }
+    else if (t === 'folds'){ bioSeed = 31 + bioHash(p.id); const n = Math.max(4, Math.min(12, p.count || 8));
+      for (let i = 0; i < n; i++){ let q = at((bioRand()*2 - 1) * L * .6, (bioRand()*2 - 1) * W * .6), dir = bioRand() * 6.28; const pts = [];
+        for (let j = 0; j < 14; j++){ pts.push(q); dir += (bioRand() - .5) * 1.8; q = [q[0] + Math.cos(dir) * W * .12, q[1] + Math.sin(dir) * W * .12]; }
+        o += `<path d="${path2(pts, false)}" fill="none" stroke="${col}" stroke-width="1" stroke-linecap="round"/>`; } }
+    const id = 'c2' + p.id.replace(/\W/g, '') + Math.round(c[0] * 10) + '_' + Math.round(c[1] * 10);
+    return `<clipPath id="${id}"><path d="${path2(poly)}"/></clipPath><g clip-path="url(#${id})">${o}</g>`; }
+
+  function render2D(){
+    const V = V2[view2], k2 = 4, P2 = q => V.to(q).map(v => v * k2);
+    const shapes = [], labels = [], bb = [1e9, 1e9, -1e9, -1e9];
+    const grow2 = pts => pts.forEach(q => { bb[0] = Math.min(bb[0], q[0]); bb[1] = Math.min(bb[1], q[1]); bb[2] = Math.max(bb[2], q[0]); bb[3] = Math.max(bb[3], q[1]); });
+    const sel = id => st.sel === id;
+    const strokeSel = id => sel(id) ? ` stroke="#e2a400" stroke-width="3.2"` : ` stroke="${INK}" stroke-width="1.2"`;
+    const planeV = CW[V.k];
+    // container: nested sections through the middle
+    let outerPoly = null;
+    if (ct.shape !== 'none'){ let cum = 0; const rings = [];
+      ct.layers.forEach(L => { const sec = bioSection(bioMesh(ct.shape, ct.size.map(v => Math.max(.8, v - cum)), I3, CW, { seed: 3 }), V.k, planeV + .001); cum += L.thickness; if (sec) rings.push({ id: L.id, color: L.color, name: L.name, poly: sec.map(P2) }); });
+      const isec = bioSection(bioMesh(ct.shape, ct.size.map(v => Math.max(.8, v - cum)), I3, CW, { seed: 3 }), V.k, planeV + .001);
+      if (isec) rings.push({ id: ct.interior.id, color: ct.interior.color, name: ct.interior.name, poly: isec.map(P2), interior: true });
+      outerPoly = rings[0] && rings[0].poly; if (outerPoly) grow2(outerPoly);
+      // spikes behind the outline
+      tops.filter(p => p.shape === 'spikes').forEach(p => { if (!outerPoly) return; const n = Math.max(6, Math.round(p.count / 2)), c = cen2(outerPoly); let g = '';
+        for (let i = 0; i < n; i++){ const a = i / n * 2 * Math.PI + .2, d = [Math.cos(a), Math.sin(a)], r = rayOut(outerPoly, c, d), b0 = [c[0] + d[0]*r*.97, c[1] + d[1]*r*.97], tip = [b0[0] + d[0]*p.length*k2, b0[1] + d[1]*p.length*k2];
+          g += `<path d="M${f(b0[0])} ${f(b0[1])}L${f(tip[0])} ${f(tip[1])}" stroke="${INK}" stroke-width="${f(p.radius*k2*1.6 + 1.6)}" stroke-linecap="round"/><path d="M${f(b0[0])} ${f(b0[1])}L${f(tip[0])} ${f(tip[1])}" stroke="${p.color}" stroke-width="${f(p.radius*k2*1.6)}" stroke-linecap="round"/>`;
+          if (p.texture === 'spots' || p.texture === 'pores') g += `<circle cx="${f(tip[0])}" cy="${f(tip[1])}" r="${f(p.radius*k2*1.7)}" fill="${p.color}" stroke="${INK}" stroke-width="1"/>`;
+          grow2([tip]); if (i === 1 && p.label) labels.push({ id: p.id, text: p.name, X: (b0[0] + tip[0]) / 2, Y: (b0[1] + tip[1]) / 2, on: sel(p.id) }); }
+        shapes.push(`<g data-id="${p.id}" class="b2-part">${g}</g>`); });
+      rings.forEach((r, i) => { shapes.push(`<path class="b2-part" data-id="${r.id}" d="${path2(r.poly)}" fill="${r.interior ? mix(r.color, '#ffffff', .25) : r.color}"${strokeSel(r.id)} stroke-linejoin="round"/>`); });
+      // layer labels: in the middle of each band, fanned around the right-hand side
+      const c0 = cen2(rings[0] ? rings[0].poly : [[0, 0]]);
+      rings.forEach((r, i) => { const e = entry(r.id); if (!e || e.label === false) return;
+        const a = -Math.PI * .35 + (Math.PI * .7) * (i / Math.max(1, rings.length - 1)) + (i % 2 ? Math.PI : 0), d = [Math.cos(a), Math.sin(a)];
+        const ro = rayOut(r.poly, c0, d), ri = rings[i + 1] ? rayOut(rings[i + 1].poly, c0, d) : 0, t = r.interior ? ro * .35 : (ro + ri) / 2;
+        labels.push({ id: r.id, text: r.name, X: c0[0] + d[0]*t, Y: c0[1] + d[1]*t, on: sel(r.id) }); });
+    }
+    // parts, back to front; children over their parent
+    const items = [];
+    tops.filter(p => p.shape !== 'spikes').forEach(p => p.instances.forEach((inst, j) => items.push({ p, inst, j, d: V.dep(homeOf(p, inst)) })));
+    items.sort((a, b) => a.d - b.d);
+    const seen = new Set();
+    const drawPart = (p, inst, j, parentOpen) => { const c = homeOf(p, inst), M = bioRotM(inst.rot), s = p.size, mat = bioMat(p.color); let g = '', pts2 = [];
+      if (p.shape === 'tube' || p.shape === 'helix'){ const strands = p.shape === 'helix' ? (p.strands === 2 ? [0, Math.PI] : [0]).map(ph => helixPts(p, ph)) : [smooth3(p.path)];
+        strands.forEach(st3 => { const q2 = st3.map(q => P2(bioAdd(c, bioMul(M, q)))); pts2.push(...q2); const d = path2(q2, false), w = p.radius * k2 * 2;
+          g += `<path d="${d}" fill="none" stroke="${sel(p.id) ? '#e2a400' : INK}" stroke-width="${f(w + (sel(p.id) ? 4 : 1.8))}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${p.color}" stroke-width="${f(w)}" stroke-linecap="round" stroke-linejoin="round"/>`; });
+        if (p.shape === 'helix' && p.strands === 2){ const A = helixPts(p, 0), B = helixPts(p, Math.PI); for (let i = 2; i < A.length - 1; i += 3){ const a = P2(bioAdd(c, bioMul(M, A[i]))), b = P2(bioAdd(c, bioMul(M, B[i]))); g = `<path d="M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}" stroke="${['#ef6a4c', '#f4b829', '#76a0e2', '#93d3b0'][i % 4]}" stroke-width="${f(p.radius*k2*.9)}"/>` + g; } }
+      } else if (p.shape === 'dots'){ bioSeed = 11 + p.id.length * 7;
+        for (let i = 0; i < p.count; i++){ let d; do { d = [bioRand()*2 - 1, bioRand()*2 - 1, bioRand()*2 - 1]; } while (Math.hypot(...d) > 1);
+          const q = P2(bioAdd(c, bioMul(M, [d[0]*s[0], d[1]*s[1], d[2]*s[2]]))); pts2.push(q);
+          g += `<circle cx="${f(q[0])}" cy="${f(q[1])}" r="${f(Math.max(1.2, p.radius*k2))}" fill="${p.color}" stroke="${INK}" stroke-width=".6"/>`; }
+      } else if (p.shape === 'stack'){ const n = Math.max(2, Math.min(9, p.count)), discs = [];
+        for (let i = 0; i < n; i++){ const t = i / (n - 1) - .5, sh = 1 - .45 * Math.abs(t) * 2, lc = [s[0] * .5 * (t*t*4), 0, t * s[2] * 2 * .92];
+          const m2 = bioMesh('ellipsoid', [s[0]*sh, s[1]*(.75 + .25*sh), Math.max(.7, s[2] / n * .55)], M, bioAdd(c, bioMul(M, lc)), { nj: 16 }); const h = hull2(hullOf(m2).map(P2)); discs.push({ h, d: V.dep(bioAdd(c, bioMul(M, lc))) }); pts2.push(...h); }
+        discs.sort((a, b) => a.d - b.d).forEach(dc => g += `<path d="${path2(dc.h)}" fill="${p.color}"${strokeSel(p.id)} stroke-linejoin="round"/>`);
+      } else { const m2 = bioMesh(meshShape(p.shape), s, M, c, Object.assign(meshOpt(p), { nj: 20 })), tq = p.shape === 'plate' && V.k === 2 ? m2.find(q => q.top) : null, h = tq ? tq.pts.map(P2) : hull2(hullOf(m2).map(P2)); pts2 = h;
+        const open = hasKids(p.id);
+        g += `<path d="${path2(h)}" fill="${open ? mix(p.color, '#ffffff', .35) : p.color}"${strokeSel(p.id)} stroke-linejoin="round"/>`;
+        if (p.shape === 'torus' && V.k === bioMaxAxis(M)){ const hole = hull2(bioMesh('cylinder', [Math.max(.5, s[0] - s[2]), Math.max(.5, s[1] - s[2]), .1], M, c, { nj: 20 }).flatMap(q => q.pts).map(P2)); g += `<path d="${path2(hole)}" fill="${mix(ct.interior.color, '#ffffff', .25)}" stroke="${INK}" stroke-width="1"/>`; }
+        if (!open){ const ax2 = P2(bioAdd(c, bioMul(M, [1, 0, 0]))), c2 = P2(c); g += texture2(p, h, [ax2[0] - c2[0], ax2[1] - c2[1]], k2); }
+        if (open) for (const ch of kids(p.id)) for (const [ci, inst2] of ch.instances.entries()) g += drawKid(ch, inst2, ci); }
+      shapes.push(`<g class="b2-part" data-id="${p.id}">${g}</g>`); grow2(pts2);
+      if (p.label && !seen.has(p.id) && pts2.length){ seen.add(p.id); const cc2 = cen2(pts2); labels.push({ id: p.id, text: p.name, X: cc2[0], Y: cc2[1], on: sel(p.id) }); } };
+    const drawKid = (ch, inst, j) => { const before = shapes.length; drawPart(ch, inst, j); const g = shapes.splice(before).join(''); return `</g>${g}<g>`; };
+    items.forEach(it => drawPart(it.p, it.inst, it.j));
+    const fs = 11, kk = 1, pad = 14;
+    const bbox = [bb[0], bb[1], bb[2], bb[3]];
+    const lab = labelCols(labels, bbox, fs, kk, 'b2-tag');
+    // frame: figure + label columns
+    const colW = Math.max(60, ...labels.map(l => cjkW(l.text, fs) + fs * 1.4)) + 14;
+    const x0 = bb[0] - colW - pad, x1 = bb[2] + colW + pad, y0 = bb[1] - 34;
+    // wrap the scale note to the frame width
+    const nLines = []; { let cur = ''; for (const ch of (spec.notes.scale || '').slice(0, 220)){ if (cjkW(cur + ch, 9.5) > x1 - x0 - colW - 30){ nLines.push(cur); cur = ''; } cur += ch; } if (cur) nLines.push(cur); }
+    const y1 = bb[3] + 32 + nLines.length * 13;
+    const scaleTxt = nLines.map((l, i) => `<tspan x="${f(x0 + 12)}" y="${f(y1 - 10 - (nLines.length - 1 - i) * 13)}">${bioEsc(l)}</tspan>`).join('');
+    return `<svg xmlns="http://www.w3.org/2000/svg" id="bio2d-svg" viewBox="${f(x0)} ${f(y0)} ${f(x1 - x0)} ${f(y1 - y0)}" role="img" aria-label="${bioEsc(spec.title)} ${V.name}" font-family="${BIO_FONT}">`
+      + `<rect x="${f(x0)}" y="${f(y0)}" width="${f(x1 - x0)}" height="${f(y1 - y0)}" fill="#fbf8f1"/>`
+      + `<text x="${f(x0 + 12)}" y="${f(y0 + 20)}" font-size="13" font-weight="800" fill="${INK}">${bioEsc(spec.title)}｜${V.name}</text>`
+      + shapes.join('').replace(/<g><\/g>/g, '') + lab
+      + (scaleTxt ? `<text font-size="9.5" fill="#6f6758">${scaleTxt}</text>` : '') + `</svg>`;
+  }
+  const bioMaxAxis = M => { const z = bioMul(M, [0, 0, 1]); const a = z.map(Math.abs); return a.indexOf(Math.max(...a)); };
+  let last2 = '';
+  function sync2(force){ const box = document.getElementById('bio2d'); if (!box) return; const key = view2 + '|' + st.sel; if (!force && key === last2) return; last2 = key; box.innerHTML = render2D(); }
+
+  /* ----- info card, part list, science notes ----- */
+  const allEntries = () => ct.shape === 'none' ? spec.parts.slice() : [...ct.layers.map(l => ({ ...l, kind: 'layer' })), { ...ct.interior, kind: 'interior' }, ...spec.parts];
+  const entry = id => allEntries().find(e => e.id === id);
+  let lastSel = null, lastCap = null;
+  function bioSync(){
+    const card = document.getElementById('bio-card'); if (!card) return;
+    if (lastSel !== st.sel){ lastSel = st.sel; const e = entry(st.sel);
+      card.innerHTML = e ? `<div class="bc-h"><strong>${bioEsc(e.name)}</strong>${e.name_en ? `<span>${bioEsc(e.name_en)}</span>` : ''}</div>`
+        + (e.desc ? `<p>${bioEsc(e.desc)}</p>` : '') + (e.more ? `<p class="bc-more">${bioEsc(e.more)}</p>` : '')
+        + (e.real_size ? `<p class="bc-size">實際大小：${bioEsc(e.real_size)}</p>` : '')
+        : `<p class="bc-empty">${bioEsc(spec.summary || '點擊圖中任何部件，或在下方清單選擇，查看它的名稱與功能。')}</p>`;
+      document.querySelectorAll('#bio-list button').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === st.sel)); }
+    sync2();
+    const cap = document.getElementById('bio-cap');
+    const capText = st.proc ? `${st.proc.name}　${st.proc.i + 1}/${st.proc.n}：${st.proc.text}` : '';
+    if (cap && capText !== lastCap){ lastCap = capText; cap.textContent = capText; cap.classList.toggle('show', !!capText); }
+  }
+  const select = id => { st.sel = st.sel === id ? '' : id;
+    const p = byId[id];
+    if (p && !p.external && p.shape !== 'spikes' && st.cut < .5 && ct.shape !== 'none') { openCut(); }
+    if (id === ct.interior.id && st.cut < .5) openCut(); };
+  const tween = (key, to, dur = 1.1, done) => { const from = st[key]; let t = 0;
+    ui.animate(dt => { t += dt / dur; st[key] = from + (to - from) * Math.min(1, t); if (t >= 1 && done) setTimeout(done, 30); return t < 1; }); };
+  const refit = () => { if (ui.view) ui.view.fit(true); };
+  const openCut = () => { if (st.cut < 1) tween('cut', 1); };
+  function runProcess(pr){
+    if (st.cut < .5) openCut();
+    st.tour = -1;
+    let i = 0, from = procPos(pr.steps[0].part), phase = 'dwell', t = 0;
+    st.proc = { name: pr.name, i: 0, n: pr.steps.length, text: pr.steps[0].text, from, to: from, t: 1 }; st.sel = pr.steps[0].part;
+    const token = st.proc;
+    ui.animate(dt => {
+      if (st.proc !== token) return false;
+      t += dt;
+      if (phase === 'dwell' && t > 2.4){ i++; if (i >= pr.steps.length){ st.proc = null; return false; }
+        const to = procPos(pr.steps[i].part, from); Object.assign(st.proc, { from, to, t: 0 }); from = to; phase = 'move'; t = 0; }
+      if (phase === 'move'){ st.proc.t = t / 1.2; if (t >= 1.2){ phase = 'dwell'; t = 0; st.proc.t = 1; st.proc.i = i; st.proc.text = pr.steps[i].text; st.sel = pr.steps[i].part; } }
+      return true; });
+  }
+  function runTour(){
+    const list = allEntries().filter(e => e.label !== false);
+    if (st.cut < .5) openCut();
+    st.proc = null; let i = 0, t = 0; st.sel = list[0].id; const token = {}; st.tourTok = token;
+    ui.animate(dt => { if (st.tourTok !== token) return false; t += dt; if (t > 2.6){ t = 0; i++; if (i >= list.length){ st.sel = ''; return false; } st.sel = list[i].id; } return true; });
+  }
+  const stopAnims = () => { st.proc = null; st.tourTok = null; };
+
+  const buttons = [
+    { label: '切開／合上', onClick: (s, u) => { tween('cut', st.cut > .5 ? 0 : 1); if (st.cut > .5 && st.exp > .5) tween('exp', 0); } },
+    { label: '爆炸分散', onClick: (s, u) => { if (ct.shape !== 'none' && st.cut < .5) tween('cut', 1); if (!movers.length) return u.flash('這個結構沒有可分散的部件'); tween('exp', st.exp > .5 ? 0 : 1, 1.4, refit); } },
+    { label: '逐一認識', onClick: (s, u) => { stopAnims(); runTour(); } },
+  ];
+  if (spec.processes.length) buttons.push({ label: '過程演示', choices: s => spec.processes.map(pr => ({ label: pr.name, current: st.proc && st.proc.name === pr.name, onClick: () => { stopAnims(); runProcess(pr); } })) });
+  buttons.push({ label: '重設', onClick: (s, u) => { stopAnims(); st.sel = ''; tween('exp', 0, .8); tween('cut', opts.closed ? 0 : 1, .9, () => { if (u.view) u.view.reset(); }); } });
+
+  ui = mountFigure({
+    fig: '', title: spec.title + (spec.title_en ? '　' + spec.title_en : ''), hint: '拖動旋轉・滾輪縮放・點擊部件看說明',
+    size: SIZE, center: [CW[0], CW[1]], centerZ: CW[2], orbit: true, palette: 'blush', state: st, credit: true, buttonsLabel: '操作',
+    txt: { wobble: '手繪抖動', colour: '背景色調', labels: '標籤', on: '開', off: '關', already: '已在使用', notnow: '暫時不能使用',
+      view: '視角', zoomIn: '放大', zoomOut: '縮小', front: '正面', side: '側面', top: '俯視', spin: '自動旋轉', resetView: '重設視角', orbitHint: '拖動旋轉・滾輪或雙指縮放・右鍵／Shift 拖動平移' },
+    scene, buttons,
+    acts: { part: (s, el) => { stopAnims(); select(el.dataset.id); } },
+    params: (s, q) => { if (q.get('cut') === '1') s.cut = 1; if (q.get('cut') === '0') s.cut = 0; if (q.get('explode') === '1'){ s.cut = 1; s.exp = 1; } if (q.get('sel')) s.sel = q.get('sel'); if (q.get('cutlevel')) s.cutLevel = bioCl(+q.get('cutlevel'), .2, .9);
+      if (q.get('yaw')) s._yaw = +q.get('yaw'); if (q.get('pitch')) s._pitch = bioCl(+q.get('pitch'), 2, 89); if (q.get('v2') && V2[q.get('v2')]) view2 = q.get('v2'); }
+  });
+  if (st._yaw != null || st._pitch != null){ if (st._yaw != null) YAW = st._yaw; if (st._pitch != null) PITCH = st._pitch; setCam(); ui.render(); }
+  document.getElementById('lbls').addEventListener('pointerdown', e => { const a = e.target.closest('[data-id]'); if (!a) return; e.preventDefault(); e.stopPropagation(); stopAnims(); select(a.dataset.id); ui.render(); });
+
+  /* extra page parts: caption, info card, list, 2D diagram, sliders, notes */
+  const stage = document.querySelector('.stage');
+  const cap = document.createElement('div'); cap.id = 'bio-cap'; cap.className = 'bio-cap'; cap.setAttribute('role', 'status'); stage.appendChild(cap);
+  const info = document.createElement('section'); info.className = 'bio-info';
+  info.innerHTML = `<div id="bio-card" class="bio-card" aria-live="polite"></div><div id="bio-list" class="bio-list"></div>`;
+  stage.after(info);
+  const list = info.querySelector('#bio-list');
+  allEntries().forEach(e => { const b = document.createElement('button'); b.dataset.id = e.id; b.textContent = e.name; b.setAttribute('aria-pressed', 'false');
+    const sw = e.color ? `<i style="background:${e.color}"></i>` : ''; b.innerHTML = sw + bioEsc(e.name);
+    b.onclick = () => { stopAnims(); select(e.id); lastSel = null; ui.render(); }; list.appendChild(b); });
+  // 2D diagram
+  const two = document.createElement('section'); two.className = 'bio-2d';
+  two.innerHTML = `<div class="b2-bar"><h2>2D 平面圖</h2><div class="b2-tabs" role="tablist">${Object.entries(V2).map(([k, v]) => `<button type="button" role="tab" data-v="${k}" aria-selected="${k === view2}">${v.name}</button>`).join('')}</div>`
+    + `<div class="b2-dl"><button type="button" data-dl="svg">下載 SVG</button><button type="button" data-dl="png">下載 PNG</button></div></div>`
+    + `<div id="bio2d" class="b2-fig"></div><p class="b2-note">平面圖以物件中央的剖面為底，再把各部件投影到同一平面上，方便對照課本圖；部件數量和位置與 3D 圖相同。</p>`;
+  info.after(two);
+  two.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { view2 = b.dataset.v; two.querySelectorAll('[data-v]').forEach(x => x.setAttribute('aria-selected', x === b)); sync2(true); });
+  two.querySelector('#bio2d').addEventListener('click', e => { const a = e.target.closest('[data-id]'); if (!a) return; stopAnims(); select(a.dataset.id); ui.render(); });
+  const fileBase = (spec.title_en || spec.title || 'figure').replace(/[^\w\u4e00-\u9fff-]+/g, '-').replace(/^-|-$/g, '') + '-2d-' + view2;
+  const saveBlob = (blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); };
+  two.querySelectorAll('[data-dl]').forEach(b => b.onclick = () => { const svgEl = document.getElementById('bio2d-svg'); if (!svgEl) return;
+    const txt = '<?xml version="1.0" encoding="UTF-8"?>\n' + svgEl.outerHTML, name = (spec.title_en || spec.title || 'figure').replace(/[^\w\u4e00-\u9fff-]+/g, '-') + '-2d-' + view2;
+    if (b.dataset.dl === 'svg') return saveBlob(new Blob([txt], { type: 'image/svg+xml' }), name + '.svg');
+    const vb = svgEl.viewBox.baseVal, sc = 1600 / vb.width, img = new Image();
+    img.onload = () => { const cv = document.createElement('canvas'); cv.width = Math.round(vb.width * sc); cv.height = Math.round(vb.height * sc); const g = cv.getContext('2d'); g.drawImage(img, 0, 0, cv.width, cv.height); cv.toBlob(bl => bl && saveBlob(bl, name + '.png'), 'image/png'); };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(txt); });
+  const controls = document.querySelector('.controls');
+  const mk = (label, min, max, step, val, on) => { const d = document.createElement('div'); d.className = 'ctl';
+    const id = 'r' + Math.random().toString(36).slice(2, 7);
+    d.innerHTML = `<label for="${id}">${label}</label><input id="${id}" type="range" min="${min}" max="${max}" step="${step}" value="${val}">`;
+    d.querySelector('input').oninput = e => { on(+e.target.value); ui.render(); }; controls.prepend(d); };
+  mk('分散距離', .5, 1.4, .05, 1, v => { st.spread = v; if (st.exp < .5) { st.exp = 1; if (st.cut < 1) st.cut = 1; } });
+  if (ct.shape !== 'none') mk(SOLID ? '切口高度' : '切面高度', .2, .9, .01, st.cutLevel, v => { st.cutLevel = v; if (st.cut < 1) st.cut = 1; });
+  const notes = document.createElement('details'); notes.className = 'bio-notes';
+  const li = arr => arr.length ? '<ul>' + arr.map(x => `<li>${bioEsc(x)}</li>`).join('') + '</ul>' : '';
+  notes.innerHTML = `<summary>科學說明</summary>` + (spec.summary ? `<p>${bioEsc(spec.summary)}</p>` : '')
+    + (spec.notes.scale ? `<h4>比例與大小</h4><p>${bioEsc(spec.notes.scale)}</p>` : '')
+    + (spec.notes.simplifications.length ? `<h4>圖中的簡化</h4>${li(spec.notes.simplifications)}` : '')
+    + (spec.notes.misconceptions.length ? `<h4>常見誤解</h4>${li(spec.notes.misconceptions)}` : '')
+    + (spec.processes.length ? `<h4>過程</h4>` + spec.processes.map(pr => `<p><strong>${bioEsc(pr.name)}</strong></p><ol>${pr.steps.map(s => `<li>${bioEsc(s.text)}</li>`).join('')}</ol>`).join('') : '')
+    + (spec.review.length ? `<h4>AI 科學審核紀錄</h4>${li(spec.review)}` : '')
+    + `<p class="bio-disc">本圖由 AI 協助生成結構資料，用於教學示意；正式使用前請由專業人員覆核。</p>`;
+  document.querySelector('.controls').after(notes);
+  const css = document.createElement('style'); css.textContent = BIO_CSS; document.head.appendChild(css);
+  lastSel = null; ui.render(); sync2(true);
+  if (ui.view) ui.view.fit(false);
+  window.__spec = spec;
+  return ui;
+}
+
+const BIO_CSS = `
+  body{font-family:${BIO_FONT};font-size:14px}
+  header,#fig,.stage,.controls,.made-with,.bio-info,.bio-2d,.bio-notes{max-width:980px!important}
+  header h1{font-size:15px;font-weight:800;letter-spacing:.04em}
+  .act,.chip,button{font-family:${BIO_FONT}}
+  .act{font-weight:700}
+  .bio-cap{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);max-width:min(560px,92%);background:var(--paper);border:1.5px solid var(--ink);border-radius:10px;
+    box-shadow:3px 3px 0 var(--ink);padding:7px 12px;font-size:13.5px;line-height:1.5;opacity:0;transition:opacity .25s;pointer-events:none;text-align:center}
+  .bio-cap.show{opacity:1}
+  .bio-info{width:100%;max-width:760px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px;margin:4px 0 16px}
+  .bio-card{border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;background:#fffaf0;box-shadow:3px 3px 0 var(--ink);min-height:96px}
+  .bio-card p{margin:.35em 0;line-height:1.6}
+  .bc-h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .bc-h strong{font-size:17px} .bc-h span{color:var(--muted);font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
+  .bc-more{color:#4d463a} .bc-size{font-size:12.5px;color:var(--muted)} .bc-empty{color:#4d463a}
+  .bio-list{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+  .bio-list button{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:4px 10px;border-radius:999px;border:1.5px solid var(--ink);background:var(--paper);cursor:pointer}
+  .bio-list button i{width:10px;height:10px;border-radius:50%;border:1px solid var(--ink);display:inline-block}
+  .bio-list button[aria-pressed=true]{background:#ffd23f}
+  .bio-notes{width:100%;max-width:760px;margin-top:16px;border-top:1px solid var(--rule);padding-top:12px;line-height:1.65}
+  .bio-notes summary{cursor:pointer;font-weight:800;letter-spacing:.06em}
+  .bio-notes h4{margin:12px 0 4px;font-size:13px;letter-spacing:.06em}
+  .bio-notes ul,.bio-notes ol{margin:4px 0;padding-left:20px}
+  .bio-disc{font-size:12px;color:var(--muted)}
+  .bio-2d{width:100%;max-width:760px;margin:6px 0 18px;border-top:1px solid var(--rule);padding-top:14px}
+  .b2-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .b2-bar h2{font-size:14px;margin:0 6px 0 0;letter-spacing:.06em}
+  .b2-tabs,.b2-dl{display:flex;gap:6px;flex-wrap:wrap} .b2-dl{margin-left:auto}
+  .b2-tabs button,.b2-dl button{font-size:12.5px;padding:4px 11px}
+  .b2-tabs button[aria-selected=true]{background:var(--ink);color:var(--paper)}
+  .b2-fig{border:1.5px solid var(--ink);border-radius:12px;overflow:hidden;background:#fbf8f1;box-shadow:3px 3px 0 var(--ink)}
+  .b2-fig svg{display:block;width:100%;height:auto}
+  .b2-fig [data-id]{cursor:pointer} .b2-fig .b2-part:hover>path{filter:brightness(1.06)}
+  .b2-note{font-size:12px;color:var(--muted);margin:8px 0 0}
+  .stage{padding-bottom:30px}
+  @media (max-width:640px){.bio-info{grid-template-columns:1fr}.bio-cap{position:static;transform:none;margin:6px auto 0}.viewbar{position:static;margin-top:6px;justify-content:flex-start}.vw-hint{display:none}.stage{padding-bottom:0}}
+`;
+
+</script>
+<script>mountBio({"title":"量子電腦（超導量子電腦稀釋製冷機）","title_en":"Superconducting quantum computer (dilution refrigerator)","summary":"常見的「金色吊燈」其實是超導量子電腦的稀釋製冷機。它由上到下分成多層金屬板，越往下越冷；最底層約 10 毫開爾文，比外太空還冷，那裏放着真正進行運算的量子處理器晶片。微波訊號經同軸電纜往下送去控制量子位元，讀取訊號則經放大器往上傳回室溫電子設備。","level":"公眾","stage":"none","container":{"shape":"cylinder","size":[34,34,50],"layers":[{"id":"vacuum_can","name":"外真空罐","name_en":"Outer vacuum can","color":"#b8c4cc","thickness":1.5,"texture":"none","desc":"最外層的不鏽鋼或鋁製圓罐，內部抽成真空，阻止空氣把熱傳入製冷機。平時見到的「吊燈」，是拆走這個外罐和各層屏蔽罩後的樣子。","more":"罐內氣壓極低，空氣分子少得幾乎不能傳熱。","real_size":"直徑約 0.5 至 1 米，高約 1.5 至 3 米"},{"id":"shield_50k","name":"50 K 輻射屏蔽罩","name_en":"50 K radiation shield","color":"#9fc6e8","thickness":1.5,"texture":"none","desc":"外真空罐內的第二層罐，連接 50 K 板，溫度約 −223°C，用來擋住室溫外罐發出的熱輻射。","more":"","real_size":"溫度約 40 至 60 K"},{"id":"shield_4k","name":"4 K 輻射屏蔽罩","name_en":"4 K radiation shield","color":"#c9b6e6","thickness":1.2,"texture":"none","desc":"連接 4 K 板的屏蔽罐，溫度約 −269°C，接近液態氦的沸點，進一步阻擋熱輻射。","more":"","real_size":"溫度約 3 至 4 K"},{"id":"shield_still","name":"蒸餾器輻射屏蔽罩","name_en":"Still radiation shield","color":"#a8d8c8","thickness":1.2,"texture":"none","desc":"最內層的屏蔽罐，連接蒸餾器板，溫度低於 1 K，令最冷的幾層幾乎接收不到熱輻射。","more":"","real_size":"溫度約 0.7 至 1 K"}],"solid":false,"opacity":0.55,"texture":"none","cutLevel":0.6,"interior":{"id":"vacuum_space","name":"真空內部空間","name_en":"Vacuum interior","color":"#f2f6fa","desc":"屏蔽罩內的真空空間，掛着一層層冷板、電纜和量子處理器。各部件主要靠金屬直接接觸傳熱，而不是靠空氣。","more":"真空隔熱的原理與保溫瓶相似。","real_size":"直徑約數十厘米"}},"parts":[{"id":"control_electronics","name":"室溫控制電子設備","name_en":"Room-temperature control electronics","shape":"box","size":[14,10,4],"color":"#6d7b8a","instances":[{"at":[0,0,62],"rot":[0,0,0]}],"parent":"","external":true,"texture":"grid","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"位於製冷機頂部以外的機櫃，由普通電腦指揮，產生精確的微波脈衝去控制量子位元，並分析傳回來的讀取訊號。","more":"量子電腦需要一般電腦配合，才能編排指令和處理結果。","real_size":"多個機櫃，每個高約 1 至 2 米"},{"id":"top_flange","name":"室溫頂板","name_en":"Room-temperature top plate","shape":"cylinder","size":[27,27,1.5],"color":"#a9b3bb","instances":[{"at":[0,0,38],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"整座製冷機最上方的金屬板，處於室溫，連接外真空罐。所有電纜和氣體管道都由這裏穿入，整個「吊燈」亦由它吊起。","more":"","real_size":"直徑約 0.5 至 1 米，約 300 K（室溫）"},{"id":"plate_50k","name":"50 K 板","name_en":"50 K plate","shape":"cylinder","size":[26,26,1.2],"color":"#e8c070","instances":[{"at":[0,0,38],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"頂板下面第一層鍍金銅板，由脈衝管製冷機冷卻至約 −223°C，先擋走大部分由上方傳來的熱。","more":"鍍金可防止銅氧化，並減少吸收熱輻射。","real_size":"約 40 至 60 K"},{"id":"pulse_tube","name":"脈衝管製冷機冷頭","name_en":"Pulse tube cryocooler","shape":"cylinder","size":[3,3,5],"color":"#7fa7c9","instances":[{"at":[-14,-10,31],"rot":[0,0,0]}],"parent":"","external":false,"texture":"rings","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"位於 50 K 板與 4 K 板之間的冷卻裝置，利用氦氣反覆壓縮和膨脹來吸熱，冷卻這兩層板，並預冷流回的氦混合氣。它取代了以往要不斷添加的液態氦。","more":"採用它的機種常稱為「乾式」稀釋製冷機。","real_size":"直徑約 5 至 10 厘米"},{"id":"plate_4k","name":"4 K 板","name_en":"4 K plate","shape":"cylinder","size":[24,24,1.2],"color":"#d99a4e","instances":[{"at":[0,0,24],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"第二層鍍金銅板，溫度約 −269°C。這一層以下的超低溫，要靠稀釋製冷原理來達成。","more":"","real_size":"約 3 至 4 K"},{"id":"hemt_amplifier","name":"HEMT 低溫放大器","name_en":"HEMT cryogenic amplifier","shape":"box","size":[2.5,1.8,1.2],"color":"#4fa37a","instances":[{"at":[6,-8,21],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"掛在 4 K 板下方、讀取線上的放大器。晶片傳上來的訊號已在下層初步放大，它再把訊號放大，方便室溫設備讀取。","more":"","real_size":"約數厘米"},{"id":"plate_still","name":"蒸餾器板","name_en":"Still plate","shape":"cylinder","size":[22,22,1.2],"color":"#e8b45a","instances":[{"at":[0,0,10],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"第三層板，溫度低於 1 K。流下來的氦在這一帶經節流冷凝成液體；板下的蒸餾器則從混合液中抽走氦-3，推動整個稀釋製冷循環。","more":"","real_size":"約 0.7 至 1 K"},{"id":"still_chamber","name":"蒸餾器","name_en":"Still","shape":"cylinder","size":[4,4,2.5],"color":"#9ec9a8","instances":[{"at":[-10,6,6.5],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"掛在蒸餾器板下方的小容器。氦-3 在這裏比氦-4 更易蒸發，被泵抽走後送回頂部，再循環使用。","more":"","real_size":"直徑約數厘米"},{"id":"plate_cold","name":"冷板","name_en":"Cold plate","shape":"cylinder","size":[20,20,1.2],"color":"#c98a44","instances":[{"at":[0,0,-2],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"第四層板，約 0.1 K。電纜在這裏再次固定和冷卻，進一步減少向下傳的熱。","more":"","real_size":"約 50 至 200 mK"},{"id":"heat_exchanger","name":"熱交換器","name_en":"Heat exchanger","shape":"helix","size":[2.5,2.5,4],"color":"#e07a8a","instances":[{"at":[-10,6,-8],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":5,"rough":0.12,"count":5,"radius":0.6,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"位於蒸餾器與混合室之間的螺旋管。往下流的液態氦-3 在這裏被往上流的冷稀相預先冷卻，然後才進入混合室。","more":"","real_size":"管長可達數米"},{"id":"plate_mxc","name":"混合室板","name_en":"Mixing chamber plate","shape":"cylinder","size":[18,18,1.2],"color":"#f0cf86","instances":[{"at":[0,0,-14],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"最底一層鍍金銅板，也是全機最冷的地方，約 10 毫開爾文（約 −273.14°C）。量子處理器就固定在它下方。","more":"這溫度比宇宙微波背景的約 2.7 K 還要低得多。","real_size":"約 7 至 20 mK"},{"id":"mixing_chamber","name":"混合室","name_en":"Mixing chamber","shape":"cylinder","size":[4.5,4.5,2.5],"color":"#8fb8de","instances":[{"at":[-10,6,-18],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":0.6,"explode":true,"label":true,"outline":null,"desc":"裝在混合室板下方的容器，內有氦-3 和氦-4 混合液。氦-3 由濃相「溶入」稀相時會吸熱，從而產生極低溫。","more":"","real_size":"直徑約數厘米"},{"id":"helium_mixture","name":"氦-3／氦-4 混合液","name_en":"He-3/He-4 mixture","shape":"dots","size":[3.5,3.5,1.8],"color":"#3d6fa8","instances":[{"at":[0,0,0],"rot":[0,0,0]}],"parent":"mixing_chamber","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":40,"radius":0.5,"path":[],"beads":false,"length":8,"opacity":1,"explode":false,"label":true,"outline":null,"desc":"混合室內的液態氦同位素混合物，分成上層的濃氦-3 相和下層的稀相，是稀釋製冷的「工作物質」。","more":"","real_size":"整機約用十至數十升氦-3 氣體（以常溫常壓計）"},{"id":"support_rods","name":"支撐桿","name_en":"Support rods","shape":"cylinder","size":[0.8,0.8,4.6],"color":"#d8dde2","instances":[{"at":[16,0,31],"rot":[0,0,0]},{"at":[-16,0,31],"rot":[0,0,0]},{"at":[16,0,17],"rot":[0,0,0]},{"at":[-16,0,17],"rot":[0,0,0]},{"at":[15,0,4],"rot":[0,0,0]},{"at":[-15,0,4],"rot":[0,0,0]},{"at":[14,0,-8],"rot":[0,0,0]},{"at":[-14,0,-8],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"連接各層板的細桿，用導熱差的材料（例如玻璃纖維複合材料）製造，既撐起各層板，又減少熱由上層傳到下層。","more":"","real_size":"長約 10 至 30 厘米"},{"id":"input_line","name":"控制輸入線","name_en":"Input coaxial lines","shape":"tube","size":[8,8,8],"color":"#4a78c2","instances":[{"at":[0,0,0],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":0.5,"path":[[6,10,47],[6,10,38],[6.5,10,30],[6,10,24],[6,10.5,16],[6,10,10],[6,10,4],[6,10,-2],[6,10,-14],[4,6,-20]],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"由頂板一直伸到底部的同軸電纜，把室溫產生的微波控制脈衝送到量子晶片。真實機器有數十至數百條這類電纜。","more":"電纜越多，帶入的熱越多，這是擴大量子電腦規模的難題之一。","real_size":"直徑約 1 至 3 毫米，長約 1 至 2 米"},{"id":"attenuator","name":"衰減器","name_en":"Attenuators","shape":"cylinder","size":[1.2,1.2,1.5],"color":"#2f4f8a","instances":[{"at":[6,10,21],"rot":[0,0,0]},{"at":[6,10,7],"rot":[0,0,0]},{"at":[6,10,-5],"rot":[0,0,0]},{"at":[6,10,-17],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"串接在輸入線上、分佈在各層板下方的小元件。它們把訊號逐級減弱，同時壓低由室溫帶下來的熱雜訊，免得干擾量子位元。","more":"","real_size":"長約 1 至 2 厘米"},{"id":"output_line","name":"讀取輸出線","name_en":"Readout output line","shape":"tube","size":[8,8,8],"color":"#c26a4a","instances":[{"at":[0,0,0],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":0.5,"path":[[4,-5,-20],[6,-8,-14],[6,-8,-2],[6,-8.5,4],[6,-8,10],[6,-8,16],[6,-8,24],[6.5,-8,30],[6,-8,38],[6,-8,47]],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"把量子晶片的讀取訊號由底部往上傳回室溫的同軸電纜，線上裝有放大器和環行器。","more":"","real_size":"直徑約 1 至 3 毫米"},{"id":"twpa","name":"量子極限放大器","name_en":"Quantum-limited amplifier (e.g. TWPA)","shape":"box","size":[2,1.5,1],"color":"#3fb0a0","instances":[{"at":[6,-8,-17],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"放在最冷一層、讀取線上的超導放大器，只加入極少雜訊，率先把晶片發出的極微弱訊號放大。","more":"","real_size":"約 1 至 3 厘米"},{"id":"circulator","name":"環行器／隔離器","name_en":"Circulators / isolators","shape":"cylinder","size":[1.5,1.5,0.8],"color":"#8a5aa8","instances":[{"at":[6,-8,-10],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"位於混合室板上方、讀取線上的元件，只讓訊號單向往上走，阻止上方放大器的雜訊倒流回晶片。","more":"","real_size":"約 1 至 3 厘米"},{"id":"cold_finger","name":"冷指","name_en":"Cold finger","shape":"cylinder","size":[1.5,1.5,2.5],"color":"#e3b25f","instances":[{"at":[3,0,-17],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"連接混合室板與下方晶片封裝盒的銅柱，把晶片的熱導走，令晶片保持在約 10 毫開爾文。","more":"","real_size":"長約數厘米至十多厘米"},{"id":"magnetic_shield","name":"磁屏蔽罐","name_en":"Magnetic shield","shape":"cylinder","size":[9,9,10],"color":"#7c8f99","instances":[{"at":[3,0,-30],"rot":[0,0,0]}],"parent":"","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":0.4,"explode":true,"label":true,"outline":null,"desc":"吊在整座「吊燈」最底部的罐子，用高導磁合金或超導材料製成，阻擋地磁場和其他磁場對量子晶片的干擾。","more":"","real_size":"直徑約 5 至 15 厘米"},{"id":"sample_holder","name":"晶片封裝盒","name_en":"Sample holder / package","shape":"box","size":[6,6,1.5],"color":"#d4a04a","instances":[{"at":[0,0,-3],"rot":[0,0,0]}],"parent":"magnetic_shield","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"位於磁屏蔽罐內的銅製小盒，固定量子晶片，並透過微波接頭把晶片連接到電纜。","more":"","real_size":"約數厘米見方"},{"id":"quantum_chip","name":"量子處理器晶片","name_en":"Quantum processor chip","shape":"box","size":[3.5,3.5,0.4],"color":"#5a6fb5","instances":[{"at":[0,0,-2],"rot":[0,0,0]}],"parent":"magnetic_shield","external":false,"texture":"grid","taper":0,"strands":1,"turns":3,"rough":0.12,"count":5,"radius":1.1,"path":[],"beads":false,"length":8,"opacity":1,"explode":true,"label":true,"outline":null,"desc":"放在封裝盒上、全機真正進行運算的核心。它是一塊矽或藍寶石晶片，上面刻有超導電路。","more":"整座龐大的製冷機，主要就是為了讓這塊小晶片保持極冷。","real_size":"約 1 至 3 厘米見方"},{"id":"qubits","name":"超導量子位元","name_en":"Superconducting qubits","shape":"dots","size":[3,3,0.4],"color":"#f06a6a","instances":[{"at":[0,0,-1.45],"rot":[0,0,0]}],"parent":"magnetic_shield","external":false,"texture":"none","taper":0,"strands":1,"turns":3,"rough":0.12,"count":25,"radius":0.5,"path":[],"beads":false,"length":8,"opacity":1,"explode":false,"label":true,"outline":null,"desc":"晶片表面以鋁、鈮等金屬做成的微小電路，含約瑟夫森結。它們可處於 0 和 1 的疊加態，並可彼此糾纏。","more":"","real_size":"每個約 0.1 至 1 毫米"}],"processes":[{"name":"逐級冷卻","steps":[{"part":"pulse_tube","text":"脈衝管製冷機利用氦氣壓縮和膨脹吸熱，冷卻 50 K 板和 4 K 板。"},{"part":"plate_50k","text":"50 K 板降到約 −223°C，擋走大部分由上方傳來的熱。"},{"part":"plate_4k","text":"4 K 板降到約 −269°C，送回來的氦-3 氣體在此預冷。"},{"part":"plate_still","text":"氦經節流阻抗膨脹，在蒸餾器板一帶冷凝成液體。"},{"part":"heat_exchanger","text":"液態氦-3 經熱交換器，被往上流的冷稀相進一步冷卻。"},{"part":"mixing_chamber","text":"氦-3 由濃相溶入稀相時吸熱，令混合室降到約 10 mK。"},{"part":"still_chamber","text":"稀相中的氦-3 升到蒸餾器蒸發，被泵抽走送回頂部，循環再用。"},{"part":"cold_finger","text":"冷指把處理器的熱導往混合室板，令晶片保持極冷。"}]},{"name":"控制與讀取","steps":[{"part":"control_electronics","text":"室溫電子設備按程式產生精確的微波脈衝。"},{"part":"input_line","text":"脈衝經同軸電纜由頂板一路向下傳送。"},{"part":"attenuator","text":"各層衰減器逐級減弱訊號，並壓低熱雜訊。"},{"part":"qubits","text":"微波脈衝改變量子位元的狀態，執行量子邏輯閘運算。"},{"part":"output_line","text":"讀取共振器發出的微弱訊號沿輸出線往上傳。"},{"part":"twpa","text":"量子極限放大器以極低雜訊先把訊號放大。"},{"part":"circulator","text":"環行器／隔離器令訊號只能單向往上，阻止雜訊倒流。"},{"part":"hemt_amplifier","text":"4 K 處的 HEMT 放大器再把訊號放大。"}]}],"notes":{"scale":"整座製冷機高約 1.5 至 3 米，量子晶片只有約 1 至 3 厘米，量子位元更小至毫米以下。圖中晶片、量子位元、放大器和衰減器都大幅放大，各層板之間的距離亦經壓縮。","simplifications":["真實機器有數十至數百條同軸電纜，以及濾波器和不同種類的衰減器；圖中只各畫一條輸入線和一條讀取線作代表。","稀釋製冷的氣體循環管道、節流阻抗、泵和室溫氣體處理系統沒有畫出。","放大器、環行器和支撐桿的位置因型號而異，圖中只示意大致所在的層。","各屏蔽罩實際分別掛在對應的冷板上，圖中簡化為同心的圓罐。","這裏只展示超導量子電腦；離子阱、光子、中性原子等其他量子電腦的結構完全不同。量子位元排成方陣亦只作示意。"],"misconceptions":["金色「吊燈」本身不是處理器，它主要是製冷系統；真正運算的只是底部一塊小晶片。","量子電腦並不是同時試盡所有答案再直接給出最佳解；它要靠干涉增強正確結果的機率，而且只在特定問題上有優勢。","量子電腦不會取代日常電腦，它需要一般電腦負責控制和處理數據。","極低溫不是為了「散熱快」，而是為了令電路超導，並把熱雜訊壓到極低，保護脆弱的量子態。"]},"review":["補回蒸餾器輻射屏蔽罩（約 1 K），使 4 K 罩不再被誤稱為最內層；外殼半徑相應加大至 34，室溫頂板半徑改為 27，以免穿過屏蔽層。","更正外真空罐的描述：要拆走外真空罐和各層屏蔽罩，才會露出「金色吊燈」。","更正 4 K 板的作用：氦混合氣在這裏只是預冷。乾式稀釋製冷機中，氦要經節流阻抗，在約 1 K 的蒸餾器板一帶才冷凝成液體。","「逐級冷卻」過程改按氦-3 的真實循環次序排列：預冷、冷凝、熱交換器、混合室吸熱，再經稀相升到蒸餾器蒸發抽走。","讀取路徑改為晶片 → 量子極限放大器 → 環行器／隔離器 → HEMT，與圖中位置一致；控制過程最後加入「傳回室溫設備分析」一步。","修正幾何重疊：晶片與封裝盒的高度、量子位元貼在晶片表面、支撐桿長度縮短以免插入冷板。","確認各級溫度（50 K、4 K、\u003c1 K、約 0.1 K、約 10 mK）、零件名稱及父子關係大致正確；用詞為港澳繁體書面語。","刪去不屬規格的多餘欄位（container.opacity、label、outline 及空的 review）。"]});</script>
+</body></html>
