@@ -327,6 +327,146 @@
       .tab { padding-left: 12px; padding-right: 12px; font-size: 0.9rem; }
       .attach-bar { padding: 8px 12px; }
     }
+
+    /* --- News --- */
+    .panel-news {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding: 18px 20px 36px;
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8f0f8 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #f7efd4 0%, transparent 50%),
+        var(--bg);
+    }
+
+    .news-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .news-intro {
+      background:
+        linear-gradient(135deg, rgba(232,240,248,0.85), rgba(255,253,248,0.95) 45%, rgba(247,239,212,0.55));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(16px, 2.5vw, 24px);
+    }
+
+    .news-intro h2 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+    }
+    .news-intro p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    .news-meta-line {
+      margin-top: 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .news-list {
+      display: grid;
+      gap: 14px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .news-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 18px 14px;
+      display: grid;
+      gap: 8px;
+      border-left: 4px solid var(--accent);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .news-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 34px rgba(31, 36, 48, 0.1);
+    }
+    .news-card.is-pending {
+      border-left-color: var(--gold);
+    }
+
+    .news-card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .news-date {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    .badge-pending {
+      background: #f7efd4;
+      color: #7a5b10;
+    }
+
+    .news-card h3 {
+      margin: 0;
+      font-size: 1.08rem;
+      line-height: 1.4;
+    }
+
+    .news-summary {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .news-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn-sm {
+      font-size: 0.8rem;
+      padding: 6px 10px;
+    }
+
+    .btn-ghost {
+      border-color: var(--line);
+      color: var(--muted);
+      background: #fff;
+    }
+    .btn-ghost:hover {
+      color: var(--ink);
+      background: #f3efe6;
+    }
+
+    .news-status {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .news-status.error { color: #8b2e2e; }
+
+    @media (max-width: 640px) {
+      .panel-news { padding-left: 12px; padding-right: 12px; }
+      .news-card { padding: 14px 14px 12px; }
+      .news-card h3 { font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
@@ -341,6 +481,7 @@
           <button class="tab" role="tab" id="tab-3d" aria-controls="panel-3d" aria-selected="true" tabindex="0" data-tab="3d">3D 互動圖</button>
           <button class="tab" role="tab" id="tab-2d" aria-controls="panel-2d" aria-selected="false" tabindex="-1" data-tab="2d">2D 互動圖</button>
           <button class="tab" role="tab" id="tab-videos" aria-controls="panel-videos" aria-selected="false" tabindex="-1" data-tab="videos">教學影片</button>
+          <button class="tab" role="tab" id="tab-news" aria-controls="panel-news" aria-selected="false" tabindex="-1" data-tab="news">量子科學相關新聞</button>
         </nav>
       </div>
     </header>
@@ -456,6 +597,21 @@
           <p class="footer-note">澳門科學館教學材料 · 3D 圖由 Colorfigures（MIT）繪製 · 靜態 HTML，可離線開啟。</p>
         </div>
       </section>
+
+      <!-- 量子科學相關新聞：資料驅動 news/quantum-news.json -->
+      <section class="panel panel-news" role="tabpanel" id="panel-news" aria-labelledby="tab-news" hidden>
+        <div class="news-inner">
+          <div class="news-intro">
+            <p class="eyebrow">RacSo Life · 科普</p>
+            <h2>量子科學相關新聞</h2>
+            <p>整理自 RacSo Life Facebook 已發（或待補連結）嘅量子／超導相關科普帖：粵語撮要 + Facebook 連結，按發帖日由新到舊。</p>
+            <p class="news-meta-line" id="news-updated">資料載入中…</p>
+          </div>
+          <div class="news-status" id="news-status" hidden></div>
+          <ul class="news-list" id="news-list" aria-label="量子科學相關新聞列表"></ul>
+          <p class="footer-note">內容撮要供教學速覽；詳情請開啟 Facebook 原文。澳門科學館教學材料。</p>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -465,9 +621,91 @@
       const panels = {
         '3d': document.getElementById('panel-3d'),
         '2d': document.getElementById('panel-2d'),
-        videos: document.getElementById('panel-videos')
+        videos: document.getElementById('panel-videos'),
+        news: document.getElementById('panel-news')
       };
       const DEFAULT_TAB = '3d';
+
+
+      const NEWS_URL = 'news/quantum-news.json';
+      let newsLoaded = false;
+
+      function esc(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function renderNews(data) {
+        const list = document.getElementById('news-list');
+        const updatedEl = document.getElementById('news-updated');
+        const status = document.getElementById('news-status');
+        const items = Array.isArray(data && data.items) ? data.items.slice() : [];
+        items.sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+        const pub = items.filter((i) => i.status === 'published').length;
+        const pend = items.filter((i) => i.status === 'pending').length;
+        if (updatedEl) {
+          updatedEl.textContent = '資料更新日期：' + (data.updated || '—')
+            + ' · 共 ' + items.length + ' 則（已發 ' + pub + '／待補連結 ' + pend + '）';
+        }
+        if (!items.length) {
+          if (status) {
+            status.hidden = false;
+            status.className = 'news-status';
+            status.textContent = '暫時未有新聞項目。';
+          }
+          list.innerHTML = '';
+          return;
+        }
+        if (status) status.hidden = true;
+        list.innerHTML = items.map((item) => {
+          const pending = item.status === 'pending' || !item.fb_url;
+          const badge = pending
+            ? '<span class="badge badge-pending">待補連結</span>'
+            : '<span class="badge">已發佈</span>';
+          let actions = '';
+          if (item.fb_url) {
+            actions += '<a class="btn btn-sm" href="' + esc(item.fb_url) + '" target="_blank" rel="noopener noreferrer">睇 Facebook</a>';
+          } else {
+            actions += '<span class="btn btn-sm btn-ghost" aria-disabled="true">Facebook 連結待補</span>';
+          }
+          if (item.source_url) {
+            actions += '<a class="btn btn-sm btn-ghost" href="' + esc(item.source_url) + '" target="_blank" rel="noopener noreferrer">原文資訊來源</a>';
+          }
+          return (
+            '<li class="news-card' + (pending ? ' is-pending' : '') + '" data-news-id="' + esc(item.id) + '">'
+            + '<div class="news-card-top">'
+            + '<span class="news-date">' + esc(item.date) + '</span>'
+            + badge
+            + '</div>'
+            + '<h3>' + esc(item.title) + '</h3>'
+            + '<p class="news-summary">' + esc(item.summary) + '</p>'
+            + '<div class="news-actions">' + actions + '</div>'
+            + '</li>'
+          );
+        }).join('');
+      }
+
+      async function loadNews({ force = false } = {}) {
+        if (newsLoaded && !force) return;
+        const status = document.getElementById('news-status');
+        try {
+          const res = await fetch(NEWS_URL + '?t=' + Date.now(), { cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          renderNews(data);
+          newsLoaded = true;
+        } catch (err) {
+          if (status) {
+            status.hidden = false;
+            status.className = 'news-status error';
+            status.textContent = '載入新聞失敗，請稍後再試或檢查 news/quantum-news.json。';
+          }
+          console.error('news load failed', err);
+        }
+      }
 
       function selectTab(id, { focus = false, pushHash = true } = {}) {
         if (!panels[id]) id = DEFAULT_TAB;
@@ -494,6 +732,7 @@
         document.body.classList.toggle('on-2d', id === '2d');
         document.documentElement.classList.toggle('on-fill', fill);
         document.body.classList.toggle('on-fill', fill);
+        if (id === 'news') loadNews();
       }
 
       tabs.forEach((tab, index) => {
@@ -525,6 +764,12 @@
         if (id === 'intro') id = DEFAULT_TAB;
         if (panels[id]) selectTab(id, { pushHash: false });
       });
+      // Warm the news JSON without blocking first paint
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(() => loadNews(), { timeout: 2500 });
+      } else {
+        setTimeout(() => loadNews(), 800);
+      }
     })();
   </script>
 </body>
