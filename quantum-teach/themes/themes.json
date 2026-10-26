@@ -1,0 +1,22 @@
+{
+  "updated": "2026-10-27",
+  "intro": "獨立主題自學頁，對象為零基礎中學生；下列卡片連到各主題。",
+  "items": [
+    {
+      "id": "qai-basics",
+      "title": "量子電腦與量子人工智慧入門",
+      "title_en": "Quantum Computing & Quantum AI",
+      "summary": "用比喻認識比特與量子位元、疊加、測量塌縮與糾纏，再看看量子計算如何可能幫助 AI（概念層，唔教程式）。",
+      "href": "themes/qai-basics/",
+      "badge": "Theme A · QAI"
+    },
+    {
+      "id": "qml-basics",
+      "title": "量子機器學習是什麼？",
+      "title_en": "Quantum Machine Learning",
+      "summary": "從經典機器學習直覺出發，認識量子閘門與「同時探索多種可能」的比喻，並誠實說明 QML 仍屬早期研究。",
+      "href": "themes/qml-basics/",
+      "badge": "Theme B · QML"
+    }
+  ]
+}

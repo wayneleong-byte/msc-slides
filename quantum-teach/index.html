@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="澳門科學館教學頁：超導量子電腦稀釋製冷機 3D／2D 互動圖與教學影片（第一、二、四條為普通話）。">
+  <meta name="description" content="澳門科學館教學頁：超導量子電腦稀釋製冷機 3D／2D 互動圖、教學影片、量子新聞與主題自學（QAI／QML）。">
   <title>量子電腦（超導量子電腦稀釋製冷機）｜澳門科學館</title>
   <style>
     :root {
@@ -467,6 +467,115 @@
       .news-card { padding: 14px 14px 12px; }
       .news-card h3 { font-size: 1rem; }
     }
+
+    /* --- Themes --- */
+    .panel-themes {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding: 18px 20px 36px;
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #e8f0f8 0%, transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, #f7efd4 0%, transparent 50%),
+        var(--bg);
+    }
+
+    .themes-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    .themes-intro {
+      background:
+        linear-gradient(135deg, rgba(232,240,248,0.85), rgba(255,253,248,0.95) 45%, rgba(247,239,212,0.55));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(16px, 2.5vw, 24px);
+    }
+
+    .themes-intro h2 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+    }
+    .themes-intro p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    .theme-list {
+      display: grid;
+      gap: 14px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .theme-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px 18px 16px;
+      display: grid;
+      gap: 8px;
+      border-left: 4px solid var(--accent);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    .theme-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 34px rgba(31, 36, 48, 0.1);
+    }
+    .theme-card:focus-visible {
+      outline: 3px solid rgba(31, 78, 121, 0.35);
+      outline-offset: 2px;
+    }
+
+    .theme-card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .theme-card h3 {
+      margin: 0;
+      font-size: 1.12rem;
+      line-height: 1.35;
+      color: var(--ink);
+    }
+
+    .theme-en {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .theme-summary {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .theme-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .panel-themes { padding-left: 12px; padding-right: 12px; }
+      .theme-card { padding: 14px 14px 12px; }
+      .theme-card h3 { font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
@@ -482,6 +591,7 @@
           <button class="tab" role="tab" id="tab-2d" aria-controls="panel-2d" aria-selected="false" tabindex="-1" data-tab="2d">2D 互動圖</button>
           <button class="tab" role="tab" id="tab-videos" aria-controls="panel-videos" aria-selected="false" tabindex="-1" data-tab="videos">教學影片</button>
           <button class="tab" role="tab" id="tab-news" aria-controls="panel-news" aria-selected="false" tabindex="-1" data-tab="news">量子科學相關新聞</button>
+          <button class="tab" role="tab" id="tab-themes" aria-controls="panel-themes" aria-selected="false" tabindex="-1" data-tab="themes">主題教學</button>
         </nav>
       </div>
     </header>
@@ -612,6 +722,47 @@
           <p class="footer-note">內容撮要供教學速覽；詳情請開啟 Facebook 原文。澳門科學館教學材料。</p>
         </div>
       </section>
+
+      <!-- 主題教學：獨立自學頁卡片 -->
+      <section class="panel panel-themes" role="tabpanel" id="panel-themes" aria-labelledby="tab-themes" hidden>
+        <div class="themes-inner">
+          <div class="themes-intro">
+            <p class="eyebrow">主題教學 · 自學</p>
+            <h2>主題教學</h2>
+            <p>獨立主題自學頁，對象為零基礎中學生；下列卡片連到各主題（繁體中文為主，專有名詞後括號補英文）。</p>
+          </div>
+          <ul class="theme-list" id="theme-list" aria-label="主題教學列表">
+            <li>
+              <a class="theme-card" href="themes/qai-basics/" id="theme-card-qai">
+                <div class="theme-card-top">
+                  <span class="badge">Theme A · QAI</span>
+                </div>
+                <h3>量子電腦與量子人工智慧入門</h3>
+                <p class="theme-en">Quantum Computing &amp; Quantum AI</p>
+                <p class="theme-summary">用比喻認識比特與量子位元、疊加、測量塌縮與糾纏，再看看量子計算如何可能幫助 AI（概念層，唔教程式）。含互動演示、分步路徑與小測驗。</p>
+                <div class="theme-actions">
+                  <span class="btn btn-sm">開啟主題 →</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="theme-card" href="themes/qml-basics/" id="theme-card-qml">
+                <div class="theme-card-top">
+                  <span class="badge">Theme B · QML</span>
+                </div>
+                <h3>量子機器學習是什麼？</h3>
+                <p class="theme-en">Quantum Machine Learning</p>
+                <p class="theme-summary">從經典機器學習直覺出發，認識量子閘門與「同時探索多種可能」的比喻，並誠實說明 QML 仍屬早期研究。含點選探索、分步路徑與小測驗。</p>
+                <div class="theme-actions">
+                  <span class="btn btn-sm">開啟主題 →</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <p class="footer-note">澳門科學館教學材料 · 主題頁為科普改寫，可離線開啟。</p>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -622,7 +773,8 @@
         '3d': document.getElementById('panel-3d'),
         '2d': document.getElementById('panel-2d'),
         videos: document.getElementById('panel-videos'),
-        news: document.getElementById('panel-news')
+        news: document.getElementById('panel-news'),
+        themes: document.getElementById('panel-themes')
       };
       const DEFAULT_TAB = '3d';
 
