@@ -5,19 +5,19 @@
       "id": "2026-10-26-superconductor-flaw",
       "date": "2026-10-26",
       "title": "超導體科學 40 年：隱藏瑕疵翻出嚟？",
-      "summary": "華威大學同法國 ESRF 用掃描式 3D X 射線衍射「CT」睇高溫超導銅氧化物，發現晶體唔係教科書假設咁從頭到尾一樣，而係兩種原子排列嘅「拼布」，邊界仲闊過預期數百倍。呢啲異常闊邊界可能不利超導，解釋點解有啲材料表現好過其他；未來理論或要將結構複雜性計入。",
-      "fb_url": null,
+      "summary": "歐洲同步輻射設施（ESRF）用超強 X 光，喺銅氧化物超導材料入面搵到隱藏嘅結構瑕疵，挑戰過去約 40 年「材料大致均勻」嘅常見假設。呢啲微觀缺陷可能影響臨界溫度同電流承載。團隊估計類似結構或喺其他 cuprate、以至高壓超導相關材料都常見——改進電網、醫用磁體、量子科技用嘅超導材料，或要先承認真實晶體遠比教科書「完美均勻」複雜。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0FksBqn8QWmRFfeHjxE3hhaTmAJ2sty5vT3f2W9jXx6Kp4fvEgWKGcG92wbsAqaXtl&id=61590125804782",
       "source_url": "https://www.sciencedaily.com/releases/2026/10/261023023731.htm",
-      "status": "pending"
+      "status": "published"
     },
     {
       "id": "2026-10-26-supercurrent-readout",
       "date": "2026-10-26",
       "title": "讀量子資訊唔毀掉佢？超電流幫到手",
-      "summary": "巴西聖保羅大學同北京理工大學團隊提出理論方案：用 Andreev qubit 自身振盪超電流做接近非破壞讀出，唔使靠輔助量子位元。將 qubit 放進封閉超導回路，旁用 SQUID 讀磁場變化重建態；模擬準確度可達約 99.5% 以上，落入量子糾錯常用門檻。全文屬理論，實驗幾何佈局尚未實現。",
-      "fb_url": null,
+      "summary": "理論研究提出：用超電流（電阻為零嘅電流）做簽名，或可讀取 Andreev qubit 等系統嘅量子資訊，而唔一定要摧毀嗰個量子態。作者指參數來自現有系統，未實現嘅係佢哋提出嘅幾何佈局；SQUID 偵測極小電流／磁場已係成熟技術。若實驗證實，或簡化量子讀出架構——用宏觀超電流做微觀量子態嘅「簽名」。全文屬理論提案。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=pfbid02vQ5JHhu95jEYAvnqMScZF5AuE5Kby8NecZpLtsxAeQ1FJpYbHehpTqmZL72vamcyl&id=61590125804782",
       "source_url": "https://phys.org/news/2026-10-supercurrent-enables-quantum-destroying.html",
-      "status": "pending"
+      "status": "published"
     },
     {
       "id": "2026-10-25-qubit-time-backward",

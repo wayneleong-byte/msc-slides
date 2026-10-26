@@ -661,13 +661,14 @@
         }
         if (status) status.hidden = true;
         list.innerHTML = items.map((item) => {
-          const pending = item.status === 'pending' || !item.fb_url;
+          const fbLink = item.fb_url || item.fb_permalink || null;
+          const pending = item.status === 'pending' || !fbLink;
           const badge = pending
             ? '<span class="badge badge-pending">待補連結</span>'
             : '<span class="badge">已發佈</span>';
           let actions = '';
-          if (item.fb_url) {
-            actions += '<a class="btn btn-sm" href="' + esc(item.fb_url) + '" target="_blank" rel="noopener noreferrer">睇 Facebook</a>';
+          if (fbLink) {
+            actions += '<a class="btn btn-sm" href="' + esc(fbLink) + '" target="_blank" rel="noopener noreferrer">睇 Facebook</a>';
           } else {
             actions += '<span class="btn btn-sm btn-ghost" aria-disabled="true">Facebook 連結待補</span>';
           }
