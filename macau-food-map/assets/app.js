@@ -202,6 +202,32 @@
     return !!(r && (r.photo_is_placeholder || !(r.photo) || String(r.photo).includes('placeholder')));
   }
 
+  function isUnofficialPhoto(r) {
+    const note = (r && r.photo_note) || '';
+    return note.includes('非官方') || note.includes('非官網') || note.includes('示意圖') || isPlaceholderPhoto(r);
+  }
+
+  function openLightbox(src, caption) {
+    const box = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImg');
+    const cap = document.getElementById('lightboxCaption');
+    if (!box || !img) return;
+    img.src = src;
+    img.alt = caption || '餐廳圖片';
+    if (cap) cap.textContent = caption || '';
+    box.classList.remove('hidden');
+    document.body.classList.add('lightbox-open');
+  }
+
+  function closeLightbox() {
+    const box = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImg');
+    if (!box) return;
+    box.classList.add('hidden');
+    document.body.classList.remove('lightbox-open');
+    if (img) img.removeAttribute('src');
+  }
+
   function soloToggleHtml(id) {
     const on = state.soloId === id;
     return `<label class="solo-toggle" data-solo-wrap="${esc(id)}">
@@ -235,10 +261,11 @@
       const note = (r.address_note || (r.coord_note && String(r.coord_note).includes('非官網') ? '非官網來源' : ''))
         ? `<div class="note-warn">${esc(r.address_note || '非官網來源')}</div>` : '';
       const ph = isPlaceholderPhoto(r) ? ' ph' : '';
-      const photoNote = isPlaceholderPhoto(r)
-        ? `<div class="note-warn">${esc(r.photo_note || '示意圖／非官網')}</div>` : '';
+      const photoNote = isUnofficialPhoto(r)
+        ? `<div class="note-warn">${esc(r.photo_note || '圖片非官方')}</div>` : '';
+      const pSrc = photoUrl(r);
       return `<li data-id="${esc(r.id)}" class="card ${state.activeId === r.id ? 'active' : ''}">
-        <img class="thumb${ph}" src="${esc(photoUrl(r))}" alt="" loading="lazy" width="88" height="88" />
+        <img class="thumb${ph}" src="${esc(pSrc)}" alt="${esc(r.name)}" loading="lazy" width="88" height="88" data-full="${esc(pSrc)}" data-caption="${esc((r.photo_note ? r.name + ' · ' + r.photo_note : r.name))}" role="button" tabindex="0" />
         <div class="card-body">
           <div class="name">${esc(r.name)}</div>
           <div class="meta">${esc(loc)}${r.address ? ' · ' + esc(String(r.address).slice(0, 48)) : ''}</div>
@@ -344,9 +371,11 @@
     const ph = isPlaceholderPhoto(r) ? ' ph' : '';
     const photoNote = r.photo_note
       ? `<div class="photo-note">${esc(r.photo_note)}</div>` : '';
+    const pSrc = photoUrl(r);
+    const pCap = r.photo_note ? `${r.name} · ${r.photo_note}` : r.name;
 
     el.detailBody.innerHTML = `
-      <img class="hero${ph}" src="${esc(photoUrl(r))}" alt="" loading="lazy" />
+      <img class="hero${ph}" src="${esc(pSrc)}" alt="${esc(r.name)}" loading="lazy" data-full="${esc(pSrc)}" data-caption="${esc(pCap)}" role="button" tabindex="0" />
       ${photoNote}
       <h2>${esc(r.name)}</h2>
       <div class="awards">${awards}</div>
@@ -362,6 +391,17 @@
       e.stopPropagation();
       toggleSolo(r.id, tog.checked);
     });
+    const hero = el.detailBody.querySelector('img.hero[data-full]');
+    if (hero) {
+      const open = (e) => {
+        e.stopPropagation();
+        openLightbox(hero.dataset.full, hero.dataset.caption || '');
+      };
+      hero.addEventListener('click', open);
+      hero.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(e); }
+      });
+    }
   }
 
   document.getElementById('btnTogglePanel').addEventListener('click', () => {
@@ -416,9 +456,22 @@
       e.stopPropagation();
       return;
     }
+    const thumb = e.target.closest('img.thumb[data-full]');
+    if (thumb) {
+      e.stopPropagation();
+      openLightbox(thumb.dataset.full, thumb.dataset.caption || '');
+      return;
+    }
     const li = e.target.closest('li[data-id]');
     if (!li) return;
     selectRestaurant(li.dataset.id, true);
+  });
+  el.list.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const thumb = e.target.closest('img.thumb[data-full]');
+    if (!thumb) return;
+    e.preventDefault();
+    openLightbox(thumb.dataset.full, thumb.dataset.caption || '');
   });
   el.list.addEventListener('change', (e) => {
     const tog = e.target.closest('[data-solo-toggle]');
@@ -438,7 +491,20 @@
     window.visualViewport.addEventListener('resize', () => resizeMap());
   }
 
-  fetch('data/restaurants.json?v=5')
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxClose = document.getElementById('lightboxClose');
+  if (lightboxClose) lightboxClose.addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target.id === 'lightboxCaption') closeLightbox();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  fetch('data/restaurants.json?v=6')
     .then((r) => r.json())
     .then((data) => {
       state.data = data;

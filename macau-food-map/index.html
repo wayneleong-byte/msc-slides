@@ -9,7 +9,7 @@
   <title>第十一屆我最愛餐廳選舉｜澳門美食地圖</title>
   <meta name="description" content="食客向互動地圖：第十一屆我最愛餐廳選舉獲獎餐廳，可按分類篩選，並以高德地圖導航。" />
   <link rel="stylesheet" href="assets/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="assets/app.css?v=5" />
+  <link rel="stylesheet" href="assets/app.css?v=6" />
 </head>
 <body class="view-map">
   <div id="app">
@@ -87,7 +87,13 @@
     </nav>
   </div>
 
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="圖片放大預覽">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="關閉">×</button>
+    <img id="lightboxImg" alt="餐廳圖片放大" />
+    <p id="lightboxCaption" class="lightbox-caption"></p>
+  </div>
+
   <script src="assets/leaflet/leaflet.js"></script>
-  <script src="assets/app.js?v=5"></script>
+  <script src="assets/app.js?v=6"></script>
 </body>
 </html>

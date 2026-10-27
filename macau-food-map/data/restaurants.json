@@ -6,14 +6,16 @@
     "map_note": "底圖：OpenStreetMap。導航／定位：高德地圖深連結（uri.amap.com）。本頁未載入高德 JS API（環境無可用 Key 時之相容方案）。",
     "generated_at": "2026-10-27",
     "counts": {
-      "restaurants": 146,
-      "with_coordinates": 30,
-      "with_address": 43,
-      "with_authoritative_link": 43,
-      "with_phone": 37
+      "restaurants": 168,
+      "with_coordinates": 168,
+      "with_address": 168,
+      "with_authoritative_link": 68,
+      "with_phone": 70,
+      "with_real_photo": 168,
+      "branches_added": 22
     },
     "updated": "2026-10-27",
-    "note": "Addresses/coords: MGTO where matched; otherwise curated/public listings marked 非官網來源. Intros are category-based or public-knowledge; award dishes used for signature when available."
+    "note": "Addresses/coords: MGTO where matched; otherwise curated/public listings marked 非官網來源. Intros are category-based or public-knowledge; award dishes used for signature when available. Photos: MGTO gallery where available; otherwise public-web images marked 圖片非官方. Multi-branch brands expanded with separate entries."
   },
   "filter_groups": [
     {
@@ -140,9 +142,8 @@
       "coord_note": "非官網來源（公開商戶／媒體報導近似位置）",
       "address_note": "非官網來源",
       "intro": "路環老字號茶座，以豬扒包聞名，遊客與本地人常到的平民美食點。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r001.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r002",
@@ -180,9 +181,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "港式茶餐廳風格，供應奶茶、常餐與快餐式粵菜。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r002.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r003",
@@ -225,7 +225,7 @@
     },
     {
       "id": "r004",
-      "name": "盛記白粥",
+      "name": "盛記白粥（雅廉訪總店）",
       "aliases": [],
       "awards": [
         {
@@ -242,30 +242,29 @@
         "我最愛老字號"
       ],
       "area": "澳門半島",
-      "address": "澳門提督馬路／高士德一帶",
-      "lat": 22.2045,
-      "lng": 113.544,
-      "phone": null,
+      "address": "澳門雅廉訪大馬路77號地下（幸運閣地面）",
+      "lat": 22.20185,
+      "lng": 113.5429,
+      "phone": "+853 2859 1056",
       "hours": null,
       "price_range": null,
       "signature": "白粥、炸兩",
       "links": {
         "official": null,
         "mgto": null,
-        "amap": "https://uri.amap.com/search?keyword=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
-        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%20%E6%BE%B3%E9%96%80"
+        "amap": "https://uri.amap.com/marker?position=113.5429,22.20185&name=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E9%9B%85%E5%BB%89%E8%A8%AA%E7%B8%BD%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E9%9B%85%E5%BB%89%E8%A8%AA%E7%B8%BD%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
       },
       "source": "第十一屆我最愛餐廳選舉名單",
-      "coord_note": "非官網來源（公開商戶近似位置）",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
       "address_note": "非官網來源",
       "intro": "澳門人氣老字號粥鋪，以白粥配小菜見稱。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r004.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r005",
-      "name": "榮記牛雜",
+      "name": "榮記牛雜（官也街店）",
       "aliases": [],
       "awards": [
         {
@@ -281,10 +280,10 @@
       "categories": [
         "我最愛老字號"
       ],
-      "area": "澳門半島",
-      "address": "澳門高士德／提督馬路一帶",
-      "lat": 22.2038,
-      "lng": 113.5435,
+      "area": "氹仔",
+      "address": "氹仔官也街9-D號",
+      "lat": 22.1539,
+      "lng": 113.5561,
       "phone": null,
       "hours": null,
       "price_range": null,
@@ -292,16 +291,15 @@
       "links": {
         "official": null,
         "mgto": null,
-        "amap": "https://uri.amap.com/search?keyword=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
-        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%20%E6%BE%B3%E9%96%80"
+        "amap": "https://uri.amap.com/marker?position=113.5561,22.1539&name=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%AE%98%E4%B9%9F%E8%A1%97%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%AE%98%E4%B9%9F%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
       },
       "source": "第十一屆我最愛餐廳選舉名單",
-      "coord_note": "非官網來源（公開商戶近似位置）",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
       "address_note": "非官網來源",
       "intro": "澳門經典街頭牛雜小食店，辛香濃郁。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r005.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r006",
@@ -339,9 +337,8 @@
       "coord_note": "非官網來源（公開商戶近似位置）",
       "address_note": "非官網來源",
       "intro": "澳門老字號小食店，豬扒包是招牌。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r006.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r007",
@@ -389,13 +386,12 @@
       "coord_note": null,
       "intro": "路氹倫敦人酒店內的美食廣場式餐飲點。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r007.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r008",
-      "name": "翠華餐廳",
+      "name": "翠華餐廳（銀河店）",
       "aliases": [],
       "awards": [
         {
@@ -411,10 +407,10 @@
       "categories": [
         "我最愛酒店餐廳"
       ],
-      "area": "澳門半島",
-      "address": "COTAI, Nascente da Avenida Marginal Flor de Lótus e a Sul da Estrada da Baía de Nossa Senhora da Esperança, loja G45 do r/c (G/F) do Hotel \"GALÁXIA\"",
-      "lat": 22.1497863161629,
-      "lng": 113.553067445755,
+      "area": "路氹",
+      "address": "路氹望德聖母灣大馬路澳門銀河地面層G45／G51舖",
+      "lat": 22.14979,
+      "lng": 113.55307,
       "phone": "+853 8883 2268",
       "hours": "24 Hours",
       "price_range": null,
@@ -422,16 +418,14 @@
       "links": {
         "official": "https://www.tsuiwah.com/",
         "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/11341",
-        "amap": "https://uri.amap.com/marker?position=113.553067445755,22.1497863161629&name=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3&src=macau-food-map",
-        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80"
+        "amap": "https://uri.amap.com/marker?position=113.55307,22.14979&name=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E9%8A%80%E6%B2%B3%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E9%8A%80%E6%B2%B3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
       },
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
-      "coord_note": null,
+      "coord_note": "非官網來源（分店公開地址近似座標）",
       "intro": "港澳知名茶餐廳連鎖，澳門多處有分店。",
-      "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r008.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r009",
@@ -469,9 +463,8 @@
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛酒店餐廳）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r009.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r010",
@@ -548,9 +541,8 @@
       "coord_note": "非官網來源（永利皇宮範圍）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛自助餐、放題）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r011.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r012",
@@ -627,9 +619,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "手搖／現調茶飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r013.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r014",
@@ -667,9 +658,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "手搖／現調茶飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r014.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r015",
@@ -707,9 +697,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "手搖／現調茶飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r015.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r016",
@@ -747,9 +736,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "社區麵食店，主打平民粉麵。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r016.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r017",
@@ -787,9 +775,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "主打粉麵類的本地食肆。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r017.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r018",
@@ -827,9 +814,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "主打粉麵類的本地食肆。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r018.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r019",
@@ -867,9 +853,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "本地粥品店，常列「我最愛粥品」相關獲獎。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r019.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r020",
@@ -907,9 +892,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "以粥品為主的食肆。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r020.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r021",
@@ -947,9 +931,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "以粥品為主的食肆。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r021.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r022",
@@ -987,9 +970,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "燒味／燒臘為主的食肆。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r022.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r023",
@@ -1027,9 +1009,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "燒味／燒臘為主的食肆。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r023.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r024",
@@ -1067,9 +1048,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "燒味／燒臘為主的食肆。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r024.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r025",
@@ -1115,9 +1095,8 @@
       "coord_note": null,
       "intro": "社區人氣餐飲店。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r025.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r026",
@@ -1155,9 +1134,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛茶樓酒家）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r026.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r027",
@@ -1203,9 +1181,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "社區人氣餐飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r027.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r028",
@@ -1251,9 +1228,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "人氣火鍋店，亦見於心動味力相關榜單。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r028.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r029",
@@ -1330,9 +1306,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "火鍋專門店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r030.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r031",
@@ -1370,9 +1345,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛海鮮小炒）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r031.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r032",
@@ -1488,9 +1462,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "街頭小食風格，方便即食。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r034.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r035",
@@ -1528,9 +1501,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "街頭小食風格，方便即食。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r035.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r036",
@@ -1568,9 +1540,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "街頭小食風格，方便即食。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r036.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r037",
@@ -1725,13 +1696,12 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "甜品專門店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r040.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r041",
-      "name": "楊枝金撈甜品",
+      "name": "楊枝金撈甜品（氹仔泉澧店）",
       "aliases": [],
       "awards": [
         {
@@ -1747,24 +1717,23 @@
       "categories": [
         "我最愛甜品"
       ],
-      "area": "澳門半島",
-      "address": "AVENIDA DR. SUN YAT SEN N.°S 606 E 602, CHUN LAI GARDEN R/C E K/C C, R/C D, TAIPA.",
-      "lat": 22.161493675854597,
-      "lng": 113.55606079101562,
-      "phone": "+853 6668 0348",
+      "area": "氹仔",
+      "address": "氹仔孫逸仙博士大馬路606號泉澧花園地下C",
+      "lat": 22.16149,
+      "lng": 113.55606,
+      "phone": "+853 2856 3080",
       "hours": "24 hours",
       "price_range": null,
       "signature": null,
       "links": {
-        "official": null,
+        "official": "https://goldenmixdesserts.com/shops/",
         "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
-        "amap": "https://uri.amap.com/marker?position=113.55606079101562,22.161493675854597&name=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81&src=macau-food-map",
-        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%20%E6%BE%B3%E9%96%80"
+        "amap": "https://uri.amap.com/marker?position=113.55606,22.16149&name=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B0%B9%E4%BB%94%E6%B3%89%E6%BE%A7%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B0%B9%E4%BB%94%E6%B3%89%E6%BE%A7%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
       },
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
-      "coord_note": null,
+      "coord_note": "非官網來源（分店公開地址近似座標）",
       "intro": "甜品專門店。",
-      "address_note": null,
       "photo": "assets/photos/r041.jpg",
       "photo_note": "澳門旅遊局公開圖"
     },
@@ -1804,9 +1773,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "甜品專門店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r042.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r043",
@@ -1844,13 +1812,12 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "烘焙／餅店。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r043.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r044",
-      "name": "美心餅店",
+      "name": "美心餅店（水坑尾店）",
       "aliases": [],
       "awards": [
         {
@@ -1867,26 +1834,25 @@
         "我最愛烘焙店"
       ],
       "area": "澳門半島",
-      "address": "澳門多間分店（以地圖搜尋為準）",
-      "lat": 22.1935,
-      "lng": 113.5415,
-      "phone": null,
+      "address": "澳門水坑尾街112號地下",
+      "lat": 22.1958,
+      "lng": 113.5432,
+      "phone": "+853 2838 5883",
       "hours": null,
       "price_range": null,
       "signature": "蛋撻、蛋糕",
       "links": {
         "official": "https://www.maxims.com.hk/",
         "mgto": null,
-        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
-        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%20%E6%BE%B3%E9%96%80"
+        "amap": "https://uri.amap.com/marker?position=113.5432,22.1958&name=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E6%B0%B4%E5%9D%91%E5%B0%BE%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E6%B0%B4%E5%9D%91%E5%B0%BE%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
       },
       "source": "第十一屆我最愛餐廳選舉名單",
-      "coord_note": "非官網來源（連鎖代表點）",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
       "address_note": "非官網來源",
       "intro": "港澳知名烘焙連鎖，澳門多處有分店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r044.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r045",
@@ -1924,9 +1890,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "烘焙／餅店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r045.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r046",
@@ -1964,9 +1929,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "日本料理餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r046.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r047",
@@ -2004,9 +1968,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "日本料理餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r047.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r048",
@@ -2044,9 +2007,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "日本料理餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r048.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r049",
@@ -2084,9 +2046,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "東南亞風味餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r049.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r050",
@@ -2124,9 +2085,8 @@
       "coord_note": "座標為酒店範圍約略位置",
       "intro": "東南亞風味餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r050.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r051",
@@ -2164,9 +2124,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "東南亞風味餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r051.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r052",
@@ -2204,9 +2163,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "西式餐飲。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r052.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r053",
@@ -2244,9 +2202,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "西式餐飲。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r053.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r054",
@@ -2284,9 +2241,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "西式餐飲。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r054.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r055",
@@ -2324,9 +2280,8 @@
       "coord_note": "非官網來源（路環一帶（待精準））",
       "intro": "葡國菜／澳葡風味餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r055.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r056",
@@ -2364,9 +2319,8 @@
       "coord_note": null,
       "intro": "葡國菜／澳葡風味餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r056.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r057",
@@ -2414,9 +2368,8 @@
       "coord_note": "非官網來源（公開商戶近似位置）",
       "address_note": "非官網來源",
       "intro": "澳門老牌葡國菜咖啡室，本地人常去的平民葡餐。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r057.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r058",
@@ -2454,9 +2407,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "川湘風味餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r058.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r059",
@@ -2494,9 +2446,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "川湘風味餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r059.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r060",
@@ -2534,9 +2485,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "川湘風味餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r060.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r061",
@@ -2574,9 +2524,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "韓國料理餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r061.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r062",
@@ -2614,9 +2563,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "韓國料理餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r062.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r063",
@@ -2693,9 +2641,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "燒烤專門店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r064.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r065",
@@ -2751,9 +2698,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "烤肉／燒肉酒吧風格，曾入選心動味力相關榜單。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r065.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r066",
@@ -2791,9 +2737,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "燒烤專門店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r066.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r067",
@@ -2831,9 +2776,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "酒吧／餐酒館。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r067.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r068",
@@ -2871,9 +2815,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "酒吧／餐酒館。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r068.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r069",
@@ -2911,9 +2854,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "酒吧／餐酒館。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r069.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r070",
@@ -2951,9 +2893,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "創意／私房菜風格餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r070.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r071",
@@ -2991,9 +2932,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "創意／私房菜風格餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r071.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r072",
@@ -3031,9 +2971,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "創意／私房菜風格餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r072.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r073",
@@ -3071,9 +3010,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "素食餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r073.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r074",
@@ -3120,9 +3058,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "素食餐廳，曾以創新素菜獲金蓮花菜式獎。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r074.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r075",
@@ -3160,9 +3097,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "素食餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r075.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r076",
@@ -3218,9 +3154,8 @@
       "coord_note": null,
       "intro": "澳門南灣老牌土生葡菜餐廳，非洲雞等經典菜式廣為人知。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r076.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r077",
@@ -3268,9 +3203,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r077.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r078",
@@ -3310,9 +3244,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r078.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r079",
@@ -3350,9 +3283,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r079.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r080",
@@ -3392,9 +3324,8 @@
       "coord_note": "非官網來源",
       "address_note": null,
       "intro": "南洋風味咖啡室，亦見於心動味力相關榜單。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r080.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r081",
@@ -3432,9 +3363,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r081.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r082",
@@ -3480,9 +3410,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "社區茶餐廳，強調搭枱共桌的本地用餐氣氛。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r082.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r083",
@@ -3539,9 +3468,8 @@
       "coord_note": "非官網來源（公開商戶近似位置）",
       "address_note": "非官網來源",
       "intro": "近新馬路的老牌飯店，水蟹粥為人熟悉。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r083.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r084",
@@ -3596,9 +3524,8 @@
       "coord_note": "非官網來源（街名公開位置）",
       "address_note": "非官網來源",
       "intro": "地堡街人氣茶餐廳，干免治牛肉飯曾獲獎。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r084.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r085",
@@ -3638,9 +3565,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r085.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r086",
@@ -3680,13 +3606,12 @@
       "coord_note": "非官網來源（官也街一帶）",
       "intro": "曾入選心動味力相關榜單的餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r086.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r087",
-      "name": "銀龍粉麵咖啡",
+      "name": "銀龍粉麵咖啡（連勝店）",
       "aliases": [],
       "awards": [
         {
@@ -3703,26 +3628,25 @@
         "心動味力榜"
       ],
       "area": "澳門半島",
-      "address": "澳門多間分店（以地圖為準）",
-      "lat": 22.1952,
-      "lng": 113.5438,
-      "phone": null,
+      "address": "澳門連勝馬路24號德利閣地下A及閣仔",
+      "lat": 22.2005,
+      "lng": 113.5408,
+      "phone": "+853 2835 7702",
       "hours": null,
       "price_range": null,
       "signature": null,
       "links": {
         "official": null,
         "mgto": null,
-        "amap": "https://uri.amap.com/search?keyword=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
-        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80"
+        "amap": "https://uri.amap.com/marker?position=113.5408,22.2005&name=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E9%80%A3%E5%8B%9D%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E9%80%A3%E5%8B%9D%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
       },
       "source": "第十一屆我最愛餐廳選舉名單",
-      "coord_note": "非官網來源（連鎖）",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
       "address_note": "非官網來源",
       "intro": "港澳粉麵咖啡連鎖，提供常規粵式粉麵與茶記菜式。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r087.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r088",
@@ -3760,9 +3684,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "港式冰室風格，供應奶茶、多士與常餐。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r088.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r089",
@@ -3800,9 +3723,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "社區冰室，港式茶飲與常餐為主。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r089.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r090",
@@ -3842,9 +3764,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r090.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r091",
@@ -3882,9 +3803,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r091.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r092",
@@ -3930,9 +3850,8 @@
       "coord_note": null,
       "intro": "曾入選心動味力相關榜單的餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r092.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r093",
@@ -3980,9 +3899,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "曾入選心動味力相關榜單的餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r093.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r094",
@@ -4020,9 +3938,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r094.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r095",
@@ -4060,9 +3977,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "曾入選心動味力相關榜單的餐廳。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r095.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r096",
@@ -4110,9 +4026,8 @@
       "coord_note": "非官網來源（荔枝碗村公開地標）",
       "address_note": "非官網來源",
       "intro": "路環荔枝碗村一帶的餐飲點，結合漁村氛圍。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r096.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r097",
@@ -4150,9 +4065,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r097.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r098",
@@ -4190,9 +4104,8 @@
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r098.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r099",
@@ -4238,9 +4151,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10、中國文旅金馬獎·年度傑出創意餐飲品牌）。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r099.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r100",
@@ -4278,9 +4190,8 @@
       "coord_note": "非官網來源（活動式場地）",
       "address_note": "非官網來源",
       "intro": "懸空餐桌體驗式餐廳，場地或隨活動調整。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r100.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r101",
@@ -4318,9 +4229,8 @@
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r101.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r102",
@@ -4366,9 +4276,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "本地牛雜小食店，曾獲相關名菜／榜單肯定。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r102.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r103",
@@ -4411,9 +4320,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "澳門手信店，以肉乾與蛋捲等傳統小食見稱。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r103.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r104",
@@ -4452,9 +4360,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "以創意豬扒飯聞名的本地食肆。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r104.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r105",
@@ -4493,9 +4400,8 @@
       "coord_note": "非官網來源（連勝一帶）",
       "address_note": "非官網來源",
       "intro": "以手拉奶茶聞名的社區茶飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r105.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r106",
@@ -4538,9 +4444,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "本地手信品牌，蛋捲與曲奇是常見伴手禮。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r106.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r107",
@@ -4578,9 +4483,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（中國文旅金馬獎·名菜獎）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r107.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r108",
@@ -4618,9 +4522,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（中國文旅金馬獎·名菜獎）。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r108.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r109",
@@ -4658,9 +4561,8 @@
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 上葡京綜合度假村）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r109.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r110",
@@ -4698,9 +4600,8 @@
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 新濠影滙）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r110.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r111",
@@ -4738,9 +4639,8 @@
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 永利皇宮）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r111.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r112",
@@ -4778,9 +4678,8 @@
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 澳門銀河）。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r112.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r113",
@@ -4896,9 +4795,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "遊客常到的餐飲點。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r115.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r116",
@@ -4936,9 +4834,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "遊客常到的餐飲點。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r116.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r117",
@@ -4976,9 +4873,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "遊客常到的餐飲點。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r117.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r118",
@@ -5016,9 +4912,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "遊客常到的餐飲點。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r118.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r119",
@@ -5056,9 +4951,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "氹仔風格大排檔，主打海鮮與家常粵菜氣氛。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r119.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r120",
@@ -5096,9 +4990,8 @@
       "coord_note": "非官網來源（官也街）",
       "address_note": "非官網來源",
       "intro": "官也街分店，方便遊客的大排檔式用餐。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r120.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r121",
@@ -5175,9 +5068,8 @@
       "coord_note": "非官網來源（氹仔）",
       "intro": "遊客常到的餐飲點。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r122.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r123",
@@ -5215,9 +5107,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "遊客常到的餐飲點。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r123.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r124",
@@ -5255,9 +5146,8 @@
       "coord_note": "非官網來源（百老匯一帶）",
       "intro": "遊客常到的餐飲點。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r124.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r125",
@@ -5295,9 +5185,8 @@
       "coord_note": "非官網來源（百老匯範圍）",
       "address_note": "非官網來源",
       "intro": "百老匯商場內的咖啡美食店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r125.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r126",
@@ -5335,9 +5224,8 @@
       "coord_note": "非官網來源（官也街公開商戶）",
       "address_note": "非官網來源",
       "intro": "氹仔官也街知名甜品店，木糠布甸與蛋撻為招牌。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r126.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r127",
@@ -5375,9 +5263,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "遊客常到的餐飲點。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r127.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r128",
@@ -5415,9 +5302,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "遊客常到的餐飲點。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r128.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r129",
@@ -5455,9 +5341,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "以豆腐麵聞名的平民麵食店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r129.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r130",
@@ -5495,9 +5380,8 @@
       "coord_note": "非官網來源（大三巴一帶）",
       "address_note": "非官網來源",
       "intro": "大三巴景點附近的街頭小食，胡椒餅是招牌。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r130.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r131",
@@ -5535,9 +5419,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "遊客常到的餐飲點。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r131.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r132",
@@ -5575,9 +5458,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "旅遊區常見的本地小食／手信風格商戶。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r132.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r133",
@@ -5654,13 +5536,12 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "社區人氣餐飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r134.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r135",
-      "name": "澳門王子冰室",
+      "name": "澳門王子冰室（上葡京店）",
       "aliases": [],
       "awards": [
         {
@@ -5677,9 +5558,9 @@
         "社區餐飲名店"
       ],
       "area": "氹仔",
-      "address": "路氹填海區，射擊路，溜冰路，網球路及機場大馬路，\"上葡京\"酒店二樓",
-      "lat": 22.1965,
-      "lng": 113.5405,
+      "address": "氹仔射擊路上葡京2樓",
+      "lat": 22.1458,
+      "lng": 113.5602,
       "phone": "+853 8881 0710",
       "hours": null,
       "price_range": null,
@@ -5687,16 +5568,15 @@
       "links": {
         "official": null,
         "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/14525",
-        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
-        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80"
+        "amap": "https://uri.amap.com/marker?position=113.5602,22.1458&name=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
       },
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
-      "coord_note": "非官網來源",
-      "address_note": null,
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
       "intro": "本地冰室，港式茶記風格。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r135.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r136",
@@ -5734,9 +5614,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "社區人氣餐飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r136.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r137",
@@ -5774,9 +5653,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "社區人氣餐飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r137.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r138",
@@ -5814,9 +5692,8 @@
       "coord_note": null,
       "intro": "社區人氣餐飲店。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r138.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r139",
@@ -5854,9 +5731,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "社區冰室，常見港式奶茶與常餐。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r139.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r140",
@@ -5894,9 +5770,8 @@
       "coord_note": "非官網來源（待精準）",
       "intro": "社區人氣餐飲店。",
       "address_note": null,
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r140.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r141",
@@ -5934,9 +5809,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "社區人氣餐飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r141.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r142",
@@ -5974,9 +5848,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "社區人氣餐飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r142.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r143",
@@ -6014,9 +5887,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "社區人氣餐飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r143.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r144",
@@ -6054,9 +5926,8 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "社區人氣餐飲店。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r144.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r145",
@@ -6094,9 +5965,8 @@
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
       "intro": "以「馬交」為名的本地冰室。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r145.jpg",
+      "photo_note": "圖片非官方"
     },
     {
       "id": "r146",
@@ -6134,9 +6004,866 @@
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳藥膳湯水）。",
-      "photo": "assets/photos/placeholder.jpg",
-      "photo_note": "示意圖／非官網",
-      "photo_is_placeholder": true
+      "photo": "assets/photos/r146.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r147",
+      "name": "盛記白粥（台山店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門台山巴波沙大馬路264號南惠閣第二座",
+      "lat": 22.2108,
+      "lng": 113.5482,
+      "phone": "+853 2840 3931",
+      "hours": null,
+      "price_range": null,
+      "signature": "白粥、炸兩",
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5482,22.2108&name=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E5%8F%B0%E5%B1%B1%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E5%8F%B0%E5%B1%B1%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "澳門人氣老字號粥鋪，以白粥配小菜見稱。",
+      "photo": "assets/photos/r147.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r148",
+      "name": "盛記白粥（氹仔店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "氹仔",
+      "address": "氹仔孫逸仙博士大馬路257號利民大廈地下D",
+      "lat": 22.1598,
+      "lng": 113.5564,
+      "phone": "+853 2853 5127",
+      "hours": null,
+      "price_range": null,
+      "signature": "白粥、炸兩",
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5564,22.1598&name=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E6%B0%B9%E4%BB%94%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E6%B0%B9%E4%BB%94%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "澳門人氣老字號粥鋪，以白粥配小菜見稱。",
+      "photo": "assets/photos/r148.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r149",
+      "name": "榮記牛雜（大三巴店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門大三巴右街龍珠大廈地下B舖",
+      "lat": 22.1978,
+      "lng": 113.5407,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": "牛雜",
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5407,22.1978&name=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%A4%A7%E4%B8%89%E5%B7%B4%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%A4%A7%E4%B8%89%E5%B7%B4%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "澳門經典街頭牛雜小食店，辛香濃郁。",
+      "photo": "assets/photos/r149.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r150",
+      "name": "榮記牛雜（北京街店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門北京街159號海冠中心地下T號舖",
+      "lat": 22.1918,
+      "lng": 113.5458,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": "牛雜",
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5458,22.1918&name=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%8C%97%E4%BA%AC%E8%A1%97%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%8C%97%E4%BA%AC%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "澳門經典街頭牛雜小食店，辛香濃郁。",
+      "photo": "assets/photos/r150.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r151",
+      "name": "榮記牛雜（科英布拉街店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門科英布拉街503號百德大廈B室地下U",
+      "lat": 22.1885,
+      "lng": 113.5502,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": "牛雜",
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5502,22.1885&name=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E7%A7%91%E8%8B%B1%E5%B8%83%E6%8B%89%E8%A1%97%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E7%A7%91%E8%8B%B1%E5%B8%83%E6%8B%89%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "澳門經典街頭牛雜小食店，辛香濃郁。",
+      "photo": "assets/photos/r151.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r152",
+      "name": "榮記牛雜（上葡京店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "氹仔",
+      "address": "氹仔射擊路上葡京2樓",
+      "lat": 22.1458,
+      "lng": 113.5602,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": "牛雜",
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5602,22.1458&name=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "澳門經典街頭牛雜小食店，辛香濃郁。",
+      "photo": "assets/photos/r152.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r153",
+      "name": "翠華餐廳（百老匯店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒店餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒店餐廳"
+      ],
+      "area": "路氹",
+      "address": "路氹蓮花海濱大馬路百老匯美食街E-G009-15號舖",
+      "lat": 22.1452,
+      "lng": 113.5598,
+      "phone": "+853 8883 1828",
+      "hours": "24 Hours",
+      "price_range": null,
+      "signature": "港式茶餐廳常餐",
+      "links": {
+        "official": "https://www.tsuiwah.com/index.php/tc/shoplocation/tsuiwah-broadway",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/11341",
+        "amap": "https://uri.amap.com/marker?position=113.5598,22.1452&name=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E7%99%BE%E8%80%81%E5%8C%AF%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E7%99%BE%E8%80%81%E5%8C%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": "港澳知名茶餐廳連鎖，澳門多處有分店。",
+      "photo": "assets/photos/r153.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源"
+    },
+    {
+      "id": "r154",
+      "name": "翠華餐廳（星際店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒店餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒店餐廳"
+      ],
+      "area": "澳門半島",
+      "address": "澳門仙德麗街338號星際酒店1樓",
+      "lat": 22.1929,
+      "lng": 113.5508,
+      "phone": "+853 8290 8686",
+      "hours": "24 Hours",
+      "price_range": null,
+      "signature": "港式茶餐廳常餐",
+      "links": {
+        "official": "https://www.tsuiwah.com/index.php/tc/shoplocation/tsuiwah-stars",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/11341",
+        "amap": "https://uri.amap.com/marker?position=113.5508,22.1929&name=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E6%98%9F%E9%9A%9B%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E6%98%9F%E9%9A%9B%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": "港澳知名茶餐廳連鎖，澳門多處有分店。",
+      "photo": "assets/photos/r154.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源"
+    },
+    {
+      "id": "r155",
+      "name": "楊枝金撈甜品（沙梨頭總店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "澳門半島",
+      "address": "澳門爹美刁施拿地大馬路31-B號樂斯大廈地下J座",
+      "lat": 22.2008,
+      "lng": 113.5368,
+      "phone": "+853 2895 0543",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/marker?position=113.5368,22.2008&name=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B2%99%E6%A2%A8%E9%A0%AD%E7%B8%BD%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B2%99%E6%A2%A8%E9%A0%AD%E7%B8%BD%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": "甜品專門店。",
+      "photo": "assets/photos/r155.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源"
+    },
+    {
+      "id": "r156",
+      "name": "楊枝金撈甜品（高士德培正店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "澳門半島",
+      "address": "澳門賈伯樂提督街36B-36C號永昌大廈BR/C",
+      "lat": 22.2039,
+      "lng": 113.5442,
+      "phone": "+853 2822 6822",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/marker?position=113.5442,22.2039&name=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E9%AB%98%E5%A3%AB%E5%BE%B7%E5%9F%B9%E6%AD%A3%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E9%AB%98%E5%A3%AB%E5%BE%B7%E5%9F%B9%E6%AD%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": "甜品專門店。",
+      "photo": "assets/photos/r156.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源"
+    },
+    {
+      "id": "r157",
+      "name": "楊枝金撈甜品（黑沙環廣華店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "澳門半島",
+      "address": "澳門黑沙環新街501號廣華新邨第2座地下B座",
+      "lat": 22.2095,
+      "lng": 113.5528,
+      "phone": "+853 2876 8536",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/marker?position=113.5528,22.2095&name=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E9%BB%91%E6%B2%99%E7%92%B0%E5%BB%A3%E8%8F%AF%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E9%BB%91%E6%B2%99%E7%92%B0%E5%BB%A3%E8%8F%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": "甜品專門店。",
+      "photo": "assets/photos/r157.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源"
+    },
+    {
+      "id": "r158",
+      "name": "楊枝金撈甜品（氹仔泉鴻外賣店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "氹仔",
+      "address": "氹仔孫逸仙博士大馬路696號泉鴻花園福苑地下C鋪",
+      "lat": 22.1605,
+      "lng": 113.5578,
+      "phone": "+853 6282 4020",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/marker?position=113.5578,22.1605&name=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B0%B9%E4%BB%94%E6%B3%89%E9%B4%BB%E5%A4%96%E8%B3%A3%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B0%B9%E4%BB%94%E6%B3%89%E9%B4%BB%E5%A4%96%E8%B3%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": "甜品專門店。",
+      "photo": "assets/photos/r158.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源"
+    },
+    {
+      "id": "r159",
+      "name": "美心餅店（二龍喉店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門士多鳥拜斯大馬路22B號平安大廈地下",
+      "lat": 22.2002,
+      "lng": 113.5478,
+      "phone": "+853 2857 1149",
+      "hours": null,
+      "price_range": null,
+      "signature": "蛋撻、蛋糕",
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5478,22.2002&name=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E4%BA%8C%E9%BE%8D%E5%96%89%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E4%BA%8C%E9%BE%8D%E5%96%89%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "港澳知名烘焙連鎖，澳門多處有分店。",
+      "photo": "assets/photos/r159.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r160",
+      "name": "美心餅店（南灣店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門南灣大馬路623號時代商業中心地下",
+      "lat": 22.1908,
+      "lng": 113.5422,
+      "phone": "+853 2851 0708",
+      "hours": null,
+      "price_range": null,
+      "signature": "蛋撻、蛋糕",
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5422,22.1908&name=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E5%8D%97%E7%81%A3%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E5%8D%97%E7%81%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "港澳知名烘焙連鎖，澳門多處有分店。",
+      "photo": "assets/photos/r160.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r161",
+      "name": "美心餅店（新橋店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門渡船街14號F地下",
+      "lat": 22.1992,
+      "lng": 113.5392,
+      "phone": "+853 2857 6902",
+      "hours": null,
+      "price_range": null,
+      "signature": "蛋撻、蛋糕",
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5392,22.1992&name=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E6%96%B0%E6%A9%8B%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E6%96%B0%E6%A9%8B%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "港澳知名烘焙連鎖，澳門多處有分店。",
+      "photo": "assets/photos/r161.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r162",
+      "name": "美心餅店（祐漢店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門祐漢新邨第三街順利樓第1座地下A009室",
+      "lat": 22.2108,
+      "lng": 113.5522,
+      "phone": "+853 2841 5484",
+      "hours": null,
+      "price_range": null,
+      "signature": "蛋撻、蛋糕",
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5522,22.2108&name=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E7%A5%90%E6%BC%A2%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E7%A5%90%E6%BC%A2%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "港澳知名烘焙連鎖，澳門多處有分店。",
+      "photo": "assets/photos/r162.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r163",
+      "name": "美心餅店（至尊花城店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "氹仔",
+      "address": "氹仔成都街171-175號至尊花城地下",
+      "lat": 22.1578,
+      "lng": 113.5552,
+      "phone": "+853 2884 2586",
+      "hours": null,
+      "price_range": null,
+      "signature": "蛋撻、蛋糕",
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5552,22.1578&name=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E8%87%B3%E5%B0%8A%E8%8A%B1%E5%9F%8E%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E8%87%B3%E5%B0%8A%E8%8A%B1%E5%9F%8E%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "港澳知名烘焙連鎖，澳門多處有分店。",
+      "photo": "assets/photos/r163.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r164",
+      "name": "銀龍粉麵咖啡（渡船街店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": "澳門渡船街9號地下C舖",
+      "lat": 22.1992,
+      "lng": 113.5392,
+      "phone": "+853 2835 8919",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5392,22.1992&name=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E6%B8%A1%E8%88%B9%E8%A1%97%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E6%B8%A1%E8%88%B9%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "港澳粉麵咖啡連鎖，提供常規粵式粉麵與茶記菜式。",
+      "photo": "assets/photos/r164.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r165",
+      "name": "銀龍粉麵咖啡（南新店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "氹仔",
+      "address": "氹仔廣東大馬路154F-154G號南新花園第四座地下C舖",
+      "lat": 22.1568,
+      "lng": 113.5548,
+      "phone": "+853 2882 0593",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5548,22.1568&name=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E5%8D%97%E6%96%B0%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E5%8D%97%E6%96%B0%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "港澳粉麵咖啡連鎖，提供常規粵式粉麵與茶記菜式。",
+      "photo": "assets/photos/r165.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r166",
+      "name": "銀龍粉麵咖啡（美景花園店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "氹仔",
+      "address": "氹仔布拉干薩街37-Y號美景花園",
+      "lat": 22.1588,
+      "lng": 113.5568,
+      "phone": "+853 2835 7702",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/marker?position=113.5568,22.1588&name=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E7%BE%8E%E6%99%AF%E8%8A%B1%E5%9C%92%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E7%BE%8E%E6%99%AF%E8%8A%B1%E5%9C%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "港澳粉麵咖啡連鎖，提供常規粵式粉麵與茶記菜式。",
+      "photo": "assets/photos/r166.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r167",
+      "name": "澳門王子冰室（濠景花園店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "氹仔",
+      "address": "氹仔成都街297-303號濠景花園第21、23座地下F",
+      "lat": 22.1565,
+      "lng": 113.5568,
+      "phone": "+853 8881 0710",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/14525",
+        "amap": "https://uri.amap.com/marker?position=113.5568,22.1565&name=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E6%BF%A0%E6%99%AF%E8%8A%B1%E5%9C%92%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E6%BF%A0%E6%99%AF%E8%8A%B1%E5%9C%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "本地冰室，港式茶記風格。",
+      "photo": "assets/photos/r167.jpg",
+      "photo_note": "圖片非官方"
+    },
+    {
+      "id": "r168",
+      "name": "澳門王子冰室（皇朝店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門倫敦路10號萬裕花園地下O舖",
+      "lat": 22.18814,
+      "lng": 113.5523,
+      "phone": "+853 2828 3310",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/14525",
+        "amap": "https://uri.amap.com/marker?position=113.5523,22.18814&name=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E7%9A%87%E6%9C%9D%E5%BA%97%EF%BC%89&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E7%9A%87%E6%9C%9D%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": "本地冰室，港式茶記風格。",
+      "photo": "assets/photos/r168.jpg",
+      "photo_note": "圖片非官方"
     }
   ]
 }
