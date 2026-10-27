@@ -1,5 +1,6 @@
 (() => {
   const MACAU_CENTER = [22.175, 113.55];
+  const MQ = window.matchMedia('(max-width: 899px)');
   const state = {
     data: null,
     groups: new Set(),
@@ -8,6 +9,7 @@
     q: '',
     markers: {},
     activeId: null,
+    view: 'map', // map | list (mobile)
   };
 
   const el = {
@@ -21,9 +23,17 @@
     areaFilters: document.getElementById('areaFilters'),
     detail: document.getElementById('detail'),
     detailBody: document.getElementById('detailBody'),
+    btnModeMap: document.getElementById('btnModeMap'),
+    btnModeList: document.getElementById('btnModeList'),
+    navMap: document.getElementById('navMap'),
+    navList: document.getElementById('navList'),
   };
 
-  const map = L.map('map', { zoomControl: false, attributionControl: true }).setView(MACAU_CENTER, 12);
+  const map = L.map('map', {
+    zoomControl: false,
+    attributionControl: true,
+    tap: true,
+  }).setView(MACAU_CENTER, 12);
   L.control.zoom({ position: 'topright' }).addTo(map);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -43,6 +53,41 @@
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  function isMobile() {
+    return MQ.matches;
+  }
+
+  function setView(mode) {
+    state.view = mode === 'list' ? 'list' : 'map';
+    document.body.classList.toggle('view-map', state.view === 'map');
+    document.body.classList.toggle('view-list', state.view === 'list');
+    if (el.btnModeMap) {
+      el.btnModeMap.classList.toggle('on', state.view === 'map');
+      el.btnModeMap.setAttribute('aria-selected', state.view === 'map' ? 'true' : 'false');
+    }
+    if (el.btnModeList) {
+      el.btnModeList.classList.toggle('on', state.view === 'list');
+      el.btnModeList.setAttribute('aria-selected', state.view === 'list' ? 'true' : 'false');
+    }
+    if (el.navMap) {
+      el.navMap.classList.toggle('on', state.view === 'map');
+      if (state.view === 'map') el.navMap.setAttribute('aria-current', 'page');
+      else el.navMap.removeAttribute('aria-current');
+    }
+    if (el.navList) {
+      el.navList.classList.toggle('on', state.view === 'list');
+      if (state.view === 'list') el.navList.setAttribute('aria-current', 'page');
+      else el.navList.removeAttribute('aria-current');
+    }
+    if (state.view === 'map') {
+      requestAnimationFrame(() => {
+        map.invalidateSize({ animate: false });
+        setTimeout(() => map.invalidateSize({ animate: false }), 80);
+        setTimeout(() => map.invalidateSize({ animate: false }), 320);
+      });
+    }
   }
 
   function matches(r) {
@@ -117,8 +162,9 @@
       bounds.push([r.lat, r.lng]);
     });
     el.pinHint.textContent = `地圖標記 ${withPin.length}／目前 ${rows.length} 間`;
+    map.invalidateSize({ animate: false });
     if (bounds.length >= 2) {
-      try { map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 }); } catch (_) {}
+      try { map.fitBounds(bounds, { padding: [36, 36], maxZoom: 14 }); } catch (_) {}
     } else if (bounds.length === 1) {
       map.setView(bounds[0], 15);
     }
@@ -139,13 +185,16 @@
       li.classList.toggle('active', li.dataset.id === id);
     });
     showDetail(r);
-    if (r.lat != null && r.lng != null) {
-      if (pan) map.setView([r.lat, r.lng], Math.max(map.getZoom(), 15), { animate: true });
-      const m = state.markers[id];
-      if (m) m.openTooltip();
+    if (isMobile()) {
+      setView('map');
     }
-    if (window.innerWidth < 900) {
-      el.panel.classList.remove('open');
+    if (r.lat != null && r.lng != null) {
+      requestAnimationFrame(() => {
+        map.invalidateSize({ animate: false });
+        if (pan) map.setView([r.lat, r.lng], Math.max(map.getZoom(), 15), { animate: true });
+        const m = state.markers[id];
+        if (m) m.openTooltip();
+      });
     }
   }
 
@@ -190,21 +239,28 @@
     el.detail.classList.remove('hidden');
   }
 
+  function clearFilters() {
+    state.groups.clear(); state.areas.clear(); state.cats.clear();
+    state.q = ''; el.search.value = '';
+    renderChips(); refresh();
+  }
+
   document.getElementById('btnTogglePanel').addEventListener('click', () => {
-    el.panel.classList.toggle('open');
+    setView(state.view === 'list' ? 'map' : 'list');
   });
   document.getElementById('btnCloseDetail').addEventListener('click', () => {
     el.detail.classList.add('hidden');
     state.activeId = null;
   });
-  document.getElementById('btnClear').addEventListener('click', () => {
-    state.groups.clear(); state.areas.clear(); state.cats.clear();
-    state.q = ''; el.search.value = '';
-    renderChips(); refresh();
-  });
+  document.getElementById('btnClear').addEventListener('click', clearFilters);
   document.getElementById('btnToggleCats').addEventListener('click', () => {
     el.catFilters.classList.toggle('hidden');
   });
+  el.btnModeMap.addEventListener('click', () => setView('map'));
+  el.btnModeList.addEventListener('click', () => setView('list'));
+  el.navMap.addEventListener('click', () => setView('map'));
+  el.navList.addEventListener('click', () => setView('list'));
+
   el.search.addEventListener('input', () => {
     state.q = el.search.value.trim().toLowerCase();
     refresh();
@@ -239,18 +295,33 @@
     selectRestaurant(li.dataset.id, true);
   });
 
+  MQ.addEventListener('change', () => {
+    if (!isMobile()) {
+      document.body.classList.add('view-map');
+      document.body.classList.remove('view-list');
+    }
+    setTimeout(() => map.invalidateSize({ animate: false }), 100);
+  });
+
+  window.addEventListener('resize', () => {
+    map.invalidateSize({ animate: false });
+  });
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => map.invalidateSize({ animate: false }), 250);
+  });
+
   fetch('data/restaurants.json')
     .then((r) => r.json())
     .then((data) => {
       state.data = data;
       renderChips();
+      setView(isMobile() ? 'map' : 'map');
       refresh();
-      setTimeout(() => map.invalidateSize(), 200);
+      setTimeout(() => map.invalidateSize({ animate: false }), 100);
+      setTimeout(() => map.invalidateSize({ animate: false }), 400);
     })
     .catch((err) => {
       el.resultCount.textContent = '資料載入失敗';
       console.error(err);
     });
-
-  window.addEventListener('resize', () => map.invalidateSize());
 })();

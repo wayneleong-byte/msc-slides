@@ -2,69 +2,92 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>第十一屆我最愛餐廳選舉｜澳門美食地圖</title>
   <meta name="description" content="食客向互動地圖：第十一屆我最愛餐廳選舉獲獎餐廳，可按分類篩選，並以高德地圖導航。" />
   <link rel="preconnect" href="https://unpkg.com" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHvzMcPXMl37lvqIewKuqjCGEAc8=" crossorigin="" />
   <link rel="stylesheet" href="assets/app.css" />
 </head>
-<body>
+<body class="view-map">
   <div id="app">
     <header class="topbar">
       <div class="brand">
         <h1>澳門美食地圖</h1>
         <p class="sub">第十一屆我最愛餐廳選舉 · 食客向</p>
       </div>
-      <button type="button" id="btnTogglePanel" class="icon-btn" aria-label="開啟／關閉列表">☰</button>
+      <div class="topbar-actions">
+        <div class="mode-switch" role="tablist" aria-label="觀看模式">
+          <button type="button" id="btnModeMap" class="on" role="tab" aria-selected="true">地圖</button>
+          <button type="button" id="btnModeList" role="tab" aria-selected="false">列表</button>
+        </div>
+        <button type="button" id="btnTogglePanel" class="icon-btn" aria-label="開啟／關閉列表">☰</button>
+      </div>
     </header>
 
-    <aside id="panel" class="panel open">
-      <div class="panel-inner">
-        <div class="search-row">
-          <input id="search" type="search" placeholder="搜尋店名、獎項、地區…" autocomplete="off" />
-          <button type="button" id="btnClear" class="text-btn">清除</button>
-        </div>
-
-        <div class="filter-block">
-          <div class="filter-label">獎項類型</div>
-          <div id="groupFilters" class="chips"></div>
-        </div>
-
-        <div class="filter-block">
-          <div class="filter-label">地區</div>
-          <div id="areaFilters" class="chips">
-            <button type="button" class="chip area" data-area="澳門半島">澳門半島</button>
-            <button type="button" class="chip area" data-area="氹仔">氹仔／路氹</button>
-            <button type="button" class="chip area" data-area="路環">路環</button>
+    <div class="workspace">
+      <aside id="panel" class="panel">
+        <div class="panel-inner">
+          <div class="search-row">
+            <input id="search" type="search" placeholder="搜尋店名、獎項、地區…" autocomplete="off" enterkeyhint="search" />
+            <button type="button" id="btnClear" class="text-btn">清除</button>
           </div>
+
+          <div class="filter-block">
+            <div class="filter-label">獎項類型</div>
+            <div id="groupFilters" class="chips"></div>
+          </div>
+
+          <div class="filter-block">
+            <div class="filter-label">地區</div>
+            <div id="areaFilters" class="chips">
+              <button type="button" class="chip area" data-area="澳門半島">澳門半島</button>
+              <button type="button" class="chip area" data-area="氹仔">氹仔／路氹</button>
+              <button type="button" class="chip area" data-area="路環">路環</button>
+            </div>
+          </div>
+
+          <div class="filter-block collapsible">
+            <button type="button" class="filter-label toggle" id="btnToggleCats">分類（25類等） ▾</button>
+            <div id="catFilters" class="chips cats hidden"></div>
+          </div>
+
+          <div class="result-meta">
+            <span id="resultCount">—</span>
+            <span id="pinHint" class="muted"></span>
+          </div>
+
+          <ul id="list" class="list"></ul>
+
+          <footer class="panel-foot">
+            <p>資料來源：第十一屆我最愛餐廳選舉獲獎名單（澳門餐飲行業協會／劃澳等主辦承辦）。位置與聯絡優先引用<a href="https://www.macaotourism.gov.mo/" target="_blank" rel="noopener">澳門旅遊局</a>公開餐飲資料及餐廳／酒店官方頁。缺漏欄位不捏造。</p>
+            <p class="muted">底圖 OpenStreetMap；導航使用高德地圖深連結（未載入高德 JS API）。</p>
+          </footer>
         </div>
+      </aside>
 
-        <div class="filter-block collapsible">
-          <button type="button" class="filter-label toggle" id="btnToggleCats">分類（25類等） ▾</button>
-          <div id="catFilters" class="chips cats hidden"></div>
+      <div class="map-pane">
+        <main id="map" role="application" aria-label="澳門餐廳地圖"></main>
+        <div id="detail" class="detail hidden" aria-live="polite">
+          <button type="button" id="btnCloseDetail" class="detail-close" aria-label="關閉">×</button>
+          <div id="detailBody"></div>
         </div>
-
-        <div class="result-meta">
-          <span id="resultCount">—</span>
-          <span id="pinHint" class="muted"></span>
-        </div>
-
-        <ul id="list" class="list"></ul>
-
-        <footer class="panel-foot">
-          <p>資料來源：第十一屆我最愛餐廳選舉獲獎名單（澳門餐飲行業協會／劃澳等主辦承辦）。位置與聯絡優先引用<a href="https://www.macaotourism.gov.mo/" target="_blank" rel="noopener">澳門旅遊局</a>公開餐飲資料及餐廳／酒店官方頁。缺漏欄位不捏造。</p>
-          <p class="muted">底圖 OpenStreetMap；導航使用高德地圖深連結（未載入高德 JS API）。</p>
-        </footer>
       </div>
-    </aside>
-
-    <main id="map" role="application" aria-label="澳門餐廳地圖"></main>
-
-    <div id="detail" class="detail hidden" aria-live="polite">
-      <button type="button" id="btnCloseDetail" class="detail-close" aria-label="關閉">×</button>
-      <div id="detailBody"></div>
     </div>
+
+    <nav class="bottom-nav" aria-label="手機觀看模式">
+      <button type="button" id="navMap" class="on" aria-current="page">
+        <span class="ico">🗺️</span>
+        <span>地圖</span>
+      </button>
+      <button type="button" id="navList">
+        <span class="ico">📋</span>
+        <span>列表篩選</span>
+      </button>
+    </nav>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
