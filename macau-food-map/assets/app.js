@@ -9,7 +9,7 @@
     q: '',
     markers: {},
     activeId: null,
-    view: 'map', // map | list (mobile)
+    view: 'map',
   };
 
   const el = {
@@ -27,17 +27,33 @@
     btnModeList: document.getElementById('btnModeList'),
     navMap: document.getElementById('navMap'),
     navList: document.getElementById('navList'),
+    mapDiv: document.getElementById('map'),
+    workspace: document.querySelector('.workspace'),
   };
 
-  const map = L.map('map', {
+  function isMobile() {
+    return MQ.matches;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // Create map only after first layout paint
+  const map = L.map(el.mapDiv, {
     zoomControl: false,
     attributionControl: true,
-    tap: true,
+    preferCanvas: false,
   }).setView(MACAU_CENTER, 12);
+
   L.control.zoom({ position: 'topright' }).addTo(map);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · 導航：高德深連結',
+    attribution: '&copy; OpenStreetMap · 導航：高德深連結',
+    updateWhenIdle: true,
+    detectRetina: false,
   }).addTo(map);
   const layer = L.layerGroup().addTo(map);
 
@@ -49,14 +65,15 @@
     popupAnchor: [0, -24],
   });
 
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function isMobile() {
-    return MQ.matches;
+  function resizeMap() {
+    const pane = document.querySelector('.map-pane');
+    if (!pane || !el.mapDiv) return;
+    const w = pane.clientWidth;
+    const h = pane.clientHeight;
+    if (w < 2 || h < 2) return;
+    el.mapDiv.style.width = w + 'px';
+    el.mapDiv.style.height = h + 'px';
+    map.invalidateSize({ animate: false, pan: false });
   }
 
   function setView(mode) {
@@ -83,9 +100,10 @@
     }
     if (state.view === 'map') {
       requestAnimationFrame(() => {
-        map.invalidateSize({ animate: false });
-        setTimeout(() => map.invalidateSize({ animate: false }), 80);
-        setTimeout(() => map.invalidateSize({ animate: false }), 320);
+        resizeMap();
+        setTimeout(resizeMap, 50);
+        setTimeout(resizeMap, 250);
+        setTimeout(resizeMap, 600);
       });
     }
   }
@@ -162,7 +180,7 @@
       bounds.push([r.lat, r.lng]);
     });
     el.pinHint.textContent = `地圖標記 ${withPin.length}／目前 ${rows.length} 間`;
-    map.invalidateSize({ animate: false });
+    resizeMap();
     if (bounds.length >= 2) {
       try { map.fitBounds(bounds, { padding: [36, 36], maxZoom: 14 }); } catch (_) {}
     } else if (bounds.length === 1) {
@@ -185,12 +203,10 @@
       li.classList.toggle('active', li.dataset.id === id);
     });
     showDetail(r);
-    if (isMobile()) {
-      setView('map');
-    }
+    if (isMobile()) setView('map');
     if (r.lat != null && r.lng != null) {
       requestAnimationFrame(() => {
-        map.invalidateSize({ animate: false });
+        resizeMap();
         if (pan) map.setView([r.lat, r.lng], Math.max(map.getZoom(), 15), { animate: true });
         const m = state.markers[id];
         if (m) m.openTooltip();
@@ -239,12 +255,6 @@
     el.detail.classList.remove('hidden');
   }
 
-  function clearFilters() {
-    state.groups.clear(); state.areas.clear(); state.cats.clear();
-    state.q = ''; el.search.value = '';
-    renderChips(); refresh();
-  }
-
   document.getElementById('btnTogglePanel').addEventListener('click', () => {
     setView(state.view === 'list' ? 'map' : 'list');
   });
@@ -252,7 +262,11 @@
     el.detail.classList.add('hidden');
     state.activeId = null;
   });
-  document.getElementById('btnClear').addEventListener('click', clearFilters);
+  document.getElementById('btnClear').addEventListener('click', () => {
+    state.groups.clear(); state.areas.clear(); state.cats.clear();
+    state.q = ''; el.search.value = '';
+    renderChips(); refresh();
+  });
   document.getElementById('btnToggleCats').addEventListener('click', () => {
     el.catFilters.classList.toggle('hidden');
   });
@@ -296,29 +310,27 @@
   });
 
   MQ.addEventListener('change', () => {
-    if (!isMobile()) {
-      document.body.classList.add('view-map');
-      document.body.classList.remove('view-list');
-    }
-    setTimeout(() => map.invalidateSize({ animate: false }), 100);
+    setTimeout(resizeMap, 100);
   });
-
-  window.addEventListener('resize', () => {
-    map.invalidateSize({ animate: false });
-  });
+  window.addEventListener('resize', () => resizeMap());
   window.addEventListener('orientationchange', () => {
-    setTimeout(() => map.invalidateSize({ animate: false }), 250);
+    setTimeout(resizeMap, 300);
   });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => resizeMap());
+  }
 
   fetch('data/restaurants.json')
     .then((r) => r.json())
     .then((data) => {
       state.data = data;
       renderChips();
-      setView(isMobile() ? 'map' : 'map');
+      setView('map');
       refresh();
-      setTimeout(() => map.invalidateSize({ animate: false }), 100);
-      setTimeout(() => map.invalidateSize({ animate: false }), 400);
+      resizeMap();
+      setTimeout(resizeMap, 100);
+      setTimeout(resizeMap, 400);
+      setTimeout(resizeMap, 1000);
     })
     .catch((err) => {
       el.resultCount.textContent = '資料載入失敗';
