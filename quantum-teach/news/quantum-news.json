@@ -1,23 +1,61 @@
 {
-  "updated": "2026-10-26",
+  "updated": "2026-10-27T13:19:00+08:00",
   "items": [
     {
-      "id": "2026-10-26-superconductor-flaw",
+      "id": "13",
+      "date": "2026-10-27",
+      "title": "【IBM 量子資訊跨晶片：準確率衝到 99%？】",
+      "summary": "IBM Research 用四條約 80 厘米超導鋁 L-coupler，把兩塊各 120 qubit 嘅 Nighthawk R1 處理器連埋。中繼式態轉移平均保真度約 99.00%（最佳約 99.29%）；跨晶片遙距 CZ 閘平均約 94.75%。尚未同行評審，磁場干擾仍影響訊號——99% 態轉移係模組化里程碑，但大規模糾錯仍有一段路。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=pfbid02chHJbTXCPcRqFVRGWgzndhk9mB9SFR7TWqDtYcPzNXugzZkHLXxYxRbT59Gry7Y2l&id=61590125804782",
+      "source_url": "https://www.sciencealert.com/bm-hits-99-accuracy-in-transferring-quantum-information-between-two-chips",
+      "status": "published",
+      "tags": [
+        "量子資訊",
+        "量子計算",
+        "IBM"
+      ]
+    },
+    {
+      "id": "14",
+      "date": "2026-10-27",
+      "title": "【量子電腦卡關？科學家拆咗個隱藏障礙】",
+      "summary": "RIKEN 團隊喺 Nature Physics 指出：並行驅動矽自旋 qubit 時，AC Stark shift 會令相位漂移、保真度下跌。佢哋用成對校準補償唔要相位，唔使為每個組合重校；單獨單量子位閘遠高於 99.99%，最多三粒同時仍高於 99.99%。剩餘誤差同驅動誘發退相干有關——可靠並行控制係容錯矽量子電腦路上必要一步。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0yfLXbPPqDdaG5ozKcCpRtxaPjTB4p1KdEaPVMs1cR249sJ1J5Ahcmz3JY81yNm6Bl&id=61590125804782",
+      "source_url": "https://www.sciencedaily.com/releases/2026/10/261024222024.htm",
+      "status": "published",
+      "tags": [
+        "量子計算",
+        "qubit",
+        "矽量子"
+      ]
+    },
+    {
+      "id": "25",
       "date": "2026-10-26",
-      "title": "超導體科學 40 年：隱藏瑕疵翻出嚟？",
+      "title": "【超導體科學 40 年：隱藏瑕疵翻出嚟？】",
       "summary": "歐洲同步輻射設施（ESRF）用超強 X 光，喺銅氧化物超導材料入面搵到隱藏嘅結構瑕疵，挑戰過去約 40 年「材料大致均勻」嘅常見假設。呢啲微觀缺陷可能影響臨界溫度同電流承載。團隊估計類似結構或喺其他 cuprate、以至高壓超導相關材料都常見——改進電網、醫用磁體、量子科技用嘅超導材料，或要先承認真實晶體遠比教科書「完美均勻」複雜。",
       "fb_url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0FksBqn8QWmRFfeHjxE3hhaTmAJ2sty5vT3f2W9jXx6Kp4fvEgWKGcG92wbsAqaXtl&id=61590125804782",
       "source_url": "https://www.sciencedaily.com/releases/2026/10/261023023731.htm",
-      "status": "published"
+      "status": "published",
+      "tags": [
+        "超導",
+        "量子",
+        "材料"
+      ]
     },
     {
-      "id": "2026-10-26-supercurrent-readout",
+      "id": "26",
       "date": "2026-10-26",
-      "title": "讀量子資訊唔毀掉佢？超電流幫到手",
+      "title": "【讀量子資訊唔毀掉佢？超電流幫到手】",
       "summary": "理論研究提出：用超電流（電阻為零嘅電流）做簽名，或可讀取 Andreev qubit 等系統嘅量子資訊，而唔一定要摧毀嗰個量子態。作者指參數來自現有系統，未實現嘅係佢哋提出嘅幾何佈局；SQUID 偵測極小電流／磁場已係成熟技術。若實驗證實，或簡化量子讀出架構——用宏觀超電流做微觀量子態嘅「簽名」。全文屬理論提案。",
       "fb_url": "https://www.facebook.com/permalink.php?story_fbid=pfbid02vQ5JHhu95jEYAvnqMScZF5AuE5Kby8NecZpLtsxAeQ1FJpYbHehpTqmZL72vamcyl&id=61590125804782",
       "source_url": "https://phys.org/news/2026-10-supercurrent-enables-quantum-destroying.html",
-      "status": "published"
+      "status": "published",
+      "tags": [
+        "超電流",
+        "量子資訊",
+        "qubit"
+      ]
     },
     {
       "id": "2026-10-25-qubit-time-backward",
