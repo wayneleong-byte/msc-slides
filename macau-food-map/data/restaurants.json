@@ -139,7 +139,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（公開商戶／媒體報導近似位置）",
       "address_note": "非官網來源",
-      "intro": "路環老字號茶座，以豬扒包聞名，遊客與本地人常到的平民美食點。"
+      "intro": "路環老字號茶座，以豬扒包聞名，遊客與本地人常到的平民美食點。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r002",
@@ -176,7 +179,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "港式茶餐廳風格，供應奶茶、常餐與快餐式粵菜。"
+      "intro": "港式茶餐廳風格，供應奶茶、常餐與快餐式粵菜。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r003",
@@ -213,7 +219,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "港式茶餐廳風格，供應奶茶、常餐與快餐式粵菜。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r003.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r004",
@@ -250,7 +258,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（公開商戶近似位置）",
       "address_note": "非官網來源",
-      "intro": "澳門人氣老字號粥鋪，以白粥配小菜見稱。"
+      "intro": "澳門人氣老字號粥鋪，以白粥配小菜見稱。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r005",
@@ -287,7 +298,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（公開商戶近似位置）",
       "address_note": "非官網來源",
-      "intro": "澳門經典街頭牛雜小食店，辛香濃郁。"
+      "intro": "澳門經典街頭牛雜小食店，辛香濃郁。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r006",
@@ -324,7 +338,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（公開商戶近似位置）",
       "address_note": "非官網來源",
-      "intro": "澳門老字號小食店，豬扒包是招牌。"
+      "intro": "澳門老字號小食店，豬扒包是招牌。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r007",
@@ -371,7 +388,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "路氹倫敦人酒店內的美食廣場式餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r008",
@@ -408,7 +428,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "港澳知名茶餐廳連鎖，澳門多處有分店。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r009",
@@ -445,7 +468,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛酒店餐廳）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r010",
@@ -482,7 +508,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛自助餐、放題）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r010.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r011",
@@ -519,7 +547,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（永利皇宮範圍）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛自助餐、放題）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r012",
@@ -556,7 +587,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛自助餐、放題）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r012.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r013",
@@ -593,7 +626,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "手搖／現調茶飲店。"
+      "intro": "手搖／現調茶飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r014",
@@ -630,7 +666,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "手搖／現調茶飲店。"
+      "intro": "手搖／現調茶飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r015",
@@ -667,7 +706,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "手搖／現調茶飲店。"
+      "intro": "手搖／現調茶飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r016",
@@ -704,7 +746,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "社區麵食店，主打平民粉麵。"
+      "intro": "社區麵食店，主打平民粉麵。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r017",
@@ -741,7 +786,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "主打粉麵類的本地食肆。"
+      "intro": "主打粉麵類的本地食肆。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r018",
@@ -778,7 +826,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "主打粉麵類的本地食肆。"
+      "intro": "主打粉麵類的本地食肆。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r019",
@@ -815,7 +866,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "本地粥品店，常列「我最愛粥品」相關獲獎。"
+      "intro": "本地粥品店，常列「我最愛粥品」相關獲獎。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r020",
@@ -852,7 +906,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "以粥品為主的食肆。"
+      "intro": "以粥品為主的食肆。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r021",
@@ -889,7 +946,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "以粥品為主的食肆。"
+      "intro": "以粥品為主的食肆。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r022",
@@ -926,7 +986,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "燒味／燒臘為主的食肆。"
+      "intro": "燒味／燒臘為主的食肆。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r023",
@@ -963,7 +1026,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "燒味／燒臘為主的食肆。"
+      "intro": "燒味／燒臘為主的食肆。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r024",
@@ -1000,7 +1066,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "燒味／燒臘為主的食肆。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r025",
@@ -1045,7 +1114,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "社區人氣餐飲店。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r026",
@@ -1082,7 +1154,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛茶樓酒家）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r027",
@@ -1127,7 +1202,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "社區人氣餐飲店。"
+      "intro": "社區人氣餐飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r028",
@@ -1172,7 +1250,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "人氣火鍋店，亦見於心動味力相關榜單。"
+      "intro": "人氣火鍋店，亦見於心動味力相關榜單。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r029",
@@ -1209,7 +1290,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "旅遊局對應商戶「華峰食館」（自動比對，請以高德／現場為準）",
       "intro": "火鍋專門店。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r029.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r030",
@@ -1246,7 +1329,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "火鍋專門店。"
+      "intro": "火鍋專門店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r031",
@@ -1283,7 +1369,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛海鮮小炒）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r032",
@@ -1320,7 +1409,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛海鮮小炒）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r032.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r033",
@@ -1357,7 +1448,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛海鮮小炒）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r033.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r034",
@@ -1394,7 +1487,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "街頭小食風格，方便即食。"
+      "intro": "街頭小食風格，方便即食。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r035",
@@ -1431,7 +1527,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "街頭小食風格，方便即食。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r036",
@@ -1468,7 +1567,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "街頭小食風格，方便即食。"
+      "intro": "街頭小食風格，方便即食。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r037",
@@ -1505,7 +1607,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "旅遊局對應商戶「阿維斯咖啡」（自動比對，請以高德／現場為準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛咖啡）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r037.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r038",
@@ -1542,7 +1646,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "旅遊局對應商戶「迪恩甜品」（自動比對，請以高德／現場為準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛咖啡）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r038.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r039",
@@ -1579,7 +1685,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（我最愛咖啡）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r039.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r040",
@@ -1616,7 +1724,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "甜品專門店。"
+      "intro": "甜品專門店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r041",
@@ -1653,7 +1764,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "甜品專門店。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r041.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r042",
@@ -1690,7 +1803,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "甜品專門店。"
+      "intro": "甜品專門店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r043",
@@ -1727,7 +1843,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "烘焙／餅店。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r044",
@@ -1764,7 +1883,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（連鎖代表點）",
       "address_note": "非官網來源",
-      "intro": "港澳知名烘焙連鎖，澳門多處有分店。"
+      "intro": "港澳知名烘焙連鎖，澳門多處有分店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r045",
@@ -1801,7 +1923,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "烘焙／餅店。"
+      "intro": "烘焙／餅店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r046",
@@ -1838,7 +1963,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "日本料理餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r047",
@@ -1875,7 +2003,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "日本料理餐廳。"
+      "intro": "日本料理餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r048",
@@ -1912,7 +2043,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "日本料理餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r049",
@@ -1949,7 +2083,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "東南亞風味餐廳。"
+      "intro": "東南亞風味餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r050",
@@ -1986,7 +2123,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "座標為酒店範圍約略位置",
       "intro": "東南亞風味餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r051",
@@ -2023,7 +2163,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "東南亞風味餐廳。"
+      "intro": "東南亞風味餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r052",
@@ -2060,7 +2203,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "西式餐飲。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r053",
@@ -2097,7 +2243,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "西式餐飲。"
+      "intro": "西式餐飲。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r054",
@@ -2134,7 +2283,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "西式餐飲。"
+      "intro": "西式餐飲。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r055",
@@ -2171,7 +2323,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（路環一帶（待精準））",
       "intro": "葡國菜／澳葡風味餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r056",
@@ -2208,7 +2363,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "葡國菜／澳葡風味餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r057",
@@ -2255,7 +2413,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（公開商戶近似位置）",
       "address_note": "非官網來源",
-      "intro": "澳門老牌葡國菜咖啡室，本地人常去的平民葡餐。"
+      "intro": "澳門老牌葡國菜咖啡室，本地人常去的平民葡餐。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r058",
@@ -2292,7 +2453,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "川湘風味餐廳。"
+      "intro": "川湘風味餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r059",
@@ -2329,7 +2493,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "川湘風味餐廳。"
+      "intro": "川湘風味餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r060",
@@ -2366,7 +2533,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "川湘風味餐廳。"
+      "intro": "川湘風味餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r061",
@@ -2403,7 +2573,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "韓國料理餐廳。"
+      "intro": "韓國料理餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r062",
@@ -2440,7 +2613,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "韓國料理餐廳。"
+      "intro": "韓國料理餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r063",
@@ -2477,7 +2653,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "旅遊局對應商戶「貢乃」（自動比對，請以高德／現場為準）",
       "intro": "韓國料理餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r063.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r064",
@@ -2514,7 +2692,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "燒烤專門店。"
+      "intro": "燒烤專門店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r065",
@@ -2569,7 +2750,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "烤肉／燒肉酒吧風格，曾入選心動味力相關榜單。"
+      "intro": "烤肉／燒肉酒吧風格，曾入選心動味力相關榜單。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r066",
@@ -2606,7 +2790,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "燒烤專門店。"
+      "intro": "燒烤專門店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r067",
@@ -2643,7 +2830,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "酒吧／餐酒館。"
+      "intro": "酒吧／餐酒館。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r068",
@@ -2680,7 +2870,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "酒吧／餐酒館。"
+      "intro": "酒吧／餐酒館。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r069",
@@ -2717,7 +2910,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "酒吧／餐酒館。"
+      "intro": "酒吧／餐酒館。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r070",
@@ -2754,7 +2950,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "創意／私房菜風格餐廳。"
+      "intro": "創意／私房菜風格餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r071",
@@ -2791,7 +2990,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "創意／私房菜風格餐廳。"
+      "intro": "創意／私房菜風格餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r072",
@@ -2828,7 +3030,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "創意／私房菜風格餐廳。"
+      "intro": "創意／私房菜風格餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r073",
@@ -2865,7 +3070,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "素食餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r074",
@@ -2911,7 +3119,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "素食餐廳，曾以創新素菜獲金蓮花菜式獎。"
+      "intro": "素食餐廳，曾以創新素菜獲金蓮花菜式獎。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r075",
@@ -2948,7 +3159,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "素食餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r076",
@@ -3003,7 +3217,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料；消費者委員會商戶資料／沙利文官方 Facebook",
       "coord_note": null,
       "intro": "澳門南灣老牌土生葡菜餐廳，非洲雞等經典菜式廣為人知。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r077",
@@ -3050,7 +3267,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "曾入選心動味力相關榜單的餐廳。"
+      "intro": "曾入選心動味力相關榜單的餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r078",
@@ -3089,7 +3309,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "曾入選心動味力相關榜單的餐廳。"
+      "intro": "曾入選心動味力相關榜單的餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r079",
@@ -3126,7 +3349,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "曾入選心動味力相關榜單的餐廳。"
+      "intro": "曾入選心動味力相關榜單的餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r080",
@@ -3165,7 +3391,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源",
       "address_note": null,
-      "intro": "南洋風味咖啡室，亦見於心動味力相關榜單。"
+      "intro": "南洋風味咖啡室，亦見於心動味力相關榜單。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r081",
@@ -3202,7 +3431,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "曾入選心動味力相關榜單的餐廳。"
+      "intro": "曾入選心動味力相關榜單的餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r082",
@@ -3247,7 +3479,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "社區茶餐廳，強調搭枱共桌的本地用餐氣氛。"
+      "intro": "社區茶餐廳，強調搭枱共桌的本地用餐氣氛。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r083",
@@ -3303,7 +3538,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（公開商戶近似位置）",
       "address_note": "非官網來源",
-      "intro": "近新馬路的老牌飯店，水蟹粥為人熟悉。"
+      "intro": "近新馬路的老牌飯店，水蟹粥為人熟悉。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r084",
@@ -3357,7 +3595,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（街名公開位置）",
       "address_note": "非官網來源",
-      "intro": "地堡街人氣茶餐廳，干免治牛肉飯曾獲獎。"
+      "intro": "地堡街人氣茶餐廳，干免治牛肉飯曾獲獎。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r085",
@@ -3396,7 +3637,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "曾入選心動味力相關榜單的餐廳。"
+      "intro": "曾入選心動味力相關榜單的餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r086",
@@ -3435,7 +3679,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（官也街一帶）",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r087",
@@ -3472,7 +3719,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（連鎖）",
       "address_note": "非官網來源",
-      "intro": "港澳粉麵咖啡連鎖，提供常規粵式粉麵與茶記菜式。"
+      "intro": "港澳粉麵咖啡連鎖，提供常規粵式粉麵與茶記菜式。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r088",
@@ -3509,7 +3759,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "港式冰室風格，供應奶茶、多士與常餐。"
+      "intro": "港式冰室風格，供應奶茶、多士與常餐。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r089",
@@ -3546,7 +3799,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "社區冰室，港式茶飲與常餐為主。"
+      "intro": "社區冰室，港式茶飲與常餐為主。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r090",
@@ -3585,7 +3841,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "曾入選心動味力相關榜單的餐廳。"
+      "intro": "曾入選心動味力相關榜單的餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r091",
@@ -3622,7 +3881,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "曾入選心動味力相關榜單的餐廳。"
+      "intro": "曾入選心動味力相關榜單的餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r092",
@@ -3667,7 +3929,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r093",
@@ -3714,7 +3979,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r094",
@@ -3751,7 +4019,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "曾入選心動味力相關榜單的餐廳。"
+      "intro": "曾入選心動味力相關榜單的餐廳。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r095",
@@ -3788,7 +4059,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "曾入選心動味力相關榜單的餐廳。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r096",
@@ -3835,7 +4109,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（荔枝碗村公開地標）",
       "address_note": "非官網來源",
-      "intro": "路環荔枝碗村一帶的餐飲點，結合漁村氛圍。"
+      "intro": "路環荔枝碗村一帶的餐飲點，結合漁村氛圍。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r097",
@@ -3872,7 +4149,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r098",
@@ -3909,7 +4189,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r099",
@@ -3954,7 +4237,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10、中國文旅金馬獎·年度傑出創意餐飲品牌）。"
+      "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10、中國文旅金馬獎·年度傑出創意餐飲品牌）。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r100",
@@ -3991,7 +4277,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（活動式場地）",
       "address_note": "非官網來源",
-      "intro": "懸空餐桌體驗式餐廳，場地或隨活動調整。"
+      "intro": "懸空餐桌體驗式餐廳，場地或隨活動調整。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r101",
@@ -4028,7 +4317,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（2026心動味力Top10）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r102",
@@ -4073,7 +4365,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "本地牛雜小食店，曾獲相關名菜／榜單肯定。"
+      "intro": "本地牛雜小食店，曾獲相關名菜／榜單肯定。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r103",
@@ -4115,7 +4410,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "澳門手信店，以肉乾與蛋捲等傳統小食見稱。"
+      "intro": "澳門手信店，以肉乾與蛋捲等傳統小食見稱。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r104",
@@ -4153,7 +4451,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "以創意豬扒飯聞名的本地食肆。"
+      "intro": "以創意豬扒飯聞名的本地食肆。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r105",
@@ -4191,7 +4492,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（連勝一帶）",
       "address_note": "非官網來源",
-      "intro": "以手拉奶茶聞名的社區茶飲店。"
+      "intro": "以手拉奶茶聞名的社區茶飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r106",
@@ -4233,7 +4537,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "本地手信品牌，蛋捲與曲奇是常見伴手禮。"
+      "intro": "本地手信品牌，蛋捲與曲奇是常見伴手禮。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r107",
@@ -4270,7 +4577,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（中國文旅金馬獎·名菜獎）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r108",
@@ -4307,7 +4617,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（中國文旅金馬獎·名菜獎）。"
+      "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（中國文旅金馬獎·名菜獎）。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r109",
@@ -4344,7 +4657,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 上葡京綜合度假村）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r110",
@@ -4381,7 +4697,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 新濠影滙）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r111",
@@ -4418,7 +4737,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 永利皇宮）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r112",
@@ -4455,7 +4777,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 澳門銀河）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r113",
@@ -4492,7 +4817,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 倫敦人酒店）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r113.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r114",
@@ -4529,7 +4856,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "座標為度假村範圍約略位置",
       "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳酒店精選獎 · 美獅美高梅）。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r114.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r115",
@@ -4566,7 +4895,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "遊客常到的餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r116",
@@ -4603,7 +4935,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "遊客常到的餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r117",
@@ -4640,7 +4975,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "遊客常到的餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r118",
@@ -4677,7 +5015,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "遊客常到的餐飲點。"
+      "intro": "遊客常到的餐飲點。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r119",
@@ -4714,7 +5055,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "氹仔風格大排檔，主打海鮮與家常粵菜氣氛。"
+      "intro": "氹仔風格大排檔，主打海鮮與家常粵菜氣氛。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r120",
@@ -4751,7 +5095,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（官也街）",
       "address_note": "非官網來源",
-      "intro": "官也街分店，方便遊客的大排檔式用餐。"
+      "intro": "官也街分店，方便遊客的大排檔式用餐。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r121",
@@ -4788,7 +5135,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "遊客常到的餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r121.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r122",
@@ -4825,7 +5174,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（氹仔）",
       "intro": "遊客常到的餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r123",
@@ -4862,7 +5214,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "遊客常到的餐飲點。"
+      "intro": "遊客常到的餐飲點。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r124",
@@ -4899,7 +5254,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（百老匯一帶）",
       "intro": "遊客常到的餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r125",
@@ -4936,7 +5294,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（百老匯範圍）",
       "address_note": "非官網來源",
-      "intro": "百老匯商場內的咖啡美食店。"
+      "intro": "百老匯商場內的咖啡美食店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r126",
@@ -4973,7 +5334,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（官也街公開商戶）",
       "address_note": "非官網來源",
-      "intro": "氹仔官也街知名甜品店，木糠布甸與蛋撻為招牌。"
+      "intro": "氹仔官也街知名甜品店，木糠布甸與蛋撻為招牌。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r127",
@@ -5010,7 +5374,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "遊客常到的餐飲點。"
+      "intro": "遊客常到的餐飲點。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r128",
@@ -5047,7 +5414,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "遊客常到的餐飲點。"
+      "intro": "遊客常到的餐飲點。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r129",
@@ -5084,7 +5454,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "以豆腐麵聞名的平民麵食店。"
+      "intro": "以豆腐麵聞名的平民麵食店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r130",
@@ -5121,7 +5494,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（大三巴一帶）",
       "address_note": "非官網來源",
-      "intro": "大三巴景點附近的街頭小食，胡椒餅是招牌。"
+      "intro": "大三巴景點附近的街頭小食，胡椒餅是招牌。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r131",
@@ -5158,7 +5534,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "遊客常到的餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r132",
@@ -5195,7 +5574,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "旅遊區常見的本地小食／手信風格商戶。"
+      "intro": "旅遊區常見的本地小食／手信風格商戶。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r133",
@@ -5232,7 +5614,9 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "遊客常到的餐飲點。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/r133.jpg",
+      "photo_note": "澳門旅遊局公開圖"
     },
     {
       "id": "r134",
@@ -5269,7 +5653,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "社區人氣餐飲店。"
+      "intro": "社區人氣餐飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r135",
@@ -5306,7 +5693,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源",
       "address_note": null,
-      "intro": "本地冰室，港式茶記風格。"
+      "intro": "本地冰室，港式茶記風格。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r136",
@@ -5343,7 +5733,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "社區人氣餐飲店。"
+      "intro": "社區人氣餐飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r137",
@@ -5380,7 +5773,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "社區人氣餐飲店。"
+      "intro": "社區人氣餐飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r138",
@@ -5417,7 +5813,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": null,
       "intro": "社區人氣餐飲店。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r139",
@@ -5454,7 +5853,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "社區冰室，常見港式奶茶與常餐。"
+      "intro": "社區冰室，常見港式奶茶與常餐。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r140",
@@ -5491,7 +5893,10 @@
       "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
       "coord_note": "非官網來源（待精準）",
       "intro": "社區人氣餐飲店。",
-      "address_note": null
+      "address_note": null,
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r141",
@@ -5528,7 +5933,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "社區人氣餐飲店。"
+      "intro": "社區人氣餐飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r142",
@@ -5565,7 +5973,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "社區人氣餐飲店。"
+      "intro": "社區人氣餐飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r143",
@@ -5602,7 +6013,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "社區人氣餐飲店。"
+      "intro": "社區人氣餐飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r144",
@@ -5639,7 +6053,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "社區人氣餐飲店。"
+      "intro": "社區人氣餐飲店。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r145",
@@ -5676,7 +6093,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源",
       "address_note": "非官網來源",
-      "intro": "以「馬交」為名的本地冰室。"
+      "intro": "以「馬交」為名的本地冰室。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     },
     {
       "id": "r146",
@@ -5713,7 +6133,10 @@
       "source": "第十一屆我最愛餐廳選舉名單",
       "coord_note": "非官網來源（待精準）",
       "address_note": "非官網來源",
-      "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳藥膳湯水）。"
+      "intro": "第十一屆「我最愛餐廳」相關獲獎食肆（最佳藥膳湯水）。",
+      "photo": "assets/photos/placeholder.jpg",
+      "photo_note": "示意圖／非官網",
+      "photo_is_placeholder": true
     }
   ]
 }

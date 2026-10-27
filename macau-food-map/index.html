@@ -9,7 +9,7 @@
   <title>第十一屆我最愛餐廳選舉｜澳門美食地圖</title>
   <meta name="description" content="食客向互動地圖：第十一屆我最愛餐廳選舉獲獎餐廳，可按分類篩選，並以高德地圖導航。" />
   <link rel="stylesheet" href="assets/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="assets/app.css?v=4" />
+  <link rel="stylesheet" href="assets/app.css?v=5" />
 </head>
 <body class="view-map">
   <div id="app">
@@ -31,22 +31,13 @@
       <aside id="panel" class="panel">
         <div class="panel-inner">
           <div class="search-row">
-            <input id="search" type="search" placeholder="搜尋店名、獎項、地區…" autocomplete="off" enterkeyhint="search" />
+            <input id="search" type="search" placeholder="搜尋店名、獎項、地址…" autocomplete="off" enterkeyhint="search" />
             <button type="button" id="btnClear" class="text-btn">清除</button>
           </div>
 
           <div class="filter-block">
             <div class="filter-label">獎項類型</div>
             <div id="groupFilters" class="chips"></div>
-          </div>
-
-          <div class="filter-block">
-            <div class="filter-label">地區</div>
-            <div id="areaFilters" class="chips">
-              <button type="button" class="chip area" data-area="澳門半島">澳門半島</button>
-              <button type="button" class="chip area" data-area="氹仔">氹仔／路氹</button>
-              <button type="button" class="chip area" data-area="路環">路環</button>
-            </div>
           </div>
 
           <div class="filter-block collapsible">
@@ -62,8 +53,11 @@
           <ul id="list" class="list"></ul>
 
           <footer class="panel-foot">
-            <p>資料來源：第十一屆我最愛餐廳選舉獲獎名單（澳門餐飲行業協會／劃澳等主辦承辦）。位置與聯絡優先引用<a href="https://www.macaotourism.gov.mo/" target="_blank" rel="noopener">澳門旅遊局</a>公開餐飲資料及餐廳／酒店官方頁。缺漏欄位不捏造。</p>
-            <p class="muted">底圖 OpenStreetMap；導航使用高德地圖深連結（未載入高德 JS API）。</p>
+            <details class="src-details">
+              <summary>資料說明</summary>
+              <p>資料來源：第十一屆我最愛餐廳選舉獲獎名單（澳門餐飲行業協會／劃澳等主辦承辦）。位置與聯絡優先引用<a href="https://www.macaotourism.gov.mo/" target="_blank" rel="noopener">澳門旅遊局</a>公開餐飲資料及餐廳／酒店官方頁。缺漏欄位不捏造。</p>
+              <p class="muted">底圖 OpenStreetMap；導航使用高德地圖深連結（未載入高德 JS API）。</p>
+            </details>
           </footer>
         </div>
       </aside>
@@ -94,6 +88,6 @@
   </div>
 
   <script src="assets/leaflet/leaflet.js"></script>
-  <script src="assets/app.js?v=4"></script>
+  <script src="assets/app.js?v=5"></script>
 </body>
 </html>

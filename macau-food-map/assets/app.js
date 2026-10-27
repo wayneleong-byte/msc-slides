@@ -4,7 +4,6 @@
   const state = {
     data: null,
     groups: new Set(),
-    areas: new Set(),
     cats: new Set(),
     q: '',
     markers: {},
@@ -21,7 +20,6 @@
     pinHint: document.getElementById('pinHint'),
     groupFilters: document.getElementById('groupFilters'),
     catFilters: document.getElementById('catFilters'),
-    areaFilters: document.getElementById('areaFilters'),
     detail: document.getElementById('detail'),
     detailBody: document.getElementById('detailBody'),
     btnModeMap: document.getElementById('btnModeMap'),
@@ -123,14 +121,6 @@
       const ids = (r.award_groups || []).map((g) => g.id);
       if (![...state.groups].some((g) => ids.includes(g))) return false;
     }
-    if (state.areas.size) {
-      const a = r.area || '';
-      const ok = [...state.areas].some((sel) => {
-        if (sel === '氹仔') return a === '氹仔' || (r.address || '').includes('路氹');
-        return a === sel;
-      });
-      if (!ok) return false;
-    }
     if (state.cats.size) {
       if (![...state.cats].some((c) => (r.categories || []).includes(c))) return false;
     }
@@ -166,6 +156,26 @@
     state.soloId = null;
     updateSoloBanner();
     refresh();
+    if (state.activeId) {
+      const r = (state.data.restaurants || []).find((x) => x.id === state.activeId);
+      if (r) showDetail(r);
+    }
+  }
+
+  function focusSoloOnMap(r) {
+    setView('map');
+    requestAnimationFrame(() => {
+      resizeMap();
+      setTimeout(resizeMap, 80);
+      setTimeout(resizeMap, 300);
+      if (r.lat != null && r.lng != null) {
+        map.setView([r.lat, r.lng], 16, { animate: true });
+        const m = state.markers[r.id];
+        if (m) m.openTooltip();
+      } else {
+        el.pinHint.textContent = '此店暫無地圖座標，請用高德搜尋';
+      }
+    });
   }
 
   function soloRestaurant(id) {
@@ -174,22 +184,31 @@
     state.soloId = id;
     state.activeId = id;
     updateSoloBanner();
-    setView('map');
     refresh();
     showDetail(r);
-    requestAnimationFrame(() => {
-      resizeMap();
-      setTimeout(resizeMap, 80);
-      setTimeout(resizeMap, 300);
-      if (r.lat != null && r.lng != null) {
-        map.setView([r.lat, r.lng], 16, { animate: true });
-        const m = state.markers[id];
-        if (m) m.openTooltip();
-      } else {
-        // no coords — still show detail + banner
-        el.pinHint.textContent = '此店暫無地圖座標，請用高德搜尋';
-      }
-    });
+    focusSoloOnMap(r);
+  }
+
+  function toggleSolo(id, on) {
+    if (on) soloRestaurant(id);
+    else clearSolo();
+  }
+
+  function photoUrl(r) {
+    return (r && r.photo) ? r.photo : 'assets/photos/placeholder.jpg';
+  }
+
+  function isPlaceholderPhoto(r) {
+    return !!(r && (r.photo_is_placeholder || !(r.photo) || String(r.photo).includes('placeholder')));
+  }
+
+  function soloToggleHtml(id) {
+    const on = state.soloId === id;
+    return `<label class="solo-toggle" data-solo-wrap="${esc(id)}">
+      <input type="checkbox" data-solo-toggle="${esc(id)}" ${on ? 'checked' : ''} />
+      <span class="sw" aria-hidden="true"></span>
+      <span class="solo-label">只看這個定位${on ? '（開）' : '（關）'}</span>
+    </label>`;
   }
 
   function renderChips() {
@@ -215,13 +234,17 @@
       const sigHtml = sig ? `<div class="sig">招牌：${esc(sig)}</div>` : '';
       const note = (r.address_note || (r.coord_note && String(r.coord_note).includes('非官網') ? '非官網來源' : ''))
         ? `<div class="note-warn">${esc(r.address_note || '非官網來源')}</div>` : '';
-      return `<li data-id="${esc(r.id)}" class="${state.activeId === r.id ? 'active' : ''}">
-        <div class="name">${esc(r.name)}</div>
-        <div class="meta">${esc(loc)}${r.address ? ' · ' + esc(String(r.address).slice(0, 48)) : ''}</div>
-        ${intro}${sigHtml}${note}
-        <div class="tags">${tags}${more}</div>
-        <div class="row-actions">
-          <button type="button" class="mini-btn primary" data-solo="${esc(r.id)}">只看這個定位</button>
+      const ph = isPlaceholderPhoto(r) ? ' ph' : '';
+      const photoNote = isPlaceholderPhoto(r)
+        ? `<div class="note-warn">${esc(r.photo_note || '示意圖／非官網')}</div>` : '';
+      return `<li data-id="${esc(r.id)}" class="card ${state.activeId === r.id ? 'active' : ''}">
+        <img class="thumb${ph}" src="${esc(photoUrl(r))}" alt="" loading="lazy" width="88" height="88" />
+        <div class="card-body">
+          <div class="name">${esc(r.name)}</div>
+          <div class="meta">${esc(loc)}${r.address ? ' · ' + esc(String(r.address).slice(0, 48)) : ''}</div>
+          ${intro}${sigHtml}${note}${photoNote}
+          <div class="tags">${tags}${more}</div>
+          ${soloToggleHtml(r.id)}
         </div>
       </li>`;
     }).join('') || '<li class="muted" style="padding:16px">沒有符合的餐廳，請調整篩選。</li>';
@@ -305,9 +328,8 @@
     if (r.coord_note) rows.push(`<div class="row muted">${esc(r.coord_note)}</div>`);
 
     const actions = [];
-    actions.push(`<button type="button" class="btn primary" data-solo-detail="${esc(r.id)}">只看這個定位</button>`);
     if (r.links && r.links.amap) {
-      actions.push(`<a class="btn" target="_blank" rel="noopener" href="${esc(r.links.amap)}">在高德地圖打開</a>`);
+      actions.push(`<a class="btn primary" target="_blank" rel="noopener" href="${esc(r.links.amap)}">在高德地圖打開</a>`);
     }
     if (r.links && r.links.official) {
       actions.push(`<a class="btn" target="_blank" rel="noopener" href="${esc(r.links.official)}">官方連結</a>`);
@@ -318,27 +340,27 @@
     if (r.links && r.links.maps_fallback) {
       actions.push(`<a class="btn ghost" target="_blank" rel="noopener" href="${esc(r.links.maps_fallback)}">Google 地圖</a>`);
     }
-    if (state.soloId === r.id) {
-      actions.push(`<button type="button" class="btn ghost" id="btnDetailClearSolo">顯示全部</button>`);
-    }
+
+    const ph = isPlaceholderPhoto(r) ? ' ph' : '';
+    const photoNote = r.photo_note
+      ? `<div class="photo-note">${esc(r.photo_note)}</div>` : '';
 
     el.detailBody.innerHTML = `
+      <img class="hero${ph}" src="${esc(photoUrl(r))}" alt="" loading="lazy" />
+      ${photoNote}
       <h2>${esc(r.name)}</h2>
       <div class="awards">${awards}</div>
+      ${soloToggleHtml(r.id)}
       ${rows.join('')}
       <div class="actions">${actions.join('')}</div>
       <p class="muted" style="margin-top:12px">${esc(r.source || '')}</p>
     `;
     el.detail.classList.remove('hidden');
-    const soloBtn = el.detailBody.querySelector('[data-solo-detail]');
-    if (soloBtn) soloBtn.addEventListener('click', (e) => {
+    document.body.classList.add('detail-open');
+    const tog = el.detailBody.querySelector('[data-solo-toggle]');
+    if (tog) tog.addEventListener('change', (e) => {
       e.stopPropagation();
-      soloRestaurant(r.id);
-    });
-    const clearBtn = el.detailBody.querySelector('#btnDetailClearSolo');
-    if (clearBtn) clearBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      clearSolo();
+      toggleSolo(r.id, tog.checked);
     });
   }
 
@@ -347,10 +369,11 @@
   });
   document.getElementById('btnCloseDetail').addEventListener('click', () => {
     el.detail.classList.add('hidden');
+    document.body.classList.remove('detail-open');
     state.activeId = null;
   });
   document.getElementById('btnClear').addEventListener('click', () => {
-    state.groups.clear(); state.areas.clear(); state.cats.clear();
+    state.groups.clear(); state.cats.clear();
     state.q = ''; el.search.value = '';
     state.soloId = null;
     updateSoloBanner();
@@ -387,25 +410,21 @@
     btn.classList.toggle('on');
     refresh();
   });
-  el.areaFilters.addEventListener('click', (e) => {
-    const btn = e.target.closest('.chip.area');
-    if (!btn) return;
-    const id = btn.dataset.area;
-    if (state.areas.has(id)) state.areas.delete(id); else state.areas.add(id);
-    btn.classList.toggle('on');
-    refresh();
-  });
   el.list.addEventListener('click', (e) => {
-    const soloBtn = e.target.closest('[data-solo]');
-    if (soloBtn) {
-      e.preventDefault();
+    const wrap = e.target.closest('[data-solo-wrap]');
+    if (wrap) {
       e.stopPropagation();
-      soloRestaurant(soloBtn.dataset.solo);
       return;
     }
     const li = e.target.closest('li[data-id]');
     if (!li) return;
     selectRestaurant(li.dataset.id, true);
+  });
+  el.list.addEventListener('change', (e) => {
+    const tog = e.target.closest('[data-solo-toggle]');
+    if (!tog) return;
+    e.stopPropagation();
+    toggleSolo(tog.dataset.soloToggle, tog.checked);
   });
 
   MQ.addEventListener('change', () => {
@@ -419,7 +438,7 @@
     window.visualViewport.addEventListener('resize', () => resizeMap());
   }
 
-  fetch('data/restaurants.json?v=4')
+  fetch('data/restaurants.json?v=5')
     .then((r) => r.json())
     .then((data) => {
       state.data = data;
