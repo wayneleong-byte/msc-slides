@@ -1,6 +1,20 @@
 {
-  "updated": "2026-10-27T13:19:00+08:00",
+  "updated": "2026-10-31T13:53:00+08:00",
   "items": [
+    {
+      "id": "41",
+      "date": "2026-10-31",
+      "title": "【二萬四千個超冷原子：實驗室裡「無外鐘」都量到時間】",
+      "summary": "伯明翰大學 Giovanni Barontini 團隊用約 24,000 個超冷原子起隔離量子系統，示範唔靠外部時鐘都可以量度時間流逝——時間可由系統內部變化湧現。實驗類比簡化版膨脹／收縮宇宙模型，用粒子分布／熵定義 entropic time，並寫出仍可預測量子態演化嘅薛定諤方程版本。刊於 Physical Review Research。作者強調：唔證明時間係幻覺，只顯示量子系統可以有有意義嘅內部時間度量。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122126483781337526&id=61590125804782",
+      "source_url": "https://www.sciencedaily.com/releases/2026/10/261028234703.htm",
+      "status": "published",
+      "tags": [
+        "量子物理",
+        "超冷原子",
+        "時間"
+      ]
+    },
     {
       "id": "13",
       "date": "2026-10-27",
