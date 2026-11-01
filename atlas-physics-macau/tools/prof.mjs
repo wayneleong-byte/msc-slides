@@ -1,0 +1,13 @@
+import puppeteer from 'puppeteer-core';
+const c = process.argv[2], pg = +(process.argv[3] || 3);
+const browser = await puppeteer.launch({ executablePath: process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: 'new', args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist'] });
+const page = await browser.newPage(); await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 2 });
+await page.goto(`http://127.0.0.1:8137/${c}/`, { waitUntil: 'load' }); await page.waitForFunction('window.__atlas');
+await page.evaluate(p => scrollTo(0, p * innerHeight), pg); await new Promise(r => setTimeout(r, 1500));
+const cdp = await page.createCDPSession(); await cdp.send('Profiler.enable'); await cdp.send('Profiler.setSamplingInterval', { interval: 200 }); await cdp.send('Profiler.start');
+await new Promise(r => setTimeout(r, 3000));
+const { profile } = await cdp.send('Profiler.stop');
+const self = new Map(); const dt = profile.timeDeltas; const byId = new Map(profile.nodes.map(n => [n.id, n]));
+profile.samples.forEach((id, i) => { const n = byId.get(id); const k = `${n.callFrame.functionName || '(anon)'} ${n.callFrame.url.split('/').slice(-2).join('/')}:${n.callFrame.lineNumber + 1}`; self.set(k, (self.get(k) || 0) + (dt[i] || 0)); });
+[...self].sort((a, b) => b[1] - a[1]).slice(0, 18).forEach(([k, v]) => console.log((v / 1000).toFixed(0).padStart(6), 'ms', k));
+await browser.close();

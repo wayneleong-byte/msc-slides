@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>物理圖集 · 澳門基力繁中版（MVP）</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="atlas.css">
+<style>
+  body { min-height: 100vh; padding: 0 16px 80px; font-family: "Noto Sans TC", var(--sans), system-ui, sans-serif; }
+  header { max-width: 960px; margin: 0 auto; padding: 22px 12px; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--mono); letter-spacing: .06em; color: var(--muted); }
+  header b { font: 500 18px "Noto Sans TC", var(--serif); letter-spacing: 0; color: var(--strong); }
+  header a { color: inherit; }
+  .hero { text-align: center; margin: 56px auto 40px; max-width: 720px; }
+  .hero h1 { font: 500 clamp(34px, 5vw, 52px)/1.15 "Noto Sans TC", var(--serif); color: var(--strong); }
+  .hero p { font: 400 17px/1.55 "Noto Sans TC", sans-serif; color: var(--muted); margin-top: 14px; }
+  .gates { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+  .gate { background: var(--card); border-radius: 16px; box-shadow: var(--lift); padding: 28px 26px 30px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 10px; transition: transform .4s cubic-bezier(.16,1,.3,1); }
+  @media (hover: hover) { a.gate:hover { transform: translateY(-4px); } }
+  .gate .tag { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .gate h2 { font: 500 28px/1.2 "Noto Sans TC", var(--serif); color: var(--strong); margin: 0; }
+  .gate p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+  .gate ul { margin: 8px 0 0; padding-left: 1.1em; color: var(--strong); font-size: 14px; line-height: 1.6; }
+  .note { max-width: 960px; margin: 40px auto 0; padding: 18px 20px; border: 1px dashed var(--faint); border-radius: 12px; color: var(--muted); font-size: 13px; line-height: 1.65; }
+  .note a { color: var(--strong); }
+</style>
+</head>
+<body>
+  <header>
+    <b>物理圖集 · 澳門基力版</b>
+    <span><a href="baseli.html">基力對照</a> · <a href="equations/">公式表</a> · <a href="https://github.com/nathanliow/atlas-of-physics">上游 MIT</a></span>
+  </header>
+  <section class="hero">
+    <h1>把物理拆開嚟睇。</h1>
+    <p>基於 Atlas of Physics（MIT）嘅 3D 互動圖集，按澳門《基本學力要求》分<strong>初中</strong>／<strong>高中</strong>入口。互動補充資源，唔係官方教材。</p>
+  </section>
+  <section class="gates">
+    <a class="gate" href="index-junior.html">
+      <span class="tag">Junior · 初中自然科學</span>
+      <h2>初中入口</h2>
+      <p>對齊物質科學基礎：壓強／浮力、功與能量、簡單電路。已控難度——唔把「牛頓運動定律」標成初中基力必達。</p>
+      <ul>
+        <li>流體（fluids）</li>
+        <li>功與能量（energy）</li>
+        <li>電路（circuits）</li>
+      </ul>
+    </a>
+    <a class="gate" href="index-senior.html">
+      <span class="tag">Senior · 高中／分科加深</span>
+      <h2>高中入口</h2>
+      <p>對齊高中基力史／探究條同校本分科常見主題：牛頓運動定律、功與能、動量、電磁感應。</p>
+      <ul>
+        <li>牛頓運動定律（newton）</li>
+        <li>功與能量（energy）</li>
+        <li>動量（momentum）</li>
+        <li>電磁感應（induction）</li>
+      </ul>
+    </a>
+  </section>
+  <p class="note">
+    版權：上游 Copyright (c) 2026 Nathan Liow，MIT License（見 <a href="LICENSE">LICENSE</a>）。繁中文案與入口為本地新增。正式展教上線前請再做術語簽核。
+    詳細對照見 <a href="baseli.html">基力對照</a> 與 <a href="README-MACAU.md">brief</a>。
+  </p>
+</body>
+</html>

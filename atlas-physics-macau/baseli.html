@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>基力對照 · 物理圖集</title>
+<link rel="stylesheet" href="atlas.css">
+<style>
+  body{max-width:720px;margin:0 auto;padding:28px 18px 80px;font:16px/1.65 "Noto Sans TC",system-ui,sans-serif;color:var(--strong)}
+  a{color:inherit} h1{font-size:28px} h2{margin-top:1.6em;font-size:18px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+  th,td{border:1px solid var(--faint);padding:8px 10px;vertical-align:top}
+  th{background:var(--card);text-align:left}
+  .muted{color:var(--muted);font-size:13px}
+  pre{white-space:pre-wrap;background:var(--card);padding:16px;border-radius:10px;font-size:13px;line-height:1.55}
+</style>
+</head>
+<body>
+  <p class="muted"><a href="./">← 首頁</a> · <a href="index-junior.html">初中</a> · <a href="index-senior.html">高中</a></p>
+  <h1>章節 ↔ 澳門基力對照（MVP）</h1>
+  <p class="muted">教學對照，非官方文件。完整 brief：上層 brief-macau-zh.md</p>
+  <pre id="md">載入中…</pre>
+  <script>
+  fetch('BASELI.md').then(r=>r.text()).then(t=>{document.getElementById('md').textContent=t}).catch(()=>{document.getElementById('md').textContent='無法載入 BASELI.md';});
+  </script>
+</body>
+</html>

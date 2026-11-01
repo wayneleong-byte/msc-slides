@@ -1,0 +1,16 @@
+{
+  "name": "atlas-of-physics",
+  "version": "1.0.0",
+  "description": "An interactive 3D textbook for AP Physics 1 and AP Physics C",
+  "scripts": {
+    "check": "for c in kinematics newton circular energy momentum oscillations rotation fluids electrostatics gauss potential capacitors circuits magnetism induction; do node $c/checks.mjs > /dev/null || { echo FAIL $c; exit 1; }; done; node equations/check.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "puppeteer-core": "^25.16.0"
+  }
+}
