@@ -1,57 +1,267 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Optics · Atlas of Physics</title>
-<link rel="icon" href="data:,">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../atlas.css">
-<link rel="stylesheet" href="../../engine/book.css">
-<link rel="expect" href="#right" blocking="render">
-<script src="../../engine/cover.js"></script>
-<script type="importmap">
-{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }
-</script>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+
+  <title>光的探索實驗室｜澳門科學館</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
-<body class="book-body">
-  <header class="topbar">
-    <a href="../" class="brand">Atlas of Physics</a>
-    <span class="crumb">No. 16 · Optics</span>
-    <nav class="dots" id="dots" aria-label="Pages"></nav>
-  </header>
 
-  <div class="scroll-space" id="space"></div>
+<body>
 
-  <main class="book" id="book">
-    <section class="page left" id="left" aria-live="polite">
-      <article class="sheet" id="sheet"></article>
-      <article class="plate" id="plate" hidden></article>
-      <footer class="folio"><span>Optics</span><span id="folio">1</span></footer>
-    </section>
+  <div class="app">
 
-    <section class="page right" id="right">
-      <div class="figure">
-        <canvas id="gl" aria-label="Interactive figure: straight rays, reflection, plane mirror, refraction, dispersion and a lens."></canvas>
-        <div id="labels" aria-hidden="true"></div>
-        <div class="corner tl" id="figno">Fig. 16</div>
-        <div class="corner tr" id="figtitle"></div>
-        <div class="corner bl" id="hint">Drag to turn · shift-drag to pan · click to break it down</div>
-        <div class="corner br readout" id="readout"></div>
+    <!-- 頁首 -->
+    <header class="header">
+
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">◈</div>
+
+        <div>
+          <div class="brand-name">澳門科學館</div>
+          <div class="brand-subtitle">
+            光學互動教學實驗室
+          </div>
+        </div>
       </div>
+
+      <a href="../" style="font-size:0.85rem;color:inherit;opacity:0.75;text-decoration:none;align-self:center;white-space:nowrap">← 返回物理圖集</a>
+
+      <div class="header-label">
+        光的探索 · 六站互動
+      </div>
+
+    </header>
+
+    <!-- 標題 -->
+    <section class="introduction">
+      <h1>探索光的奧秘</h1>
+      <p>
+        從光的直線傳播，到反射、折射、色散與成像，
+        透過互動光路圖認識基本光學定律。
+      </p>
     </section>
 
-    <div class="leaf" id="leaf" aria-hidden="true">
-      <div class="leaf-front"><span id="leafnext"></span></div>
-      <div class="leaf-back"><article class="sheet" id="leafsheet"></article></div>
-    </div>
-    <div class="spine" aria-hidden="true"></div>
-  </main>
+    <!-- 六站導航 -->
+    <nav class="station-nav"
+         id="stationNav"
+         aria-label="光學實驗站導航">
 
-  <p class="scroll-cue" id="cue">Scroll to turn the page</p>
-  <script type="module" src="main.js"></script>
-  <p class="credit" style="position:fixed;bottom:8px;left:12px;right:12px;text-align:center;font:500 11px/1.4 system-ui,sans-serif;color:#8a8a8f;pointer-events:none;z-index:5">Produced by Oscar, Macao Science Center · MIT / upstream Nathan Liow</p>
+      <button type="button"
+              class="station-button active"
+              data-station="shadow"
+              aria-current="step">
+        <span class="station-number">01</span>
+        <span>直線傳播與影子</span>
+      </button>
+
+      <button type="button"
+              class="station-button"
+              data-station="reflection">
+        <span class="station-number">02</span>
+        <span>反射定律</span>
+      </button>
+
+      <button type="button"
+              class="station-button"
+              data-station="mirror">
+        <span class="station-number">03</span>
+        <span>平面鏡虛像</span>
+      </button>
+
+      <button type="button"
+              class="station-button"
+              data-station="refraction">
+        <span class="station-number">04</span>
+        <span>斯涅爾折射</span>
+      </button>
+
+      <button type="button"
+              class="station-button"
+              data-station="dispersion">
+        <span class="station-number">05</span>
+        <span>稜鏡色散</span>
+      </button>
+
+      <button type="button"
+              class="station-button"
+              data-station="lens">
+        <span class="station-number">06</span>
+        <span>凸透鏡成像</span>
+      </button>
+
+    </nav>
+
+    <!-- 主工作區 -->
+    <main class="workspace">
+
+      <!-- 左側光路圖 -->
+      <section class="visual-panel"
+               aria-labelledby="visualTitle">
+
+        <div class="panel-header">
+
+          <div>
+            <span class="panel-eyebrow">
+              光學實驗區
+            </span>
+
+            <h2 id="visualTitle">
+              直線傳播與影子
+            </h2>
+          </div>
+
+          <span class="panel-status">
+            即時光路
+          </span>
+
+        </div>
+
+        <div class="svg-container">
+
+          <svg
+            id="scene"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1000 620"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-label="光學實驗互動光路圖">
+
+            <title>
+              光學實驗互動光路圖
+            </title>
+
+          </svg>
+
+        </div>
+
+        <div class="visual-footer">
+          <span class="interaction-icon" aria-hidden="true">
+            ◎
+          </span>
+
+          <p id="sceneHint" aria-live="polite">
+            點擊光源、擋板或影區查看科學說明。
+          </p>
+        </div>
+
+        <!-- 圖例 -->
+        <div class="legend"
+             aria-label="光路顏色及線型說明">
+
+          <span class="legend-item">
+            <span class="legend-line incident"></span>
+            入射光
+          </span>
+
+          <span class="legend-item">
+            <span class="legend-line reflected"></span>
+            反射光
+          </span>
+
+          <span class="legend-item">
+            <span class="legend-line refracted"></span>
+            折射光
+          </span>
+
+          <span class="legend-item">
+            <span class="legend-line dashed"></span>
+            法線／虛線
+          </span>
+
+        </div>
+
+      </section>
+
+      <!-- 右側教學與量度區 -->
+      <aside class="information-panel"
+             aria-label="光學實驗控制及科學說明">
+
+        <!-- 控制 -->
+        <section class="info-section">
+
+          <div class="section-heading">
+            <span class="section-icon">⚙</span>
+            <h3>實驗控制</h3>
+          </div>
+
+          <div id="controls">
+            <!-- JavaScript 產生滑桿 -->
+          </div>
+
+        </section>
+
+        <!-- 即時量度 -->
+        <section class="info-section">
+
+          <div class="section-heading">
+            <span class="section-icon">∠</span>
+            <h3>即時量度</h3>
+          </div>
+
+          <div id="readouts"
+               aria-live="polite"
+               aria-atomic="true">
+          </div>
+
+        </section>
+
+        <!-- 光學原理 -->
+        <section class="info-section">
+
+          <div class="section-heading">
+            <span class="section-icon">◉</span>
+            <h3>光學原理</h3>
+          </div>
+
+          <div id="science"
+               class="science-content">
+          </div>
+
+        </section>
+
+        <!-- 點擊物件後更新 -->
+        <section class="info-section selection-section">
+
+          <div class="section-heading">
+            <span class="section-icon">⌖</span>
+            <h3>物件觀察</h3>
+          </div>
+
+          <h4 id="selectionTitle">
+            光學觀察
+          </h4>
+
+          <p id="selectionText">
+            點擊光路圖中的物件，
+            查看相關科學說明。
+          </p>
+
+        </section>
+
+      </aside>
+
+    </main>
+
+    <!-- 底部 -->
+    <footer class="footer">
+
+      <span>
+        澳門科學館 · 光學互動教學
+      </span>
+
+      <span>
+        理想幾何光學模型 · 示意圖不代表實際比例
+      </span>
+
+    </footer>
+
+  </div>
+
 </body>
 </html>
