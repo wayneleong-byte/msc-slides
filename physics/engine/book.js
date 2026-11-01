@@ -18,6 +18,8 @@ const DEFAULT_HINT = ZH
   : (touch ? 'Drag sideways to turn · tap to break it down' : 'Drag to turn · shift-drag to pan · click to break it down');
 // this chapter's directory, as cross-references and deep links name it: kinematics/#3
 const DIR = location.pathname.split('/').filter(s => s && s !== 'index.html').pop();
+// chapters live under zh/ or en/; equations & site chrome sit two levels up
+const ROOT = /\/(zh|en)\//.test(location.pathname) ? '../..' : '..';
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 // chapter: { no, PAGES, PLATES, buildWorld(E), lookKeys, state(clock, reduced), readout(state),
@@ -91,7 +93,7 @@ export function startBook(chapter) {
     // the address names the page, so it can be bookmarked or linked: kinematics/#3
     history.replaceState(null, '', i ? `#${i}` : location.pathname);
     $('folio').textContent = i + 1;
-    $('figno').textContent = `Fig. ${chapter.no}${i ? '.' + i : ''}`;
+    $('figno').textContent = `${ZH ? '圖' : 'Fig.'} ${chapter.no}${i ? '.' + i : ''}`;
     $('figtitle').textContent = PAGES[i].fig;
     [...$('dots').children].forEach((b, k) => b.setAttribute('aria-current', k === i));
   }
@@ -100,12 +102,12 @@ export function startBook(chapter) {
   history.scrollRestoration = 'manual';
   addEventListener('hashchange', () => { const k = fromHash(); if (k !== null) goto(k); });
   // a compact pager for small screens, where a row of dots would not fit
-  $('dots').insertAdjacentHTML('afterend', '<span class="pager"><button type="button" aria-label="Previous page">‹</button><span id="pagenum"></span><button type="button" aria-label="Next page">›</button></span><a class="eqlink" href="../equations/">Equations</a><a class="gh" href="https://github.com/nathanliow/atlas-of-physics" aria-label="Source on GitHub"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>');
+  $('dots').insertAdjacentHTML('afterend', `<span class="pager"><button type="button" aria-label="${ZH ? '上一頁' : 'Previous page'}">‹</button><span id="pagenum"></span><button type="button" aria-label="${ZH ? '下一頁' : 'Next page'}">›</button></span><a class="eqlink" href="${ROOT}/equations/">${ZH ? '公式表' : 'Equations'}</a><a class="gh" href="https://github.com/nathanliow/atlas-of-physics" aria-label="${ZH ? 'GitHub 原始碼' : 'Source on GitHub'}"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>`);
   const [prevB, nextB] = document.querySelectorAll('.pager button');
   prevB.onclick = () => goto(Math.round(scrollY / pageH) - 1); nextB.onclick = () => goto(Math.round(scrollY / pageH) + 1);
   PAGES.forEach((p, i) => {
     const b = document.createElement('button');
-    b.setAttribute('aria-label', `Page ${i + 1}: ${p.title}`);
+    b.setAttribute('aria-label', `${ZH ? '第' : 'Page '}${i + 1}${ZH ? ' 頁：' : ': '}${p.title}`);
     b.onclick = () => goto(i);
     $('dots').appendChild(b);
   });
@@ -219,12 +221,17 @@ export function startBook(chapter) {
     const plate = $('plate');
     if (!k) { plate.hidden = true; $('hint').textContent = DEFAULT_HINT; return; }
     const u = E.ASM[k].userData;
+    const plateMeta = PLATES[k] || {};
+    const title = plateMeta.title || u.title || k;
+    const sub = plateMeta.sub != null ? plateMeta.sub : (u.sub || '');
+    const closeLbl = ZH ? (touch ? '關閉' : '關閉 · Esc') : (touch ? 'Close' : 'Close · Esc');
+    const kick = ZH ? '拆解' : 'Breakdown';
     plate.innerHTML = `
-      <button class="close" type="button">${touch ? 'Close' : 'Close · Esc'}</button>
-      <div class="kicker">Breakdown</div>
-      <h1>${u.title}</h1>
-      <div class="sub">${u.sub}</div>
-      <p>${PLATES[k].text}</p>
+      <button class="close" type="button">${closeLbl}</button>
+      <div class="kicker">${kick}</div>
+      <h1>${title}</h1>
+      <div class="sub">${sub}</div>
+      <p>${plateMeta.text || ''}</p>
       <table class="data" id="facts"></table>`;
     plate.hidden = false;
     plate.querySelector('.close').onclick = () => select(null);
@@ -234,7 +241,7 @@ export function startBook(chapter) {
   // a small badge says when motion is stopped (pointing at something, or a breakdown open)
   const paused = document.createElement('div');
   paused.className = 'paused'; paused.setAttribute('aria-hidden', 'true');
-  paused.innerHTML = '<span class="bars"></span>paused';
+  paused.innerHTML = '<span class="bars"></span>' + (ZH ? '已暫停' : 'paused');
   $('gl').parentElement.appendChild(paused);
 
   // ---------- frame ----------

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas of Physics · English (Macao)</title>
+<link rel="stylesheet" href="../atlas.css">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { min-height: 100vh; padding: 0 16px 80px; font-family: Inter, system-ui, sans-serif; }
+  header { max-width: 960px; margin: 0 auto; padding: 22px 12px; display: flex; justify-content: space-between; font: 500 12px var(--mono); letter-spacing: .06em; color: var(--muted); }
+  header b { font: 500 18px var(--serif); color: var(--strong); letter-spacing: 0; }
+  header a { color: inherit; }
+  .hero { text-align: center; margin: 48px auto 36px; max-width: 720px; }
+  .hero h1 { font: 500 clamp(32px, 4.5vw, 46px)/1.15 var(--serif); color: var(--strong); }
+  .hero p { color: var(--muted); margin-top: 12px; line-height: 1.55; }
+  .gates { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+  .gate { background: var(--card); border-radius: 16px; box-shadow: var(--lift); padding: 28px 26px 30px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 10px; }
+  .gate .tag { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .gate h2 { font: 500 28px/1.2 var(--serif); color: var(--strong); margin: 0; }
+  .gate p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+  .credit { text-align: center; margin: 36px auto 0; font: 500 14px Inter, sans-serif; color: var(--strong); }
+</style>
+</head>
+<body>
+  <header>
+    <b>Atlas of Physics · English</b>
+    <span><a href="../">Language</a> · <a href="../equations/">Equations</a></span>
+  </header>
+  <section class="hero">
+    <h1>Take physics apart.</h1>
+    <p>Junior and senior gateways aligned with Macao basic academic requirements. English UI and copy stay in English — including breakdowns after you click.</p>
+  </section>
+  <section class="gates">
+    <a class="gate" href="index-junior.html"><span class="tag">Junior</span><h2>Junior gateway</h2><p>Fluids, energy, circuits, optics (and optional magnetism) with difficulty control.</p></a>
+    <a class="gate" href="index-senior.html"><span class="tag">Senior</span><h2>Senior gateway</h2><p>Newton, energy, momentum, induction, plus optics/magnetism extensions.</p></a>
+  </section>
+  <p class="credit">Produced by Oscar, Macao Science Center</p>
+</body>
+</html>

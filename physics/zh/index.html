@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>物理圖集 · 中文版（澳門基力）</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../atlas.css">
+<style>
+  body { min-height: 100vh; padding: 0 16px 80px; font-family: "Noto Sans TC", system-ui, sans-serif; }
+  header { max-width: 960px; margin: 0 auto; padding: 22px 12px; display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--mono); letter-spacing: .06em; color: var(--muted); }
+  header b { font: 500 18px "Noto Sans TC", var(--serif); letter-spacing: 0; color: var(--strong); }
+  header a { color: inherit; }
+  .hero { text-align: center; margin: 48px auto 36px; max-width: 720px; }
+  .hero h1 { font: 500 clamp(32px, 4.5vw, 46px)/1.2 "Noto Sans TC", var(--serif); color: var(--strong); }
+  .hero p { color: var(--muted); margin-top: 12px; line-height: 1.55; }
+  .gates { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+  .gate { background: var(--card); border-radius: 16px; box-shadow: var(--lift); padding: 28px 26px 30px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 10px; }
+  .gate .tag { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .gate h2 { font: 500 28px/1.2 "Noto Sans TC", var(--serif); color: var(--strong); margin: 0; }
+  .gate p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+  .gate ul { margin: 8px 0 0; padding-left: 1.1em; color: var(--strong); font-size: 14px; line-height: 1.6; }
+  .credit { text-align: center; margin: 36px auto 0; font: 500 14px "Noto Sans TC", sans-serif; color: var(--strong); }
+  .note { max-width: 960px; margin: 20px auto 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+</style>
+</head>
+<body>
+  <header>
+    <b>物理圖集 · 中文</b>
+    <span><a href="../">語言</a> · <a href="baseli.html">基力對照</a> · <a href="../equations/">公式表</a></span>
+  </header>
+  <section class="hero">
+    <h1>把物理拆開來看。</h1>
+    <p>按澳門《基本學力要求》分<strong>初中</strong>／<strong>高中</strong>入口。書面語繁體；點擊拆解與課文語言一致。互動補充資源，不是官方教材。</p>
+  </section>
+  <section class="gates">
+    <a class="gate" href="index-junior.html">
+      <span class="tag">Junior · 初中自然科學</span>
+      <h2>初中入口</h2>
+      <p>壓強／浮力、功與能量、簡單電路、光學基礎。不把「牛頓運動定律」標為初中基力必達。</p>
+      <ul>
+        <li>流體 · 功與能量 · 電路</li>
+        <li>光學（新）· 磁學（選）</li>
+      </ul>
+    </a>
+    <a class="gate" href="index-senior.html">
+      <span class="tag">Senior · 高中／分科加深</span>
+      <h2>高中入口</h2>
+      <p>牛頓運動定律、功與能、動量、電磁感應，以及光學／磁學加深頁。</p>
+      <ul>
+        <li>牛頓 · 能量 · 動量 · 電磁感應</li>
+        <li>光學 · 磁學</li>
+      </ul>
+    </a>
+  </section>
+  <p class="credit">澳門科學館 Oscar 製作</p>
+  <p class="note">上游 MIT · Copyright (c) 2026 Nathan Liow。正式展教上線前請再做術語簽核。</p>
+</body>
+</html>

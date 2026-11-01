@@ -1,3 +1,5 @@
+> **澳門科學館本地版**：請從根目錄語言頁進入 [`zh/`](zh/)／[`en/`](en/)。說明見 [`README-MACAU.md`](README-MACAU.md)。署名：澳門科學館 Oscar 製作。上游正文如下。
+
 # Atlas of Physics
 
 An interactive textbook. Each chapter is one simple motion drawn in 3D like a textbook diagram

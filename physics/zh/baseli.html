@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>基力對照 · 物理圖集</title>
+<link rel="stylesheet" href="../atlas.css">
+<style>
+  body { max-width: 820px; margin: 0 auto; padding: 28px 18px 80px; font-family: "Noto Sans TC", system-ui, sans-serif; line-height: 1.65; color: var(--strong); }
+  a { color: inherit; }
+  pre, code { font-family: var(--mono); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { border: 1px solid var(--faint); padding: 8px 10px; text-align: left; vertical-align: top; }
+  .credit { margin-top: 28px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+  <p><a href="./">← 中文入口</a></p>
+  <div id="md"></div>
+  <p class="credit">澳門科學館 Oscar 製作</p>
+  <script type="module">
+    const src = await (await fetch('./BASELI.md')).text();
+    // minimal markdown: headings, tables, bold, code
+    let html = src
+      .replace(/^### (.*)$/gm, '<h3>$1</h3>')
+      .replace(/^## (.*)$/gm, '<h2>$1</h2>')
+      .replace(/^# (.*)$/gm, '<h1>$1</h1>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>');
+    // tables
+    html = html.replace(/(^\|.+\|$\n)+/gm, block => {
+      const rows = block.trim().split('\n').filter(r => !/^\|\s*-/.test(r));
+      const body = rows.map((r,i) => {
+        const cells = r.split('|').slice(1,-1).map(c => c.trim());
+        const tag = i === 0 ? 'th' : 'td';
+        return '<tr>' + cells.map(c => `<${tag}>${c}</${tag}>`).join('') + '</tr>';
+      }).join('');
+      return `<table>${body}</table>`;
+    });
+    html = html.replace(/^(?!<[ht]|<table)(.+)$/gm, '<p>$1</p>');
+    document.getElementById('md').innerHTML = html;
+  </script>
+</body>
+</html>

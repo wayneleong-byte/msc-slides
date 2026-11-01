@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Junior · foundations</title>
+<link rel="icon" href="data:,">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../atlas.css">
+<link rel="prefetch" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js" crossorigin>
+<style>
+  body { min-height: 100vh; padding: 0 16px 80px; font-family: Inter, system-ui, sans-serif; }
+  header { max-width: 1180px; margin: 0 auto; padding: 22px 12px; display: flex; justify-content: space-between; font: 500 12px var(--mono); letter-spacing: .06em; color: var(--muted); }
+  header b { font: 500 18px EB Garamond, var(--serif); color: var(--strong); letter-spacing: 0; }
+  header a { color: inherit; }
+  .hero { text-align: center; margin: 48px auto 36px; max-width: 720px; }
+  .hero h1 { font: 500 clamp(32px, 4.5vw, 44px)/1.2 EB Garamond, var(--serif); color: var(--strong); }
+  .hero p { color: var(--muted); margin-top: 12px; line-height: 1.55; }
+  .section { max-width: 1180px; margin: 28px auto 14px; font: 500 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .shelf { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 22px; }
+  .card { background: var(--card); border-radius: 14px; box-shadow: var(--lift); padding: 18px 20px 20px; text-decoration: none; display: flex; flex-direction: column; min-height: 340px; color: inherit; }
+  .card .no { display: flex; justify-content: space-between; font: 11px var(--mono); color: var(--muted); }
+  .card h2 { font: 500 28px/1.1 EB Garamond, var(--serif); color: var(--strong); margin-top: 16px; }
+  .card h2 + i { font-style: normal; color: var(--muted); font-size: 15px; line-height: 1.45; margin-top: 6px; }
+  .card .tag { margin-top: 10px; align-self: flex-start; font: 500 11px var(--mono); padding: 3px 8px; border-radius: 999px; background: #eef3ea; color: #3d5a3a; }
+  .card img { margin-top: auto; width: 100%; aspect-ratio: 9/8; object-fit: cover; border-radius: 6px; }
+  .credit { text-align: center; margin: 36px auto 12px; font: 500 13px Inter, sans-serif; color: var(--strong); }
+</style>
+</head>
+<body>
+  <header>
+    <b><a href="./" style="color:inherit;text-decoration:none">Atlas of Physics</a> · Junior</b>
+    <span><a href="index-senior.html">Senior</a> · <a href="../zh/baseli.html">Baseli</a> · <a href="../">Language</a></span>
+  </header>
+  <section class="hero">
+    <h1>Junior</h1>
+    <p>Pages filtered with ?level=junior where tagged. Newton’s laws packaging, deep Bernoulli pages, induction and thin-lens extension stay out of the junior cut.</p>
+  </section>
+  <h2 class="section">MVP chapters</h2>
+  <section class="shelf">
+    <a class="card" href="fluids/?level=junior">
+      <div class="no"><span>Fluids</span><span>08</span></div>
+      <h2>Fluids</h2><i>Density, pressure, buoyancy, atmosphere</i>
+      <span class="tag">Junior</span>
+      <img src="../img/fluids.jpg" alt="">
+    </a>
+    <a class="card" href="energy/?level=junior">
+      <div class="no"><span>Energy</span><span>04</span></div>
+      <h2>Work & energy</h2><i>Work, KE, PE, conservation intro</i>
+      <span class="tag">Junior</span>
+      <img src="../img/energy.jpg" alt="">
+    </a>
+    <a class="card" href="circuits/?level=junior">
+      <div class="no"><span>Circuits</span><span>13</span></div>
+      <h2>Circuits</h2><i>Series/parallel, Ohm, power (trimmed)</i>
+      <span class="tag">Junior</span>
+      <img src="../img/circuits.jpg" alt="">
+    </a>
+    <a class="card" href="optics/?level=junior">
+      <div class="no"><span>Optics</span><span>16</span></div>
+      <h2>Optics</h2><i>Rays, reflection, mirrors, refraction, colour</i>
+      <span class="tag">Junior</span>
+      <img src="../img/optics.jpg" alt="">
+    </a>
+    <a class="card" href="magnetism/?level=junior">
+      <div class="no"><span>Magnetism</span><span>14</span></div>
+      <h2>Magnetism (opt.)</h2><i>Poles and field lines intro</i>
+      <span class="tag">Junior</span>
+      <img src="../img/magnetism.jpg" alt="">
+    </a>
+  </section>
+  <p class="credit">Produced by Oscar, Macao Science Center</p>
+</body>
+</html>
