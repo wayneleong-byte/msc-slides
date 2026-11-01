@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IBM 4-Qubit 超導量子晶片 · 互動拆解</title>
+<style>
+  :root{
+    --acc:#ff6b35;
+    --ink:#22303a;
+    --ink2:#5b6b78;
+    --card:rgba(255,255,255,.86);
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; overflow:hidden;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:radial-gradient(1200px 800px at 28% 18%, #f8fafc 0%, #e9eef3 55%, #d9e1e8 100%);
+  }
+  #scene{ position:fixed; inset:0; }
+  #scene canvas{ display:block; }
+
+  header{ position:fixed; top:16px; left:22px; z-index:10; pointer-events:none; }
+  header h1{ margin:0; font-size:19px; letter-spacing:.06em; font-weight:700; }
+  header p{ margin:3px 0 0; font-size:12px; color:var(--ink2); letter-spacing:.03em; }
+
+  #toolbar{ position:fixed; top:16px; right:22px; z-index:12; display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; max-width:min(600px,72vw); }
+  .seg{ display:flex; background:var(--card); border:1px solid rgba(34,48,58,.12); border-radius:11px; overflow:hidden;
+        box-shadow:0 4px 14px rgba(34,48,58,.08); backdrop-filter:blur(6px); }
+  .seg button{ border:0; background:transparent; padding:8px 13px; font:inherit; font-size:13px; cursor:pointer; color:#33424e; white-space:nowrap; }
+  .seg button+button{ border-left:1px solid rgba(34,48,58,.10); }
+  .seg button:hover{ background:rgba(255,107,53,.10); }
+  .seg button.on{ background:var(--acc); color:#fff; }
+  .btn{ border:1px solid rgba(34,48,58,.12); background:var(--card); border-radius:11px; padding:8px 15px; font:inherit; font-size:13px;
+        cursor:pointer; color:#33424e; box-shadow:0 4px 14px rgba(34,48,58,.08); backdrop-filter:blur(6px); white-space:nowrap; }
+  .btn:hover{ background:rgba(255,107,53,.10); }
+  .btn.on{ background:var(--acc); color:#fff; border-color:var(--acc); }
+
+  #panel{ position:fixed; top:74px; right:22px; width:302px; max-width:calc(100vw - 32px); z-index:11;
+    background:var(--card); border:1px solid rgba(34,48,58,.12); border-radius:14px; padding:15px 16px 13px;
+    box-shadow:0 10px 30px rgba(34,48,58,.12); backdrop-filter:blur(8px); }
+  #panel .tag{ display:inline-block; font-size:11px; letter-spacing:.08em; padding:3px 9px; border-radius:999px;
+    background:var(--acc); color:#fff; font-weight:600; }
+  #panel h3{ margin:9px 0 1px; font-size:17px; }
+  #panel .en{ font-size:11px; color:var(--ink2); letter-spacing:.05em; margin-bottom:6px; text-transform:uppercase; }
+  #panel p{ margin:7px 0 0; font-size:13px; line-height:1.65; color:#3a4a56; }
+  #panel .dim{ color:var(--ink2); font-size:12px; line-height:1.65; }
+  #panel .swatch{ float:right; width:32px; height:32px; border-radius:8px; border:1px solid rgba(34,48,58,.22); margin:2px 0 0 10px; }
+
+  #legend{ position:fixed; left:22px; bottom:58px; z-index:10; font-size:12px; color:#33424e;
+    background:var(--card); border:1px solid rgba(34,48,58,.12); border-radius:11px; padding:8px 12px;
+    display:flex; gap:14px; box-shadow:0 4px 14px rgba(34,48,58,.08); backdrop-filter:blur(6px); flex-wrap:wrap; }
+  #legend span{ display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+  #legend i{ width:11px; height:11px; border-radius:3px; border:1px solid rgba(34,48,58,.25); display:inline-block; }
+
+  #hint{ position:fixed; left:50%; bottom:64px; transform:translateX(-50%); z-index:9;
+    font-size:12.5px; color:#33424e; background:var(--card); border:1px solid rgba(34,48,58,.12);
+    padding:8px 16px; border-radius:999px; box-shadow:0 6px 18px rgba(34,48,58,.10); backdrop-filter:blur(6px);
+    animation:hint 1.2s ease-out both; white-space:nowrap; }
+  @keyframes hint{ from{ opacity:0; transform:translate(-50%,12px); } to{ opacity:.92; transform:translate(-50%,0); } }
+
+  footer{ position:fixed; left:0; right:0; bottom:0; z-index:10; padding:9px 22px; font-size:11.5px; line-height:1.55;
+    color:#3a4a56; background:rgba(255,255,255,.72); border-top:1px solid rgba(34,48,58,.10); backdrop-filter:blur(6px); }
+  footer a{ color:var(--acc); text-decoration:none; }
+  footer a:hover{ text-decoration:underline; }
+
+  #fallback{ position:fixed; inset:0; z-index:50; display:none; place-items:center; text-align:center; padding:24px;
+    background:rgba(233,238,243,.96); font-size:14px; color:var(--ink); line-height:1.8; }
+
+  @media (max-width:780px){
+    header p{ display:none; }
+    #panel{ width:min(302px, calc(100vw - 32px)); top:auto; bottom:98px; }
+    #legend,#hint{ display:none; }
+  }
+</style>
+</head>
+<body>
+<div id="scene"></div>
+
+<header>
+  <h1>IBM 4-Qubit 超導量子晶片 · 互動拆解</h1>
+  <p>對照 Gambetta, Chow &amp; Steffen (2017) npj Quantum Information 之平面晶片結構 · 90° 旋轉對稱示意</p>
+</header>
+
+<div id="toolbar">
+  <div class="seg" role="group" aria-label="部件篩選">
+    <button id="fAll" class="on">全部</button>
+    <button id="fQ">只 Qubits</button>
+    <button id="fB">只 Buses</button>
+    <button id="fR">只 Resonators</button>
+  </div>
+  <button id="btnExplode" class="btn">⤓ 爆炸</button>
+  <button id="btnTour" class="btn">▷ 自動導覽</button>
+</div>
+
+<aside id="panel">
+  <div class="tag">操作提示</div>
+  <h3>互動拆解視圖</h3>
+  <div class="en">Interactive Teardown</div>
+  <p class="dim">拖曳＝旋轉 · 滾輪＝縮放 · 右鍵拖曳／雙指＝平移。<br>
+  <b>點選</b>任一部件，可查看名稱與原理簡述；上方按鈕可篩選部件類別，並可「爆炸」分層抬升，或播放自動導覽。</p>
+</aside>
+
+<div id="legend">
+  <span><i style="background:#eef4fa"></i>量子位元</span>
+  <span><i style="background:#c2d6e8"></i>量子匯流排</span>
+  <span><i style="background:#a9c3da"></i>讀出共振器</span>
+  <span><i style="background:#2c3a46"></i>矽基板</span>
+</div>
+
+<div id="hint">拖拉旋轉 · 滾輪縮放 · 點擊部件查看說明</div>
+
+<footer>
+  本頁為<b>教學用簡化示意模型</b>（非原始顯微影像），參考論文之晶片結構重建，依 <b>CC BY 4.0</b> 釋出。
+  署名：Jay M. Gambetta, Jerry M. Chow &amp; Matthias Steffen (2017),
+  “Building logical qubits in a superconducting quantum computing system”, <i>npj Quantum Information</i> 3, 16004 —
+  <a href="https://doi.org/10.1038/s41534-016-0004-0" target="_blank" rel="noopener">doi:10.1038/s41534-016-0004-0</a>
+  （結構對照該論文／Wikimedia 顯微示意圖）。
+</footer>
+
+<div id="fallback"><div>⚠️ 無法從 CDN 載入 three.js。<br>請連上網路後重新整理，或改用本機 static server 開啟本檔。</div></div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+/* ---------- 載入 three.js（importmap ＋ URL 後備） ---------- */
+let THREE, OrbitControls, ok = false;
+for (const [core, addons] of [
+  ['three', 'three/addons/controls/OrbitControls.js'],
+  ['https://unpkg.com/three@0.160.0/build/three.module.js',
+   'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js'],
+]) {
+  try {
+    THREE = await import(core);
+    OrbitControls = (await import(addons)).OrbitControls;
+    ok = true; break;
+  } catch (e) { /* 嘗試下一個來源 */ }
+}
+if (!ok) {
+  document.getElementById('fallback').style.display = 'grid';
+  throw new Error('three.js 載入失敗');
+}
+
+/* ============ 場景 ============ */
+const ACCENT = new THREE.Color('#ff6b35');
+const container = document.getElementById('scene');
+
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 200);
+camera.up.set(0, 0, 1);                 // 晶片面＝XY 平面，爆炸沿 Z 分層
+camera.position.set(11, -11, 10);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 0, 0.8);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.minDistance = 3;
+controls.maxDistance = 45;
+controls.maxPolarAngle = Math.PI * 0.52;
+controls.screenSpacePanning = true;
+
+/* ============ 燈光 ============ */
+scene.add(new THREE.AmbientLight('#ffffff', 0.42));
+scene.add(new THREE.HemisphereLight('#f5f9fd', '#a7b3bd', 0.85));
+const key = new THREE.DirectionalLight('#ffffff', 1.5);
+key.position.set(7, -8, 14);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+Object.assign(key.shadow.camera, { left:-9, right:9, top:9, bottom:-9, near:1, far:42 });
+key.shadow.bias = -0.0006;
+scene.add(key);
+const fill = new THREE.DirectionalLight('#dce8f2', 0.5);
+fill.position.set(-9, 6, 8);
+scene.add(fill);
+
+/* ============ 材質 ============ */
+function fluxTexture(){
+  const c = document.createElement('canvas'); c.width = c.height = 512;
+  const g = c.getContext('2d');
+  g.fillStyle = '#2c3a46'; g.fillRect(0, 0, 512, 512);
+  g.strokeStyle = 'rgba(255,255,255,.05)'; g.lineWidth = 1;   // 光罩網格感
+  for (let i = 0; i <= 512; i += 32){
+    g.beginPath(); g.moveTo(i, 0); g.lineTo(i, 512); g.stroke();
+    g.beginPath(); g.moveTo(0, i); g.lineTo(512, i); g.stroke();
+  }
+  for (let y = 8; y < 512; y += 16){                          // flux-trap 細點陣列
+    for (let x = 8; x < 512; x += 16){
+      g.fillStyle = 'rgba(158,196,220,.17)';
+      g.beginPath(); g.arc(x + ((y / 16) % 2 ? 8 : 0), y, 2.1, 0, Math.PI * 2); g.fill();
+    }
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+const TEX = fluxTexture();
+
+const BASE = {
+  substrate: new THREE.MeshStandardMaterial({ map:TEX, roughness:.72, metalness:.10 }),
+  qubit:     new THREE.MeshStandardMaterial({ color:'#eef4fa', roughness:.32, metalness:.55 }),
+  bus:       new THREE.MeshStandardMaterial({ color:'#c2d6e8', roughness:.40, metalness:.45 }),
+  resonator: new THREE.MeshStandardMaterial({ color:'#a9c3da', roughness:.45, metalness:.40 }),
+  pad:       new THREE.MeshStandardMaterial({ color:'#8fa8ba', roughness:.42, metalness:.45 }),
+  squid:     new THREE.MeshStandardMaterial({ color:'#2c3a46', roughness:.55, metalness:.25 }),
+};
+
+/* ============ 部件文字資料 ============ */
+const CLASS_INFO = {
+  qubit: {
+    tag:'量子位元', chip:'#eef4fa',
+    name:'Transmon 量子位元', en:'Superconducting Transmon Qubit',
+    lines:['以「約瑟夫森接面＋大電容」構成的超導電路，把量子態儲存在兩個微波能階 |0⟩、|1⟩ 中，是整顆晶片的運算核心。',
+           '方形 pad 中央的深色小結構是 SQUID 迴圈（兩個約瑟夫森接面並聯）；通入磁通可微調位元頻率，外側細線是控制／讀出饋線。'],
+  },
+  bus: {
+    tag:'量子匯流排', chip:'#c2d6e8',
+    name:'量子匯流排／耦合器', en:'Quantum Bus (Coupler)',
+    lines:['一段超導共面波導諧振結構，作為相鄰量子位元之間的「橋樑」。',
+           '調變其耦合強度，可讓兩個 qubit 交換量子資訊、產生纏結（雙位元邏輯閘），兩者不必直接相連。四條匯流排以 90° 針輪（pinwheel）狀互相扣接，是這顆晶片最招牌的外觀。'],
+  },
+  resonator: {
+    tag:'讀出共振器', chip:'#a9c3da',
+    name:'讀出共振器', en:'Readout Resonator (Meander)',
+    lines:['λ/4 共面波導諧振器，以蜿蜒（meander）走線把半波長收進小面積，尾端與 qubit 耦合。',
+           '送入微波探測訊號後，qubit 狀態會使其共振頻率位移；量測反射／穿透訊號的相位差，即可讀出 |0⟩／|1⟩，而不會直接破壞量子位元。'],
+  },
+  substrate: {
+    tag:'基板', chip:'#2c3a46',
+    name:'矽基板 Substrate', en:'Silicon Substrate / Ground Plane',
+    lines:['整顆元件的載台：高純度矽晶圓上先沉積超導薄膜（如鈮 Nb），再蝕刻出所有電路；深色表面即共面接地平面。',
+           '表面規律的細點是「通陷（flux-trap）孔」陣列，用來捕捉磁通渦旋，避免渦旋漂移擾亂 qubit 頻率。'],
+  },
+  pad: {
+    tag:'鍵合墊', chip:'#8fa8ba',
+    name:'鍵合墊／基準點', en:'Bond Pad & Fiducial',
+    lines:['晶片邊緣的方形金屬墊（內含圓孔），以打線（wire bonding）連到封裝基板與外部微波電路。',
+           '四角的 L 形標記是 fiducial 基準點，供微影光罩對位與封裝對準使用。'],
+  },
+};
+
+/* ============ 可點選部件註冊 ============ */
+const pickables = [];
+function reg(mesh, cls, name, en){
+  const mat = mesh.material.clone();
+  mat.transparent = true;
+  mat.emissive = ACCENT.clone();
+  mat.emissiveIntensity = 0;
+  mesh.material = mat;
+  mesh.castShadow = true;
+  mesh.userData = { cls, name, en: en || (CLASS_INFO[cls] ? CLASS_INFO[cls].en : ''), baseZ: mesh.position.z };
+  pickables.push(mesh);
+  scene.add(mesh);
+  return mesh;
+}
+function B(w, h, t, mat){ return new THREE.Mesh(new THREE.BoxGeometry(w, h, t), mat); }
+function CYL(r, h, mat){
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, 24), mat);
+  m.rotation.x = Math.PI / 2;      // 圓柱躺平，軸向沿 Z（鏡頭看是圓）
+  return m;
+}
+/* 90° 旋轉對稱助手：以晶片中心為軸，把「上邊」局部座標的物件旋轉 k*90° 擺到四邊 */
+function rotZ(mesh, k, lx, ly, z){
+  const a = k * Math.PI / 2;
+  mesh.position.set(lx * Math.cos(a) - ly * Math.sin(a), lx * Math.sin(a) + ly * Math.cos(a), z);
+  mesh.rotation.z = a;
+  return mesh;
+}
+
+/* ============ 1. 基板 ============ */
+const sub = B(10, 10, 0.28, BASE.substrate);
+sub.position.z = -0.14;
+sub.receiveShadow = true; sub.castShadow = false;
+reg(sub, 'substrate', '矽基板 Substrate');
+
+/* ============ 2. 量子位元（中央 2×2，方 pad）=========== */
+const QPOS = [[1.55, 1.55], [-1.55, 1.55], [-1.55, -1.55], [1.55, -1.55]];
+QPOS.forEach(([x, y], i) => {
+  const n = '量子位元 Q' + (i + 1);
+  const pad = B(1.9, 1.9, 0.10, BASE.qubit);
+  pad.position.set(x, y, 0.05);
+  reg(pad, 'qubit', n);
+
+  const sqBar = B(0.60, 0.22, 0.05, BASE.squid);       // SQUID 迴圈細節
+  sqBar.position.set(x + 0.30, y + 0.30, 0.125);
+  reg(sqBar, 'qubit', n, 'SQUID loop of Transmon Q' + (i + 1));
+
+  const sqDot = CYL(0.15, 0.05, BASE.squid);
+  sqDot.position.set(x - 0.32, y - 0.32, 0.125);
+  reg(sqDot, 'qubit', n, 'Josephson junction area of Q' + (i + 1));
+
+  const sy = y > 0 ? 1 : -1;
+  const stub = B(0.10, 0.95, 0.04, BASE.qubit);       // 控制／讀出饋線
+  stub.position.set(x, y + sy * 1.40, 0.05);
+  reg(stub, 'qubit', n, 'Drive / readout feedline of Q' + (i + 1));
+});
+
+/* ============ 3. 量子匯流排（4 條長框，90° pinwheel）＝=========== */
+for (let k = 0; k < 4; k++){
+  const n = '量子匯流排 B' + (k + 1);
+  const T = 0.09, Y = 4.05, LY = 0.42, LX = 3.80;      // 局部＝置於「上邊」
+  reg(rotZ(B(7.6, 0.14, T, BASE.bus), k, 0, Y - LY, 0.045), 'bus', n, 'Quantum bus segment B' + (k + 1));
+  reg(rotZ(B(7.6, 0.14, T, BASE.bus), k, 0, Y + LY, 0.045), 'bus', n);
+  reg(rotZ(B(0.14, 0.84, T, BASE.bus), k, -LX, Y, 0.045), 'bus', n);   // 端帽（扣接鄰邊）
+  reg(rotZ(B(0.14, 0.84, T, BASE.bus), k,  LX, Y, 0.045), 'bus', n);
+  for (let i = 0; i < 7; i++){                          // meander 齒
+    const ti = i - 3;
+    reg(rotZ(B(0.10, 0.24, 0.05, BASE.bus), k, ti * 1.0, Y + (i % 2 ? 0.34 : -0.34), 0.115), 'bus', n, 'Meander section of bus B' + (k + 1));
+  }
+}
+
+/* ============ 4. 讀出共振器（4 組 meander／comb）=========== */
+for (let k = 0; k < 4; k++){
+  const n = '讀出共振器 R' + (k + 1);
+  const SX = [-1.4, -0.84, -0.28, 0.28, 0.84, 1.4];    // 六條梳齒
+  for (let i = 0; i < SX.length; i++){
+    reg(rotZ(B(0.14, 0.62, 0.08, BASE.resonator), k, SX[i], 3.08, 0.04), 'resonator', n, 'Resonator leg of R' + (k + 1));
+  }
+  for (let i = 0; i < SX.length - 1; i++){             // 端點交替 U 形彎 → meander
+    const y = i % 2 ? 3.36 : 2.80;
+    reg(rotZ(B(0.14, 0.66, 0.08, BASE.resonator), k, (SX[i] + SX[i + 1]) / 2, y, 0.04), 'resonator', n, 'Meander turnaround of R' + (k + 1));
+  }
+  const feed = B(0.10, 1.45, 0.05, BASE.resonator);    // 饋入段（傾向 bus）
+  reg(rotZ(feed, k, 1.92, 3.85, 0.04), 'resonator', n, 'Input feedline of R' + (k + 1));
+}
+
+/* ============ 5. 鍵合墊（邊中點）＋四角 L 形 fiducial ============ */
+for (let k = 0; k < 4; k++){
+  reg(rotZ(B(0.80, 0.80, 0.06, BASE.pad), k, 0, 4.55, 0.03), 'pad', '鍵合墊 Pad ' + (k + 1), 'Bond pad (wire-bond)');
+  reg(rotZ(CYL(0.20, 0.05, BASE.pad), k, 0, 4.55, 0.085), 'pad', '鍵合墊 Pad ' + (k + 1), 'Pad via hole');
+  reg(rotZ(B(0.55, 0.12, 0.05, BASE.pad), k, 4.30, 4.30, 0.03), 'pad', '基準點 Fiducial', 'Alignment fiducial (L-mark)');
+  reg(rotZ(B(0.12, 0.55, 0.05, BASE.pad), k, 4.30, 4.30, 0.03), 'pad', '基準點 Fiducial', 'Alignment fiducial (L-mark)');
+}
+
+/* ============ 動畫狀態 ============ */
+const KZ = { substrate:0, pad:0, resonator:0.85, bus:1.75, qubit:2.65 };   // 爆炸抬升量
+let explodeT = 0, explodeTarget = 0;
+let filterMode = 'all';
+const fade = { qubit:1, bus:1, resonator:1, substrate:1, pad:1 };
+const fadeT = { qubit:1, bus:1, resonator:1, substrate:1, pad:1 };
+let hoverMesh = null, selectedMesh = null;
+let flash = null;                       // 導覽時類別閃示 {cls,t}
+let tour = null;
+
+const panel = document.getElementById('panel');
+function setPanel(part){
+  if (!part){
+    panel.innerHTML =
+      '<div class="tag">操作提示</div><h3>互動拆解視圖</h3><div class="en">Interactive Teardown</div>' +
+      '<p class="dim">拖曳＝旋轉 · 滾輪＝縮放 · 右鍵拖曳／雙指＝平移。<br>' +
+      '<b>點選</b>任一部件查看名稱與原理；按鈕可篩選類別、「爆炸」分層、播放導覽。</p>';
+    return;
+  }
+  const ci = CLASS_INFO[part.cls];
+  panel.innerHTML =
+    '<div class="tag">' + ci.tag + '</div>' +
+    '<span class="swatch" style="background:' + ci.chip + '"></span>' +
+    '<h3>' + part.name + '</h3><div class="en">' + part.en + '</div>' +
+    ci.lines.map(l => '<p>' + l + '</p>').join('');
+}
+
+/* ============ 挑選（hover / click）============ */
+const ray = new THREE.Raycaster();
+const ndc = new THREE.Vector2();
+function pick(ev){
+  ndc.x =  (ev.clientX / window.innerWidth)  * 2 - 1;
+  ndc.y = -(ev.clientY / window.innerHeight) * 2 + 1;
+  ray.setFromCamera(ndc, camera);
+  const hits = ray.intersectObjects(pickables, false);
+  return hits.length ? hits[0].object : null;
+}
+
+renderer.domElement.addEventListener('pointermove', ev => {
+  if (ev.pointerType === 'touch' || tour) { hoverMesh = null; return; }
+  hoverMesh = pick(ev);
+  renderer.domElement.style.cursor = hoverMesh ? 'pointer' : '';
+  if (hoverMesh) setPanel(hoverMesh.userData);
+  else if (selectedMesh) setPanel(selectedMesh.userData);
+});
+
+let down = null;
+renderer.domElement.addEventListener('pointerdown', ev => { down = { x:ev.clientX, y:ev.clientY }; if (tour) stopTour(false); });
+window.addEventListener('pointerup', ev => {
+  if (!down) return;
+  const moved = Math.hypot(ev.clientX - down.x, ev.clientY - down.y);
+  down = null;
+  if (moved > 7) return;                       // 拖曳視角，不算點選
+  const hit = pick(ev);
+  selectedMesh = hit;
+  setPanel(hit ? hit.userData : null);
+});
+
+/* ============ 篩選按鈕 ============ */
+const fBtns = { all:document.getElementById('fAll'), qubit:document.getElementById('fQ'),
+                bus:document.getElementById('fB'), resonator:document.getElementById('fR') };
+function setFilter(mode){
+  filterMode = mode;
+  for (const m in fBtns) fBtns[m].classList.toggle('on', m === mode);
+  for (const c in fadeT) fadeT[c] = (mode === 'all' || c === mode) ? 1 : (c === 'substrate' ? 0.25 : 0.07);
+}
+Object.keys(fBtns).forEach(m => fBtns[m].addEventListener('click', () => setFilter(m)));
+
+/* ============ 爆炸 ============ */
+const btnExplode = document.getElementById('btnExplode');
+function setExplode(v){
+  explodeTarget = v ? 1 : 0;
+  btnExplode.classList.toggle('on', v);
+  btnExplode.textContent = v ? '⤒ 還原' : '⤓ 爆炸';
+}
+btnExplode.addEventListener('click', () => setExplode(explodeTarget < 0.5));
+
+/* ============ 自動導覽 ============ */
+const btnTour = document.getElementById('btnTour');
+const TOUR = [
+  { pos:[11, -11, 10],   tgt:[0, 0, 0.8],   dur:2.0, cls:null },
+  { pos:[5.4, -5.6, 6.4], tgt:[0, 0, 2.65], dur:1.9, cls:'qubit' },
+  { pos:[7.6, -7.9, 5.0], tgt:[0, 0, 1.75], dur:1.9, cls:'bus' },
+  { pos:[8.8, -9.1, 3.6], tgt:[0, 0, 0.85], dur:1.9, cls:'resonator' },
+  { pos:[6.6, -6.6, 2.6], tgt:[0, 0, -0.1], dur:1.7, cls:'substrate' },
+  { pos:[11, -11, 10],   tgt:[0, 0, 0.8],   dur:2.2, cls:null, reassemble:true },
+];
+function startTour(){
+  setExplode(true);
+  tour = { i:0, p:0,
+    fromPos:camera.position.clone(), fromTgt:controls.target.clone(),
+    fromExp:explodeT };
+  beginStep();
+  btnTour.classList.add('on'); btnTour.textContent = '■ 停止導覽';
+}
+function beginStep(){
+  const s = TOUR[tour.i];
+  tour.p = 0;
+  tour.s = s;
+  if (s.reassemble){ setExplode(false); }
+  if (s.cls){
+    flash = { cls:s.cls, t:1 };
+    const ci = CLASS_INFO[s.cls];
+    panel.innerHTML =
+      '<div class="tag">自動導覽</div><h3>' + ci.tag + '層</h3><div class="en">' + ci.en + '</div>' +
+      ci.lines.map(l => '<p>' + l + '</p>').join('');
+  }
+}
+function stopTour(){
+  tour = null; flash = null;
+  btnTour.classList.remove('on'); btnTour.textContent = '▷ 自動導覽';
+}
+btnTour.addEventListener('click', () => tour ? stopTour() : startTour());
+
+/* ============ 主迴圈 ============ */
+const clock = new THREE.Clock();
+function ease(t){ return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+const tmpV = new THREE.Vector3();
+
+function animate(){
+  requestAnimationFrame(animate);
+  const dt = Math.min(Math.max(clock.getDelta(), 1 / 60), 0.08);  // 虛擬時間環境 dt 可能為 0，保底幀步進
+  const t = clock.elapsedTime + dt;
+
+  // 爆炸／透明度平滑
+  explodeT += (explodeTarget - explodeT) * Math.min(1, dt * 4);
+  const kf = Math.min(1, dt * 7);
+  for (const c in fade) fade[c] += (fadeT[c] - fade[c]) * kf;
+
+  if (flash){ flash.t -= dt * 0.55; if (flash.t <= 0) flash = null; }
+
+  // 導覽鏡頭
+  if (tour){
+    tour.p += dt / tour.s.dur;
+    const e = ease(Math.min(tour.p, 1));
+    tmpV.set(...tour.s.pos);          camera.position.lerpVectors(tour.fromPos, tmpV, e);
+    tmpV.set(...tour.s.tgt);          controls.target.lerpVectors(tour.fromTgt, tmpV, e);
+    if (tour.p >= 1){
+      tour.i++;
+      if (tour.i >= TOUR.length) stopTour();
+      else {
+        tour.fromPos.copy(camera.position);
+        tour.fromTgt.copy(controls.target);
+        beginStep();
+      }
+    }
+  }
+
+  // 每件部件：抬升、透明度、發光
+  for (const m of pickables){
+    const u = m.userData;
+    m.position.z = u.baseZ + KZ[u.cls] * explodeT;
+    m.material.opacity = fade[u.cls];
+    let g = 0;
+    if (flash && u.cls === flash.cls) g = Math.max(g, 0.45 * flash.t);
+    if (m === selectedMesh) g = 0.85;
+    else if (m === hoverMesh && m !== selectedMesh) g = Math.max(g, 0.35 + 0.12 * Math.sin(t * 5));
+    m.material.emissiveIntensity = g;
+  }
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+setPanel(null);
+animate();
+window.__ready = true;   // 供自動測試偵測就緒
+
+/* hash 狀態深連結：#explode＝爆炸狀態、#tour＝載入即導覽 */
+const H = location.hash;
+if (H === '#explode') setExplode(true);
+else if (H === '#tour') startTour();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>

@@ -153,6 +153,55 @@
       font-size: 0.8rem;
     }
 
+    .attach-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 10px;
+      margin-left: auto;
+    }
+
+    .model-seg {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .model-seg button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 7px 11px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .model-seg button + button {
+      border-left: 1px solid var(--line);
+    }
+
+    .model-seg button:hover {
+      color: var(--ink);
+      background: var(--accent-soft);
+    }
+
+    .model-seg button[aria-pressed="true"] {
+      color: #fff;
+      background: var(--accent);
+    }
+
+    .model-seg button:focus-visible {
+      outline: 3px solid rgba(31, 78, 121, 0.35);
+      outline-offset: -2px;
+      z-index: 1;
+    }
+
     .btn {
       appearance: none;
       border: 1px solid var(--accent);
@@ -326,6 +375,7 @@
       .panel-videos { padding-left: 12px; padding-right: 12px; }
       .tab { padding-left: 12px; padding-right: 12px; font-size: 0.9rem; }
       .attach-bar { padding: 8px 12px; }
+      .model-seg button { padding: 6px 9px; font-size: 0.78rem; }
     }
 
     /* --- News --- */
@@ -601,10 +651,16 @@
       <section class="panel panel-3d" role="tabpanel" id="panel-3d" aria-labelledby="tab-3d">
         <div class="attach-bar">
           <div>
-            <div class="label">附件 · 3D 互動圖</div>
-            <div class="hint">檔案：<span class="file-code">dilution-fridge-3d.html?mode=3d</span>（Colorfigures）· 拖動旋轉 · 滾輪縮放 · 點擊部件看說明</div>
+            <div class="label" id="model-3d-label">附件 · 3D 互動圖 · 稀釋製冷機</div>
+            <div class="hint" id="model-3d-hint">檔案：<span class="file-code">dilution-fridge-3d.html?mode=3d</span>（Colorfigures）· 拖動旋轉 · 滾輪縮放 · 點擊部件看說明</div>
           </div>
-          <a class="btn" href="dilution-fridge-3d.html?mode=3d" target="_blank" rel="noopener">在新分頁開啟附件</a>
+          <div class="attach-actions">
+            <div class="model-seg" role="group" aria-label="3D 模型選項">
+              <button type="button" class="model-tab" data-model="fridge" aria-pressed="true">稀釋製冷機</button>
+              <button type="button" class="model-tab" data-model="ibm" aria-pressed="false">IBM 4-qubit 晶片</button>
+            </div>
+            <a class="btn" id="model-3d-open" href="dilution-fridge-3d.html?mode=3d" target="_blank" rel="noopener">在新分頁開啟附件</a>
+          </div>
         </div>
         <div class="frame-wrap">
           <iframe
@@ -778,6 +834,76 @@
       };
       const DEFAULT_TAB = '3d';
 
+      const MODEL_3D = {
+        fridge: {
+          src: 'dilution-fridge-3d.html?mode=3d',
+          openHref: 'dilution-fridge-3d.html?mode=3d',
+          label: '附件 · 3D 互動圖 · 稀釋製冷機',
+          hintHtml: '檔案：<span class="file-code">dilution-fridge-3d.html?mode=3d</span>（Colorfigures）· 拖動旋轉 · 滾輪縮放 · 點擊部件看說明',
+          title: '量子電腦（超導量子電腦稀釋製冷機）3D 互動圖附件'
+        },
+        ibm: {
+          src: 'models/ibm-4qubit-live.html',
+          openHref: 'models/ibm-4qubit-live.html',
+          label: '附件 · 3D 互動圖 · IBM 4-qubit 晶片',
+          hintHtml: '檔案：<span class="file-code">models/ibm-4qubit-live.html</span>（教學示意 · CC BY 4.0 Gambetta／Chow／Steffen 2017）· 拖曳旋轉 · 滾輪縮放 · 點擊部件／爆炸／導覽',
+          title: 'IBM 4-Qubit 超導量子晶片 · 互動拆解'
+        }
+      };
+
+      const frame3d = document.getElementById('fridge-3d');
+      const modelLabel = document.getElementById('model-3d-label');
+      const modelHint = document.getElementById('model-3d-hint');
+      const modelOpen = document.getElementById('model-3d-open');
+      const modelTabs = Array.from(document.querySelectorAll('.model-tab'));
+
+      function readModelFromUrl() {
+        try {
+          const q = new URLSearchParams(location.search).get('model');
+          if (q === 'ibm' || q === 'fridge') return q;
+        } catch (_) {}
+        const h = (location.hash || '').replace(/^#/, '');
+        if (h === '3d-ibm' || h === 'ibm') return 'ibm';
+        if (h === '3d-fridge' || h === 'fridge') return 'fridge';
+        return 'fridge';
+      }
+
+      function writeModelToUrl(id) {
+        try {
+          const url = new URL(location.href);
+          if (id === 'fridge') url.searchParams.delete('model');
+          else url.searchParams.set('model', id);
+          // Keep primary tab hash as #3d when on a model deep-link alias
+          if (url.hash === '#3d-ibm' || url.hash === '#3d-fridge' || url.hash === '#ibm' || url.hash === '#fridge') {
+            url.hash = '#3d';
+          }
+          history.replaceState(null, '', url.pathname + url.search + url.hash);
+        } catch (_) {}
+      }
+
+      function selectModel(id, { pushUrl = true } = {}) {
+        if (!MODEL_3D[id]) id = 'fridge';
+        const cfg = MODEL_3D[id];
+        if (frame3d) {
+          if (frame3d.getAttribute('src') !== cfg.src) frame3d.setAttribute('src', cfg.src);
+          frame3d.setAttribute('title', cfg.title);
+        }
+        if (modelLabel) modelLabel.textContent = cfg.label;
+        if (modelHint) modelHint.innerHTML = cfg.hintHtml;
+        if (modelOpen) modelOpen.setAttribute('href', cfg.openHref);
+        modelTabs.forEach((btn) => {
+          const on = btn.dataset.model === id;
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (pushUrl) writeModelToUrl(id);
+      }
+
+      modelTabs.forEach((btn) => {
+        btn.addEventListener('click', () => selectModel(btn.dataset.model));
+      });
+
+      // Apply model before first tab paint path continues
+      selectModel(readModelFromUrl(), { pushUrl: false });
 
       const NEWS_URL = 'news/quantum-news.json';
       let newsLoaded = false;
@@ -908,13 +1034,27 @@
         });
       });
 
+      function normalizeTabHash(raw) {
+        let id = (raw || '').replace(/^#/, '');
+        if (id === 'intro') return DEFAULT_TAB;
+        if (id === '3d-ibm' || id === 'ibm') {
+          selectModel('ibm', { pushUrl: true });
+          return '3d';
+        }
+        if (id === '3d-fridge' || id === 'fridge') {
+          selectModel('fridge', { pushUrl: true });
+          return '3d';
+        }
+        return id;
+      }
+
       const fromHash = (location.hash || '').replace(/^#/, '');
-      // Legacy #intro links land on 3D
-      const initial = (fromHash === 'intro' || !panels[fromHash]) ? DEFAULT_TAB : fromHash;
-      selectTab(initial, { pushHash: fromHash !== initial });
+      // Legacy #intro links land on 3D; #3d-ibm / #ibm select IBM model
+      const initialRaw = normalizeTabHash(fromHash);
+      const initial = panels[initialRaw] ? initialRaw : DEFAULT_TAB;
+      selectTab(initial, { pushHash: fromHash !== initial && fromHash !== '3d-ibm' && fromHash !== '3d-fridge' && fromHash !== 'ibm' && fromHash !== 'fridge' });
       window.addEventListener('hashchange', () => {
-        let id = (location.hash || '').replace(/^#/, '');
-        if (id === 'intro') id = DEFAULT_TAB;
+        const id = normalizeTabHash(location.hash || '');
         if (panels[id]) selectTab(id, { pushHash: false });
       });
       // Warm the news JSON without blocking first paint
