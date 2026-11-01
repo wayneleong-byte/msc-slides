@@ -1,6 +1,21 @@
 {
-  "updated": "2026-10-31T13:53:00+08:00",
+  "updated": "2026-11-01T10:26:49+08:00",
   "items": [
+    {
+      "id": "30",
+      "date": "2026-11-01",
+      "title": "【超導電纜駁兩台量子處理器：IBM 首次裝上四條「米級」連結】",
+      "summary": "IBM Research 首次用四條獨立超導電纜，把兩台各 120 qubit 嘅 Nighthawk R1 大型超導處理器接成一部模組化機器；纜長約 80 cm，芯片就位後先裝連結。傳態平均保真度約 99%（最佳 99.29%），跨芯片雙量子比特操作約 94.75%，並做出 4-／6-qubit 糾纏；三次升降溫循環後四條連結仍可用。距離商用仍要改善相干時間等，但係米級多連結擴展嘅重要一步。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0otKc7nHfzuTEvaZs54EjvvErWXQuLG4FutnvAJ6YmyKfFnC5frTcVbUW7dvkYGoFl&id=61590125804782",
+      "source_url": "https://phys.org/news/2026-10-superconducting-cables-link-large-quantum.html",
+      "status": "published",
+      "tags": [
+        "量子計算",
+        "超導",
+        "IBM",
+        "量子互連"
+      ]
+    },
     {
       "id": "41",
       "date": "2026-10-31",
