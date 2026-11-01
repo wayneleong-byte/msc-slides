@@ -651,12 +651,13 @@
       <section class="panel panel-3d" role="tabpanel" id="panel-3d" aria-labelledby="tab-3d">
         <div class="attach-bar">
           <div>
-            <div class="label" id="model-3d-label">附件 · 3D 互動圖 · 稀釋製冷機</div>
+            <div class="label" id="model-3d-label">附件 · 3D 互動圖 · 稀釋製冷機·結構圖</div>
             <div class="hint" id="model-3d-hint">檔案：<span class="file-code">dilution-fridge-3d.html?mode=3d</span>（Colorfigures）· 拖動旋轉 · 滾輪縮放 · 點擊部件看說明</div>
           </div>
           <div class="attach-actions">
             <div class="model-seg" role="group" aria-label="3D 模型選項">
-              <button type="button" class="model-tab" data-model="fridge" aria-pressed="true">稀釋製冷機</button>
+              <button type="button" class="model-tab" data-model="fridge" aria-pressed="true">稀釋製冷機·結構圖</button>
+              <button type="button" class="model-tab" data-model="fridge-live" aria-pressed="false">稀釋製冷機·分層拆解</button>
               <button type="button" class="model-tab" data-model="ibm" aria-pressed="false">IBM 4-qubit 晶片</button>
             </div>
             <a class="btn" id="model-3d-open" href="dilution-fridge-3d.html?mode=3d" target="_blank" rel="noopener">在新分頁開啟附件</a>
@@ -838,9 +839,16 @@
         fridge: {
           src: 'dilution-fridge-3d.html?mode=3d',
           openHref: 'dilution-fridge-3d.html?mode=3d',
-          label: '附件 · 3D 互動圖 · 稀釋製冷機',
+          label: '附件 · 3D 互動圖 · 稀釋製冷機·結構圖',
           hintHtml: '檔案：<span class="file-code">dilution-fridge-3d.html?mode=3d</span>（Colorfigures）· 拖動旋轉 · 滾輪縮放 · 點擊部件看說明',
           title: '量子電腦（超導量子電腦稀釋製冷機）3D 互動圖附件'
+        },
+        'fridge-live': {
+          src: 'models/dilution-fridge-live.html',
+          openHref: 'models/dilution-fridge-live.html',
+          label: '附件 · 3D 互動圖 · 稀釋製冷機·分層拆解',
+          hintHtml: '檔案：<span class="file-code">models/dilution-fridge-live.html</span>（教學示意 · CC BY 2.0 UCL／Wikimedia）· 拖曳旋轉 · 滾輪縮放 · 點擊部件／爆炸／導覽',
+          title: '稀釋製冷機分層 · 互動拆解'
         },
         ibm: {
           src: 'models/ibm-4qubit-live.html',
@@ -860,10 +868,11 @@
       function readModelFromUrl() {
         try {
           const q = new URLSearchParams(location.search).get('model');
-          if (q === 'ibm' || q === 'fridge') return q;
+          if (q === 'ibm' || q === 'fridge' || q === 'fridge-live') return q;
         } catch (_) {}
         const h = (location.hash || '').replace(/^#/, '');
         if (h === '3d-ibm' || h === 'ibm') return 'ibm';
+        if (h === '3d-fridge-live' || h === 'fridge-live') return 'fridge-live';
         if (h === '3d-fridge' || h === 'fridge') return 'fridge';
         return 'fridge';
       }
@@ -874,7 +883,7 @@
           if (id === 'fridge') url.searchParams.delete('model');
           else url.searchParams.set('model', id);
           // Keep primary tab hash as #3d when on a model deep-link alias
-          if (url.hash === '#3d-ibm' || url.hash === '#3d-fridge' || url.hash === '#ibm' || url.hash === '#fridge') {
+          if (url.hash === '#3d-ibm' || url.hash === '#3d-fridge' || url.hash === '#3d-fridge-live' || url.hash === '#ibm' || url.hash === '#fridge' || url.hash === '#fridge-live') {
             url.hash = '#3d';
           }
           history.replaceState(null, '', url.pathname + url.search + url.hash);
@@ -1041,6 +1050,10 @@
           selectModel('ibm', { pushUrl: true });
           return '3d';
         }
+        if (id === '3d-fridge-live' || id === 'fridge-live') {
+          selectModel('fridge-live', { pushUrl: true });
+          return '3d';
+        }
         if (id === '3d-fridge' || id === 'fridge') {
           selectModel('fridge', { pushUrl: true });
           return '3d';
@@ -1052,7 +1065,7 @@
       // Legacy #intro links land on 3D; #3d-ibm / #ibm select IBM model
       const initialRaw = normalizeTabHash(fromHash);
       const initial = panels[initialRaw] ? initialRaw : DEFAULT_TAB;
-      selectTab(initial, { pushHash: fromHash !== initial && fromHash !== '3d-ibm' && fromHash !== '3d-fridge' && fromHash !== 'ibm' && fromHash !== 'fridge' });
+      selectTab(initial, { pushHash: fromHash !== initial && fromHash !== '3d-ibm' && fromHash !== '3d-fridge' && fromHash !== '3d-fridge-live' && fromHash !== 'ibm' && fromHash !== 'fridge' && fromHash !== 'fridge-live' });
       window.addEventListener('hashchange', () => {
         const id = normalizeTabHash(location.hash || '');
         if (panels[id]) selectTab(id, { pushHash: false });
