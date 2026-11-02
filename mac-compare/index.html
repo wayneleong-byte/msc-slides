@@ -121,9 +121,13 @@
     font-size: .88rem; white-space: nowrap; font-family: var(--mono);
   }
   select.cfg {
-    width: 100%; margin-top: 6px; padding: 10px 12px;
+    width: 100%; margin-top: 4px; margin-bottom: 8px; padding: 10px 12px;
     border: 1px solid var(--line); border-radius: 10px;
     background: #fff; font: inherit; color: var(--text);
+  }
+  .cfg-label {
+    display: block; margin-top: 4px;
+    font-size: .78rem; color: var(--muted); font-weight: 600;
   }
   .spec-box {
     background: #fafafa; border: 1px dashed var(--line);
@@ -194,7 +198,7 @@
     <p>並列比較 MacBook Pro 與 Mac Studio。勾選主機欄、配置與加購項後，下方合計即時以港元（HKD）更新；取消勾選的欄位或項目不計入總價。</p>
     <div class="meta">
       <span>價格來源：Apple 香港官網（hk-zh）</span>
-      <span>擷取日期：2026-11-01（Asia/Macau，UTC+8）</span>
+      <span>擷取日期：2026-11-02（Asia/Macau，UTC+8）</span>
       <span>配件僅列採購審查文件曾出現之 Apple 原廠項目</span>
     </div>
   </header>
@@ -221,7 +225,17 @@
       <div class="col-body">
         <fieldset>
           <legend>主機配置</legend>
-          <select class="cfg" id="mbp-cfg" aria-label="MacBook Pro 配置"></select>
+          <label class="cfg-label" for="mbp-chip">機型／晶片</label>
+          <select class="cfg" id="mbp-chip" aria-label="MacBook Pro 機型晶片"></select>
+          <label class="cfg-label" for="mbp-ram">統一記憶體</label>
+          <select class="cfg" id="mbp-ram" aria-label="MacBook Pro 統一記憶體"></select>
+          <label class="cfg-label" for="mbp-ssd">儲存空間</label>
+          <select class="cfg" id="mbp-ssd" aria-label="MacBook Pro 儲存空間"></select>
+          <label class="cfg-label" for="mbp-glass">顯示器玻璃</label>
+          <select class="cfg" id="mbp-glass" aria-label="MacBook Pro 顯示器玻璃">
+            <option value="std" selected>標準顯示器（隨附）</option>
+            <option value="nano">納米紋理顯示器（+HK$1,125）</option>
+          </select>
           <div class="spec-box" id="mbp-spec"></div>
         </fieldset>
         <fieldset>
@@ -292,7 +306,12 @@
       <div class="col-body">
         <fieldset>
           <legend>主機配置</legend>
-          <select class="cfg" id="studio-cfg" aria-label="Mac Studio 配置"></select>
+          <label class="cfg-label" for="studio-chip">機型／晶片</label>
+          <select class="cfg" id="studio-chip" aria-label="Mac Studio 機型晶片"></select>
+          <label class="cfg-label" for="studio-ram">統一記憶體</label>
+          <select class="cfg" id="studio-ram" aria-label="Mac Studio 統一記憶體"></select>
+          <label class="cfg-label" for="studio-ssd">儲存空間</label>
+          <select class="cfg" id="studio-ssd" aria-label="Mac Studio 儲存空間"></select>
           <div class="spec-box" id="studio-spec"></div>
         </fieldset>
         <fieldset>
@@ -399,10 +418,11 @@
     <h3>價格與範圍說明</h3>
     <ul>
       <li>本頁為採購參考工具，所列金額為 Apple 香港（<a href="https://www.apple.com/hk-zh/" target="_blank" rel="noopener">apple.com/hk-zh</a>）公開零售參考價；實際下單以官網結帳頁為準。</li>
-      <li>價格擷取日期：<strong>2026-11-01</strong>（Asia/Macau，UTC+8）。標示「起步價」之 MacBook Pro／部分 Studio 晶片組合，代表該晶片在選購頁的起始售價；記憶體／儲存／納米紋理顯示器等線上訂製升級可能另計，本頁未窮盡所有 CTO 組合。</li>
-      <li>已核對之絕對價配置（含記憶體與儲存）優先列出；其餘以官網選購頁起步價標示，並於規格說明中註明。</li>
-      <li>AppleCare+：Mac Studio（M5 Max／M5 Ultra）HK$1,449；MacBook Pro 14 吋 M6 HK$2,699、M5 Pro／M5 Max HK$2,999、16 吋 HK$3,149（對齊官網選購頁計劃價；審查截圖 P1 之 16 吋 M5 Pro／Max 車內價曾見 HK$2,999）。年期按 Apple 現行條款為自購買 AppleCare+ 起計<strong>三年</strong>。</li>
-      <li>加購項僅包含審查文件曾出現之 Apple 原廠產品：精妙鍵盤（數字鍵盤）、精妙滑鼠、精妙觸控板、Studio Display 及其 AppleCare+；未加入任何非 Apple 配件。</li>
+      <li>價格擷取日期：<strong>2026-11-02</strong>（Asia/Macau，UTC+8）。每機型可於該晶片基準上選統一記憶體、儲存空間；MacBook Pro 另可選標準／納米紋理顯示器（+HK$1,125）。主機價＝基準＋各升級加價。</li>
+      <li>部分組合在官網會強制改晶片；本頁只列<strong>可於該晶片內</strong>選的 RAM／SSD，較大記憶體若需換晶片請改選對應機型列。</li>
+      <li>現售 MacBook Pro 均為 Liquid Retina XDR・ProMotion（高達 120Hz），<strong>無觸控列／Touch Bar</strong>。</li>
+      <li>AppleCare+：Mac Studio（M5 Max／M5 Ultra）HK$1,449；MacBook Pro 14 吋 M6 HK$2,699、M5 Pro／M5 Max HK$2,999、16 吋 HK$3,149。年期按 Apple 現行條款為自購買 AppleCare+ 起計<strong>三年</strong>。</li>
+      <li>加購項僅包含審查文件曾出現之 Apple 原廠產品：精妙鍵盤（數字鍵盤）、精妙滑鼠、精妙觸控板、Studio Display 及其 AppleCare+；未加入任何非 Apple 配件。本頁不含 Mac mini。</li>
       <li>產品圖片取自 Apple CDN 公開資源，僅供識別機型。</li>
     </ul>
   </footer>
@@ -417,168 +437,355 @@
 <script>
 (function () {
   const HKD = (n) => 'HK$' + Math.round(n).toLocaleString('en-HK');
+  const fmtDelta = (d) => (d === 0 ? '隨附' : '+' + HKD(d));
 
-  /** @type {Record<string, Array<{id:string,label:string,price:number,ac:number,spec:string,exact?:boolean}>>} */
-  const CONFIGS = {
+  const MODELS = {
     mbp: [
       {
-        id: 'mbp14-m6-16-1tb',
-        label: '14 吋 · M6 · 16GB · 1TB（標準顯示器）',
-        price: 15999,
+        id: 'mbp14-m6',
+        label: '14 吋 · M6（12／12）',
+        basePrice: 15999,
         ac: 2699,
-        exact: true,
-        spec: '<strong>14 吋 MacBook Pro</strong> · <strong>M6</strong> 12 核心 CPU／12 核心 GPU · 16GB · 1TB · 標準 Liquid Retina XDR。官網絕對價。AppleCare+ HK$2,699。'
-      },
-      {
-        id: 'mbp14-m6-24-1tb',
-        label: '14 吋 · M6 · 24GB · 1TB（標準顯示器）',
-        price: 17499,
-        ac: 2699,
-        exact: true,
-        spec: '<strong>14 吋</strong> · <strong>M6</strong> 12／12 · 24GB · 1TB · 標準顯示器。官網絕對價。AppleCare+ HK$2,699。'
-      },
-      {
-        id: 'mbp14-m6-32-1tb',
-        label: '14 吋 · M6 · 32GB · 1TB（標準顯示器）',
-        price: 18999,
-        ac: 2699,
-        exact: true,
-        spec: '<strong>14 吋</strong> · <strong>M6</strong> 12／12 · 32GB · 1TB · 標準顯示器。官網絕對價。AppleCare+ HK$2,699。'
+        chip: 'M6 12 核心 CPU／12 核心 GPU',
+        size: '14 吋',
+        hasDisplay: true,
+        ram: [
+          { id: '16', label: '16GB', delta: 0 },
+          { id: '24', label: '24GB', delta: 1500 },
+          { id: '32', label: '32GB', delta: 3000 }
+        ],
+        ssd: [
+          { id: '1tb', label: '1TB', delta: 0 },
+          { id: '2tb', label: '2TB', delta: 3750 },
+          { id: '4tb', label: '4TB', delta: 11250 }
+        ]
       },
       {
         id: 'mbp14-m5pro-15-16',
-        label: '14 吋 · M5 Pro（15／16）· 起步價',
-        price: 19999,
+        label: '14 吋 · M5 Pro（15／16）',
+        basePrice: 19999,
         ac: 2999,
-        exact: false,
-        spec: '<strong>14 吋</strong> · <strong>M5 Pro</strong> 15 核心 CPU／16 核心 GPU · 標準顯示器選購頁起步價。AppleCare+（M5 Pro／M5 Max）HK$2,999。'
+        chip: 'M5 Pro 15 核心 CPU／16 核心 GPU',
+        size: '14 吋',
+        hasDisplay: true,
+        ram: [
+          { id: '24', label: '24GB', delta: 0 },
+          { id: '48', label: '48GB', delta: 4500 }
+        ],
+        ssd: [
+          { id: '1tb', label: '1TB', delta: 0 },
+          { id: '2tb', label: '2TB', delta: 3750 },
+          { id: '4tb', label: '4TB', delta: 11250 }
+        ]
       },
       {
         id: 'mbp14-m5pro-18-20',
-        label: '14 吋 · M5 Pro（18／20）· 起步價',
-        price: 21749,
+        label: '14 吋 · M5 Pro（18／20）',
+        basePrice: 21749,
         ac: 2999,
-        exact: false,
-        spec: '<strong>14 吋</strong> · <strong>M5 Pro</strong> 18 核心 CPU／20 核心 GPU · 標準顯示器起步價。AppleCare+ HK$2,999。'
-      },
-      {
-        id: 'mbp14-m5max-18-32',
-        label: '14 吋 · M5 Max（18／32）· 起步價',
-        price: 32499,
-        ac: 2999,
-        exact: false,
-        spec: '<strong>14 吋</strong> · <strong>M5 Max</strong> 18 核心 CPU／32 核心 GPU · 標準顯示器起步價。AppleCare+ HK$2,999。'
-      },
-      {
-        id: 'mbp14-m5max-18-40',
-        label: '14 吋 · M5 Max（18／40）· 起步價',
-        price: 36999,
-        ac: 2999,
-        exact: false,
-        spec: '<strong>14 吋</strong> · <strong>M5 Max</strong> 18 核心 CPU／40 核心 GPU · 標準顯示器起步價。AppleCare+ HK$2,999。'
+        chip: 'M5 Pro 18 核心 CPU／20 核心 GPU',
+        size: '14 吋',
+        hasDisplay: true,
+        ram: [
+          { id: '24', label: '24GB', delta: 0 },
+          { id: '48', label: '48GB', delta: 4500 },
+          { id: '64', label: '64GB', delta: 7500 }
+        ],
+        ssd: [
+          { id: '1tb', label: '1TB', delta: 0 },
+          { id: '2tb', label: '2TB', delta: 3750 },
+          { id: '4tb', label: '4TB', delta: 11250 }
+        ]
       },
       {
         id: 'mbp16-m5pro-18-20',
-        label: '16 吋 · M5 Pro（18／20）· 起步價',
-        price: 23999,
+        label: '16 吋 · M5 Pro（18／20）',
+        basePrice: 23999,
         ac: 3149,
-        exact: false,
-        spec: '<strong>16 吋</strong> · <strong>M5 Pro</strong> 18 核心 CPU／20 核心 GPU · 標準顯示器起步價。AppleCare+ 依官網 16 吋計劃 HK$3,149（審查 P1 車內曾見 Pro／Max 共用 HK$2,999）。'
+        chip: 'M5 Pro 18 核心 CPU／20 核心 GPU',
+        size: '16 吋',
+        hasDisplay: true,
+        ram: [
+          { id: '24', label: '24GB', delta: 0 },
+          { id: '48', label: '48GB', delta: 4500 },
+          { id: '64', label: '64GB', delta: 7500 }
+        ],
+        ssd: [
+          { id: '1tb', label: '1TB', delta: 0 },
+          { id: '2tb', label: '2TB', delta: 3750 },
+          { id: '4tb', label: '4TB', delta: 11250 }
+        ]
+      },
+      {
+        id: 'mbp14-m5max-18-32',
+        label: '14 吋 · M5 Max（18／32）',
+        basePrice: 32499,
+        ac: 2999,
+        chip: 'M5 Max 18 核心 CPU／32 核心 GPU',
+        size: '14 吋',
+        hasDisplay: true,
+        ram: [
+          { id: '36', label: '36GB', delta: 0 }
+        ],
+        ssd: [
+          { id: '2tb', label: '2TB', delta: 0 },
+          { id: '4tb', label: '4TB', delta: 7500 },
+          { id: '8tb', label: '8TB', delta: 22500 }
+        ]
+      },
+      {
+        id: 'mbp14-m5max-18-40',
+        label: '14 吋 · M5 Max（18／40）',
+        basePrice: 36999,
+        ac: 2999,
+        chip: 'M5 Max 18 核心 CPU／40 核心 GPU',
+        size: '14 吋',
+        hasDisplay: true,
+        ram: [
+          { id: '48', label: '48GB', delta: 0 },
+          { id: '64', label: '64GB', delta: 3000 },
+          { id: '128', label: '128GB', delta: 15000 }
+        ],
+        ssd: [
+          { id: '2tb', label: '2TB', delta: 0 },
+          { id: '4tb', label: '4TB', delta: 7500 },
+          { id: '8tb', label: '8TB', delta: 22500 }
+        ]
       },
       {
         id: 'mbp16-m5max-18-32',
-        label: '16 吋 · M5 Max（18／32）· 起步價',
-        price: 34999,
+        label: '16 吋 · M5 Max（18／32）',
+        basePrice: 34999,
         ac: 3149,
-        exact: false,
-        spec: '<strong>16 吋</strong> · <strong>M5 Max</strong> 18 核心 CPU／32 核心 GPU · 標準顯示器起步價。AppleCare+ HK$3,149。'
+        chip: 'M5 Max 18 核心 CPU／32 核心 GPU',
+        size: '16 吋',
+        hasDisplay: true,
+        ram: [
+          { id: '36', label: '36GB', delta: 0 }
+        ],
+        ssd: [
+          { id: '2tb', label: '2TB', delta: 0 },
+          { id: '4tb', label: '4TB', delta: 7500 },
+          { id: '8tb', label: '8TB', delta: 22500 }
+        ]
       },
       {
         id: 'mbp16-m5max-18-40',
-        label: '16 吋 · M5 Max（18／40）· 起步價',
-        price: 39999,
+        label: '16 吋 · M5 Max（18／40）',
+        basePrice: 39999,
         ac: 3149,
-        exact: false,
-        spec: '<strong>16 吋</strong> · <strong>M5 Max</strong> 18 核心 CPU／40 核心 GPU · 標準顯示器起步價。AppleCare+ HK$3,149。'
+        chip: 'M5 Max 18 核心 CPU／40 核心 GPU',
+        size: '16 吋',
+        hasDisplay: true,
+        ram: [
+          { id: '48', label: '48GB', delta: 0 },
+          { id: '64', label: '64GB', delta: 3000 },
+          { id: '128', label: '128GB', delta: 15000 }
+        ],
+        ssd: [
+          { id: '2tb', label: '2TB', delta: 0 },
+          { id: '4tb', label: '4TB', delta: 7500 },
+          { id: '8tb', label: '8TB', delta: 22500 }
+        ]
       }
     ],
     studio: [
       {
-        id: 'studio-max-18-32-36-512',
-        label: 'M5 Max（18／32）· 36GB · 512GB',
-        price: 19999,
+        id: 'studio-max-18-32',
+        label: 'M5 Max（18／32）',
+        basePrice: 19999,
         ac: 1449,
-        exact: true,
-        spec: '<strong>M5 Max</strong> 18 核心 CPU／32 核心 GPU · 36GB · 512GB SSD。官網絕對價配置。'
+        chip: 'M5 Max 18 核心 CPU／32 核心 GPU',
+        size: null,
+        hasDisplay: false,
+        ram: [
+          { id: '36', label: '36GB', delta: 0 }
+        ],
+        ssd: [
+          { id: '512', label: '512GB', delta: 0 },
+          { id: '1tb', label: '1TB', delta: 2250 },
+          { id: '2tb', label: '2TB', delta: 6000 },
+          { id: '4tb', label: '4TB', delta: 13500 },
+          { id: '8tb', label: '8TB', delta: 28500 }
+        ]
       },
       {
-        id: 'studio-max-18-40-base',
-        label: 'M5 Max（18／40）· 起步價',
-        price: 24499,
+        id: 'studio-max-18-40',
+        label: 'M5 Max（18／40）',
+        basePrice: 24499,
         ac: 1449,
-        exact: false,
-        spec: '<strong>M5 Max</strong> 18 核心 CPU／40 核心 GPU。選購頁起步價；記憶體／儲存升級另計。'
+        chip: 'M5 Max 18 核心 CPU／40 核心 GPU',
+        size: null,
+        hasDisplay: false,
+        ram: [
+          { id: '48', label: '48GB', delta: 0 },
+          { id: '64', label: '64GB', delta: 3000 },
+          { id: '128', label: '128GB', delta: 15000 }
+        ],
+        ssd: [
+          { id: '512', label: '512GB', delta: 0 },
+          { id: '1tb', label: '1TB', delta: 2250 },
+          { id: '2tb', label: '2TB', delta: 6000 },
+          { id: '4tb', label: '4TB', delta: 13500 },
+          { id: '8tb', label: '8TB', delta: 28500 }
+        ]
       },
       {
-        id: 'studio-max-64-1tb',
-        label: 'M5 Max（18／40）· 64GB · 1TB',
-        price: 29749,
+        id: 'studio-ultra-30-64',
+        label: 'M5 Ultra（30／64）',
+        basePrice: 44999,
         ac: 1449,
-        exact: true,
-        spec: '<strong>M5 Max</strong> 18 核心 CPU／40 核心 GPU · 64GB · 1TB SSD。官網絕對價配置。'
+        chip: 'M5 Ultra 30 核心 CPU／64 核心 GPU',
+        size: null,
+        hasDisplay: false,
+        ram: [
+          { id: '96', label: '96GB', delta: 0 },
+          { id: '256', label: '256GB', delta: 30000 }
+        ],
+        ssd: [
+          { id: '1tb', label: '1TB', delta: 0 },
+          { id: '2tb', label: '2TB', delta: 3750 },
+          { id: '4tb', label: '4TB', delta: 11250 },
+          { id: '8tb', label: '8TB', delta: 26250 },
+          { id: '16tb', label: '16TB', delta: 56250 }
+        ]
       },
       {
-        id: 'studio-ultra-30-64-96-1tb',
-        label: 'M5 Ultra（30／64）· 96GB · 1TB',
-        price: 44999,
+        id: 'studio-ultra-36-80',
+        label: 'M5 Ultra（36／80）',
+        basePrice: 54749,
         ac: 1449,
-        exact: true,
-        spec: '<strong>M5 Ultra</strong> 30 核心 CPU／64 核心 GPU · 96GB · 1TB SSD。官網絕對價配置。'
-      },
-      {
-        id: 'studio-ultra-36-80-base',
-        label: 'M5 Ultra（36／80）· 起步價',
-        price: 54749,
-        ac: 1449,
-        exact: false,
-        spec: '<strong>M5 Ultra</strong> 36 核心 CPU／80 核心 GPU。選購頁起步價；更高統一記憶體或儲存須於官網加選。'
+        chip: 'M5 Ultra 36 核心 CPU／80 核心 GPU',
+        size: null,
+        hasDisplay: false,
+        ram: [
+          { id: '96', label: '96GB', delta: 0 },
+          { id: '256', label: '256GB', delta: 30000 },
+          { id: '512', label: '512GB', delta: 116250 }
+        ],
+        ssd: [
+          { id: '1tb', label: '1TB', delta: 0 },
+          { id: '2tb', label: '2TB', delta: 3750 },
+          { id: '4tb', label: '4TB', delta: 11250 },
+          { id: '8tb', label: '8TB', delta: 26250 },
+          { id: '16tb', label: '16TB', delta: 56250 }
+        ]
       }
     ]
   };
 
-  function fillSelect(selectId, specId, list) {
-    const sel = document.getElementById(selectId);
-    const spec = document.getElementById(specId);
-    sel.innerHTML = list.map((c, i) => {
-      const tag = c.exact ? '' : '（起步價）';
-      return `<option value="${c.id}" ${i === 0 ? 'selected' : ''}>${c.label}${tag} — ${HKD(c.price)}</option>`;
-    }).join('');
-    const sync = () => {
-      const c = list.find((x) => x.id === sel.value) || list[0];
-      spec.innerHTML = c.spec + (c.exact ? ' <span class="pill">已核對絕對價</span>' : ' <span class="pill">起步價</span>');
-      if (selectId === 'mbp-cfg') syncMbpAc(c);
-      recalc();
-    };
-    sel.addEventListener('change', sync);
-    sync();
+  function findModel(list, id) {
+    return list.find((m) => m.id === id) || list[0];
   }
 
-  function syncMbpAc(cfg) {
+  function fillOptions(sel, options, preferId) {
+    const keep = preferId && options.some((o) => o.id === preferId) ? preferId : options[0].id;
+    sel.innerHTML = options.map((o) => {
+      const priceNote = o.delta === 0 ? '隨附' : fmtDelta(o.delta);
+      return '<option value="' + o.id + '"' + (o.id === keep ? ' selected' : '') + '>' +
+        o.label + '（' + priceNote + '）</option>';
+    }).join('');
+    return keep;
+  }
+
+  function hostPrice(model, ramId, ssdId, glass) {
+    const ram = model.ram.find((r) => r.id === ramId) || model.ram[0];
+    const ssd = model.ssd.find((s) => s.id === ssdId) || model.ssd[0];
+    let p = model.basePrice + ram.delta + ssd.delta;
+    if (model.hasDisplay && glass === 'nano') p += 1125;
+    return { price: p, ram: ram, ssd: ssd };
+  }
+
+  function syncMbpAc(ac) {
     const box = document.getElementById('mbp-ac');
     const priceEl = document.getElementById('mbp-ac-price');
     const note = document.getElementById('mbp-ac-note');
-    box.dataset.price = String(cfg.ac);
-    priceEl.textContent = HKD(cfg.ac);
-    note.textContent = '目前對應本機計劃：' + HKD(cfg.ac);
+    box.dataset.price = String(ac);
+    priceEl.textContent = HKD(ac);
+    note.textContent = '目前對應本機計劃：' + HKD(ac);
+  }
+
+  function updateMbpSpec() {
+    const model = findModel(MODELS.mbp, document.getElementById('mbp-chip').value);
+    const ramId = document.getElementById('mbp-ram').value;
+    const ssdId = document.getElementById('mbp-ssd').value;
+    const glass = document.getElementById('mbp-glass').value;
+    const hp = hostPrice(model, ramId, ssdId, glass);
+    const glassLabel = glass === 'nano' ? '納米紋理顯示器（+HK$1,125）' : '標準顯示器（隨附）';
+    document.getElementById('mbp-spec').innerHTML =
+      '<strong>' + model.size + ' MacBook Pro</strong> · <strong>' + model.chip + '</strong> · ' +
+      hp.ram.label + ' 統一記憶體 · ' + hp.ssd.label + ' SSD · ' +
+      'Liquid Retina XDR・ProMotion 高達 120Hz · ' + glassLabel +
+      ' · <strong>無觸控列／Touch Bar</strong>。' +
+      ' 主機 ' + HKD(hp.price) + '。AppleCare+ ' + HKD(model.ac) + '。' +
+      ' <span class="pill">可配置</span>';
+    syncMbpAc(model.ac);
+  }
+
+  function updateStudioSpec() {
+    const model = findModel(MODELS.studio, document.getElementById('studio-chip').value);
+    const ramId = document.getElementById('studio-ram').value;
+    const ssdId = document.getElementById('studio-ssd').value;
+    const hp = hostPrice(model, ramId, ssdId, 'std');
+    document.getElementById('studio-spec').innerHTML =
+      '<strong>Mac Studio</strong> · <strong>' + model.chip + '</strong> · ' +
+      hp.ram.label + ' 統一記憶體 · ' + hp.ssd.label + ' SSD。' +
+      ' 主機 ' + HKD(hp.price) + '。AppleCare+ ' + HKD(model.ac) + '。' +
+      ' <span class="pill">可配置</span>';
+  }
+
+  function rebuildMbpOptions(preserve) {
+    const chip = document.getElementById('mbp-chip');
+    const model = findModel(MODELS.mbp, chip.value);
+    fillOptions(document.getElementById('mbp-ram'), model.ram, preserve && preserve.ram);
+    fillOptions(document.getElementById('mbp-ssd'), model.ssd, preserve && preserve.ssd);
+    updateMbpSpec();
+  }
+
+  function rebuildStudioOptions(preserve) {
+    const chip = document.getElementById('studio-chip');
+    const model = findModel(MODELS.studio, chip.value);
+    fillOptions(document.getElementById('studio-ram'), model.ram, preserve && preserve.ram);
+    fillOptions(document.getElementById('studio-ssd'), model.ssd, preserve && preserve.ssd);
+    updateStudioSpec();
+  }
+
+  function initChips() {
+    const mbpChip = document.getElementById('mbp-chip');
+    mbpChip.innerHTML = MODELS.mbp.map((m, i) =>
+      '<option value="' + m.id + '"' + (i === 0 ? ' selected' : '') + '>' +
+      m.label + ' — 基準 ' + HKD(m.basePrice) + '</option>'
+    ).join('');
+    const studioChip = document.getElementById('studio-chip');
+    studioChip.innerHTML = MODELS.studio.map((m, i) =>
+      '<option value="' + m.id + '"' + (i === 0 ? ' selected' : '') + '>' +
+      m.label + ' — 基準 ' + HKD(m.basePrice) + '</option>'
+    ).join('');
+  }
+
+  function colHostTotal(section) {
+    const key = section.dataset.col;
+    if (key === 'mbp') {
+      const model = findModel(MODELS.mbp, document.getElementById('mbp-chip').value);
+      return hostPrice(
+        model,
+        document.getElementById('mbp-ram').value,
+        document.getElementById('mbp-ssd').value,
+        document.getElementById('mbp-glass').value
+      ).price;
+    }
+    const model = findModel(MODELS.studio, document.getElementById('studio-chip').value);
+    return hostPrice(
+      model,
+      document.getElementById('studio-ram').value,
+      document.getElementById('studio-ssd').value,
+      'std'
+    ).price;
   }
 
   function colTotal(section) {
     if (!section.querySelector('.col-on').checked) return 0;
-    let sum = 0;
-    const key = section.dataset.col;
-    const sel = section.querySelector('select.cfg');
-    const cfg = CONFIGS[key].find((x) => x.id === sel.value);
-    if (cfg) sum += cfg.price;
+    let sum = colHostTotal(section);
     section.querySelectorAll('input[type="checkbox"][data-price]').forEach((el) => {
       if (el.checked) sum += Number(el.dataset.price || 0);
     });
@@ -605,8 +812,24 @@
       : '尚未選擇任何項目。請先啟用至少一個產品欄，並勾選需要的加購項。';
   }
 
-  fillSelect('mbp-cfg', 'mbp-spec', CONFIGS.mbp);
-  fillSelect('studio-cfg', 'studio-spec', CONFIGS.studio);
+  initChips();
+  rebuildMbpOptions(null);
+  rebuildStudioOptions(null);
+
+  document.getElementById('mbp-chip').addEventListener('change', () => {
+    rebuildMbpOptions(null);
+    recalc();
+  });
+  document.getElementById('mbp-ram').addEventListener('change', () => { updateMbpSpec(); recalc(); });
+  document.getElementById('mbp-ssd').addEventListener('change', () => { updateMbpSpec(); recalc(); });
+  document.getElementById('mbp-glass').addEventListener('change', () => { updateMbpSpec(); recalc(); });
+
+  document.getElementById('studio-chip').addEventListener('change', () => {
+    rebuildStudioOptions(null);
+    recalc();
+  });
+  document.getElementById('studio-ram').addEventListener('change', () => { updateStudioSpec(); recalc(); });
+  document.getElementById('studio-ssd').addEventListener('change', () => { updateStudioSpec(); recalc(); });
 
   document.querySelectorAll('.col-on, input[type="checkbox"][data-price]').forEach((el) => {
     el.addEventListener('change', recalc);
