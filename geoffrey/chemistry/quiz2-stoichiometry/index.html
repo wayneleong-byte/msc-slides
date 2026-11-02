@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Geoffrey · Chem Quiz 2 Tutor · Stoichiometry & oxides</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card2: #334155;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --good: #34d399;
+    --bad: #f87171;
+    --warn: #fbbf24;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --radius: 16px;
+    --shadow: 0 10px 40px rgba(0,0,0,.35);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Segoe UI", "Noto Sans", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    background: linear-gradient(160deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    color: var(--text);
+    min-height: 100%;
+  }
+  body { padding-bottom: 88px; }
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(15,23,42,.85);
+    border-bottom: 1px solid rgba(148,163,184,.2);
+    padding: 10px 14px 12px;
+  }
+  .crumb { font-size: .72rem; color: var(--muted); margin-bottom: 4px; }
+  .crumb a { color: var(--accent); text-decoration: none; }
+  .topbar h1 {
+    margin: 0 0 6px;
+    font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+  .meta { font-size: .75rem; color: var(--muted); }
+  .zh { color: #a5b4fc; font-size: .9em; font-weight: 500; }
+  .progress-wrap {
+    margin-top: 8px; height: 8px; background: var(--card2);
+    border-radius: 99px; overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width .35s ease;
+  }
+  .slide-count { font-size: .72rem; color: var(--muted); margin-top: 4px; text-align: right; }
+  main { max-width: 720px; margin: 0 auto; padding: 16px 14px 24px; }
+  .slide { display: none; animation: fadeIn .35s ease; }
+  .slide.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(148,163,184,.15);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+  }
+  .card h2 { margin: 0 0 10px; font-size: 1.25rem; color: var(--accent); }
+  .card h3 { margin: 16px 0 8px; font-size: 1.05rem; color: #c4b5fd; }
+  .badge {
+    display: inline-block; font-size: .7rem; font-weight: 700;
+    padding: 3px 8px; border-radius: 99px; margin-right: 6px; vertical-align: middle;
+  }
+  .badge.p1 { background: #7f1d1d; color: #fecaca; }
+  .badge.p2 { background: #78350f; color: #fde68a; }
+  .badge.p3 { background: #1e3a5f; color: #bae6fd; }
+  .badge.ok { background: #064e3b; color: #a7f3d0; }
+  .badge.warn { background: #713f12; color: #fde68a; }
+  p, li { line-height: 1.65; font-size: .95rem; }
+  .muted { color: var(--muted); font-size: .88rem; }
+  .formula {
+    font-family: "Times New Roman", "Noto Serif", serif;
+    background: rgba(15,23,42,.6);
+    border-left: 3px solid var(--accent);
+    padding: 10px 12px; border-radius: 8px; margin: 10px 0;
+    overflow-x: auto; font-size: 1.05rem;
+  }
+  .grid2 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 560px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+  .gap-item { background: var(--card2); border-radius: 12px; padding: 12px; }
+  .gap-item strong { display: block; margin-bottom: 4px; }
+  .quiz-box {
+    background: rgba(56,189,248,.08);
+    border: 1px solid rgba(56,189,248,.3);
+    border-radius: 12px; padding: 14px; margin-top: 12px;
+  }
+  .quiz-box label {
+    display: block; margin: 8px 0 4px; font-size: .88rem; color: var(--muted);
+  }
+  input[type="text"], input[type="number"], select {
+    width: 100%; padding: 10px 12px; border-radius: 10px;
+    border: 1px solid var(--card2); background: #0f172a; color: var(--text); font-size: 1rem;
+  }
+  input:focus, select:focus { outline: 2px solid var(--accent); border-color: transparent; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  button {
+    cursor: pointer; border: none; border-radius: 10px; padding: 10px 16px;
+    font-size: .95rem; font-weight: 600; font-family: inherit;
+    transition: transform .1s, opacity .2s;
+  }
+  button:active { transform: scale(.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #0f172a;
+  }
+  .btn-ghost { background: transparent; border: 1px solid var(--card2); color: var(--text); }
+  .btn-check { background: #059669; color: white; }
+  .feedback {
+    margin-top: 10px; padding: 10px 12px; border-radius: 10px; font-size: .92rem; display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.good { background: rgba(52,211,153,.15); border: 1px solid var(--good); color: #a7f3d0; }
+  .feedback.bad { background: rgba(248,113,113,.12); border: 1px solid var(--bad); color: #fecaca; }
+  .feedback.hint { background: rgba(251,191,36,.12); border: 1px solid var(--warn); color: #fde68a; }
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; gap: 10px; justify-content: center; align-items: center;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(15,23,42,.92); backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(148,163,184,.2);
+  }
+  .nav button { min-width: 110px; }
+  .tm-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 12px 0;
+  }
+  .tm-cell {
+    background: #0f172a; border: 1px dashed var(--card2); border-radius: 8px;
+    padding: 8px 4px; text-align: center; font-size: .85rem;
+  }
+  .tm-cell.given { border-style: solid; border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .tm-cell input {
+    width: 100%; padding: 6px 2px; text-align: center; font-size: .9rem; text-transform: capitalize;
+  }
+  .score-big {
+    font-size: 2.4rem; font-weight: 800; text-align: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  footer.note {
+    max-width: 720px; margin: 8px auto 0; padding: 0 14px 20px;
+    font-size: .72rem; color: var(--muted); text-align: center; line-height: 1.5;
+  }
+  ul.compact { padding-left: 1.2em; margin: 8px 0; }
+  ul.compact li { margin-bottom: 4px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .chip { font-size: .75rem; padding: 4px 10px; border-radius: 99px; background: var(--card2); }
+  .steps { counter-reset: step; }
+  .steps li {
+    list-style: none; position: relative; padding-left: 2.2em; margin-bottom: 10px;
+  }
+  .steps li::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 0; top: 0;
+    width: 1.6em; height: 1.6em; background: var(--accent2); color: #0f172a;
+    border-radius: 50%; font-size: .8rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="crumb"><a href="../../">← Study Hub</a> · Chemistry</div>
+  <h1>🧪 Chem Quiz 2 Tutor · Stoichiometry &amp; oxides <span class="zh">化學 Quiz 2 互動補習</span></h1>
+  <div class="meta">Colégio Diocesano de São José · F4A No.14 · 2026/2027 1st Term Chemistry Quiz 2</div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="slide-count"><span id="slideNum">1</span> / <span id="slideTotal">0</span></div>
+</div>
+
+<main id="deck">
+
+  <section class="slide active" data-title="Cover">
+    <div class="card">
+      <h2>Built from your Quiz 2 script <span class="zh">按答卷度身訂造</span></h2>
+      <p>This tutor starts with a <strong>gap diagnosis</strong>, then reteaches the weak foundations (short lesson + instant practice), and ends with an <strong>auto-scored variant paper</strong>.</p>
+      <p class="muted zh">先診斷缺口 → 短講＋即時練習 → 變題自動評分。</p>
+      <div class="tag-row">
+        <span class="chip">EN primary</span>
+        <span class="chip">ZH secondary</span>
+        <span class="chip">Mobile OK</span>
+        <span class="chip">Client-only</span>
+      </div>
+      <p class="muted">Use ← → keys or the buttons below. Phone portrait or tablet works well.</p>
+      <p class="muted">Paper date: 27 Oct 2026 · 40 mins · 50 marks</p>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Diagnosis">
+    <div class="card">
+      <h2>📋 Gap diagnosis <span class="zh">缺口摘要</span></h2>
+      <p class="muted">Against 2026/2027 Quiz 2 script (from scans)</p>
+      <div class="grid2">
+        <div class="gap-item">
+          <span class="badge p1">P1</span>
+          <strong>Transition-metal symbols <span class="zh">過渡金屬符號</span></strong>
+          <span class="muted">Part A blank (8%) — 8 slots between Sc→Zn</span>
+        </div>
+        <div class="gap-item">
+          <span class="badge p1">P2</span>
+          <strong>Oxide empirical formula (mass ↑ %) <span class="zh">氧化物經驗式</span></strong>
+          <span class="muted">Q4 almost blank (6%) — Na₂O / NaO → Na₂O₂</span>
+        </div>
+        <div class="gap-item">
+          <span class="badge p1">P3</span>
+          <strong>Lead oxide empirical formula <span class="zh">鉛氧化物</span></strong>
+          <span class="muted">Q6 blank — Pb₃O₄; PbO:PbO₂ = 2:1</span>
+        </div>
+        <div class="gap-item">
+          <span class="badge p2">P4</span>
+          <strong>Limiting reagent + yield <span class="zh">限量＋產率</span></strong>
+          <span class="muted">Q5 messy working; actual yield unclear</span>
+        </div>
+        <div class="gap-item">
+          <span class="badge ok">Solid</span>
+          <strong>Q1–Q3</strong>
+          <span class="muted">alum n=12; C₁₂H₂₄O₃; m(NaCl)=2.34 g</span>
+        </div>
+        <div class="gap-item">
+          <span class="badge ok">OK</span>
+          <strong>Part B balancing <span class="zh">配平</span></strong>
+          <span class="muted">1–4 correct; B5 is ×4 form (still balanced)</span>
+        </div>
+      </div>
+      <p style="margin-top:14px">Rough unofficial score ≈ <strong>25–30 / 50</strong>. We reteach from the blanks first.</p>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Transition metals">
+    <div class="card">
+      <h2><span class="badge p1">P1</span> Transition metals <span class="zh">過渡金屬</span></h2>
+      <p>Period 4 transition metals run from <strong>Sc</strong> (scandium) to <strong>Zn</strong> (zinc). The paper gives Sc and Zn; fill the <strong>8 symbols</strong> in between.</p>
+      <div class="formula">Sc → <strong>Ti V Cr Mn Fe Co Ni Cu</strong> → Zn</div>
+      <h3>Memory aids <span class="zh">記憶提示</span></h3>
+      <ul class="compact">
+        <li><strong>Ti</strong> Titanium（鈦）</li>
+        <li><strong>V</strong> Vanadium（釩）</li>
+        <li><strong>Cr</strong> Chromium（鉻）— think chrome plating</li>
+        <li><strong>Mn</strong> Manganese（錳）</li>
+        <li><strong>Fe</strong> Iron（鐵）— Latin <em>Ferrum</em></li>
+        <li><strong>Co</strong> Cobalt（鈷）</li>
+        <li><strong>Ni</strong> Nickel（鎳）</li>
+        <li><strong>Cu</strong> Copper（銅）— Latin <em>Cuprum</em></li>
+      </ul>
+      <p class="muted">Order chant: <em>Ti V Cr Mn · Fe Co Ni Cu</em></p>
+    </div>
+    <div class="card quiz-box">
+      <h3>Instant practice · fill symbols <span class="zh">即時練習</span></h3>
+      <p class="muted">Fill the middle 8 only (any case OK)</p>
+      <div class="tm-grid" id="tmPractice">
+        <div class="tm-cell given">Sc</div>
+        <div class="tm-cell"><input id="tm1" maxlength="2" placeholder="1" aria-label="slot 1"></div>
+        <div class="tm-cell"><input id="tm2" maxlength="2" placeholder="2" aria-label="slot 2"></div>
+        <div class="tm-cell"><input id="tm3" maxlength="2" placeholder="3" aria-label="slot 3"></div>
+        <div class="tm-cell"><input id="tm4" maxlength="2" placeholder="4" aria-label="slot 4"></div>
+        <div class="tm-cell"><input id="tm5" maxlength="2" placeholder="5" aria-label="slot 5"></div>
+        <div class="tm-cell"><input id="tm6" maxlength="2" placeholder="6" aria-label="slot 6"></div>
+        <div class="tm-cell"><input id="tm7" maxlength="2" placeholder="7" aria-label="slot 7"></div>
+        <div class="tm-cell"><input id="tm8" maxlength="2" placeholder="8" aria-label="slot 8"></div>
+        <div class="tm-cell given">Zn</div>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn-check" onclick="checkTM()">Check</button>
+        <button type="button" class="btn-ghost" onclick="revealTM()">Show answers</button>
+      </div>
+      <div class="feedback" id="tmFb"></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Sodium oxides">
+    <div class="card">
+      <h2><span class="badge p1">P2</span> Sodium oxides <span class="zh">鈉氧化物 (Q4)</span></h2>
+      <p>On the paper: 100 g Na; mass rises ≈ <strong>35%</strong> in air; ≈ <strong>70%</strong> in pure O₂.</p>
+      <h3>Key ideas <span class="zh">關鍵概念</span></h3>
+      <ul class="compact steps">
+        <li><strong>Mass increase</strong> = mass of <strong>oxygen added</strong> (metal mass unchanged). 35% of 100 g = <strong>35 g O</strong>.</li>
+        <li>Find \(n(\mathrm{Na})\) and \(n(\mathrm{O})\), simplify to the lowest whole-number ratio → <strong>empirical formula</strong>（經驗式）.</li>
+        <li>If \(M_r\) is given, scale the empirical formula to match → <strong>molecular formula</strong>（分子式）.</li>
+      </ul>
+      <h3>Worked example (air · 35%)</h3>
+      <div class="formula">
+        n(Na) = 100/23 ≈ 4.35 mol<br>
+        n(O) = 35/16 ≈ 2.19 mol<br>
+        Na : O ≈ 4.35 : 2.19 ≈ <strong>2 : 1</strong> → <strong>Na₂O</strong>
+      </div>
+      <h3>Worked example (pure O₂ · 70%)</h3>
+      <div class="formula">
+        n(O) = 70/16 ≈ 4.38 mol<br>
+        Na : O ≈ 4.35 : 4.38 ≈ <strong>1 : 1</strong> → empirical <strong>NaO</strong><br>
+        If M<sub>r</sub> = 78: NaO has M<sub>r</sub>=39 → ×2 → molecular <strong>Na₂O₂</strong> (sodium peroxide)
+      </div>
+      <p class="muted">Context: air often gives Na₂O; pure oxygen favours peroxide Na₂O₂.</p>
+    </div>
+    <div class="card quiz-box">
+      <h3>Instant practice <span class="zh">即時練習</span></h3>
+      <label>Empirical formula in air?</label>
+      <input id="q4a" type="text" placeholder="e.g. Na2O">
+      <label>Empirical formula in pure O₂?</label>
+      <input id="q4b" type="text" placeholder="e.g. NaO">
+      <label>Molecular formula when M<sub>r</sub>=78?</label>
+      <input id="q4c" type="text" placeholder="e.g. Na2O2">
+      <div class="btn-row">
+        <button type="button" class="btn-check" onclick="checkQ4Practice()">Check</button>
+      </div>
+      <div class="feedback" id="q4Fb"></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Lead oxide">
+    <div class="card">
+      <h2><span class="badge p1">P3</span> Lead oxide X <span class="zh">鉛氧化物 (Q6)</span></h2>
+      <p>“Contains 90.6% Pb by mass” → oxygen is the rest (100 − 90.6 = <strong>9.4%</strong>).</p>
+      <ol class="steps compact">
+        <li>Assume 100 g sample: Pb = 90.6 g, O = 9.4 g</li>
+        <li>\(n(\mathrm{Pb})=90.6/207.2 \approx 0.437\); \(n(\mathrm{O})=9.4/16 = 0.5875\)</li>
+        <li>Divide by the smaller: Pb : O ≈ 1 : 1.343 ≈ <strong>3 : 4</strong></li>
+        <li>Empirical formula = <strong>Pb₃O₄</strong> (red lead)</li>
+      </ol>
+      <div class="formula">Check %Pb = (3×207.2) / (3×207.2 + 4×16) × 100% ≈ 90.7% ✓</div>
+      <h3>Bonus: mole ratio PbO to PbO₂</h3>
+      <p>Pb₃O₄ can be written as <strong>2PbO · PbO₂</strong> (two Pb(II) + one Pb(IV)).</p>
+      <div class="formula">PbO : PbO₂ = <strong>2 : 1</strong></div>
+    </div>
+    <div class="card quiz-box">
+      <h3>Instant practice <span class="zh">即時練習</span></h3>
+      <label>Empirical formula?</label>
+      <input id="q6a" type="text" placeholder="e.g. Pb3O4">
+      <label>Mole ratio PbO : PbO₂? (e.g. 2:1)</label>
+      <input id="q6b" type="text" placeholder="2:1">
+      <div class="btn-row">
+        <button type="button" class="btn-check" onclick="checkQ6Practice()">Check</button>
+      </div>
+      <div class="feedback" id="q6Fb"></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Limiting & yield">
+    <div class="card">
+      <h2><span class="badge p2">P4</span> Limiting reagent &amp; yield <span class="zh">限量試劑與產率 (Q5)</span></h2>
+      <div class="formula">C₂H₂(g) + <strong>2</strong>Br₂(l) → C₂H₂Br₄(l)</div>
+      <p>Your script: balancing ✅; moles attempted; theoretical yield ≈ 5.61 g (close); actual yield unclear.</p>
+      <h3>Standard steps <span class="zh">標準步驟</span></h3>
+      <ol class="steps compact">
+        <li>Moles: n(C₂H₂)=2.00/26≈0.0769; n(Br₂)=5.20/159.8≈0.0325</li>
+        <li>Compare with coefficients: 1 mol C₂H₂ needs 2 mol Br₂.<br>
+          Using all C₂H₂ would need Br₂ = 0.0769×2≈0.154 &gt; 0.0325 → <strong>Br₂ is limiting</strong>; C₂H₂ is excess.</li>
+        <li>Theoretical yield from limiting: n(product)=0.0325/2=0.01625; M<sub>r</sub>=345.6 → m≈<strong>5.62 g</strong></li>
+        <li>Actual yield = theoretical × (% yield / 100) = 5.62 × 0.90 ≈ <strong>5.06 g</strong></li>
+      </ol>
+      <p class="muted">Write one English sentence in the exam, e.g. <em>Bromine is the limiting reagent / Ethyne is in excess.</em></p>
+    </div>
+    <div class="card quiz-box">
+      <h3>Instant practice (same data) <span class="zh">即時練習</span></h3>
+      <label>Which is limiting? (Br2 or C2H2)</label>
+      <input id="q5lim" type="text" placeholder="Br2">
+      <label>Theoretical yield (g), ~2 d.p.</label>
+      <input id="q5th" type="number" step="0.01" placeholder="5.62">
+      <label>Actual yield at 90% (g)</label>
+      <input id="q5ac" type="number" step="0.01" placeholder="5.06">
+      <div class="btn-row">
+        <button type="button" class="btn-check" onclick="checkQ5Practice()">Check</button>
+      </div>
+      <div class="feedback" id="q5Fb"></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Q1–Q3 check">
+    <div class="card">
+      <h2><span class="badge ok">Solid</span> Q1–Q3 quick check + variants <span class="zh">短確認＋變式</span></h2>
+      <h3>Q1 Alum — n = 12 ✅</h3>
+      <p class="muted">m(anhydrous)=2.58 g → 0.01 mol; m(H₂O)=2.16 g → 0.12 mol → 1:12</p>
+      <h3>Q2 — C₁₂H₂₄O₃ ✅</h3>
+      <p class="muted">Empirical C₄H₈O (72); 216/72=3</p>
+      <h3>Q3 — m(NaCl)=2.34 g ✅</h3>
+      <p class="muted">n(TiCl₄)=0.01; n(NaCl)=0.04; ×58.5</p>
+      <h3>Part B</h3>
+      <p>1–4 balanced correctly. Your B5 form \(4C_xH_y+(4x+y)O_2\rightarrow\ldots\) is the standard equation ×4 — <strong>atoms conserved</strong>. If the teacher wants simplest coefficients, remember:</p>
+      <div class="formula">C<sub>x</sub>H<sub>y</sub> + (x + y/4)O₂ → xCO₂ + (y/2)H₂O</div>
+    </div>
+    <div class="card quiz-box">
+      <h3>Variant drills <span class="zh">變式鞏固</span></h3>
+      <label>Variant Q1: if m(H₂O)=1.80 g, m(anhydrous KAl(SO₄)₂)=2.58 g, n = ?</label>
+      <input id="v1" type="number" placeholder="e.g. 10">
+      <label>Variant Q2: empirical CH₂O, M<sub>r</sub>=180, molecular formula?</label>
+      <input id="v2" type="text" placeholder="e.g. C6H12O6">
+      <label>Variant Q3: 2.00 g TiCl₄ reacts fully, m(NaCl)=? (g, 2 d.p.)</label>
+      <input id="v3" type="number" step="0.01" placeholder="e.g. 2.46">
+      <div class="btn-row">
+        <button type="button" class="btn-check" onclick="checkVariants()">Check variants</button>
+      </div>
+      <div class="feedback" id="varFb"></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Practice paper">
+    <div class="card">
+      <h2>📝 Variant practice paper <span class="zh">變題練習（自動評分）</span></h2>
+      <p>8 questions covering this quiz’s gaps. Numeric tolerance ≈ ±0.02. Tap <strong>Grade paper</strong> when done.</p>
+      <p class="muted">Ar ref: H1 C12 O16 Na23 Al27 S32 Cl35.5 K39 Ti48 Br79.9 Pb207.2</p>
+    </div>
+
+    <div class="card">
+      <h3>1. Transition metals</h3>
+      <p>Write the two transition-metal symbols immediately after Fe (comma-separated)</p>
+      <input id="ex1" type="text" placeholder="Co, Ni">
+    </div>
+    <div class="card">
+      <h3>2. Transition order</h3>
+      <p>How many transition-metal symbols sit between Cr and Cu? (number)</p>
+      <input id="ex2" type="number" placeholder="e.g. 4">
+      <p class="muted">Hint: Cr → Mn Fe Co Ni → Cu</p>
+    </div>
+    <div class="card">
+      <h3>3. Mass increase → empirical formula</h3>
+      <p>80.0 g metal M (A<sub>r</sub>=40) burns; mass becomes 96.0 g. Empirical formula of oxide? (O A<sub>r</sub>=16) e.g. M2O or MO</p>
+      <input id="ex3" type="text" placeholder="MO or M2O">
+    </div>
+    <div class="card">
+      <h3>4. Peroxide molecular formula</h3>
+      <p>A sodium oxide has empirical formula NaO and M<sub>r</sub>=78. Molecular formula?</p>
+      <input id="ex4" type="text" placeholder="Na2O2">
+    </div>
+    <div class="card">
+      <h3>5. Limiting reagent</h3>
+      <p>N₂ + 3H₂ → 2NH₃. You have 2.0 mol N₂ and 3.0 mol H₂. Which is limiting? (N2 or H2)</p>
+      <input id="ex5" type="text" placeholder="H2">
+    </div>
+    <div class="card">
+      <h3>6. Theoretical yield</h3>
+      <p>Same reaction — how many mol NH₃ can form theoretically? (1 d.p.)</p>
+      <input id="ex6" type="number" step="0.1" placeholder="2.0">
+    </div>
+    <div class="card">
+      <h3>7. Lead oxide</h3>
+      <p>Oxide contains 86.6% Pb (rest O). Empirical formula? (hint: try PbO₂)</p>
+      <input id="ex7" type="text" placeholder="PbO2">
+    </div>
+    <div class="card">
+      <h3>8. Pb₃O₄ composition</h3>
+      <p>In Pb₃O₄, mole ratio PbO : PbO₂? (e.g. 2:1)</p>
+      <input id="ex8" type="text" placeholder="2:1">
+    </div>
+
+    <div class="btn-row" style="justify-content:center; margin: 16px 0;">
+      <button type="button" class="btn-primary" onclick="gradeExam()">Grade paper</button>
+      <button type="button" class="btn-ghost" onclick="resetExam()">Clear &amp; retry</button>
+    </div>
+    <div class="feedback" id="examFb"></div>
+    <div id="examDetail"></div>
+  </section>
+
+  <section class="slide" data-title="Study tips">
+    <div class="card">
+      <h2>🎯 Study tips for Geoffrey <span class="zh">溫習建議</span></h2>
+      <ul class="compact">
+        <li><strong>2 minutes daily:</strong> recite Sc→Zn symbols until three perfect runs in a row</li>
+        <li><strong>Mass ↑ %:</strong> “mass increases by x%” → instantly translate to “grams of O added”</li>
+        <li><strong>Limiting:</strong> always write which is limiting / which is excess in English</li>
+        <li><strong>% yield:</strong> actual = theoretical × %/100 (don’t invert)</li>
+        <li><strong>Pb₃O₄:</strong> remember = 2PbO·PbO₂, %Pb≈90.7%</li>
+      </ul>
+      <p>Keep Q1–Q3 warm; in a 40-min paper, grab blanks first (A, Q4, Q6).</p>
+      <div class="score-big" id="finalHint">You’ve got this! 💪</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="note">
+  For Geoffrey Leong (F4A No.14) home tutoring / revision only — not school-official answers or marking.<br>
+  From 2026/2027 1st Term Chemistry Quiz 2 script scans · Asia/Macau
+</footer>
+
+<nav class="nav" aria-label="Slide navigation">
+  <button type="button" class="btn-ghost" id="btnPrev" onclick="go(-1)">← Prev</button>
+  <button type="button" class="btn-primary" id="btnNext" onclick="go(1)">Next →</button>
+</nav>
+<p class="hint-keys sr-only">Arrow keys change slides</p>
+
+<script>
+(function () {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const bar = document.getElementById('progressBar');
+  const numEl = document.getElementById('slideNum');
+  const totEl = document.getElementById('slideTotal');
+  let i = 0;
+  totEl.textContent = slides.length;
+
+  function show(idx) {
+    i = Math.max(0, Math.min(slides.length - 1, idx));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    const pct = ((i + 1) / slides.length) * 100;
+    bar.style.width = pct + '%';
+    numEl.textContent = i + 1;
+    document.getElementById('btnPrev').disabled = i === 0;
+    document.getElementById('btnNext').textContent = i === slides.length - 1 ? 'Done ✓' : 'Next →';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  window.go = function (d) { show(i + d); };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+  });
+  show(0);
+
+  function normFormula(s) {
+    return String(s || '').replace(/\s+/g, '').replace(/₁/g,'1').replace(/₂/g,'2').replace(/₃/g,'3').replace(/₄/g,'4')
+      .replace(/₀/g,'0').toUpperCase().replace(/：/g,':');
+  }
+  function near(a, b, tol) {
+    const x = parseFloat(a), y = parseFloat(b);
+    if (Number.isNaN(x) || Number.isNaN(y)) return false;
+    return Math.abs(x - y) <= (tol == null ? 0.02 : tol);
+  }
+  function setFb(el, ok, msg) {
+    el.className = 'feedback show ' + (ok ? 'good' : 'bad');
+    el.textContent = msg;
+  }
+
+  const TM = ['Ti','V','Cr','Mn','Fe','Co','Ni','Cu'];
+  window.checkTM = function () {
+    let ok = 0;
+    for (let k = 0; k < 8; k++) {
+      const v = document.getElementById('tm' + (k+1)).value.trim();
+      const good = v.toLowerCase() === TM[k].toLowerCase();
+      if (good) ok++;
+      document.getElementById('tm' + (k+1)).style.borderColor = good ? '#34d399' : '#f87171';
+    }
+    const el = document.getElementById('tmFb');
+    setFb(el, ok === 8, ok === 8 ? 'Perfect! Ti V Cr Mn Fe Co Ni Cu 👍' : `Got ${ok}/8. Chant: Ti V Cr Mn · Fe Co Ni Cu`);
+  };
+  window.revealTM = function () {
+    TM.forEach((sym, k) => { document.getElementById('tm' + (k+1)).value = sym; });
+    document.getElementById('tmFb').className = 'feedback show hint';
+    document.getElementById('tmFb').textContent = 'Answers: Ti, V, Cr, Mn, Fe, Co, Ni, Cu';
+  };
+
+  window.checkQ4Practice = function () {
+    const a = normFormula(document.getElementById('q4a').value);
+    const b = normFormula(document.getElementById('q4b').value);
+    const c = normFormula(document.getElementById('q4c').value);
+    const okA = a === 'NA2O';
+    const okBstrict = b === 'NAO';
+    const okC = c === 'NA2O2';
+    let msg = [];
+    msg.push(okA ? '① Na₂O ✓' : '① should be Na₂O (2:1)');
+    msg.push(okBstrict ? '② NaO ✓' : (b === 'NA2O2' ? '② empirical is NaO (save Na₂O₂ for the next box)' : '② empirical NaO'));
+    msg.push(okC ? '③ Na₂O₂ ✓' : '③ molecular Na₂O₂');
+    const all = okA && okBstrict && okC;
+    setFb(document.getElementById('q4Fb'), all, msg.join(' · '));
+  };
+
+  window.checkQ6Practice = function () {
+    const a = normFormula(document.getElementById('q6a').value);
+    const b = normFormula(document.getElementById('q6b').value).replace(/\s/g,'');
+    const okA = a === 'PB3O4';
+    const okB = b === '2:1' || b === '2/1';
+    setFb(document.getElementById('q6Fb'), okA && okB,
+      (okA && okB) ? 'Correct: Pb₃O₄; PbO:PbO₂ = 2:1' : `Empirical ${okA?'✓':'should be Pb3O4'}; ratio ${okB?'✓':'should be 2:1'}`);
+  };
+
+  window.checkQ5Practice = function () {
+    const lim = normFormula(document.getElementById('q5lim').value).replace(/₂/g,'2');
+    const th = document.getElementById('q5th').value;
+    const ac = document.getElementById('q5ac').value;
+    const okL = lim === 'BR2' || lim === 'BR₂' || lim === 'BROMINE';
+    const okT = near(th, 5.62, 0.05) || near(th, 5.61, 0.05);
+    const theo = parseFloat(th);
+    const expectAc = (Number.isNaN(theo) ? 5.62 : theo) * 0.9;
+    const okA = near(ac, expectAc, 0.06) || near(ac, 5.06, 0.06) || near(ac, 5.05, 0.06);
+    setFb(document.getElementById('q5Fb'), okL && okT && okA,
+      `${okL?'Limiting=Br₂ ✓':'Limiting is Br₂'}; theo≈5.62 g ${okT?'✓':'（you: '+th+'）'}; actual≈5.06 g ${okA?'✓':''}`);
+  };
+
+  window.checkVariants = function () {
+    const v1 = document.getElementById('v1').value;
+    const v2 = normFormula(document.getElementById('v2').value);
+    const v3 = document.getElementById('v3').value;
+    const ok1 = near(v1, 10, 0.01);
+    const ok2 = v2 === 'C6H12O6';
+    const ok3 = near(v3, 2.46, 0.03) || near(v3, 2.47, 0.03);
+    setFb(document.getElementById('varFb'), ok1 && ok2 && ok3,
+      `Q1 variant n=${ok1?'10 ✓':'should be 10'}; formula ${ok2?'C₆H₁₂O₆ ✓':'C6H12O6'}; m(NaCl) ${ok3?'≈2.46 g ✓':'≈2.46 g'}`);
+  };
+
+  window.gradeExam = function () {
+    const tests = [
+      {
+        id: 'ex1',
+        fn: (v) => {
+          const parts = String(v).split(/[,，\s]+/).map(s => s.trim().toLowerCase()).filter(Boolean);
+          return parts.length >= 2 && parts[0] === 'co' && parts[1] === 'ni';
+        },
+        ans: 'Co, Ni'
+      },
+      { id: 'ex2', fn: (v) => near(v, 4, 0.01), ans: '4 (Mn Fe Co Ni)' },
+      {
+        id: 'ex3',
+        fn: (v) => {
+          const n = normFormula(v);
+          return n === 'M2O' || n === 'M₂O';
+        },
+        ans: 'M₂O'
+      },
+      { id: 'ex4', fn: (v) => normFormula(v) === 'NA2O2', ans: 'Na₂O₂' },
+      {
+        id: 'ex5',
+        fn: (v) => {
+          const n = normFormula(v);
+          return n === 'H2' || n === 'H₂' || n === 'HYDROGEN';
+        },
+        ans: 'H₂'
+      },
+      { id: 'ex6', fn: (v) => near(v, 2.0, 0.05), ans: '2.0 mol' },
+      { id: 'ex7', fn: (v) => normFormula(v) === 'PBO2', ans: 'PbO₂' },
+      {
+        id: 'ex8',
+        fn: (v) => {
+          const n = normFormula(v).replace(/\s/g,'');
+          return n === '2:1' || n === '2/1';
+        },
+        ans: '2:1'
+      }
+    ];
+
+    let score = 0;
+    let html = '<div class="card"><h3>Per-question results</h3><ul class="compact">';
+    tests.forEach((t, idx) => {
+      const raw = document.getElementById(t.id).value;
+      const ok = t.fn(raw);
+      if (ok) score++;
+      html += `<li>${ok ? '✅' : '❌'} Q${idx+1} ${ok ? 'correct' : '— answer: ' + t.ans}</li>`;
+    });
+    html += '</ul></div>';
+    document.getElementById('examDetail').innerHTML = html;
+    const el = document.getElementById('examFb');
+    el.className = 'feedback show ' + (score >= 6 ? 'good' : score >= 4 ? 'hint' : 'bad');
+    el.innerHTML = `<div class="score-big">${score} / 8</div>` +
+      (score === 8 ? 'Full marks — gaps look closed.' : score >= 6 ? 'Solid — revisit misses once more.' : 'Revisit the matching teaching slides, then retry.');
+    document.getElementById('finalHint').textContent = score >= 6 ? 'Looking good — keep it up!' : 'Room to grow — that’s fine!';
+  };
+
+  window.resetExam = function () {
+    for (let k = 1; k <= 8; k++) document.getElementById('ex' + k).value = '';
+    document.getElementById('examFb').className = 'feedback';
+    document.getElementById('examDetail').innerHTML = '';
+  };
+})();
+</script>
+</body>
+</html>
