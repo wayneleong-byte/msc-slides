@@ -16,7 +16,10 @@
  */
 
 import * as THREE from 'three';
+import { t, applyDomI18n, LANG } from './i18n.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+applyDomI18n();
 
 /* ---------------------------------------------------------------- *
  * 全域旗標：禁止任何 explode／拆解動畫
@@ -418,12 +421,12 @@ function buildShadowStation() {
   group.add(barrier);
 
   // 靜態標籤
-  addLabel(group, '點光源', SOURCE.clone().add(new THREE.Vector3(0, 1.15, 0)), '#ffd27a', 1.05);
-  addLabel(group, '光屏', new THREE.Vector3(SCREEN_X, SCREEN_H / 2 + 0.85, 0), '#dce3ec', 1.05);
+  addLabel(group, t('lbl.pointSource'), SOURCE.clone().add(new THREE.Vector3(0, 1.15, 0)), '#ffd27a', 1.05);
+  addLabel(group, t('lbl.screen'), new THREE.Vector3(SCREEN_X, SCREEN_H / 2 + 0.85, 0), '#dce3ec', 1.05);
 
-  const barrierLabel = addLabel(group, '不透明擋板', new THREE.Vector3(0, 0, 0), '#9fc6ff', 1.0);
-  const shadowLabel = addLabel(group, '幾何影區', new THREE.Vector3(0, 0, 0), '#c6d4e6', 1.0);
-  const boundaryLabel = addLabel(group, '影界光線', new THREE.Vector3(0, 0, 0), '#ffca8a', 0.95);
+  const barrierLabel = addLabel(group, t('lbl.barrier'), new THREE.Vector3(0, 0, 0), '#9fc6ff', 1.0);
+  const shadowLabel = addLabel(group, t('lbl.shadowZone'), new THREE.Vector3(0, 0, 0), '#c6d4e6', 1.0);
+  const boundaryLabel = addLabel(group, t('lbl.boundaryRay'), new THREE.Vector3(0, 0, 0), '#ffca8a', 0.95);
 
   group.userData.update = function ({ height, x }) {
     clearDynamic(group);
@@ -555,13 +558,13 @@ function buildReflectionStation() {
 
   // 法線（固定，⊥ 鏡面）
   group.add(dashedLine(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 8.7, 0)));
-  addLabel(group, '法線', new THREE.Vector3(0.85, 8.95, 0), '#e8eef6', 1.0);
-  addLabel(group, '鏡面', new THREE.Vector3(-8.2, 0.85, 0), '#9fc6ff', 1.05);
+  addLabel(group, t('lbl.normal'), new THREE.Vector3(0.85, 8.95, 0), '#e8eef6', 1.0);
+  addLabel(group, t('lbl.mirror'), new THREE.Vector3(-8.2, 0.85, 0), '#9fc6ff', 1.05);
 
   const iLabel = addLabel(group, 'i', new THREE.Vector3(0, 0, 0), '#ffb45e', 0.95);
   const rLabel = addLabel(group, 'r', new THREE.Vector3(0, 0, 0), '#8fc8ff', 0.95);
-  const inLabel = addLabel(group, '入射線', new THREE.Vector3(0, 0, 0), '#ffb45e', 0.95);
-  const outLabel = addLabel(group, '反射線', new THREE.Vector3(0, 0, 0), '#8fc8ff', 0.95);
+  const inLabel = addLabel(group, t('lbl.incident'), new THREE.Vector3(0, 0, 0), '#ffb45e', 0.95);
+  const outLabel = addLabel(group, t('lbl.reflected'), new THREE.Vector3(0, 0, 0), '#8fc8ff', 0.95);
 
   group.userData.update = function (iDeg) {
     clearDynamic(group);
@@ -632,7 +635,7 @@ function buildMirrorStation() {
   mirrorEdge.position.set(-0.145, 0, 0);
   group.add(mirrorEdge);
 
-  addLabel(group, '平面鏡', new THREE.Vector3(0.9, 5.65, 0), '#9fc6ff', 1.05);
+  addLabel(group, t('lbl.planeMirror'), new THREE.Vector3(0.9, 5.65, 0), '#9fc6ff', 1.05);
 
   // 物點與虛像標記（位置隨物距更新）
   const objectMarker = new THREE.Mesh(
@@ -660,9 +663,9 @@ function buildMirrorStation() {
   })();
   group.add(imageRing);
 
-  const objectLabel = addLabel(group, '物點', new THREE.Vector3(0, 0, 0), '#ffc266', 1.0);
-  const imageLabel = addLabel(group, '虛像', new THREE.Vector3(0, 0, 0), '#c9a7ff', 1.05);
-  const extLabel = addLabel(group, '反向延長線', new THREE.Vector3(0, 0, 0), '#8fc8ff', 0.9);
+  const objectLabel = addLabel(group, t('lbl.object'), new THREE.Vector3(0, 0, 0), '#ffc266', 1.0);
+  const imageLabel = addLabel(group, t('lbl.virtualImage'), new THREE.Vector3(0, 0, 0), '#c9a7ff', 1.05);
+  const extLabel = addLabel(group, t('lbl.extension'), new THREE.Vector3(0, 0, 0), '#8fc8ff', 0.9);
 
   group.userData.update = function (u) {
     clearDynamic(group);
@@ -753,15 +756,15 @@ function buildRefractionStation() {
 
   // 法線（貫穿界面上方與玻璃內部）
   group.add(dashedLine(new THREE.Vector3(0, 8.6, 0), new THREE.Vector3(0, -8.6, 0)));
-  addLabel(group, '法線', new THREE.Vector3(0.85, 9.0, 0), '#e8eef6', 1.0);
+  addLabel(group, t('lbl.normal'), new THREE.Vector3(0.85, 9.0, 0), '#e8eef6', 1.0);
 
-  addLabel(group, '空氣 n₁ = 1.00', new THREE.Vector3(-7.8, 6.0, 0), '#c8d8ef', 1.0);
-  addLabel(group, '玻璃 n₂ = 1.50', new THREE.Vector3(-7.8, -5.7, 0), '#7fe6d2', 1.0);
+  addLabel(group, t('lbl.air'), new THREE.Vector3(-7.8, 6.0, 0), '#c8d8ef', 1.0);
+  addLabel(group, t('lbl.glass'), new THREE.Vector3(-7.8, -5.7, 0), '#7fe6d2', 1.0);
 
   const iLabel = addLabel(group, 'i', new THREE.Vector3(0, 0, 0), '#ffb45e', 0.95);
   const rLabel = addLabel(group, 'r', new THREE.Vector3(0, 0, 0), '#7fe6d2', 0.95);
-  const inLabel = addLabel(group, '入射線', new THREE.Vector3(0, 0, 0), '#ffb45e', 0.95);
-  const refLabel = addLabel(group, '折射線', new THREE.Vector3(0, 0, 0), '#7fe6d2', 0.95);
+  const inLabel = addLabel(group, t('lbl.incident'), new THREE.Vector3(0, 0, 0), '#ffb45e', 0.95);
+  const refLabel = addLabel(group, t('lbl.refracted'), new THREE.Vector3(0, 0, 0), '#7fe6d2', 0.95);
 
   group.userData.update = function (iDeg) {
     clearDynamic(group);
@@ -818,9 +821,9 @@ function buildDispersionStation() {
   const C = vec2(3.5, -3);
 
   const COLORS = [
-    { key: 'red', label: '紅光', n: 1.490, material: MAT.red, color: '#ff7777' },
-    { key: 'green', label: '綠光', n: 1.510, material: MAT.green, color: '#7cf29a' },
-    { key: 'blue', label: '藍光', n: 1.530, material: MAT.blue, color: '#8fb3ff' }
+    { key: 'red', label: t('lbl.red'), n: 1.490, material: MAT.red, color: '#ff7777' },
+    { key: 'green', label: t('lbl.green'), n: 1.510, material: MAT.green, color: '#7cf29a' },
+    { key: 'blue', label: t('lbl.blue'), n: 1.530, material: MAT.blue, color: '#8fb3ff' }
   ];
 
   // 二維多邊形以 ExtrudeGeometry 長出厚度，光路仍取 z＝0 剖面
@@ -859,13 +862,13 @@ function buildDispersionStation() {
   );
   group.add(prismEdges);
 
-  addLabel(group, '玻璃稜鏡', new THREE.Vector3(0, 0.35, 2.1), '#9fdcff', 1.05);
-  addLabel(group, 'n 隨波長略變', new THREE.Vector3(0, -4.75, 0), '#c6d4e6', 0.95);
+  addLabel(group, t('lbl.prism'), new THREE.Vector3(0, 0.35, 2.1), '#9fdcff', 1.05);
+  addLabel(group, t('lbl.nVary'), new THREE.Vector3(0, -4.75, 0), '#c6d4e6', 0.95);
 
-  const whiteLabel = addLabel(group, '白光', new THREE.Vector3(0, 0, 0), '#ffffff', 1.0);
+  const whiteLabel = addLabel(group, t('lbl.white'), new THREE.Vector3(0, 0, 0), '#ffffff', 1.0);
 
   // 出射色光圖例（固定在右上方，避免三色標籤互相重疊）
-  addLabel(group, '出射色光', new THREE.Vector3(11.25, 7.15, 0), '#c6d4e6', 0.92);
+  addLabel(group, t('lbl.exitColors'), new THREE.Vector3(11.25, 7.15, 0), '#c6d4e6', 0.92);
   const legendY = [6.15, 5.10, 4.05];
   COLORS.forEach((c, i) => {
     const y = legendY[i];
@@ -1014,7 +1017,7 @@ function buildLensStation() {
 
   // 主光軸
   group.add(thinLine(new THREE.Vector3(-15, 0, 0), new THREE.Vector3(15, 0, 0), MAT.axis));
-  addLabel(group, '主光軸', new THREE.Vector3(14.1, 0.75, 0), '#8a97a8', 0.9);
+  addLabel(group, t('lbl.axis'), new THREE.Vector3(14.1, 0.75, 0), '#8a97a8', 0.9);
 
   // 焦點與光心
   const focusMat = new THREE.MeshBasicMaterial({ color: 0xffd166 });
@@ -1034,8 +1037,8 @@ function buildLensStation() {
   group.add(thinLine(new THREE.Vector3(F, -6.32, 0), new THREE.Vector3(F, -5.78, 0), MAT.axisDim));
   addLabel(group, 'f = 4.0', new THREE.Vector3(F / 2, -6.95, 0), '#ffd166', 0.95);
 
-  const objectLabel = addLabel(group, '物', new THREE.Vector3(0, 0, 0), '#ffc266', 1.0);
-  const imageLabel = addLabel(group, '實像', new THREE.Vector3(0, 0, 0), '#c9a7ff', 1.05);
+  const objectLabel = addLabel(group, t('lbl.obj'), new THREE.Vector3(0, 0, 0), '#ffc266', 1.0);
+  const imageLabel = addLabel(group, t('lbl.realImage'), new THREE.Vector3(0, 0, 0), '#c9a7ff', 1.05);
 
   const extendToX = (from, dir, xTarget) => {
     const t = (xTarget - from.x) / dir.x;
@@ -1183,7 +1186,7 @@ function refreshShadow() {
   setText('ro-shadow-h', height.toFixed(1));
   setText('ro-shadow-x', x.toFixed(1));
   setText('ro-shadow-sh', data.shadowHeight.toFixed(1));
-  setText('ro-shadow-ratio', data.ratio.toFixed(2) + ' 倍');
+  setText('ro-shadow-ratio', data.ratio.toFixed(2) + ' ' + t('unit.x'));
 }
 
 function refreshReflection() {
@@ -1225,7 +1228,7 @@ function refreshLens() {
   setText('ro-lens-u', data.u.toFixed(2));
   setText('ro-lens-v', Number.isFinite(data.v) ? data.v.toFixed(2) : '∞');
   setText('ro-lens-m', Number.isFinite(data.m) ? data.m.toFixed(2).replace('-', '−') : '—');
-  setText('ro-lens-type', data.real && data.inverted ? '倒立實像（u ＞ f）' : data.real ? '正立實像' : '虛像');
+  setText('ro-lens-type', data.real && data.inverted ? t('lens.invReal') : data.real ? t('lens.upReal') : t('lens.virtual'));
 }
 
 ui.shadowH.addEventListener('input', refreshShadow);

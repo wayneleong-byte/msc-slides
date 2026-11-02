@@ -298,3 +298,12 @@ h1 {
 .site-credit p { margin: 0; max-width: 96ch; }
 .site-credit strong { color: var(--strong); font-weight: 650; }
 .site-credit a { color: var(--strong); }
+
+#atlas-nav .baseli-badge {
+  font: 500 11px JetBrains Mono, ui-monospace, monospace;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #eef3ea;
+  color: #3d5a3a;
+  letter-spacing: 0.02em;
+}

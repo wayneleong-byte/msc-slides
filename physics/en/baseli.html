@@ -5,21 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Baseli map · Atlas of Physics</title>
 <link rel="stylesheet" href="../atlas.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body { max-width: 720px; margin: 0 auto; padding: 28px 18px 80px; font-family: Inter, system-ui, sans-serif; line-height: 1.65; color: var(--strong); background: var(--page); }
+  body { max-width: 860px; margin: 0 auto; padding: 28px 18px 80px; font-family: Inter, system-ui, sans-serif; line-height: 1.65; color: var(--strong); background: var(--page); }
   a { color: inherit; text-decoration-thickness: 1px; }
   a:hover { color: var(--hi); }
   h1 { font-size: 28px; margin: 12px 0 8px; }
-  h2 { font-size: 18px; margin: 28px 0 10px; color: var(--strong); }
+  h2 { font-size: 18px; margin: 28px 0 12px; color: var(--strong); }
   .note { color: var(--muted); font-size: 13.5px; margin-bottom: 8px; }
-  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-  li a {
-    display: block; padding: 12px 14px; background: var(--card); border-radius: 10px;
-    box-shadow: var(--lift); text-decoration: none;
-  }
-  li a:hover { outline: 1px solid var(--faint); }
+  ul.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: minmax(110px, 150px) 1fr; gap: 12px; padding: 12px 14px; background: var(--card); border-radius: 10px; box-shadow: var(--lift); align-items: start; }
+  .code { font: 500 12.5px JetBrains Mono, ui-monospace, monospace; color: #2f4a6e; background: #e8eef6; padding: 4px 8px; border-radius: 6px; white-space: pre-wrap; }
+  .txt { margin: 0 0 6px; font-size: 14.5px; }
+  .go { font: 500 12.5px JetBrains Mono, ui-monospace, monospace; color: #3d5a3a; text-decoration: none; }
+  .go:hover { color: var(--hi); }
+  .none { font-size: 12.5px; color: var(--muted); }
   .credit { margin-top: 32px; color: var(--muted); font-size: 13px; }
   .top { display: flex; gap: 14px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -29,32 +32,260 @@
     <a href="../equations/index-en.html">Equations</a>
   </p>
   <h1>Baseli map</h1>
-  <p class="note">Teaching list only (not official). Chapter links only.</p>
+  <p class="note">Teaching list only (<strong>not official</strong>). Source: DSEDJ Requirements of Basic Academic Attainments and junior/senior natural-science curriculum guidance. Physics-related items show <strong>code + full text</strong>; links only where a lab/chapter exists.</p>
+  <p class="note">Senior natural-science Baseli is not a full mechanics catalogue; senior hooks below are marked “suggested pairing / stream” for teaching alignment only.</p>
 
-  <h2>Junior</h2>
-  <ul>
-    <li><a href="fluids/?level=junior">Fluids</a></li>
-    <li><a href="energy/?level=junior">Work &amp; energy</a></li>
-    <li><a href="circuits/?level=junior">Circuits</a></li>
-    <li><a href="../optics-3d/">Optics 3D lab</a></li>
-    <li><a href="magnetism/?level=junior">Magnetism (optional)</a></li>
+  <h2>Junior (physical science · physics-related)</h2>
+  <ul class="list">
+    <li class="row">
+      <code class="code">B-3-6</code>
+      <div class="body">
+        <p class="txt">Be able to describe the meaning of speed and average speed.</p>
+        <span class="none">No interactive chapter yet</span>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-7</code>
+      <div class="body">
+        <p class="txt">Be able to identify common forces in daily life such as gravity, friction, elasticity, and state their effects.</p>
+        <span class="none">No interactive chapter yet</span>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-8</code>
+      <div class="body">
+        <p class="txt">Know the relationship between mass and gravity, and be able to do basic calculation.</p>
+        <span class="none">No interactive chapter yet</span>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-9</code>
+      <div class="body">
+        <p class="txt">Be able to specify the conditions for the balance between two forces.</p>
+        <span class="none">No interactive chapter yet</span>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-10</code>
+      <div class="body">
+        <p class="txt">Understand that force is the cause of change in the state of object motion; and be able to explain some common phenomena with the concept of inertia.</p>
+        <span class="none">No interactive chapter yet</span>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-11</code>
+      <div class="body">
+        <p class="txt">Understand the concept of pressure, and the methods to change pressure.</p>
+        <a class="go" href="fluids/?level=junior">Open → Fluids</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-12</code>
+      <div class="body">
+        <p class="txt">Be able to describe the characteristics of liquid pressure; and explain Archimedes’ principle and the conditions of floating and sinking.</p>
+        <a class="go" href="fluids/?level=junior">Open → Fluids</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-13</code>
+      <div class="body">
+        <p class="txt">Know the measurement of air pressure, and understand the change of air pressure as well as its effects on daily life.</p>
+        <a class="go" href="fluids/?level=junior">Open → Fluids</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-14</code>
+      <div class="body">
+        <p class="txt">Understand the three elements of sound, condition for the production and spreading of sound; be able to state the hazards of noise and methods of noise abatement.</p>
+        <span class="none">No interactive chapter yet</span>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-15</code>
+      <div class="body">
+        <p class="txt">Be able to briefly state the characteristics of light propagation in the same homogeneous medium.</p>
+        <a class="go" href="../optics-3d/?lang=en">Open → Optics 3D lab</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-16</code>
+      <div class="body">
+        <p class="txt">Recognise the laws of reflection and refraction of light, and be able to illustrate their practical application.</p>
+        <a class="go" href="../optics-3d/?lang=en">Open → Optics 3D lab</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-17</code>
+      <div class="body">
+        <p class="txt">Be able to draw simple light path diagrams of light reflection and refraction.</p>
+        <a class="go" href="../optics-3d/?lang=en">Open → Optics 3D lab</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-18</code>
+      <div class="body">
+        <p class="txt">Understand dispersion of light and the mixture of coloured lights.</p>
+        <a class="go" href="../optics-3d/?lang=en">Open → Optics 3D lab</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-19</code>
+      <div class="body">
+        <p class="txt">Recognise electric charge and its basic properties; understand the basic structure of a circuit; be able to make a series circuit and a parallel circuit, and draw circuit diagrams.</p>
+        <a class="go" href="circuits/?level=junior">Open → Circuits</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-20</code>
+      <div class="body">
+        <p class="txt">Know how to use the ammeter and voltmeter.</p>
+        <a class="go" href="circuits/?level=junior">Open → Circuits</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-21</code>
+      <div class="body">
+        <p class="txt">Understand Ohm’s law, and be able to do simple calculations.</p>
+        <a class="go" href="circuits/?level=junior">Open → Circuits</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-22</code>
+      <div class="body">
+        <p class="txt">Be able to briefly describe the heating effect of electric current and the application of fuses.</p>
+        <a class="go" href="circuits/?level=junior">Open → Circuits</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-23</code>
+      <div class="body">
+        <p class="txt">Understand semiconductors and superconductors as well as the impact of their application on society.</p>
+        <a class="go" href="circuits/?level=junior">Open → Circuits</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-24</code>
+      <div class="body">
+        <p class="txt">Be able to illustrate the relationship between electric power, current and voltage.</p>
+        <a class="go" href="circuits/?level=junior">Open → Circuits</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-25</code>
+      <div class="body">
+        <p class="txt">Be able to distinguish between the rated power and actual power of an electrical appliance.</p>
+        <a class="go" href="circuits/?level=junior">Open → Circuits</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-26</code>
+      <div class="body">
+        <p class="txt">Be able to indicate the polarity of the magnet, and be able to draw common magnetic induction lines to indicate the magnetic field.</p>
+        <a class="go" href="magnetism/?level=junior">Open → Magnetism</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-27</code>
+      <div class="body">
+        <p class="txt">Have a preliminary understanding of the magnetic field around the energised conductor, and the characteristics of the magnetic field around the energised solenoid.</p>
+        <a class="go" href="magnetism/?level=junior">Open → Magnetism</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-3-28</code>
+      <div class="body">
+        <p class="txt">Be able to describe the application of electromagnetic wave, and its influence on human life and social development.</p>
+        <a class="go" href="magnetism/?level=junior">Open → Magnetism</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-4-1</code>
+      <div class="body">
+        <p class="txt">Understand energy and its diverse forms of existence; know energy transfer and energy conversion, and be able to enumerate simple energy conversion devices such as battery, motor and generator.</p>
+        <a class="go" href="energy/?level=junior">Open → Work & energy</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-4-2</code>
+      <div class="body">
+        <p class="txt">Be able to describe the significance of work and power, and know the process of work is the process of energy conversion or energy transfer.</p>
+        <a class="go" href="energy/?level=junior">Open → Work & energy</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-4-3</code>
+      <div class="body">
+        <p class="txt">Understand the concepts of kinetic energy and potential energy, and be able to name the factors that affect the amount of them.</p>
+        <a class="go" href="energy/?level=junior">Open → Work & energy</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-4-4</code>
+      <div class="body">
+        <p class="txt">Briefly describe the history of the discovery of the Law of Conservation of Energy, and be able to analyse physical phenomena using the view of energy conversion as well as the law of conservation of energy.</p>
+        <a class="go" href="energy/?level=junior">Open → Work & energy</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-4-5</code>
+      <div class="body">
+        <p class="txt">Be able to state the classification and characteristics of different energy resources, and briefly describe the relationship between energy resources and human existence as well as sustainable social development.</p>
+        <a class="go" href="energy/?level=junior">Open → Work & energy</a>
+      </div>
+    </li>
   </ul>
 
-  <h2>Senior</h2>
-  <ul>
-    <li><a href="newton/?level=senior">Newton’s laws</a></li>
-    <li><a href="energy/?level=senior">Work &amp; energy</a></li>
-    <li><a href="momentum/?level=senior">Momentum</a></li>
-    <li><a href="induction/?level=senior">Induction</a></li>
-    <li><a href="../optics-3d/">Optics 3D lab</a></li>
-    <li><a href="magnetism/?level=senior">Magnetism</a></li>
+  <h2>Senior (suggested pairing / stream extension)</h2>
+  <ul class="list">
+    <li class="row">
+      <code class="code">B-7 (suggested pairing)</code>
+      <div class="body">
+        <p class="txt">Newton’s laws of motion (suggested pairing / subject-stream dynamics extension; not a junior item-by-item list).</p>
+        <a class="go" href="newton/?level=senior">Open → Newton’s laws</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">Stream · work & energy</code>
+      <div class="body">
+        <p class="txt">School-based / former stream deepening: work, KE/PE, mechanical energy.</p>
+        <a class="go" href="energy/?level=senior">Open → Work & energy</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">Stream · momentum</code>
+      <div class="body">
+        <p class="txt">School-based / former stream deepening: momentum, impulse, collisions.</p>
+        <a class="go" href="momentum/?level=senior">Open → Momentum</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-9 (suggested pairing)</code>
+      <div class="body">
+        <p class="txt">Electromagnetic induction and related topics (suggested pairing; see also magnetism).</p>
+        <a class="go" href="induction/?level=senior">Open → Induction</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">B-9 / magnetism extension</code>
+      <div class="body">
+        <p class="txt">Magnetic forces, solenoids, etc. (linked to B-9 and stream magnetism).</p>
+        <a class="go" href="magnetism/?level=senior">Open → Magnetism</a>
+      </div>
+    </li>
+    <li class="row">
+      <code class="code">Geometric optics extension</code>
+      <div class="body">
+        <p class="txt">Quantitative Snell, thin lenses, etc. (not a separate junior code; extends B-3-15–18).</p>
+        <a class="go" href="../optics-3d/?lang=en">Open → Optics 3D lab</a>
+      </div>
+    </li>
   </ul>
 
   <h2>Other</h2>
-  <ul>
-    <li><a href="../equations/">Equation sheet (Chinese)</a></li>
-    <li><a href="../equations/index-en.html">Equation sheet (English)</a></li>
-    <li><a href="../zh/baseli.html">Chinese Baseli</a></li>
+  <ul class="list">
+    <li class="row"><code class="code">—</code><div class="body"><p class="txt">Equation sheet (Chinese)</p><a class="go" href="../equations/">Open → Equations (zh)</a></div></li>
+    <li class="row"><code class="code">—</code><div class="body"><p class="txt">Equation sheet (English)</p><a class="go" href="../equations/index-en.html">Open → Equations (en)</a></div></li>
+    <li class="row"><code class="code">—</code><div class="body"><p class="txt">Chinese Baseli</p><a class="go" href="../zh/baseli.html">Open → 中文基力對照</a></div></li>
   </ul>
 
   <p class="credit">Macao Science Center · Oscar</p>
