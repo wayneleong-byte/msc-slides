@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>光學3D實驗室｜六站完整</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- 頂部：標題與六站切換 -->
+  <header id="topbar">
+    <div id="brand">
+      <svg id="brand-icon" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M1 3l6 5-6 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="8.6" cy="8" r="1" fill="currentColor"/>
+        <path d="M11 4.5A4.6 4.6 0 0 1 11 11.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M13.2 2.8A7.4 7.4 0 0 1 13.2 13.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.55"/>
+      </svg>
+      <div>
+        <h1>光學3D實驗室｜六站完整</h1>
+        <p class="subtitle">澳門科學館 · Oscar　教育科技小組</p>
+        <p class="orig-note">本實驗室六站互動為<strong>澳門科學館展教／教育科技本地原創</strong>（幾何光學教學用）；禁 explode／零件拆解。上游 Atlas 其他章另見站內授權說明。</p>
+      </div>
+    </div>
+    <a href="../" style="font-size:0.85rem;color:inherit;opacity:0.75;text-decoration:none;align-self:center;white-space:nowrap;margin:0 12px">← 返回物理圖集</a>
+    <nav id="station-tabs" role="tablist" aria-label="實驗站切換">
+      <button class="tab active" type="button" role="tab" aria-selected="true" id="btn-shadow" data-station="shadow">站1：影子</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="btn-reflection" data-station="reflection">站2：反射</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="btn-mirror" data-station="mirror">站3：平面鏡</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="btn-refraction" data-station="refraction">站4：折射</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="btn-dispersion" data-station="dispersion">站5：色散</button>
+      <button class="tab" type="button" role="tab" aria-selected="false" id="btn-lens" data-station="lens">站6：凸透鏡</button>
+    </nav>
+  </header>
+
+  <main id="layout">
+    <!-- 3D 畫布 -->
+    <section id="stage">
+      <canvas id="view-3d"></canvas>
+      <div id="gl-info" class="corner-note">拖曳旋轉視角；滑鼠滾輪縮放；右鍵平移。<br />拖曳相機僅改變檢視方位，不會改變任何物理量。</div>
+    </section>
+
+    <!-- 側欄：六站說明、滑桿與讀數 -->
+    <aside id="sidebar">
+      <!-- 站1：影子 -->
+      <div class="station-panel" id="panel-shadow">
+        <h2>站1　直線傳播與影子</h2>
+        <p class="desc">
+          點光源位於左側，向右發出光線。不透明擋板阻擋部分光線，於右側光屏上形成幾何影區。
+          影界由「光源 → 擋板上／下邊緣 → 光屏」的直線延長決定；均勻介質中光線始終沿直線傳播。
+        </p>
+        <div class="control">
+          <label for="s-shadow-h">擋板高度（場景單位）</label>
+          <input type="range" id="s-shadow-h" min="2" max="6" step="0.1" value="4" />
+          <div class="range-ends"><span>2.0</span><span>6.0</span></div>
+        </div>
+        <div class="control">
+          <label for="s-shadow-x">擋板位置 X（沿光軸）</label>
+          <input type="range" id="s-shadow-x" min="0.5" max="5" step="0.1" value="2" />
+          <div class="range-ends"><span>0.5</span><span>5.0</span></div>
+        </div>
+        <div class="readouts">
+          <div class="readitem"><span class="rl">擋板高度</span><span class="rv" id="ro-shadow-h">4.0</span></div>
+          <div class="readitem"><span class="rl">擋板位置 X</span><span class="rv" id="ro-shadow-x">2.0</span></div>
+          <div class="readitem"><span class="rl">屏上影高</span><span class="rv" id="ro-shadow-sh">6.3</span></div>
+          <div class="readitem"><span class="rl">影高／擋板高</span><span class="rv" id="ro-shadow-ratio">1.58 倍</span></div>
+        </div>
+        <div class="law-note">影高／擋板高 ＝ 光源至屏距離／光源至擋板距離</div>
+        <p class="hint">影區內沒有來自該點光源的直接光線；圖中暗帶為光屏上的幾何影區，半透明多邊形標示影的邊界。</p>
+      </div>
+
+      <!-- 站2：反射 -->
+      <div class="station-panel" id="panel-reflection" hidden>
+        <h2>站2　反射定律</h2>
+        <p class="desc">
+          光線射向水平鏡面，入射線、反射線與法線位於同一入射平面。
+          入射角 <i>i</i> 與反射角 <i>r</i> 均自法線量起，且恆有 <i>r</i> ＝ <i>i</i>；反射角由定律強制得出，不能獨立拖動。
+        </p>
+        <div class="control">
+          <label for="s-reflect-i">入射角 i（度）</label>
+          <input type="range" id="s-reflect-i" min="10" max="70" step="1" value="40" />
+          <div class="range-ends"><span>10°</span><span>70°</span></div>
+        </div>
+        <div class="readouts">
+          <div class="readitem"><span class="rl">入射角 i</span><span class="rv" id="ro-reflect-i">40.0°</span></div>
+          <div class="readitem"><span class="rl">反射角 r</span><span class="rv" id="ro-reflect-r">40.0°</span></div>
+        </div>
+        <div class="law-note">i ＝ r（反射定律）</div>
+        <p class="hint">入射線為暖橙色，反射線為冷藍色；白色虛線為法線，垂直於鏡面。角弧皆夾在法線與對應光線之間。</p>
+      </div>
+
+      <!-- 站3：平面鏡 -->
+      <div class="station-panel" id="panel-mirror" hidden>
+        <h2>站3　平面鏡虛像</h2>
+        <p class="desc">
+          物點位於豎直平面鏡前方，兩條不同方向的入射光射到鏡面後反射。
+          將反射光向鏡後作反向延長，延長線以虛線表示，交於鏡後一點，該點即虛像；像距等於物距，像與物關於鏡面對稱。
+        </p>
+        <div class="control">
+          <label for="s-mirror-u">物距 u（場景單位）</label>
+          <input type="range" id="s-mirror-u" min="3" max="9" step="0.1" value="6" />
+          <div class="range-ends"><span>3.0</span><span>9.0</span></div>
+        </div>
+        <div class="readouts">
+          <div class="readitem"><span class="rl">物距 u</span><span class="rv" id="ro-mirror-u">6.0</span></div>
+          <div class="readitem"><span class="rl">像距 v</span><span class="rv" id="ro-mirror-v">6.0</span></div>
+          <div class="readitem"><span class="rl">u ： v</span><span class="rv" id="ro-mirror-ratio">1.00</span></div>
+          <div class="readitem"><span class="rl">像的性質</span><span class="rv small-value">虛像</span></div>
+        </div>
+        <div class="law-note">像距 ＝ 物距（v ＝ u）</div>
+        <p class="hint">鏡後只有虛線反向延長線，沒有實線光線到達虛像；反射光始終留在鏡前。</p>
+      </div>
+
+      <!-- 站4：折射 -->
+      <div class="station-panel" id="panel-refraction" hidden>
+        <h2>站4　折射（斯涅爾定律）</h2>
+        <p class="desc">
+          光線由上方空氣（n₁＝1.00）斜射入下方玻璃（n₂＝1.50）。
+          由疏介質進入密介質時，折射線靠近法線，故 <i>r</i> ＜ <i>i</i>；折射角由 n₁·sin <i>i</i> ＝ n₂·sin <i>r</i> 即時求得。
+        </p>
+        <div class="control">
+          <label for="s-refract-i">入射角 i（度）</label>
+          <input type="range" id="s-refract-i" min="5" max="60" step="1" value="30" />
+          <div class="range-ends"><span>5°</span><span>60°</span></div>
+        </div>
+        <div class="readouts">
+          <div class="readitem"><span class="rl">入射角 i</span><span class="rv" id="ro-refract-i">30.0°</span></div>
+          <div class="readitem"><span class="rl">折射角 r</span><span class="rv" id="ro-refract-r">19.5°</span></div>
+          <div class="readitem"><span class="rl">介質 n₁（空氣）</span><span class="rv">1.00</span></div>
+          <div class="readitem"><span class="rl">介質 n₂（玻璃）</span><span class="rv">1.50</span></div>
+          <div class="readitem"><span class="rl">n₁·sin i</span><span class="rv" id="ro-n1sini">0.500</span></div>
+          <div class="readitem"><span class="rl">n₂·sin r</span><span class="rv" id="ro-n2sinr">0.500</span></div>
+        </div>
+        <div class="law-note">n₁ sin i ＝ n₂ sin r（斯涅爾定律）</div>
+        <p class="hint" id="refract-preset">參考值：i＝30° 時 r≈19.5°；i＝45° 時 r≈28.1°。</p>
+        <p class="hint">入射線為暖橙色，折射線為青綠色；白色虛線為法線，貫穿界面上方與玻璃內部。</p>
+      </div>
+
+      <!-- 站5：色散 -->
+      <div class="station-panel" id="panel-dispersion" hidden>
+        <h2>站5　稜鏡色散</h2>
+        <p class="desc">
+          水平白光射入等腰三角玻璃稜鏡，在左、右兩個界面各依斯涅爾定律折射一次。
+          紅、綠、藍三色取不同教學折射率，出射方向因而分開；紅光偏折較小，藍光偏折較大。
+        </p>
+        <div class="control">
+          <label for="s-disp-y">白光入射高度（場景單位）</label>
+          <input type="range" id="s-disp-y" min="-1.5" max="2" step="0.1" value="0" />
+          <div class="range-ends"><span>−1.5</span><span>2.0</span></div>
+        </div>
+        <div class="readouts">
+          <div class="readitem"><span class="rl">紅光 n</span><span class="rv">1.490</span></div>
+          <div class="readitem"><span class="rl">綠光 n</span><span class="rv">1.510</span></div>
+          <div class="readitem"><span class="rl">藍光 n</span><span class="rv">1.530</span></div>
+          <div class="readitem"><span class="rl">入射高度</span><span class="rv" id="ro-disp-y">0.0</span></div>
+          <div class="readitem"><span class="rl">紅光偏折</span><span class="rv" id="ro-disp-red">33.7°</span></div>
+          <div class="readitem"><span class="rl">藍光偏折</span><span class="rv" id="ro-disp-blue">37.9°</span></div>
+        </div>
+        <div class="law-note">n<sub>紅</sub> ＜ n<sub>綠</sub> ＜ n<sub>藍</sub> ⇒ 藍光偏折較大</div>
+        <p class="hint">n 隨波長略變：本模型採紅 1.490、綠 1.510、藍 1.530，屬定性教學示意，未模擬光強、吸收與稜鏡色散曲線。</p>
+      </div>
+
+      <!-- 站6：凸透鏡 -->
+      <div class="station-panel" id="panel-lens" hidden>
+        <h2>站6　凸透鏡成像</h2>
+        <p class="desc">
+          物體置於凸透鏡左側焦點之外，圖中繪出三條標準作圖光線：平行光軸後通過像方焦點 F′、通過光心 O 不偏折、通過物方焦點 F 後平行光軸。
+          三線交於鏡後一點，形成倒立實像。
+        </p>
+        <div class="control">
+          <label for="s-lens-u">物距 u（場景單位）</label>
+          <input type="range" id="s-lens-u" min="6" max="12" step="0.1" value="8" />
+          <div class="range-ends"><span>6.0</span><span>12.0</span></div>
+        </div>
+        <div class="readouts">
+          <div class="readitem"><span class="rl">焦距 f</span><span class="rv" id="ro-lens-f">4.00</span></div>
+          <div class="readitem"><span class="rl">物距 u</span><span class="rv" id="ro-lens-u">8.00</span></div>
+          <div class="readitem"><span class="rl">像距 v</span><span class="rv" id="ro-lens-v">8.00</span></div>
+          <div class="readitem"><span class="rl">放大率 m</span><span class="rv" id="ro-lens-m">−1.00</span></div>
+          <div class="readitem wide"><span class="rl">像的性質</span><span class="rv small-value" id="ro-lens-type">倒立實像（u ＞ f）</span></div>
+        </div>
+        <div class="law-note">1/f ＝ 1/u ＋ 1/v；m ＝ −v/u</div>
+        <p class="hint">符號約定：實物距 u ＞ 0、實像距 v ＞ 0。本模型固定 f＝4.0，u 的滑桿範圍為 6.0–12.0（均大於 f），因此只展示倒立實像。</p>
+      </div>
+
+      <p class="footnote">六站共用一套前台物理核心：直線投影、反射定律、斯涅爾定律、平面鏡成像與薄透鏡公式均在瀏覽器即時計算，不涉及後端。</p>
+    </aside>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+
+  <footer id="site-credit" class="site-credit">
+    <p>原創說明：本「光學3D實驗室」六站（直線傳播與影子、反射、平面鏡虛像、斯涅爾折射、稜鏡色散、凸透鏡成像）之互動光路與介面，為<strong>澳門科學館 Oscar／教育科技小組本地原創</strong>教學素材。Three.js 僅作渲染引擎（CDN）。物理圖集其他章之上游授權見主站 LICENSE。</p>
+  </footer>
+
+</body>
+</html>
