@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>優惠情報站｜澳門物價站</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <div>
+        <h1>優惠情報站</h1>
+        <p>超市優惠價（鏡像 · 逢每月更新）</p>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-bar" aria-label="主選單">
+    <a href="index.html">主頁</a>
+    <a href="supermarket.html">超市</a>
+    <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
+    <a href="market.html">街市</a>
+  </nav>
+  <main class="wrap">
+    <p class="meta-line" id="promo-meta">載入中…</p>
+    <div class="card">
+      <h2>揀超市</h2>
+      <div class="chip-row" id="store-chips"></div>
+      <p class="empty" id="store-empty" hidden>暫無優惠店資料。請喺可連官方 API 嘅機（如 LAPTOP-7JUE4FNQ）跑 <code>python scripts/fetch_mirror.py --promo</code> 後再部署。</p>
+    </div>
+    <div class="card" id="gt-card" hidden>
+      <h2>揀品類</h2>
+      <div class="chip-row" id="gt-chips"></div>
+    </div>
+    <div class="card" id="price-card" hidden>
+      <h2 id="price-title">優惠價</h2>
+      <p class="meta-line" id="price-meta"></p>
+      <div id="price-body"></div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="app.js"></script>
+  <script>
+    const DS_IMG = 'https://consumer-api03.dsedt.gov.mo/app/supermarket/images/';
+    let index = { stores: [], goodTypes: [] };
+    let selectedStore = null;
+    let selectedGt = null;
+    let storeActive = {}; // scode -> [gtcode]
+
+    function logoUrl(logo) {
+      if (!logo) return '';
+      const s = String(logo);
+      if (/^https?:\/\//i.test(s)) return s;
+      if (s.startsWith('/')) return 'https://consumer-api03.dsedt.gov.mo' + s;
+      return DS_IMG + s.replace(/^\//, '');
+    }
+
+    function gtImg(gt) {
+      const img = (gt && gt.image) ? String(gt.image) : ((gt && gt.code) ? gt.code.toLowerCase() + '.png' : '');
+      if (!img) return '';
+      if (/^https?:\/\//i.test(img)) return img;
+      return DS_IMG + 'ds_good/' + img.replace(/^.*\//, '');
+    }
+
+    function renderStores() {
+      const box = document.getElementById('store-chips');
+      const empty = document.getElementById('store-empty');
+      box.innerHTML = '';
+      const stores = index.stores || [];
+      empty.hidden = stores.length > 0;
+      stores.forEach((st) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'store-chip' + (selectedStore && selectedStore.scode === st.scode ? ' active' : '');
+        btn.setAttribute('data-scode', st.scode);
+        const logo = logoUrl(st.logo);
+        btn.innerHTML =
+          (logo ? '<img class="store-logo" src="' + MPS.escapeHtml(logo) + '" alt="" onerror="this.style.display=\'none\'" />' : '') +
+          '<span>' + MPS.escapeHtml(st.name || st.scode) + '</span>';
+        btn.addEventListener('click', () => selectStore(st));
+        box.appendChild(btn);
+      });
+    }
+
+    async function loadStoreActive(scode) {
+      try {
+        const j = await MPS.loadJSON('data/promo/stores/' + encodeURIComponent(scode) + '.json');
+        const codes = [];
+        const raw = j.raw || j;
+        const list = Array.isArray(raw) ? raw
+          : (Array.isArray(raw.data) ? raw.data
+            : (raw.data && typeof raw.data === 'object' ? Object.keys(raw.data).filter((k) => {
+                const v = raw.data[k];
+                return v === 1 || v === '1' || v === true || v === 'Y';
+              }) : []));
+        list.forEach((row) => {
+          if (typeof row === 'string') { codes.push(row.toUpperCase()); return; }
+          if (!row || typeof row !== 'object') return;
+          let c = row.gtcode || row.code || row.gt_code || row.value || row.id;
+          if (c != null) codes.push(String(c).toUpperCase());
+        });
+        storeActive[scode] = codes.length ? codes : (index.goodTypes || []).map((g) => g.code);
+      } catch (_) {
+        storeActive[scode] = (index.goodTypes || []).map((g) => g.code);
+      }
+    }
+
+    async function selectStore(st) {
+      selectedStore = st;
+      selectedGt = null;
+      document.getElementById('price-card').hidden = true;
+      renderStores();
+      await loadStoreActive(st.scode);
+      renderGoodTypes();
+      document.getElementById('gt-card').hidden = false;
+    }
+
+    function renderGoodTypes() {
+      const box = document.getElementById('gt-chips');
+      box.innerHTML = '';
+      const allowed = new Set(storeActive[selectedStore.scode] || []);
+      (index.goodTypes || []).forEach((gt) => {
+        if (allowed.size && !allowed.has(gt.code)) return;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'gt-chip' + (selectedGt && selectedGt.code === gt.code ? ' active' : '');
+        const img = gtImg(gt);
+        btn.innerHTML =
+          (img ? '<img src="' + MPS.escapeHtml(img) + '" alt="" onerror="this.style.display=\'none\'" />' : '') +
+          '<span>' + MPS.escapeHtml(gt.name || gt.code) + '</span>';
+        btn.addEventListener('click', () => selectGt(gt));
+        box.appendChild(btn);
+      });
+      if (!box.children.length) {
+        box.innerHTML = '<p class="empty">此店暫無品類資料</p>';
+      }
+    }
+
+    async function selectGt(gt) {
+      selectedGt = gt;
+      renderGoodTypes();
+      const card = document.getElementById('price-card');
+      const body = document.getElementById('price-body');
+      const title = document.getElementById('price-title');
+      const metaEl = document.getElementById('price-meta');
+      card.hidden = false;
+      title.textContent = (selectedStore.name || selectedStore.scode) + ' · ' + (gt.name || gt.code);
+      body.innerHTML = '<p class="empty">載入優惠價…</p>';
+      metaEl.textContent = '';
+      const path = 'data/promo/prices/' + encodeURIComponent(selectedStore.scode) + '_' + encodeURIComponent(gt.code) + '.json';
+      try {
+        const data = await MPS.loadJSON(path);
+        const items = data.items || [];
+        let sync = '';
+        items.forEach((it) => { if (!sync && it.sync_date) sync = it.sync_date; });
+        metaEl.innerHTML =
+          MPS.wrapUpdateHtml('同步', sync || data.mirroredAt || '') +
+          ' · ' + items.length + ' 項' +
+          (data.stub ? ' · <span class="badge muted">stub</span>' : '');
+        if (!items.length) {
+          body.innerHTML = '<p class="empty">此品類暫無優惠價資料</p>';
+          return;
+        }
+        let html = '<table class="store-table"><thead><tr><th>品名</th><th>原價</th><th>優惠價</th><th>同步</th></tr></thead><tbody>';
+        items.forEach((it) => {
+          html += '<tr><td>' + MPS.escapeHtml(it.name || '—') + '</td>' +
+            '<td>' + MPS.escapeHtml(it.price == null || it.price === '' ? '—' : String(it.price)) + '</td>' +
+            '<td class="price">' + MPS.escapeHtml(it.discount == null || it.discount === '' ? '—' : String(it.discount)) + '</td>' +
+            '<td>' + MPS.wrapUpdateHtml('', it.sync_date || '') + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        body.innerHTML = html;
+      } catch (e) {
+        body.innerHTML = '<p class="empty">未有價檔 <code>' + MPS.escapeHtml(path) + '</code>。請喺 Windows 筆電跑 <code>--promo</code> 後再部署。</p>';
+        metaEl.textContent = String(e && e.message ? e.message : e);
+      }
+    }
+
+    Promise.all([MPS.loadMeta(), MPS.loadJSON('data/promo/index.json').catch(() => null)])
+      .then(([meta, idx]) => {
+        if (!idx) {
+          document.getElementById('promo-meta').textContent = '未有 data/promo/index.json';
+          document.getElementById('store-empty').hidden = false;
+          MPS.fillFooter(meta);
+          return;
+        }
+        index = idx;
+        const bits = [];
+        bits.push(MPS.wrapUpdateHtml('鏡像', idx.mirroredAt || ''));
+        if (idx.stub) bits.push('<span class="badge muted">stub／待 Windows 覆蓋</span>');
+        bits.push((idx.stores || []).length + ' 店');
+        document.getElementById('promo-meta').innerHTML = bits.join(' · ');
+        renderStores();
+        MPS.fillFooter(meta, [MPS.wrapUpdateHtml('優惠鏡像', idx.mirroredAt || '')]);
+      });
+  </script>
+</body>
+</html>

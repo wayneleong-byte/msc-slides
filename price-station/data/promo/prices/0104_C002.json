@@ -1,0 +1,58 @@
+{
+  "scode": "0104",
+  "gtcode": "C002",
+  "storeName": "Tai Fung",
+  "mirroredAt": "2026-11-03T01:22:50+08:00",
+  "itemCount": 2,
+  "items": [
+    {
+      "name": "合味道杯麵[豬肉味/香辣海鮮味/豬骨濃湯味/雞肉味]500g/瓶",
+      "price": "7.8",
+      "discount": "28/4杯",
+      "sync_date": "2026-10-09T00:00:00.000Z",
+      "barcode": null,
+      "raw": {
+        "_id": 32435,
+        "id": 32435,
+        "barcode": null,
+        "batch": "1791530104197",
+        "discount": "28/4杯",
+        "discount_desp": "",
+        "gtcode": "C002",
+        "name": "合味道杯麵[豬肉味/香辣海鮮味/豬骨濃湯味/雞肉味]500g/瓶",
+        "price": "7.8",
+        "remark": null,
+        "scode": "0104",
+        "sync_date": "2026-10-09T00:00:00.000Z",
+        "user": "andrewsam",
+        "created_at": "2026-10-08T23:15:04.000Z",
+        "updated_at": "2026-10-08T23:15:04.000Z"
+      }
+    },
+    {
+      "name": "<三全>肉多多餛飩[三鮮/豬肉薺菜/豬肉香菇]500g/包",
+      "price": "26.5",
+      "discount": "13.8",
+      "sync_date": "2026-10-09T00:00:00.000Z",
+      "barcode": null,
+      "raw": {
+        "_id": 32424,
+        "id": 32424,
+        "barcode": null,
+        "batch": "1791530104197",
+        "discount": "13.8",
+        "discount_desp": "",
+        "gtcode": "C002",
+        "name": "<三全>肉多多餛飩[三鮮/豬肉薺菜/豬肉香菇]500g/包",
+        "price": "26.5",
+        "remark": null,
+        "scode": "0104",
+        "sync_date": "2026-10-09T00:00:00.000Z",
+        "user": "andrewsam",
+        "created_at": "2026-10-08T23:15:04.000Z",
+        "updated_at": "2026-10-08T23:15:04.000Z"
+      }
+    }
+  ],
+  "rawSuccess": 1
+}

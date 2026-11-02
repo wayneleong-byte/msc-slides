@@ -1,0 +1,39 @@
+{
+  "scode": "0124",
+  "name": "Tmart",
+  "mirroredAt": "2026-11-03T01:22:28+08:00",
+  "raw": {
+    "success": 1,
+    "data": [
+      {
+        "_id": "C007",
+        "d_count": 7
+      },
+      {
+        "_id": "C006",
+        "d_count": 9
+      },
+      {
+        "_id": "C005",
+        "d_count": 71
+      },
+      {
+        "_id": "C004",
+        "d_count": 142
+      },
+      {
+        "_id": "C003",
+        "d_count": 201
+      },
+      {
+        "_id": "C002",
+        "d_count": 52
+      },
+      {
+        "_id": "C001",
+        "d_count": 3
+      }
+    ],
+    "error": null
+  }
+}

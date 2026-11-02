@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>專項物價｜澳門物價站</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <div>
+        <h1>專項物價</h1>
+        <p>分類清單＋官方報告連結（鏡像）</p>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-bar" aria-label="主選單">
+    <a href="index.html">主頁</a>
+    <a href="supermarket.html">超市</a>
+    <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
+    <a href="market.html">街市</a>
+  </nav>
+  <main class="wrap">
+    <p class="meta-line" id="special-meta">載入中…</p>
+    <div class="card">
+      <h2>分類</h2>
+      <div class="tiles" id="cat-tiles"></div>
+      <p class="empty" id="cat-empty" hidden>暫無專項分類。請喺 LAPTOP-7JUE4FNQ 跑 <code>python scripts/fetch_mirror.py --special</code>。</p>
+    </div>
+    <div class="card" id="detail-card" hidden>
+      <h2 id="detail-title">明細</h2>
+      <p class="meta-line" id="detail-meta"></p>
+      <div id="detail-body"></div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="app.js"></script>
+  <script>
+    const CAT_IMG = 'https://consumer-api03.dsedt.gov.mo/app/special/images/cat/';
+    let categories = [];
+
+    function normalizeCats(payload) {
+      if (!payload) return [];
+      if (Array.isArray(payload.categories)) {
+        return payload.categories.map((c) => ({
+          coid: c.coid != null ? c.coid : c.id,
+          name: c.name || c.cateogry || c.category || String(c.coid || c.id),
+          date: c.date || '',
+          imageUrl: c.imageUrl || (CAT_IMG + (c.coid != null ? c.coid : c.id) + '.png'),
+        }));
+      }
+      if (Array.isArray(payload.data)) {
+        return payload.data.map((c) => ({
+          coid: c.id != null ? c.id : c.coid,
+          name: c.cateogry || c.name || String(c.id),
+          date: c.date || '',
+          imageUrl: CAT_IMG + (c.id != null ? c.id : c.coid) + '.png',
+        }));
+      }
+      return [];
+    }
+
+    function renderCats() {
+      const box = document.getElementById('cat-tiles');
+      const empty = document.getElementById('cat-empty');
+      box.innerHTML = '';
+      empty.hidden = categories.length > 0;
+      categories.forEach((cat) => {
+        const a = document.createElement('button');
+        a.type = 'button';
+        a.className = 'tile special-cat-tile';
+        a.innerHTML =
+          '<img src="' + MPS.escapeHtml(cat.imageUrl) + '" alt="" onerror="this.style.display=\'none\'" />' +
+          '<h2>' + MPS.escapeHtml(cat.name) + '</h2>' +
+          '<div class="sub">' + MPS.wrapUpdateHtml('資料日', cat.date || '') + '</div>';
+        a.addEventListener('click', () => openDetail(cat));
+        box.appendChild(a);
+      });
+    }
+
+    async function openDetail(cat) {
+      const card = document.getElementById('detail-card');
+      const body = document.getElementById('detail-body');
+      const title = document.getElementById('detail-title');
+      const metaEl = document.getElementById('detail-meta');
+      card.hidden = false;
+      title.textContent = cat.name;
+      body.innerHTML = '<p class="empty">載入明細…</p>';
+      metaEl.innerHTML = MPS.wrapUpdateHtml('分類日期', cat.date || '');
+      const path = 'data/special/detail/' + encodeURIComponent(String(cat.coid)) + '.json';
+      try {
+        const d = await MPS.loadJSON(path);
+        metaEl.innerHTML =
+          MPS.wrapUpdateHtml('分類日期', d.date || cat.date || '') +
+          (d.sdate ? ' · ' + MPS.wrapUpdateHtml('sdate', d.sdate) : '') +
+          (d.stub ? ' · <span class="badge muted">stub</span>' : '');
+        const links = d.links || [];
+        if (!links.length) {
+          body.innerHTML = '<p class="empty">暫無報告連結（PDF／nss）。Windows 跑 <code>--special</code> 後會寫入 URL（唔下載大檔）。</p>';
+          if (d.apiUrl) {
+            body.innerHTML += '<p class="meta-line">API：<a href="' + MPS.escapeHtml(d.apiUrl) + '" target="_blank" rel="noopener">' +
+              MPS.escapeHtml(d.apiUrl) + '</a></p>';
+          }
+          return;
+        }
+        let html = '<ul class="list">';
+        links.forEach((lk) => {
+          const url = lk.url || '';
+          html += '<li><div><div class="title">' + MPS.escapeHtml(lk.name || lk.type || '連結') + '</div>' +
+            '<div class="qty">' + MPS.escapeHtml(lk.note || '') + '</div></div>' +
+            (url ? '<a class="btn secondary" href="' + MPS.escapeHtml(url) + '" target="_blank" rel="noopener">開啟</a>' : '') +
+            '</li>';
+        });
+        html += '</ul>';
+        body.innerHTML = html;
+      } catch (e) {
+        body.innerHTML = '<p class="empty">未有明細檔 <code>' + MPS.escapeHtml(path) + '</code></p>';
+      }
+      try { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (_) {}
+    }
+
+    async function loadCategories() {
+      try {
+        return await MPS.loadJSON('data/special/categories.json');
+      } catch (_) {
+        try {
+          return await MPS.loadJSON('data/special_categories.json');
+        } catch (e2) {
+          return null;
+        }
+      }
+    }
+
+    Promise.all([MPS.loadMeta(), loadCategories()]).then(([meta, payload]) => {
+      categories = normalizeCats(payload);
+      const bits = [];
+      if (payload && payload.mirroredAt) bits.push(MPS.wrapUpdateHtml('鏡像', payload.mirroredAt));
+      if (payload && payload.stub) bits.push('<span class="badge muted">stub／待 Windows 覆蓋</span>');
+      bits.push(categories.length + ' 分類');
+      document.getElementById('special-meta').innerHTML = bits.join(' · ');
+      renderCats();
+      MPS.fillFooter(meta, payload && payload.mirroredAt ? [MPS.wrapUpdateHtml('專項鏡像', payload.mirroredAt)] : []);
+    });
+  </script>
+</body>
+</html>

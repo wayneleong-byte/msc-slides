@@ -172,3 +172,23 @@ button.hint-below, .btn-scroll-hint {
   background: #c62828;
   color: #fff;
 }
+
+
+/* Promo / special chips */
+.chip-row {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;
+}
+.store-chip, .gt-chip {
+  appearance: none; border: 1px solid var(--line); background: #fff; color: var(--ink);
+  border-radius: 12px; padding: 8px 12px; display: inline-flex; align-items: center; gap: 8px;
+  font-family: inherit; font-size: 0.9rem; cursor: pointer; font-weight: 600;
+}
+.store-chip.active, .gt-chip.active {
+  border-color: var(--green); background: var(--green-soft); color: var(--green-dark);
+}
+.store-logo, .gt-chip img {
+  width: 28px; height: 28px; object-fit: contain; border-radius: 6px; background: #fff;
+}
+.special-cat-tile {
+  cursor: pointer; font: inherit; color: inherit; width: 100%;
+}

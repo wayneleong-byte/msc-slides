@@ -1,0 +1,37 @@
+{
+  "coid": 34,
+  "name": {
+    "id": 50,
+    "oid": 34,
+    "did": null,
+    "name": "新鮮豬肉(公斤)",
+    "name_cn": "新鮮豬肉(公斤)",
+    "name_en": "Pork(kg)",
+    "name_pt": "Carne de porco fresca(kg)",
+    "spe_type": "2",
+    "isVisible": 1,
+    "isDelete": 0,
+    "rank": 32,
+    "link": "http://api03.consumer.gov.mo/export/sp/report/F_1656987055414.pdf",
+    "link_en": "http://api03.consumer.gov.mo/export/sp/report/F_1656987067066.pdf",
+    "link_pt": "http://api03.consumer.gov.mo/export/sp/report/F_1656987080627.pdf",
+    "report": "F_1656987055414.pdf",
+    "report_en": "F_1656987067066.pdf",
+    "report_pt": "F_1656987080627.pdf",
+    "created_at": "2021-12-30 14:38:33",
+    "updated_at": "2022-01-04 11:11:17",
+    "published_at": "2022-07-12 00:00:00",
+    "_id": 50
+  },
+  "date": "2026-10-27",
+  "sdate": "2026-10-27",
+  "links": [],
+  "mirroredAt": "2026-11-03T01:23:22+08:00",
+  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=34&date=2026-10-27",
+  "rawKeys": [
+    "success",
+    "data",
+    "error"
+  ]
+}

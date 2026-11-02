@@ -1,0 +1,121 @@
+{
+  "mirroredAt": "2026-11-03T01:22:28+08:00",
+  "stub": false,
+  "source": "supermarket/ds/main + active_goodtype + discount_price",
+  "stores": [
+    {
+      "scode": "0124",
+      "name": "Tmart",
+      "logo": "",
+      "syncDate": "2026-10-14T00:00:00.000Z",
+      "groupName": "Tmart"
+    },
+    {
+      "scode": "0121",
+      "name": "NK MART",
+      "logo": "",
+      "syncDate": "2026-10-09T00:00:00.000Z",
+      "groupName": "NK MART"
+    },
+    {
+      "scode": "0103",
+      "name": "Sunsco",
+      "logo": "",
+      "syncDate": "2026-10-09T00:00:00.000Z",
+      "groupName": "Sunsco"
+    },
+    {
+      "scode": "0108",
+      "name": "Lee Fong",
+      "logo": "",
+      "syncDate": "2026-10-09T00:00:00.000Z",
+      "groupName": "Lee Fong"
+    },
+    {
+      "scode": "0104",
+      "name": "Tai Fung",
+      "logo": "",
+      "syncDate": "2026-10-09T00:00:00.000Z",
+      "groupName": "Tai Fung"
+    },
+    {
+      "scode": "0107",
+      "name": "Vang Kei",
+      "logo": "",
+      "syncDate": "2026-10-09T00:00:00.000Z",
+      "groupName": "Vang Kei"
+    },
+    {
+      "scode": "0110",
+      "name": "Fok Cheong",
+      "logo": "",
+      "syncDate": "2026-10-21T00:00:00.000Z",
+      "groupName": "Fok Cheong"
+    },
+    {
+      "scode": "0105",
+      "name": "ParknShop",
+      "logo": "",
+      "syncDate": "2026-10-01T00:00:00.000Z",
+      "groupName": "ParknShop"
+    },
+    {
+      "scode": "0122",
+      "name": "Nanhua american Goods yarel",
+      "logo": "南華美式貨場",
+      "syncDate": "2026-10-04T00:00:00.000Z",
+      "groupName": "Nanhua american Goods yarel"
+    },
+    {
+      "scode": "0102",
+      "name": "San Miu",
+      "logo": "",
+      "syncDate": "2026-09-07T00:00:00.000Z",
+      "groupName": "San Miu"
+    }
+  ],
+  "goodTypes": [
+    {
+      "code": "C001",
+      "name": "糧油調味",
+      "image": "c001.png"
+    },
+    {
+      "code": "C002",
+      "name": "食品速食",
+      "image": "c002.png"
+    },
+    {
+      "code": "C003",
+      "name": "飲品乳類",
+      "image": "c003.png"
+    },
+    {
+      "code": "C004",
+      "name": "餅乾零食",
+      "image": "c004.png"
+    },
+    {
+      "code": "C005",
+      "name": "個人護理",
+      "image": "c005.png"
+    },
+    {
+      "code": "C006",
+      "name": "日常用品",
+      "image": "c006.png"
+    },
+    {
+      "code": "C007",
+      "name": "其他",
+      "image": "c007.png"
+    }
+  ],
+  "pagePropKeys": [
+    "lang",
+    "plt",
+    "ds_supermarket_groups",
+    "ds_good_types",
+    "ds_sp_sync_date"
+  ]
+}

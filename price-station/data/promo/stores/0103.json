@@ -1,0 +1,39 @@
+{
+  "scode": "0103",
+  "name": "Sunsco",
+  "mirroredAt": "2026-11-03T01:22:38+08:00",
+  "raw": {
+    "success": 1,
+    "data": [
+      {
+        "_id": "C007",
+        "d_count": 152
+      },
+      {
+        "_id": "C006",
+        "d_count": 151
+      },
+      {
+        "_id": "C005",
+        "d_count": 539
+      },
+      {
+        "_id": "C004",
+        "d_count": 618
+      },
+      {
+        "_id": "C003",
+        "d_count": 922
+      },
+      {
+        "_id": "C002",
+        "d_count": 398
+      },
+      {
+        "_id": "C001",
+        "d_count": 205
+      }
+    ],
+    "error": null
+  }
+}

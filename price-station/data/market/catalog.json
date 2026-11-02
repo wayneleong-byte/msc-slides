@@ -1,5 +1,5 @@
 {
-  "mirroredAt": "2026-11-02T21:42:26+08:00",
+  "mirroredAt": "2026-11-03T01:22:28+08:00",
   "coverage": "full",
   "items": [
     {
@@ -9,7 +9,7 @@
       "tag": "Beef",
       "namePt": "Pojadouro",
       "detailFile": "detail_Beef_內腿肉.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Beef-冧肉",
@@ -18,7 +18,7 @@
       "tag": "Beef",
       "namePt": "Rabadilha",
       "detailFile": "detail_Beef_冧肉.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Beef-尾龍扒",
@@ -27,7 +27,7 @@
       "tag": "Beef",
       "namePt": "Alcatra",
       "detailFile": "detail_Beef_尾龍扒.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Beef-牛𦟌",
@@ -36,7 +36,7 @@
       "tag": "Beef",
       "namePt": "Chambão da pá e perna",
       "detailFile": "detail_Beef_牛𦟌.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Beef-牛柳",
@@ -45,7 +45,7 @@
       "tag": "Beef",
       "namePt": "Lombo",
       "detailFile": "detail_Beef_牛柳.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Beef-牛筋",
@@ -54,7 +54,7 @@
       "tag": "Beef",
       "namePt": "Tendões",
       "detailFile": "detail_Beef_牛筋.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Beef-牛肉",
@@ -63,7 +63,7 @@
       "tag": "Beef",
       "namePt": "Carne de vaca limpa",
       "detailFile": "detail_Beef_牛肉.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Beef-牛腩",
@@ -72,7 +72,7 @@
       "tag": "Beef",
       "namePt": "Aba descarregada",
       "detailFile": "detail_Beef_牛腩.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Beef-西冷",
@@ -81,7 +81,7 @@
       "tag": "Beef",
       "namePt": "Vazia",
       "detailFile": "detail_Beef_西冷.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishFreshwater-大魚",
@@ -90,7 +90,7 @@
       "tag": "FishFreshwater",
       "namePt": "Carpa de cabeça grande",
       "detailFile": "detail_FishFreshwater_大魚.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishFreshwater-鯇魚",
@@ -99,7 +99,7 @@
       "tag": "FishFreshwater",
       "namePt": "Carpa de erva",
       "detailFile": "detail_FishFreshwater_鯇魚.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishFreshwater-鯪魚",
@@ -108,7 +108,7 @@
       "tag": "FishFreshwater",
       "namePt": "Dace",
       "detailFile": "detail_FishFreshwater_鯪魚.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishFreshwater-鯽魚",
@@ -117,7 +117,7 @@
       "tag": "FishFreshwater",
       "namePt": "Pimpão",
       "detailFile": "detail_FishFreshwater_鯽魚.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-九吐",
@@ -126,7 +126,7 @@
       "tag": "FishSaltwater",
       "namePt": "KAO TOU",
       "detailFile": "detail_FishSaltwater_九吐.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-幼鱗撻沙",
@@ -135,7 +135,7 @@
       "tag": "FishSaltwater",
       "namePt": "Linguado de escama fina",
       "detailFile": "detail_FishSaltwater_幼鱗撻沙.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-石斑",
@@ -144,7 +144,7 @@
       "tag": "FishSaltwater",
       "namePt": "Garoupa",
       "detailFile": "detail_FishSaltwater_石斑.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-粗鱗撻沙_中型_",
@@ -153,7 +153,7 @@
       "tag": "FishSaltwater",
       "namePt": "Linguado de escama grossa (médio)",
       "detailFile": "detail_FishSaltwater_粗鱗撻沙_中型_.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-紅衫",
@@ -162,7 +162,7 @@
       "tag": "FishSaltwater",
       "namePt": "Salmonete",
       "detailFile": "detail_FishSaltwater_紅衫.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-馬頭",
@@ -171,7 +171,7 @@
       "tag": "FishSaltwater",
       "namePt": "Cabeça-de-cavalo",
       "detailFile": "detail_FishSaltwater_馬頭.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-䱽魚",
@@ -180,7 +180,7 @@
       "tag": "FishSaltwater",
       "namePt": "Peixe-manteiga, Pampano",
       "detailFile": "detail_FishSaltwater_䱽魚.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-魷魚",
@@ -198,7 +198,7 @@
       "tag": "FishSaltwater",
       "namePt": "Serra",
       "detailFile": "detail_FishSaltwater_鮫魚.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-鱸魚",
@@ -207,7 +207,7 @@
       "tag": "FishSaltwater",
       "namePt": "Nairo",
       "detailFile": "detail_FishSaltwater_鱸魚.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "FishSaltwater-黃腳𩶘",
@@ -216,7 +216,7 @@
       "tag": "FishSaltwater",
       "namePt": "Asa amarela",
       "detailFile": "detail_FishSaltwater_黃腳𩶘.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-半肥瘦",
@@ -225,7 +225,7 @@
       "tag": "Pork",
       "namePt": "Carne de porco com gordura",
       "detailFile": "detail_Pork_半肥瘦.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-排骨",
@@ -234,7 +234,7 @@
       "tag": "Pork",
       "namePt": "Entrecosto",
       "detailFile": "detail_Pork_排骨.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-柳梅",
@@ -243,7 +243,7 @@
       "tag": "Pork",
       "namePt": "Lombinho",
       "detailFile": "detail_Pork_柳梅.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-瘦肉",
@@ -252,7 +252,7 @@
       "tag": "Pork",
       "namePt": "Carne magra",
       "detailFile": "detail_Pork_瘦肉.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-豬𦟌",
@@ -261,7 +261,7 @@
       "tag": "Pork",
       "namePt": "Chambão da pá e perna",
       "detailFile": "detail_Pork_豬𦟌.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-豬手",
@@ -270,7 +270,7 @@
       "tag": "Pork",
       "namePt": "Mão de porco",
       "detailFile": "detail_Pork_豬手.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-豬扒",
@@ -279,7 +279,7 @@
       "tag": "Pork",
       "namePt": "Lombada {Lombo / Costeletas}",
       "detailFile": "detail_Pork_豬扒.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-豬肉骨",
@@ -288,7 +288,7 @@
       "tag": "Pork",
       "namePt": "Osso com carne",
       "detailFile": "detail_Pork_豬肉骨.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-豬腩",
@@ -297,7 +297,7 @@
       "tag": "Pork",
       "namePt": "Entremeada",
       "detailFile": "detail_Pork_豬腩.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Pork-豬骨",
@@ -306,7 +306,7 @@
       "tag": "Pork",
       "namePt": "Osso",
       "detailFile": "detail_Pork_豬骨.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Seafood-中蝦",
@@ -315,7 +315,7 @@
       "tag": "Seafood",
       "namePt": "Camarão médio",
       "detailFile": "detail_Seafood_中蝦.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Seafood-帶子",
@@ -324,7 +324,7 @@
       "tag": "Seafood",
       "namePt": "Vieira",
       "detailFile": "detail_Seafood_帶子.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Seafood-沙蝦",
@@ -333,7 +333,7 @@
       "tag": "Seafood",
       "namePt": "Camarão de areia",
       "detailFile": "detail_Seafood_沙蝦.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Seafood-瀨尿蝦",
@@ -342,7 +342,7 @@
       "tag": "Seafood",
       "namePt": "Camarão mantídeo",
       "detailFile": "detail_Seafood_瀨尿蝦.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Seafood-肉蟹",
@@ -351,7 +351,7 @@
       "tag": "Seafood",
       "namePt": "Carangueijo carnoso",
       "detailFile": "detail_Seafood_肉蟹.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Seafood-蟶子",
@@ -360,7 +360,7 @@
       "tag": "Seafood",
       "namePt": "Navalha ou Lingueirão",
       "detailFile": "detail_Seafood_蟶子.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Seafood-青口",
@@ -369,7 +369,7 @@
       "tag": "Seafood",
       "namePt": "Mexilhão",
       "detailFile": "detail_Seafood_青口.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Seafood-魷魚",
@@ -378,7 +378,7 @@
       "tag": "Seafood",
       "namePt": "Lula",
       "detailFile": "detail_Seafood_魷魚.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-冬瓜",
@@ -387,7 +387,7 @@
       "tag": "Vegetables",
       "namePt": "Abóbora gigante",
       "detailFile": "detail_Vegetables_冬瓜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-椰菜",
@@ -396,7 +396,7 @@
       "tag": "Vegetables",
       "namePt": "Repolho redondo",
       "detailFile": "detail_Vegetables_椰菜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-洋葱",
@@ -405,7 +405,7 @@
       "tag": "Vegetables",
       "namePt": "Cebola",
       "detailFile": "detail_Vegetables_洋葱.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-生菜",
@@ -414,7 +414,7 @@
       "tag": "Vegetables",
       "namePt": "Alface",
       "detailFile": "detail_Vegetables_生菜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-番茄",
@@ -423,7 +423,7 @@
       "tag": "Vegetables",
       "namePt": "Tomate",
       "detailFile": "detail_Vegetables_番茄.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-番薯",
@@ -432,7 +432,7 @@
       "tag": "Vegetables",
       "namePt": "Batata doce",
       "detailFile": "detail_Vegetables_番薯.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-白菜",
@@ -441,7 +441,7 @@
       "tag": "Vegetables",
       "namePt": "Mostarda da China",
       "detailFile": "detail_Vegetables_白菜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-節瓜",
@@ -450,7 +450,7 @@
       "tag": "Vegetables",
       "namePt": "Camalenga pequena",
       "detailFile": "detail_Vegetables_節瓜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-紅蘿蔔",
@@ -459,7 +459,7 @@
       "tag": "Vegetables",
       "namePt": "Cenoura",
       "detailFile": "detail_Vegetables_紅蘿蔔.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-芥蘭",
@@ -468,7 +468,7 @@
       "tag": "Vegetables",
       "namePt": "Mostarda branca",
       "detailFile": "detail_Vegetables_芥蘭.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-莧菜",
@@ -477,7 +477,7 @@
       "tag": "Vegetables",
       "namePt": "Bredo",
       "detailFile": "detail_Vegetables_莧菜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-菜心",
@@ -486,7 +486,7 @@
       "tag": "Vegetables",
       "namePt": "Couve chinesa de flor",
       "detailFile": "detail_Vegetables_菜心.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-菠菜",
@@ -495,7 +495,7 @@
       "tag": "Vegetables",
       "namePt": "Espinafre",
       "detailFile": "detail_Vegetables_菠菜.json",
-      "todayUpdated": ""
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-蕹菜",
@@ -504,7 +504,7 @@
       "tag": "Vegetables",
       "namePt": "Hortaliça da água",
       "detailFile": "detail_Vegetables_蕹菜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-西洋菜",
@@ -513,7 +513,7 @@
       "tag": "Vegetables",
       "namePt": "Agrião da água",
       "detailFile": "detail_Vegetables_西洋菜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-西蘭花",
@@ -522,7 +522,7 @@
       "tag": "Vegetables",
       "namePt": "Brócolos",
       "detailFile": "detail_Vegetables_西蘭花.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-青瓜",
@@ -531,7 +531,7 @@
       "tag": "Vegetables",
       "namePt": "Pepino",
       "detailFile": "detail_Vegetables_青瓜.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": "2026/11/3 08:00:10"
     },
     {
       "id": "Vegetables-馬鈴薯",
@@ -540,7 +540,7 @@
       "tag": "Vegetables",
       "namePt": "Batata",
       "detailFile": "detail_Vegetables_馬鈴薯.json",
-      "todayUpdated": "2026/11/2 23:00:09"
+      "todayUpdated": ""
     }
   ]
 }

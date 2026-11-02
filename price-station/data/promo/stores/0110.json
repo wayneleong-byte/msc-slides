@@ -1,0 +1,39 @@
+{
+  "scode": "0110",
+  "name": "Fok Cheong",
+  "mirroredAt": "2026-11-03T01:23:00+08:00",
+  "raw": {
+    "success": 1,
+    "data": [
+      {
+        "_id": "C007",
+        "d_count": 5
+      },
+      {
+        "_id": "C006",
+        "d_count": 17
+      },
+      {
+        "_id": "C005",
+        "d_count": 16
+      },
+      {
+        "_id": "C004",
+        "d_count": 26
+      },
+      {
+        "_id": "C003",
+        "d_count": 53
+      },
+      {
+        "_id": "C002",
+        "d_count": 38
+      },
+      {
+        "_id": "C001",
+        "d_count": 40
+      }
+    ],
+    "error": null
+  }
+}

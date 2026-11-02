@@ -2,16 +2,19 @@
 # -*- coding: utf-8 -*-
 """澳門物價站｜官方 API → data/ 鏡像
 
-只宜喺 ADM-3（或其他對 consumer-api03 可 HTTP 200 嘅機）執行。
+主拉機：LAPTOP-7JUE4FNQ（Windows；machineId a31b43c0-6d8a-4d2b-ba15-1a8897dfa708）。
+亦可喺其他對 consumer-api03 可 HTTP 200 嘅機執行（舊 ADM-3 已退役）。
 Box／多數雲端 egress 常被 Tengine WAF 回 405；GitHub Pages 瀏覽器亦無 CORS。
 
 依賴：Python 3.9+ 標準庫（urllib）；可選 requests（若已安裝則優先）。
 
 用法例子：
-  python3 scripts/fetch_mirror.py --search 牛奶
-  python3 scripts/fetch_mirror.py --item 115
-  python3 scripts/fetch_mirror.py --market-veg
-  python3 scripts/fetch_mirror.py --full --sleep 0.6
+  python scripts/fetch_mirror.py --search 牛奶
+  python scripts/fetch_mirror.py --item 115
+  python scripts/fetch_mirror.py --market-veg
+  python scripts/fetch_mirror.py --promo --sleep 0.6
+  python scripts/fetch_mirror.py --special --sleep 0.6
+  python scripts/fetch_mirror.py --full --sleep 0.6
 """
 from __future__ import annotations
 
@@ -35,6 +38,10 @@ UA = "MacauPriceStationMirror/1.0 (+non-commercial; source=Consumer-Council-Maca
 MACAU = timezone(timedelta(hours=8))
 FAIL_LOG: List[str] = []
 
+SOURCE_NOTE = (
+    "澳門特別行政區政府／消費者委員會「澳門物價情報站」公開資料（Open Data／公開 API 鏡像）；本站非官方；資料僅供參考。"
+)
+
 
 def now_iso() -> str:
     return datetime.now(MACAU).strftime("%Y-%m-%dT%H:%M:%S+08:00")
@@ -52,7 +59,7 @@ def http_get(url: str, timeout: int = 90) -> bytes:
         r = requests.get(url, headers={"User-Agent": UA, "Accept": "*/*"}, timeout=timeout)
         if r.status_code == 405:
             raise SystemExit(
-                f"HTTP 405 from {url}\n此機 IP 可能被 WAF 擋。請改喺 ADM-3 跑。"
+                f"HTTP 405 from {url}\n此機 IP 可能被 WAF 擋。請改喺可 200 嘅機（如 LAPTOP-7JUE4FNQ）跑。"
             )
         r.raise_for_status()
         return r.content
@@ -65,7 +72,7 @@ def http_get(url: str, timeout: int = 90) -> bytes:
     except HTTPError as e:
         if e.code == 405:
             raise SystemExit(
-                f"HTTP 405 from {url}\n此機 IP 可能被 WAF 擋。請改喺 ADM-3 跑。"
+                f"HTTP 405 from {url}\n此機 IP 可能被 WAF 擋。請改喺可 200 嘅機（如 LAPTOP-7JUE4FNQ）跑。"
             ) from e
         raise
     except URLError as e:
@@ -90,10 +97,8 @@ def update_meta(**coverage_bits: Any) -> None:
         meta = json.loads(meta_path.read_text(encoding="utf-8"))
     meta["mirroredAt"] = now_iso()
     meta["timezone"] = "Asia/Macau"
-    meta.setdefault(
-        "sourceNote",
-        "資料來源：消費者委員會（澳門物價情報站鏡像）。本站非官方網站。",
-    )
+    meta.setdefault("sourceNote", SOURCE_NOTE)
+    meta["sourceNote"] = SOURCE_NOTE  # keep aligned with current Open Data wording
     cov = meta.setdefault("coverage", {})
     for k, v in coverage_bits.items():
         if v is not None:
@@ -439,6 +444,499 @@ def fetch_market_veg(
     return detail
 
 
+DEFAULT_GOOD_TYPES = [
+    {"code": "C001", "name": "糧油調味", "image": "c001.png"},
+    {"code": "C002", "name": "食品速食", "image": "c002.png"},
+    {"code": "C003", "name": "飲品乳類", "image": "c003.png"},
+    {"code": "C004", "name": "餅乾零食", "image": "c004.png"},
+    {"code": "C005", "name": "個人護理", "image": "c005.png"},
+    {"code": "C006", "name": "日常用品", "image": "c006.png"},
+    {"code": "C007", "name": "其他", "image": "c007.png"},
+]
+
+DS_IMG_BASE = f"{BASE}/app/supermarket/images"
+
+
+def _cond_url(path: str, cond: Dict[str, Any]) -> str:
+    cond_json = json.dumps(cond, ensure_ascii=False, separators=(",", ":"))
+    return f"{BASE}{path}?cond={quote(cond_json)}"
+
+
+def _as_list(payload: Any) -> List[Any]:
+    if payload is None:
+        return []
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict):
+        for k in ("data", "list", "items", "rows", "result", "goodtypes", "goodTypes"):
+            v = payload.get(k)
+            if isinstance(v, list):
+                return v
+            if isinstance(v, dict):
+                for kk in ("data", "list", "items"):
+                    if isinstance(v.get(kk), list):
+                        return v[kk]
+    return []
+
+
+def parse_ds_good_types(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
+    raw = None
+    for key in ("ds_good_types", "dsGoodTypes", "good_types", "goodTypes", "goodtypes"):
+        if isinstance(pp.get(key), list) and pp[key]:
+            raw = pp[key]
+            break
+    out: List[Dict[str, Any]] = []
+    if raw:
+        for g in raw:
+            if not isinstance(g, dict):
+                continue
+            code = (
+                g.get("code") or g.get("gtcode") or g.get("gt_code")
+                or g.get("value") or g.get("id") or ""
+            )
+            code = str(code).strip().upper()
+            if code and not code.startswith("C") and code.isdigit():
+                code = f"C{int(code):03d}"
+            name = (
+                g.get("name_cn") or g.get("name") or g.get("label")
+                or g.get("cname") or g.get("title") or code
+            )
+            img = (
+                g.get("value_1_cn") or g.get("image") or g.get("img")
+                or g.get("icon") or ""
+            )
+            if isinstance(img, str) and img and not img.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
+                # sometimes value_1_cn is bare stem like c003
+                img = img if "." in img else f"{img}.png"
+            if not img and code:
+                img = f"{code.lower()}.png"
+            if not code:
+                continue
+            out.append({"code": code, "name": name, "image": img})
+    if not out:
+        out = [dict(x) for x in DEFAULT_GOOD_TYPES]
+    # ensure C001–C007 present as fallback names
+    by = {x["code"]: x for x in out}
+    for d in DEFAULT_GOOD_TYPES:
+        by.setdefault(d["code"], dict(d))
+    return [by[c["code"]] for c in DEFAULT_GOOD_TYPES if c["code"] in by] or list(by.values())
+
+
+def parse_ds_stores(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """從 ds/main pageProps 抽超市組／scode／logo／syncDate。"""
+    candidates: List[Any] = []
+    for key in (
+        "supermarkets", "stores", "storeList", "ds_stores", "dsStores",
+        "groups", "supermarket_list", "supermarketList", "sp_list", "list",
+    ):
+        v = pp.get(key)
+        if isinstance(v, list) and v:
+            candidates = v
+            print(f"ds stores from pageProps.{key} n={len(v)}")
+            break
+    if not candidates:
+        for k, v in pp.items():
+            if not isinstance(v, list) or not v or not isinstance(v[0], dict):
+                continue
+            keys0 = set(v[0].keys())
+            if keys0 & {"scode", "s_code", "storeCode", "code"} and keys0 & {
+                "name", "name_cn", "sname", "storeName", "supermarket_name", "label", "title"
+            }:
+                candidates = v
+                print(f"ds stores heuristic pageProps.{k} n={len(v)}")
+                break
+
+    sync_map: Dict[str, str] = {}
+    sync_raw = pp.get("ds_sp_sync_date") or pp.get("dsSpSyncDate") or pp.get("sync_dates") or {}
+    if isinstance(sync_raw, dict):
+        for sk, sv in sync_raw.items():
+            if isinstance(sv, dict):
+                sync_map[str(sk)] = str(sv.get("date") or sv.get("sync_date") or sv.get("sdate") or "")
+            else:
+                sync_map[str(sk)] = str(sv or "")
+    elif isinstance(sync_raw, list):
+        for row in sync_raw:
+            if not isinstance(row, dict):
+                continue
+            sk = row.get("scode") or row.get("code") or row.get("id")
+            if sk is None:
+                continue
+            sync_map[str(sk)] = str(
+                row.get("date") or row.get("sync_date") or row.get("sdate") or ""
+            )
+
+    out: List[Dict[str, Any]] = []
+    for s in candidates:
+        if not isinstance(s, dict):
+            continue
+        # nested supermarket under group
+        nested = []
+        if isinstance(s.get("supermarkets"), list):
+            nested = s["supermarkets"]
+        elif isinstance(s.get("stores"), list):
+            nested = s["stores"]
+        rows = nested if nested else [s]
+        group_name = s.get("group_name_cn") or s.get("group_name") or s.get("name_cn") or s.get("name") or ""
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            scode = (
+                row.get("scode") or row.get("s_code") or row.get("storeCode")
+                or row.get("code") or row.get("id") or row.get("sid")
+            )
+            if scode is None:
+                continue
+            scode = str(scode)
+            name = (
+                row.get("name_cn") or row.get("name") or row.get("sname")
+                or row.get("storeName") or row.get("supermarket_name")
+                or row.get("label") or row.get("title") or group_name or scode
+            )
+            logo = (
+                row.get("logo") or row.get("image") or row.get("img")
+                or row.get("value_1_cn") or row.get("icon") or ""
+            )
+            sync = (
+                row.get("sync_date") or row.get("syncDate") or row.get("ds_sp_sync_date")
+                or row.get("date") or sync_map.get(scode) or ""
+            )
+            out.append({
+                "scode": scode,
+                "name": name,
+                "logo": logo,
+                "syncDate": str(sync) if sync else "",
+                "groupName": group_name or "",
+            })
+    # dedupe by scode
+    seen = {}
+    for s in out:
+        seen[s["scode"]] = s
+    return list(seen.values())
+
+
+def normalize_discount_items(payload: Any) -> List[Dict[str, Any]]:
+    rows = _as_list(payload)
+    items: List[Dict[str, Any]] = []
+    for r in rows:
+        if not isinstance(r, dict):
+            continue
+        name = (
+            r.get("name_cn") or r.get("name") or r.get("itemName")
+            or r.get("pname") or r.get("goods_name") or r.get("title") or ""
+        )
+        price = r.get("price") if "price" in r else r.get("original_price") or r.get("ori_price")
+        discount = r.get("discount") if "discount" in r else r.get("discount_price") or r.get("promo_price")
+        sync = r.get("sync_date") or r.get("syncDate") or r.get("date") or r.get("sdate") or ""
+        items.append({
+            "name": name,
+            "price": price,
+            "discount": discount,
+            "sync_date": str(sync) if sync else "",
+            "barcode": r.get("barcode") or r.get("code") or None,
+            "raw": {k: r[k] for k in r if k not in ("raw",)},
+        })
+    return items
+
+
+def fetch_promo(sleep: float = 0.6) -> Dict[str, Any]:
+    """優惠情報站：ds/main → active_goodtype → discount_price。"""
+    promo_dir = DATA / "promo"
+    stores_dir = promo_dir / "stores"
+    prices_dir = promo_dir / "prices"
+    promo_dir.mkdir(parents=True, exist_ok=True)
+    stores_dir.mkdir(parents=True, exist_ok=True)
+    prices_dir.mkdir(parents=True, exist_ok=True)
+
+    html = http_get(f"{BASE}/app/supermarket/ds/main?lang=cn").decode("utf-8", errors="replace")
+    pp = page_props_from_html(html)
+    good_types = parse_ds_good_types(pp)
+    stores = parse_ds_stores(pp)
+    if not stores:
+        log_fail("promo: ds/main 找不到店列表（scode）；pageProps keys=" + ",".join(list(pp.keys())[:40]))
+        stores = []
+
+    index = {
+        "mirroredAt": now_iso(),
+        "stub": False,
+        "source": "supermarket/ds/main + active_goodtype + discount_price",
+        "stores": stores,
+        "goodTypes": good_types,
+        "pagePropKeys": list(pp.keys()),
+    }
+    write_json(promo_dir / "index.json", index)
+
+    sync_dates: Dict[str, str] = {}
+    price_files = 0
+    ok_stores = 0
+
+    for i, st in enumerate(stores):
+        scode = st["scode"]
+        print(f"[promo {i+1}/{len(stores)}] store {scode} {st.get('name','')} …")
+        active_url = _cond_url("/app/supermarket/api/ds/active_goodtype", {"scode": scode})
+        try:
+            active_payload = http_get_json(active_url)
+            write_json(stores_dir / f"{scode}.json", {
+                "scode": scode,
+                "name": st.get("name"),
+                "mirroredAt": now_iso(),
+                "raw": active_payload,
+            })
+            ok_stores += 1
+        except Exception as e:
+            log_fail(f"promo active_goodtype {scode}: {e}")
+            active_payload = {}
+            time.sleep(sleep)
+            continue
+
+        # extract active gt codes
+        active_codes: List[str] = []
+        for row in _as_list(active_payload):
+            if isinstance(row, str):
+                active_codes.append(row.strip().upper())
+                continue
+            if not isinstance(row, dict):
+                continue
+            code = row.get("gtcode") or row.get("code") or row.get("gt_code") or row.get("value") or row.get("id")
+            if code is None:
+                continue
+            code = str(code).strip().upper()
+            if code and not code.startswith("C") and code.isdigit():
+                code = f"C{int(code):03d}"
+            active_codes.append(code)
+        # if API returns success with empty / unexpected, try all good types
+        if not active_codes:
+            # some payloads: data is dict of code->flag
+            if isinstance(active_payload, dict) and isinstance(active_payload.get("data"), dict):
+                for k, v in active_payload["data"].items():
+                    if v in (1, "1", True, "Y", "y", "yes"):
+                        active_codes.append(str(k).strip().upper())
+            if not active_codes:
+                active_codes = [g["code"] for g in good_types]
+                print(f"  warn: no active gtcode for {scode}; falling back to all goodTypes", file=sys.stderr)
+
+        # unique preserve order
+        seen_c = set()
+        uniq_codes = []
+        for c in active_codes:
+            if c and c not in seen_c:
+                seen_c.add(c)
+                uniq_codes.append(c)
+
+        time.sleep(sleep)
+
+        for gtcode in uniq_codes:
+            print(f"  discount_price {scode}×{gtcode}")
+            price_url = _cond_url(
+                "/app/supermarket/api/ds/discount_price",
+                {"scode": scode, "gtcode": gtcode},
+            )
+            try:
+                price_payload = http_get_json(price_url)
+                items = normalize_discount_items(price_payload)
+                for it in items:
+                    if it.get("sync_date"):
+                        sync_dates[f"{scode}_{gtcode}"] = it["sync_date"]
+                        break
+                out = {
+                    "scode": scode,
+                    "gtcode": gtcode,
+                    "storeName": st.get("name"),
+                    "mirroredAt": now_iso(),
+                    "itemCount": len(items),
+                    "items": items,
+                    "rawSuccess": (price_payload.get("success")
+                                   if isinstance(price_payload, dict) else None),
+                }
+                write_json(prices_dir / f"{scode}_{gtcode}.json", out)
+                price_files += 1
+            except Exception as e:
+                log_fail(f"promo discount_price {scode}/{gtcode}: {e}")
+            time.sleep(sleep)
+
+        if st.get("syncDate"):
+            sync_dates[scode] = st["syncDate"]
+
+    meta = {
+        "mirroredAt": now_iso(),
+        "stub": False,
+        "storeCount": len(stores),
+        "storesOk": ok_stores,
+        "priceFiles": price_files,
+        "syncDates": sync_dates,
+        "goodTypes": good_types,
+        "source": index["source"],
+    }
+    write_json(promo_dir / "meta.json", meta)
+    update_meta(
+        promo=f"{ok_stores}/{len(stores)} 店 · {price_files} 價檔",
+        promoStores=len(stores),
+        promoPriceFiles=price_files,
+    )
+    print(f"promo done: stores={len(stores)} ok={ok_stores} priceFiles={price_files}")
+    return meta
+
+
+def parse_special_categories(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
+    raw = None
+    for key in ("categories", "cats", "categoryList", "specialCategories"):
+        if isinstance(pp.get(key), list) and pp[key]:
+            raw = pp[key]
+            print(f"special categories from pageProps.{key} n={len(raw)}")
+            break
+    if not raw:
+        raise RuntimeError(f"special/main 無 categories；pageProps keys={list(pp.keys())}")
+    out: List[Dict[str, Any]] = []
+    for c in raw:
+        if not isinstance(c, dict):
+            continue
+        coid = c.get("coid") or c.get("id") or c.get("oid") or c.get("category")
+        if coid is None:
+            continue
+        name = (
+            c.get("name") or c.get("cateogry") or c.get("category")
+            or c.get("name_cn") or c.get("cname") or c.get("title") or str(coid)
+        )
+        date = c.get("date") or c.get("sdate") or c.get("updateDate") or ""
+        if isinstance(date, dict):
+            date = date.get("date") or date.get("sdate") or ""
+        image_url = (
+            c.get("imageUrl") or c.get("image") or c.get("img")
+            or f"{BASE}/app/special/images/cat/{coid}.png"
+        )
+        out.append({
+            "id": coid,
+            "coid": coid,
+            "name": name,
+            "date": str(date) if date else "",
+            "spe_type": c.get("spe_type") or c.get("speType") or c.get("type"),
+            "imageUrl": image_url,
+        })
+    return out
+
+
+def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
+    """專項物價：special/main categories → get_category_pdf（只記 URL／metadata）。"""
+    special_dir = DATA / "special"
+    detail_dir = special_dir / "detail"
+    special_dir.mkdir(parents=True, exist_ok=True)
+    detail_dir.mkdir(parents=True, exist_ok=True)
+
+    html = http_get(f"{BASE}/app/special/main?lang=cn").decode("utf-8", errors="replace")
+    pp = page_props_from_html(html)
+    categories = parse_special_categories(pp)
+
+    cats_out = {
+        "mirroredAt": now_iso(),
+        "stub": False,
+        "source": "special/main pageProps.categories",
+        "categories": categories,
+    }
+    write_json(special_dir / "categories.json", cats_out)
+
+    # compat top-level special_categories.json (old publish_category shape)
+    compat = {
+        "mirroredAt": now_iso(),
+        "source": "derived from special/main categories",
+        "data": [
+            {
+                "id": c["coid"],
+                "cateogry": c["name"],
+                "date": c.get("date") or "",
+            }
+            for c in categories
+        ],
+    }
+    write_json(DATA / "special_categories.json", compat)
+
+    ok = 0
+    for i, cat in enumerate(categories):
+        coid = cat["coid"]
+        date = cat.get("date") or ""
+        print(f"[special {i+1}/{len(categories)}] coid={coid} {cat.get('name')} date={date}")
+        qs = urlencode({"coid": str(coid), "date": str(date)})
+        url = f"{BASE}/app/special/api/sp/get_category_pdf?{qs}"
+        links: List[Dict[str, Any]] = []
+        sdate = date
+        raw_payload: Any = None
+        try:
+            raw_bytes = http_get(url)
+            ctype_guess = ""
+            # try JSON first
+            try:
+                raw_payload = json.loads(raw_bytes.decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                # PDF binary — do not store; only record request URL
+                raw_payload = None
+                links.append({
+                    "type": "pdf",
+                    "url": url,
+                    "note": "response was non-JSON (likely PDF); not downloaded",
+                })
+            if isinstance(raw_payload, dict):
+                # collect link fields
+                for key in ("link", "pdf", "url", "href", "nss", "nss_link"):
+                    v = raw_payload.get(key)
+                    if isinstance(v, str) and v:
+                        links.append({"type": key, "url": v if v.startswith("http") else (
+                            v if v.startswith("/") else f"{BASE}/{v.lstrip('/')}"
+                        )})
+                    elif isinstance(v, dict):
+                        u = v.get("link") or v.get("url") or v.get("href")
+                        if u:
+                            links.append({"type": key, "url": u})
+                data_list = _as_list(raw_payload)
+                for row in data_list:
+                    if not isinstance(row, dict):
+                        continue
+                    u = row.get("link") or row.get("url") or row.get("pdf") or row.get("href")
+                    if u:
+                        links.append({
+                            "type": row.get("type") or "link",
+                            "url": u,
+                            "name": row.get("name") or row.get("title") or "",
+                        })
+                sd = raw_payload.get("sdate") or raw_payload.get("date")
+                if isinstance(sd, dict):
+                    sdate = sd.get("date") or sd.get("sdate") or sdate
+                elif sd:
+                    sdate = str(sd)
+            detail = {
+                "coid": coid,
+                "name": cat.get("name"),
+                "date": date,
+                "sdate": sdate,
+                "links": links,
+                "mirroredAt": now_iso(),
+                "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+                "apiUrl": url,
+                "rawKeys": list(raw_payload.keys()) if isinstance(raw_payload, dict) else [],
+            }
+            write_json(detail_dir / f"{coid}.json", detail)
+            ok += 1
+        except Exception as e:
+            log_fail(f"special detail {coid}: {e}")
+            write_json(detail_dir / f"{coid}.json", {
+                "coid": coid,
+                "name": cat.get("name"),
+                "date": date,
+                "sdate": sdate,
+                "links": [],
+                "error": str(e),
+                "mirroredAt": now_iso(),
+                "apiUrl": url,
+            })
+        time.sleep(sleep)
+
+    update_meta(
+        special=f"{ok}/{len(categories)} 分類",
+        specialCategories=len(categories),
+        specialDetailsOk=ok,
+    )
+    print(f"special done: categories={len(categories)} ok={ok}")
+    return cats_out
+
+
+
 def run_full(sleep: float) -> None:
     t0 = time.time()
     DATA.mkdir(parents=True, exist_ok=True)
@@ -570,6 +1068,21 @@ def run_full(sleep: float) -> None:
     }
     write_json(DATA / "market" / "catalog.json", catalog)
 
+
+    # --- promo + special (phase 2) ---
+    promo_meta: Dict[str, Any] = {}
+    special_meta: Dict[str, Any] = {}
+    try:
+        promo_meta = fetch_promo(sleep)
+    except Exception as e:
+        log_fail(f"fetch_promo: {e}")
+        traceback.print_exc()
+    try:
+        special_meta = fetch_special(sleep)
+    except Exception as e:
+        log_fail(f"fetch_special: {e}")
+        traceback.print_exc()
+
     elapsed = time.time() - t0
     fail_path = DATA / "logs" / f"full_failures_{datetime.now(MACAU).strftime('%Y%m%d_%H%M%S')}.txt"
     fail_path.write_text("\n".join(FAIL_LOG) + ("\n" if FAIL_LOG else ""), encoding="utf-8")
@@ -583,10 +1096,15 @@ def run_full(sleep: float) -> None:
         marketCategories=len(mcats),
         marketItems=len(market_catalog_items),
         marketItemsOk=ok_market,
+        promoStores=promo_meta.get("storeCount"),
+        promoPriceFiles=promo_meta.get("priceFiles"),
+        specialCategories=len((special_meta.get("categories") or [])),
         elapsedSec=round(elapsed, 1),
         failures=len(FAIL_LOG),
         search=f"full 索引 {len(all_items)} 品",
         market=f"full {len(market_catalog_items)} 品",
+        promo=f"full {promo_meta.get('storesOk', 0)}/{promo_meta.get('storeCount', 0)} 店",
+        special=f"full {len(special_meta.get('categories') or [])} 分類",
     )
 
     summary = {
@@ -598,6 +1116,9 @@ def run_full(sleep: float) -> None:
         "marketCategories": len(mcats),
         "marketItems": len(market_catalog_items),
         "marketItemsOk": ok_market,
+        "promoStores": promo_meta.get("storeCount"),
+        "promoPriceFiles": promo_meta.get("priceFiles"),
+        "specialCategories": len(special_meta.get("categories") or []),
         "failures": FAIL_LOG,
     }
     write_json(DATA / "logs" / "full_summary.json", summary)
@@ -607,7 +1128,9 @@ def run_full(sleep: float) -> None:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="澳門物價站 ADM-3 鏡像拉數")
+    ap = argparse.ArgumentParser(
+        description="澳門物價站鏡像拉數（主拉機 LAPTOP-7JUE4FNQ／Windows）"
+    )
     ap.add_argument("--search", metavar="Q", help="search_name 關鍵字（如 牛奶）")
     ap.add_argument("--item", metavar="ID", help="超市貨品 _id（如 115）")
     ap.add_argument(
@@ -616,21 +1139,35 @@ def main() -> None:
         help="對目前 search_index.json 內每品拉分店價（慎用、較慢）",
     )
     ap.add_argument("--market-veg", action="store_true", help="拉菜心分街市價樣本")
-    ap.add_argument("--full", action="store_true", help="完整鏡像：14 類超市＋街市 6 類")
-    ap.add_argument("--sleep", type=float, default=0.8, help="連拉多品時間隔秒數（--full 建議 ≥0.6）")
+    ap.add_argument("--promo", action="store_true", help="優惠情報站：ds/main＋active_goodtype＋discount_price → data/promo/")
+    ap.add_argument("--special", action="store_true", help="專項物價：special/main＋get_category_pdf → data/special/")
+    ap.add_argument(
+        "--full",
+        action="store_true",
+        help="完整鏡像：超市＋街市＋promo＋special（--sleep 建議 ≥0.6）",
+    )
+    ap.add_argument("--sleep", type=float, default=0.8, help="連拉多品時間隔秒數（--full／--promo／--special 建議 ≥0.6）")
     args = ap.parse_args()
 
-    if not any([args.search, args.item, args.market_veg, args.all_search_items, args.full]):
+    if not any([
+        args.search, args.item, args.market_veg, args.all_search_items,
+        args.full, args.promo, args.special,
+    ]):
         ap.print_help()
-        print("\n至少指定 --search / --item / --market-veg / --full 之一。", file=sys.stderr)
+        print(
+            "\n至少指定 --search / --item / --market-veg / --promo / --special / --full 之一。",
+            file=sys.stderr,
+        )
         sys.exit(2)
 
     DATA.mkdir(parents=True, exist_ok=True)
 
-    if args.full:
+    if args.full or args.promo or args.special:
         if args.sleep < 0.6:
-            print("warn: --full 建議 --sleep ≥ 0.6，已提升至 0.6", file=sys.stderr)
+            print("warn: --full／--promo／--special 建議 --sleep ≥ 0.6，已提升至 0.6", file=sys.stderr)
             args.sleep = 0.6
+
+    if args.full:
         run_full(args.sleep)
         return
 
@@ -658,6 +1195,12 @@ def main() -> None:
 
     if args.market_veg:
         fetch_market_veg()
+
+    if args.promo:
+        fetch_promo(args.sleep)
+
+    if args.special:
+        fetch_special(args.sleep)
 
     print("done.")
 

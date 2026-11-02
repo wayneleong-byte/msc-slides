@@ -1,0 +1,106 @@
+{
+  "scode": "0108",
+  "gtcode": "C006",
+  "storeName": "Lee Fong",
+  "mirroredAt": "2026-11-03T01:22:48+08:00",
+  "itemCount": 4,
+  "items": [
+    {
+      "name": "KitKat迷你抹茶朱古力家庭裝（10枚）113克",
+      "price": "28.5",
+      "discount": "22.5",
+      "sync_date": "2026-10-09T00:00:00.000Z",
+      "barcode": null,
+      "raw": {
+        "_id": 31706,
+        "id": 31706,
+        "barcode": null,
+        "batch": "1791521680639",
+        "discount": "22.5",
+        "discount_desp": "貝達雀巢10月特價",
+        "gtcode": "C006",
+        "name": "KitKat迷你抹茶朱古力家庭裝（10枚）113克",
+        "price": "28.5",
+        "remark": null,
+        "scode": "0108",
+        "sync_date": "2026-10-09T00:00:00.000Z",
+        "user": "andrewsam",
+        "created_at": "2026-10-08T20:54:40.000Z",
+        "updated_at": "2026-10-08T20:54:40.000Z"
+      }
+    },
+    {
+      "name": "KitKat迷你黑朱古力家庭裝（10枚）113g",
+      "price": "28.5",
+      "discount": "22.5",
+      "sync_date": "2026-10-09T00:00:00.000Z",
+      "barcode": null,
+      "raw": {
+        "_id": 31705,
+        "id": 31705,
+        "barcode": null,
+        "batch": "1791521680639",
+        "discount": "22.5",
+        "discount_desp": "貝達雀巢10月特價",
+        "gtcode": "C006",
+        "name": "KitKat迷你黑朱古力家庭裝（10枚）113g",
+        "price": "28.5",
+        "remark": null,
+        "scode": "0108",
+        "sync_date": "2026-10-09T00:00:00.000Z",
+        "user": "andrewsam",
+        "created_at": "2026-10-08T20:54:40.000Z",
+        "updated_at": "2026-10-08T20:54:40.000Z"
+      }
+    },
+    {
+      "name": "KitKat牛奶朱古力家庭裝 127.6g",
+      "price": "28.5",
+      "discount": "22.5",
+      "sync_date": "2026-10-09T00:00:00.000Z",
+      "barcode": null,
+      "raw": {
+        "_id": 31704,
+        "id": 31704,
+        "barcode": null,
+        "batch": "1791521680639",
+        "discount": "22.5",
+        "discount_desp": "貝達雀巢10月特價",
+        "gtcode": "C006",
+        "name": "KitKat牛奶朱古力家庭裝 127.6g",
+        "price": "28.5",
+        "remark": null,
+        "scode": "0108",
+        "sync_date": "2026-10-09T00:00:00.000Z",
+        "user": "andrewsam",
+        "created_at": "2026-10-08T20:54:40.000Z",
+        "updated_at": "2026-10-08T20:54:40.000Z"
+      }
+    },
+    {
+      "name": "旺旺大作戰酸軟糖-鳳梨及荔枝味 65g",
+      "price": "9.5",
+      "discount": "7.9",
+      "sync_date": "2026-10-09T00:00:00.000Z",
+      "barcode": null,
+      "raw": {
+        "_id": 31590,
+        "id": 31590,
+        "barcode": null,
+        "batch": "1791521680639",
+        "discount": "7.9",
+        "discount_desp": "貝達9月-10月特價",
+        "gtcode": "C006",
+        "name": "旺旺大作戰酸軟糖-鳳梨及荔枝味 65g",
+        "price": "9.5",
+        "remark": null,
+        "scode": "0108",
+        "sync_date": "2026-10-09T00:00:00.000Z",
+        "user": "andrewsam",
+        "created_at": "2026-10-08T20:54:40.000Z",
+        "updated_at": "2026-10-08T20:54:40.000Z"
+      }
+    }
+  ],
+  "rawSuccess": 1
+}

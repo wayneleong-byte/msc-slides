@@ -1,0 +1,37 @@
+{
+  "coid": 16,
+  "name": {
+    "id": 42,
+    "oid": 16,
+    "did": null,
+    "name": "嬰兒奶粉",
+    "name_cn": "嬰兒奶粉",
+    "name_en": "Infant formula",
+    "name_pt": "Leite em pó para bebé",
+    "spe_type": "0",
+    "isVisible": 1,
+    "isDelete": 0,
+    "rank": 16,
+    "link": "",
+    "link_en": null,
+    "link_pt": null,
+    "report": null,
+    "report_en": null,
+    "report_pt": null,
+    "created_at": "2012-08-27 15:36:22",
+    "updated_at": "2016-01-11 12:55:48",
+    "published_at": null,
+    "_id": 42
+  },
+  "date": "2026-10-16",
+  "sdate": "2026-10-16",
+  "links": [],
+  "mirroredAt": "2026-11-03T01:23:24+08:00",
+  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=16&date=2026-10-16",
+  "rawKeys": [
+    "success",
+    "data",
+    "error"
+  ]
+}
