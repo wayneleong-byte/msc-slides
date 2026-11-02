@@ -237,8 +237,7 @@
       ul.querySelectorAll('button[data-file]').forEach((b) => {
         b.addEventListener('click', () => openDetail(b.getAttribute('data-file')));
       });
-      if (cat.items && cat.items[0]) openDetail(cat.items[0].detailFile);
-      else applyLookHint();
+      applyLookHint();
     });
   </script>
 </body>

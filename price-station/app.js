@@ -175,7 +175,7 @@
     try {
       return await loadJSON('data/meta.json');
     } catch (_) {
-      return { mirroredAt: '（未知）', sourceNote: '資料來源：消費者委員會' };
+      return { mirroredAt: '（未知）', sourceNote: '澳門特別行政區政府／消費者委員會「澳門物價情報站」公開資料（Open Data／公開 API 鏡像）；本站非官方；資料僅供參考。' };
     }
   }
 
@@ -244,14 +244,16 @@
     const el = $('#site-footer');
     if (!el) return;
     const bits = [];
-    bits.push('<strong>資料來源：消費者委員會</strong>（澳門物價情報站公開資料鏡像；本站非官方網站）');
+    const note = (meta && meta.sourceNote) ||
+      '澳門特別行政區政府／消費者委員會「澳門物價情報站」公開資料（Open Data／公開 API 鏡像）；本站非官方；資料僅供參考。';
+    bits.push('<strong>資料來源</strong>：' + note);
     if (meta && meta.mirroredAt) {
       bits.push(wrapUpdateHtml('鏡像時間', meta.mirroredAt) + '（Asia/Macau）');
     }
     (extraDates || []).forEach((d) => {
       if (d) bits.push(d);
     });
-    bits.push('非商業用途；數字以官方更新為準。');
+    bits.push('非商業用途；數字以官方更新為準，僅供參考。');
     el.innerHTML = bits.map((b) => '<div>' + b + '</div>').join('');
   }
 

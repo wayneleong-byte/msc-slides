@@ -25,7 +25,7 @@
     <div class="card">
       <h2>搜尋貨品</h2>
       <form class="search-row" id="search-form">
-        <input type="search" id="q" placeholder="例如：牛奶" value="牛奶" autocomplete="off" />
+        <input type="search" id="q" placeholder="輸入貨品名稱" value="" autocomplete="off" />
         <button type="submit">搜尋</button>
       </form>
       <p class="meta-line" id="search-meta"></p>
@@ -258,7 +258,15 @@
       searchIndex = idx;
       meta = m;
       MPS.fillFooter(meta);
-      doSearch();
+      const q = (document.getElementById('q').value || '').trim();
+      if (q) doSearch();
+      else {
+        document.getElementById('search-meta').textContent =
+          `索引 ${(searchIndex.items || []).length} 品 · 請輸入名稱後搜尋` +
+          (searchIndex.mirroredAt ? ` · 索引鏡像 ${searchIndex.mirroredAt}` : '');
+        document.getElementById('results').innerHTML =
+          '<li class="empty">輸入貨品名稱後按搜尋。</li>';
+      }
     }).catch((err) => {
       document.getElementById('results').innerHTML = '<li class="empty">無法載入搜尋索引：' + MPS.escapeHtml(err.message) + '</li>';
     });
