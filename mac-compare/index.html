@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Apple Mac 選購比較｜MacBook Pro · Mac Studio</title>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --card: #ffffff;
+    --text: #1d1d1f;
+    --muted: #6e6e73;
+    --line: #d2d2d7;
+    --accent: #0071e3;
+    --accent-soft: #e8f1fc;
+    --ok: #1d1d1f;
+    --danger: #b00020;
+    --radius: 16px;
+    --shadow: 0 2px 12px rgba(0,0,0,.06);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+            "PingFang HK", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { font-size: 16px; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--sans); line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 64px; }
+  header { margin-bottom: 22px; }
+  header h1 {
+    font-size: 1.75rem; font-weight: 650; letter-spacing: -0.02em;
+    margin: 0 0 8px;
+  }
+  header p { margin: 0; color: var(--muted); font-size: .95rem; max-width: 62ch; }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 8px 14px;
+    margin-top: 12px; font-size: .82rem; color: var(--muted);
+  }
+  .meta span {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px 10px;
+  }
+  .grand {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(245,245,247,.92); backdrop-filter: saturate(1.2) blur(12px);
+    border: 1px solid var(--line); border-radius: 14px;
+    padding: 14px 16px; margin: 18px 0 22px;
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px;
+    box-shadow: var(--shadow);
+  }
+  .grand .label { color: var(--muted); font-size: .9rem; }
+  .grand .total {
+    font-variant-numeric: tabular-nums; font-weight: 700;
+    font-size: 1.55rem; letter-spacing: -0.02em;
+  }
+  .grand .hint { width: 100%; font-size: .78rem; color: var(--muted); }
+  .grid {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  @media (max-width: 980px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  .col {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    display: flex; flex-direction: column; min-height: 100%;
+    transition: opacity .2s ease, filter .2s ease;
+  }
+  .col.is-off { opacity: .48; filter: grayscale(.35); }
+  .col-head {
+    padding: 16px 16px 12px; border-bottom: 1px solid var(--line);
+  }
+  .col-enable {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .86rem; color: var(--muted); margin-bottom: 10px;
+  }
+  .col-enable input { width: 16px; height: 16px; accent-color: var(--accent); }
+  .hero {
+    width: 100%; aspect-ratio: 1200 / 630; object-fit: cover;
+    border-radius: 12px; background: #eee; display: block;
+  }
+  .col-head h2 {
+    margin: 12px 0 2px; font-size: 1.2rem; font-weight: 650;
+    letter-spacing: -0.015em;
+  }
+  .col-head .sub { margin: 0; color: var(--muted); font-size: .82rem; }
+  .col-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  fieldset {
+    border: 1px solid var(--line); border-radius: 12px;
+    margin: 0; padding: 10px 12px 12px;
+  }
+  legend {
+    padding: 0 6px; font-size: .78rem; color: var(--muted);
+    font-weight: 600; letter-spacing: .02em;
+  }
+  label.row {
+    display: grid; grid-template-columns: 18px 1fr auto;
+    gap: 8px; align-items: start;
+    padding: 7px 2px; border-radius: 8px;
+    font-size: .9rem;
+  }
+  label.row:has(.thumb-btn) {
+    grid-template-columns: 18px 40px 1fr auto;
+  }
+  .lightbox[hidden] { display: none !important; }
+  label.row:hover { background: #fafafa; }
+  label.row input[type="checkbox"],
+  label.row input[type="radio"] {
+    margin-top: 3px; accent-color: var(--accent); width: 15px; height: 15px;
+  }
+  label.row .name { min-width: 0; }
+  label.row .name small {
+    display: block; color: var(--muted); font-size: .75rem; margin-top: 2px;
+  }
+  label.row .price {
+    font-variant-numeric: tabular-nums; color: var(--text);
+    font-size: .88rem; white-space: nowrap; font-family: var(--mono);
+  }
+  select.cfg {
+    width: 100%; margin-top: 6px; padding: 10px 12px;
+    border: 1px solid var(--line); border-radius: 10px;
+    background: #fff; font: inherit; color: var(--text);
+  }
+  .spec-box {
+    background: #fafafa; border: 1px dashed var(--line);
+    border-radius: 10px; padding: 10px 12px; font-size: .84rem;
+    color: var(--muted);
+  }
+  .spec-box strong { color: var(--text); font-weight: 600; }
+  .col-foot {
+    margin-top: auto; padding-top: 8px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  }
+  .col-foot .k { color: var(--muted); font-size: .82rem; }
+  .col-foot .v {
+    font-variant-numeric: tabular-nums; font-weight: 700;
+    font-size: 1.2rem; font-family: var(--mono);
+  }
+  footer.notes {
+    margin-top: 28px; padding: 16px 18px;
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    color: var(--muted); font-size: .82rem;
+  }
+  footer.notes h3 {
+    margin: 0 0 8px; font-size: .9rem; color: var(--text); font-weight: 650;
+  }
+  footer.notes ul { margin: 0; padding-left: 1.15rem; }
+  footer.notes li { margin: 4px 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .pill {
+    display: inline-block; font-size: .72rem; font-weight: 600;
+    padding: 2px 7px; border-radius: 999px; background: var(--accent-soft);
+    color: var(--accent); margin-left: 6px; vertical-align: middle;
+  }
+  .hero-link { display: block; }
+  .hero-link:hover .hero { opacity: .92; }
+  .thumb-btn {
+    margin-top: 1px; padding: 0; width: 36px; height: 36px;
+    border: 1px solid var(--line); border-radius: 6px;
+    background: #fff; cursor: zoom-in; overflow: hidden; line-height: 0;
+  }
+  .thumb-btn img { width: 36px; height: 36px; object-fit: cover; display: block; }
+  .thumb-btn:hover { border-color: var(--accent); }
+  .lightbox {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0, 0, 0, .72);
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px;
+  }
+  .lightbox img {
+    max-width: min(90vw, 890px); max-height: 82vh;
+    border-radius: 12px; background: #fff;
+    box-shadow: 0 10px 44px rgba(0,0,0,.55);
+  }
+  .lightbox .close-btn {
+    position: absolute; top: 18px; right: 24px;
+    width: 44px; height: 44px; border: none; border-radius: 50%;
+    background: rgba(255, 255, 255, .16); color: #fff;
+    font-size: 1.9rem; line-height: 1; cursor: pointer;
+  }
+  .lightbox .close-btn:hover { background: rgba(255, 255, 255, .3); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Apple Mac 選購比較</h1>
+    <p>並列比較 MacBook Pro 與 Mac Studio。勾選主機欄、配置與加購項後，下方合計即時以港元（HKD）更新；取消勾選的欄位或項目不計入總價。</p>
+    <div class="meta">
+      <span>價格來源：Apple 香港官網（hk-zh）</span>
+      <span>擷取日期：2026-11-01（Asia/Macau，UTC+8）</span>
+      <span>配件僅列採購審查文件曾出現之 Apple 原廠項目</span>
+    </div>
+  </header>
+
+  <div class="grand" id="grand">
+    <div>
+      <div class="label">已選項目合計（港元）</div>
+      <div class="total" id="grandTotal">HK$0</div>
+    </div>
+    <div class="hint" id="grandHint">尚未選擇任何項目。請先啟用至少一個產品欄。</div>
+  </div>
+
+  <div class="grid" id="grid">
+    <!-- MacBook Pro -->
+    <section class="col" data-col="mbp" id="col-mbp">
+      <div class="col-head">
+        <label class="col-enable"><input type="checkbox" class="col-on" checked /> 計入此欄</label>
+        <a class="hero-link" href="https://www.apple.com/hk-zh/shop/buy-mac/macbook-pro" target="_blank" rel="noopener">
+          <img class="hero" src="assets/macbook-pro.jpg" alt="MacBook Pro" width="1200" height="630" />
+        </a>
+        <h2>MacBook Pro</h2>
+        <p class="sub">筆記型 · 14 吋／16 吋 · M6／M5 Pro／M5 Max</p>
+      </div>
+      <div class="col-body">
+        <fieldset>
+          <legend>主機配置</legend>
+          <select class="cfg" id="mbp-cfg" aria-label="MacBook Pro 配置"></select>
+          <div class="spec-box" id="mbp-spec"></div>
+        </fieldset>
+        <fieldset>
+          <legend>AppleCare+（3 年）</legend>
+          <label class="row">
+            <input type="checkbox" id="mbp-ac" data-price="2699" data-key="ac-mbp" checked />
+            <span class="name">AppleCare+ for MacBook Pro<small id="mbp-ac-note">價格隨所選機型自動對應</small></span>
+            <span class="price" id="mbp-ac-price">HK$2,699</span>
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>外接鍵鼠／觸控板（選配）</legend>
+          <p style="margin:0 0 6px;font-size:.78rem;color:var(--muted)">筆記型電腦已內建鍵盤與觸控板；以下僅在需要外接時勾選（審查文件曾列精妙鍵盤／滑鼠／觸控板）。同類型黑／白互斥，只能選擇一種顏色。</p>
+          <label class="row">
+            <input type="checkbox" data-price="1399" data-key="kb-black" data-mutex="kb" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK83?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1737411034588" aria-label="睇圖：精妙鍵盤 黑色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK83?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1737411034588" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙鍵盤（Touch ID 及數字鍵盤）· 黑色按鍵</span>
+            <span class="price">HK$1,399</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="1249" data-key="kb-white" data-mutex="kb" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK73?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1737411079414" aria-label="睇圖：精妙鍵盤 白色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK73?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1737411079414" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙鍵盤（Touch ID 及數字鍵盤）· 白色按鍵</span>
+            <span class="price">HK$1,249</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="729" data-key="mouse-black" data-mutex="mouse" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK63?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508287136" aria-label="睇圖：精妙滑鼠 黑色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK63?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508287136" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙滑鼠 · 黑色</span>
+            <span class="price">HK$729</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="549" data-key="mouse-white" data-mutex="mouse" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK53?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508286345" aria-label="睇圖：精妙滑鼠 白色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK53?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508286345" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙滑鼠 · 白色</span>
+            <span class="price">HK$549</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="1049" data-key="tp-black" data-mutex="tp" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508286011" aria-label="睇圖：精妙觸控板 黑色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508286011" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙觸控板 · 黑色</span>
+            <span class="price">HK$1,049</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="899" data-key="tp-white" data-mutex="tp" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK93?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508284008" aria-label="睇圖：精妙觸控板 白色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK93?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508284008" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙觸控板 · 白色</span>
+            <span class="price">HK$899</span>
+          </label>
+        </fieldset>
+        <div class="col-foot">
+          <span class="k">此欄小計</span>
+          <span class="v" data-subtotal>HK$0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mac Studio -->
+    <section class="col" data-col="studio" id="col-studio">
+      <div class="col-head">
+        <label class="col-enable"><input type="checkbox" class="col-on" checked /> 計入此欄</label>
+        <a class="hero-link" href="https://www.apple.com/hk-zh/shop/buy-mac/mac-studio" target="_blank" rel="noopener">
+          <img class="hero" src="assets/mac-studio.jpg" alt="Mac Studio" width="1200" height="630" />
+        </a>
+        <h2>Mac Studio</h2>
+        <p class="sub">專業桌上型 · M5 Max／M5 Ultra</p>
+      </div>
+      <div class="col-body">
+        <fieldset>
+          <legend>主機配置</legend>
+          <select class="cfg" id="studio-cfg" aria-label="Mac Studio 配置"></select>
+          <div class="spec-box" id="studio-spec"></div>
+        </fieldset>
+        <fieldset>
+          <legend>AppleCare+（3 年）</legend>
+          <label class="row">
+            <input type="checkbox" data-price="1449" data-key="ac-studio" checked />
+            <span class="name">AppleCare+ for Mac Studio<small>適用文案對齊審查文件：M5 Max／M5 Ultra</small></span>
+            <span class="price">HK$1,449</span>
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>鍵盤 · 滑鼠 · 觸控板</legend>
+          <p style="margin:0 0 6px;font-size:.78rem;color:var(--muted)">審查文件 D1／D3 曾分別搭配觸控板或滑鼠；請按實際方案勾選，同類型黑／白互斥，只能選擇一種顏色。</p>
+          <label class="row">
+            <input type="checkbox" data-price="1399" data-key="kb-black" data-mutex="kb" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK83?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1737411034588" aria-label="睇圖：精妙鍵盤 黑色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK83?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1737411034588" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙鍵盤（Touch ID 及數字鍵盤）· 黑色按鍵</span>
+            <span class="price">HK$1,399</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="1249" data-key="kb-white" data-mutex="kb" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK73?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1737411079414" aria-label="睇圖：精妙鍵盤 白色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK73?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1737411079414" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙鍵盤（Touch ID 及數字鍵盤）· 白色按鍵</span>
+            <span class="price">HK$1,249</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="729" data-key="mouse-black" data-mutex="mouse" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK63?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508287136" aria-label="睇圖：精妙滑鼠 黑色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK63?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508287136" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙滑鼠 · 黑色</span>
+            <span class="price">HK$729</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="549" data-key="mouse-white" data-mutex="mouse" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK53?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508286345" aria-label="睇圖：精妙滑鼠 白色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK53?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508286345" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙滑鼠 · 白色</span>
+            <span class="price">HK$549</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="1049" data-key="tp-black" data-mutex="tp" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508286011" aria-label="睇圖：精妙觸控板 黑色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508286011" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙觸控板 · 黑色</span>
+            <span class="price">HK$1,049</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="899" data-key="tp-white" data-mutex="tp" />
+            <button type="button" class="thumb-btn" data-full="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK93?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508284008" aria-label="睇圖：精妙觸控板 白色"><img src="https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXK93?wid=890&hei=890&fmt=jpeg&qlt=90&.v=1730508284008" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">精妙觸控板 · 白色</span>
+            <span class="price">HK$899</span>
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>螢幕（Studio Display）</legend>
+          <label class="row">
+            <input type="checkbox" data-price="12499" data-key="sd-std-tilt" />
+            <button type="button" class="thumb-btn" data-full="assets/studio-display.jpg" aria-label="睇圖：Studio Display"><img src="assets/studio-display.jpg" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">Studio Display · 標準玻璃 · 傾斜式座架</span>
+            <span class="price">HK$12,499</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="12499" data-key="sd-std-vesa" />
+            <button type="button" class="thumb-btn" data-full="assets/studio-display.jpg" aria-label="睇圖：Studio Display"><img src="assets/studio-display.jpg" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">Studio Display · 標準玻璃 · VESA 接頭轉換器</span>
+            <span class="price">HK$12,499</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="15499" data-key="sd-std-height" />
+            <button type="button" class="thumb-btn" data-full="assets/studio-display.jpg" aria-label="睇圖：Studio Display"><img src="assets/studio-display.jpg" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">Studio Display · 標準玻璃 · 傾斜及可調高度座架</span>
+            <span class="price">HK$15,499</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="14999" data-key="sd-nano-tilt" />
+            <button type="button" class="thumb-btn" data-full="assets/studio-display.jpg" aria-label="睇圖：Studio Display"><img src="assets/studio-display.jpg" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">Studio Display · 納米紋理玻璃 · 傾斜式座架</span>
+            <span class="price">HK$14,999</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="14999" data-key="sd-nano-vesa" />
+            <button type="button" class="thumb-btn" data-full="assets/studio-display.jpg" aria-label="睇圖：Studio Display"><img src="assets/studio-display.jpg" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">Studio Display · 納米紋理玻璃 · VESA 接頭轉換器</span>
+            <span class="price">HK$14,999</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="17999" data-key="sd-nano-height" />
+            <button type="button" class="thumb-btn" data-full="assets/studio-display.jpg" aria-label="睇圖：Studio Display"><img src="assets/studio-display.jpg" alt="" width="36" height="36" loading="lazy" /></button>
+            <span class="name">Studio Display · 納米紋理玻璃 · 傾斜及可調高度座架</span>
+            <span class="price">HK$17,999</span>
+          </label>
+          <label class="row">
+            <input type="checkbox" data-price="1199" data-key="ac-display" checked />
+            <span class="name">AppleCare+ for Studio Display<small>3 年</small></span>
+            <span class="price">HK$1,199</span>
+          </label>
+        </fieldset>
+        <div class="col-foot">
+          <span class="k">此欄小計</span>
+          <span class="v" data-subtotal>HK$0</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="notes">
+    <h3>價格與範圍說明</h3>
+    <ul>
+      <li>本頁為採購參考工具，所列金額為 Apple 香港（<a href="https://www.apple.com/hk-zh/" target="_blank" rel="noopener">apple.com/hk-zh</a>）公開零售參考價；實際下單以官網結帳頁為準。</li>
+      <li>價格擷取日期：<strong>2026-11-01</strong>（Asia/Macau，UTC+8）。標示「起步價」之 MacBook Pro／部分 Studio 晶片組合，代表該晶片在選購頁的起始售價；記憶體／儲存／納米紋理顯示器等線上訂製升級可能另計，本頁未窮盡所有 CTO 組合。</li>
+      <li>已核對之絕對價配置（含記憶體與儲存）優先列出；其餘以官網選購頁起步價標示，並於規格說明中註明。</li>
+      <li>AppleCare+：Mac Studio（M5 Max／M5 Ultra）HK$1,449；MacBook Pro 14 吋 M6 HK$2,699、M5 Pro／M5 Max HK$2,999、16 吋 HK$3,149（對齊官網選購頁計劃價；審查截圖 P1 之 16 吋 M5 Pro／Max 車內價曾見 HK$2,999）。年期按 Apple 現行條款為自購買 AppleCare+ 起計<strong>三年</strong>。</li>
+      <li>加購項僅包含審查文件曾出現之 Apple 原廠產品：精妙鍵盤（數字鍵盤）、精妙滑鼠、精妙觸控板、Studio Display 及其 AppleCare+；未加入任何非 Apple 配件。</li>
+      <li>產品圖片取自 Apple CDN 公開資源，僅供識別機型。</li>
+    </ul>
+  </footer>
+</div>
+
+
+<div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="配件大圖">
+  <button type="button" class="close-btn" id="lightbox-close" aria-label="關閉">×</button>
+  <img id="lightbox-img" alt="配件大圖" />
+</div>
+
+<script>
+(function () {
+  const HKD = (n) => 'HK$' + Math.round(n).toLocaleString('en-HK');
+
+  /** @type {Record<string, Array<{id:string,label:string,price:number,ac:number,spec:string,exact?:boolean}>>} */
+  const CONFIGS = {
+    mbp: [
+      {
+        id: 'mbp14-m6-16-1tb',
+        label: '14 吋 · M6 · 16GB · 1TB（標準顯示器）',
+        price: 15999,
+        ac: 2699,
+        exact: true,
+        spec: '<strong>14 吋 MacBook Pro</strong> · <strong>M6</strong> 12 核心 CPU／12 核心 GPU · 16GB · 1TB · 標準 Liquid Retina XDR。官網絕對價。AppleCare+ HK$2,699。'
+      },
+      {
+        id: 'mbp14-m6-24-1tb',
+        label: '14 吋 · M6 · 24GB · 1TB（標準顯示器）',
+        price: 17499,
+        ac: 2699,
+        exact: true,
+        spec: '<strong>14 吋</strong> · <strong>M6</strong> 12／12 · 24GB · 1TB · 標準顯示器。官網絕對價。AppleCare+ HK$2,699。'
+      },
+      {
+        id: 'mbp14-m6-32-1tb',
+        label: '14 吋 · M6 · 32GB · 1TB（標準顯示器）',
+        price: 18999,
+        ac: 2699,
+        exact: true,
+        spec: '<strong>14 吋</strong> · <strong>M6</strong> 12／12 · 32GB · 1TB · 標準顯示器。官網絕對價。AppleCare+ HK$2,699。'
+      },
+      {
+        id: 'mbp14-m5pro-15-16',
+        label: '14 吋 · M5 Pro（15／16）· 起步價',
+        price: 19999,
+        ac: 2999,
+        exact: false,
+        spec: '<strong>14 吋</strong> · <strong>M5 Pro</strong> 15 核心 CPU／16 核心 GPU · 標準顯示器選購頁起步價。AppleCare+（M5 Pro／M5 Max）HK$2,999。'
+      },
+      {
+        id: 'mbp14-m5pro-18-20',
+        label: '14 吋 · M5 Pro（18／20）· 起步價',
+        price: 21749,
+        ac: 2999,
+        exact: false,
+        spec: '<strong>14 吋</strong> · <strong>M5 Pro</strong> 18 核心 CPU／20 核心 GPU · 標準顯示器起步價。AppleCare+ HK$2,999。'
+      },
+      {
+        id: 'mbp14-m5max-18-32',
+        label: '14 吋 · M5 Max（18／32）· 起步價',
+        price: 32499,
+        ac: 2999,
+        exact: false,
+        spec: '<strong>14 吋</strong> · <strong>M5 Max</strong> 18 核心 CPU／32 核心 GPU · 標準顯示器起步價。AppleCare+ HK$2,999。'
+      },
+      {
+        id: 'mbp14-m5max-18-40',
+        label: '14 吋 · M5 Max（18／40）· 起步價',
+        price: 36999,
+        ac: 2999,
+        exact: false,
+        spec: '<strong>14 吋</strong> · <strong>M5 Max</strong> 18 核心 CPU／40 核心 GPU · 標準顯示器起步價。AppleCare+ HK$2,999。'
+      },
+      {
+        id: 'mbp16-m5pro-18-20',
+        label: '16 吋 · M5 Pro（18／20）· 起步價',
+        price: 23999,
+        ac: 3149,
+        exact: false,
+        spec: '<strong>16 吋</strong> · <strong>M5 Pro</strong> 18 核心 CPU／20 核心 GPU · 標準顯示器起步價。AppleCare+ 依官網 16 吋計劃 HK$3,149（審查 P1 車內曾見 Pro／Max 共用 HK$2,999）。'
+      },
+      {
+        id: 'mbp16-m5max-18-32',
+        label: '16 吋 · M5 Max（18／32）· 起步價',
+        price: 34999,
+        ac: 3149,
+        exact: false,
+        spec: '<strong>16 吋</strong> · <strong>M5 Max</strong> 18 核心 CPU／32 核心 GPU · 標準顯示器起步價。AppleCare+ HK$3,149。'
+      },
+      {
+        id: 'mbp16-m5max-18-40',
+        label: '16 吋 · M5 Max（18／40）· 起步價',
+        price: 39999,
+        ac: 3149,
+        exact: false,
+        spec: '<strong>16 吋</strong> · <strong>M5 Max</strong> 18 核心 CPU／40 核心 GPU · 標準顯示器起步價。AppleCare+ HK$3,149。'
+      }
+    ],
+    studio: [
+      {
+        id: 'studio-max-18-32-36-512',
+        label: 'M5 Max（18／32）· 36GB · 512GB',
+        price: 19999,
+        ac: 1449,
+        exact: true,
+        spec: '<strong>M5 Max</strong> 18 核心 CPU／32 核心 GPU · 36GB · 512GB SSD。官網絕對價配置。'
+      },
+      {
+        id: 'studio-max-18-40-base',
+        label: 'M5 Max（18／40）· 起步價',
+        price: 24499,
+        ac: 1449,
+        exact: false,
+        spec: '<strong>M5 Max</strong> 18 核心 CPU／40 核心 GPU。選購頁起步價；記憶體／儲存升級另計。'
+      },
+      {
+        id: 'studio-max-64-1tb',
+        label: 'M5 Max（18／40）· 64GB · 1TB',
+        price: 29749,
+        ac: 1449,
+        exact: true,
+        spec: '<strong>M5 Max</strong> 18 核心 CPU／40 核心 GPU · 64GB · 1TB SSD。官網絕對價配置。'
+      },
+      {
+        id: 'studio-ultra-30-64-96-1tb',
+        label: 'M5 Ultra（30／64）· 96GB · 1TB',
+        price: 44999,
+        ac: 1449,
+        exact: true,
+        spec: '<strong>M5 Ultra</strong> 30 核心 CPU／64 核心 GPU · 96GB · 1TB SSD。官網絕對價配置。'
+      },
+      {
+        id: 'studio-ultra-36-80-base',
+        label: 'M5 Ultra（36／80）· 起步價',
+        price: 54749,
+        ac: 1449,
+        exact: false,
+        spec: '<strong>M5 Ultra</strong> 36 核心 CPU／80 核心 GPU。選購頁起步價；更高統一記憶體或儲存須於官網加選。'
+      }
+    ]
+  };
+
+  function fillSelect(selectId, specId, list) {
+    const sel = document.getElementById(selectId);
+    const spec = document.getElementById(specId);
+    sel.innerHTML = list.map((c, i) => {
+      const tag = c.exact ? '' : '（起步價）';
+      return `<option value="${c.id}" ${i === 0 ? 'selected' : ''}>${c.label}${tag} — ${HKD(c.price)}</option>`;
+    }).join('');
+    const sync = () => {
+      const c = list.find((x) => x.id === sel.value) || list[0];
+      spec.innerHTML = c.spec + (c.exact ? ' <span class="pill">已核對絕對價</span>' : ' <span class="pill">起步價</span>');
+      if (selectId === 'mbp-cfg') syncMbpAc(c);
+      recalc();
+    };
+    sel.addEventListener('change', sync);
+    sync();
+  }
+
+  function syncMbpAc(cfg) {
+    const box = document.getElementById('mbp-ac');
+    const priceEl = document.getElementById('mbp-ac-price');
+    const note = document.getElementById('mbp-ac-note');
+    box.dataset.price = String(cfg.ac);
+    priceEl.textContent = HKD(cfg.ac);
+    note.textContent = '目前對應本機計劃：' + HKD(cfg.ac);
+  }
+
+  function colTotal(section) {
+    if (!section.querySelector('.col-on').checked) return 0;
+    let sum = 0;
+    const key = section.dataset.col;
+    const sel = section.querySelector('select.cfg');
+    const cfg = CONFIGS[key].find((x) => x.id === sel.value);
+    if (cfg) sum += cfg.price;
+    section.querySelectorAll('input[type="checkbox"][data-price]').forEach((el) => {
+      if (el.checked) sum += Number(el.dataset.price || 0);
+    });
+    return sum;
+  }
+
+  function recalc() {
+    let grand = 0;
+    const parts = [];
+    document.querySelectorAll('.col').forEach((section) => {
+      const on = section.querySelector('.col-on').checked;
+      section.classList.toggle('is-off', !on);
+      const sub = colTotal(section);
+      section.querySelector('[data-subtotal]').textContent = HKD(sub);
+      if (on && sub > 0) {
+        grand += sub;
+        const title = section.querySelector('h2').textContent.trim();
+        parts.push(title + ' ' + HKD(sub));
+      }
+    });
+    document.getElementById('grandTotal').textContent = HKD(grand);
+    document.getElementById('grandHint').textContent = parts.length
+      ? parts.join(' · ')
+      : '尚未選擇任何項目。請先啟用至少一個產品欄，並勾選需要的加購項。';
+  }
+
+  fillSelect('mbp-cfg', 'mbp-spec', CONFIGS.mbp);
+  fillSelect('studio-cfg', 'studio-spec', CONFIGS.studio);
+
+  document.querySelectorAll('.col-on, input[type="checkbox"][data-price]').forEach((el) => {
+    el.addEventListener('change', recalc);
+  });
+
+  // 黑／白互斥（同欄同 data-mutex）
+  document.querySelectorAll('input[data-mutex]').forEach((el) => {
+    el.addEventListener('change', () => {
+      if (!el.checked) return;
+      const col = el.closest('.col');
+      const key = el.dataset.mutex;
+      col.querySelectorAll('input[data-mutex="' + key + '"]').forEach((other) => {
+        if (other !== el && other.checked) other.checked = false;
+      });
+      recalc();
+    });
+  });
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const openLb = (src, alt) => {
+    lbImg.src = src;
+    lbImg.alt = alt || '配件大圖';
+    lb.hidden = false;
+  };
+  const closeLb = () => {
+    lb.hidden = true;
+    lbImg.removeAttribute('src');
+  };
+  document.querySelectorAll('.thumb-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openLb(btn.dataset.full, btn.getAttribute('aria-label') || '');
+    });
+  });
+  document.getElementById('lightbox-close').addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeLb();
+  });
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb || e.target === lbImg) closeLb();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !lb.hidden) closeLb();
+  });
+
+  recalc();
+})();
+</script>
+</body>
+</html>
