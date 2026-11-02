@@ -1,0 +1,46 @@
+{
+  "mirroredAt": "2026-11-02T21:30:00+08:00",
+  "source": "publish_category / special/main categories",
+  "data": [
+    {
+      "id": 40,
+      "cateogry": "麵包",
+      "date": "2026-10-29"
+    },
+    {
+      "id": 34,
+      "cateogry": "新鮮豬肉(公斤)",
+      "date": "2026-10-27"
+    },
+    {
+      "id": 45,
+      "cateogry": "嬰兒尿片",
+      "date": "2026-10-26"
+    },
+    {
+      "id": 16,
+      "cateogry": "嬰兒奶粉",
+      "date": "2026-10-16"
+    },
+    {
+      "id": 9,
+      "cateogry": "非處方成藥",
+      "date": "2026-10-16"
+    },
+    {
+      "id": 31,
+      "cateogry": "個人護理用品",
+      "date": "2026-10-16"
+    },
+    {
+      "id": 38,
+      "cateogry": "冰鮮雞",
+      "date": "2026-10-12"
+    },
+    {
+      "id": 35,
+      "cateogry": "冰鮮豬肉(公斤)",
+      "date": "2026-10-06"
+    }
+  ]
+}

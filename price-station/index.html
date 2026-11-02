@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>澳門物價站｜超市＋街市比價</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <img class="logo" src="https://consumer-api03.dsedt.gov.mo/app/nextmacauprice/images/macauprice_logo_2.png" alt="澳門物價情報站" onerror="this.style.display='none'" />
+      <div>
+        <h1>澳門物價站</h1>
+        <p>超市＋街市比價（靜態鏡像 · 非官方）</p>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-bar" aria-label="主選單">
+    <a href="index.html">主頁</a>
+    <a href="supermarket.html">超市</a>
+    <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
+    <a href="market.html">街市</a>
+  </nav>
+  <main class="wrap">
+    <p class="meta-line" id="meta-line">載入鏡像資料中…</p>
+    <div class="tiles" id="tiles">
+      <a class="tile" href="supermarket.html">
+        <img src="https://consumer-api03.dsedt.gov.mo/app/nextmacauprice/images/img_3.png" alt="" />
+        <h2>超市物價</h2>
+        <div class="sub">名稱搜尋 · 分店價 · 入清單</div>
+      </a>
+      <a class="tile" href="promo.html">
+        <div class="icon-fallback promo">優</div>
+        <h2>優惠情報站</h2>
+        <div class="sub">二期殼頁</div>
+      </a>
+      <a class="tile" href="market.html">
+        <img src="https://consumer-api03.dsedt.gov.mo/app/nextmacauprice/images/img_102.png" alt="" />
+        <h2>街市物價</h2>
+        <div class="sub">當日／分街市價</div>
+      </a>
+      <a class="tile" href="special.html">
+        <img src="https://consumer-api03.dsedt.gov.mo/app/nextmacauprice/images/img_2.png" alt="" onerror="this.outerHTML='<div class=icon-fallback special>專</div>'" />
+        <h2>專項物價</h2>
+        <div class="sub">分類入口（二期詳情）</div>
+      </a>
+      <a class="tile" href="rank.html" title="官方 API 常回 500">
+        <img src="https://consumer-api03.dsedt.gov.mo/app/nextmacauprice/images/img_8.png" alt="" />
+        <h2>至抵超市龍虎榜</h2>
+        <div class="sub"><span class="badge">暫不可用</span></div>
+      </a>
+      <a class="tile" href="diff.html" title="官方 API 常回 500">
+        <img src="https://consumer-api03.dsedt.gov.mo/app/nextmacauprice/images/img_9.png" alt="" />
+        <h2>價差超過五成</h2>
+        <div class="sub"><span class="badge">暫不可用</span></div>
+      </a>
+    </div>
+    <div class="card">
+      <h2>點用</h2>
+      <ol>
+        <li>喺<strong>超市</strong>用名稱搜尋（示範：輸入「牛奶」），揀貨睇分店價，加入清單。</li>
+        <li>喺<strong>清單</strong>睇各品最平店同總額；可試「一間店買齊」。</li>
+        <li>喺<strong>街市</strong>睇菜心等樣本嘅分街市今日／本週價。</li>
+      </ol>
+      <p class="meta-line">瀏覽器唔會直連官方 API（無 CORS）；資料來自本站 <code>data/</code> 鏡像。</p>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="app.js"></script>
+  <script>
+    MPS.loadMeta().then((meta) => {
+      document.getElementById('meta-line').textContent =
+        '鏡像時間：' + (meta.mirroredAt || '—') + ' · ' + (meta.coverage && meta.coverage.search ? meta.coverage.search : '');
+      MPS.fillFooter(meta);
+    });
+  </script>
+</body>
+</html>

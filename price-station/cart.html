@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>購物清單｜澳門物價站</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <div>
+        <h1>購物清單／最平店報表</h1>
+        <p>資料存於本機瀏覽器（localStorage）</p>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-bar">
+    <a href="index.html">主頁</a>
+    <a href="supermarket.html">超市</a>
+    <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
+    <a href="market.html">街市</a>
+  </nav>
+  <main class="wrap">
+    <div class="card">
+      <div class="toolbar">
+        <a class="btn secondary" href="supermarket.html">繼續加貨</a>
+        <button type="button" class="secondary" id="btn-refresh">重新載入鏡像價</button>
+        <button type="button" id="btn-one-store">一間店買齊</button>
+        <button type="button" class="danger" id="btn-clear">清空清單</button>
+      </div>
+      <ul class="list" id="cart-list"></ul>
+      <div class="kv" id="summary"></div>
+    </div>
+    <div class="card" id="one-store-card" hidden>
+      <h2>一間店買齊（近似）</h2>
+      <p class="meta-line">喺「同時有價」嘅分店中揀總額最低；無鏡像價嘅貨會跳過。</p>
+      <div id="one-store-body"></div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="app.js"></script>
+  <script>
+    let meta = null;
+
+    function render() {
+      const cart = MPS.getCart();
+      const ul = document.getElementById('cart-list');
+      const summary = document.getElementById('summary');
+      if (!cart.length) {
+        ul.innerHTML = '<li class="empty">清單係空嘅。去超市搜「牛奶」加入示範貨品。</li>';
+        summary.innerHTML = '';
+        document.getElementById('one-store-card').hidden = true;
+        return;
+      }
+      let sumBest = 0;
+      let nPriced = 0;
+      ul.innerHTML = cart.map((it) => {
+        if (it.bestPrice != null) { sumBest += Number(it.bestPrice); nPriced += 1; }
+        return `<li>
+          <div>
+            <div class="title">${MPS.escapeHtml(it.name || '')}</div>
+            <div class="qty">${MPS.escapeHtml(it.quantity || '')}
+              ${it.updateDate ? ' · 資料日 ' + MPS.escapeHtml(it.updateDate) : ''}
+              ${it.bestStore ? '<br>最平：' + MPS.escapeHtml(it.bestStore) : '<br><span class="badge muted">未有分店價</span>'}
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="price best">${it.bestPrice != null ? MPS.money(it.bestPrice) : '—'}</div>
+            <button type="button" class="secondary" data-rm="${MPS.escapeHtml(it.id)}" style="margin-top:6px">移除</button>
+          </div>
+        </li>`;
+      }).join('');
+      ul.querySelectorAll('button[data-rm]').forEach((b) => {
+        b.addEventListener('click', () => { MPS.removeFromCart(b.getAttribute('data-rm')); render(); });
+      });
+      summary.innerHTML = `
+        <div>貨品數</div><div>${cart.length}</div>
+        <div>有價貨品最平合計</div><div class="price best">${MPS.money(sumBest)}（${nPriced} 品）</div>
+        <div>說明</div><div>合計係「每品各自最平店」相加，可能跨店。</div>`;
+    }
+
+    async function refreshPrices() {
+      const cart = MPS.getCart();
+      const next = [];
+      for (const it of cart) {
+        try {
+          const detail = await MPS.loadJSON('data/items/' + it.id + '.json');
+          const best = MPS.cheapestStore(detail.groups);
+          next.push(Object.assign({}, it, {
+            name: (detail.item && detail.item.name_cn) || it.name,
+            quantity: (detail.item && detail.item.quantity_cn) || it.quantity,
+            updateDate: detail.updateDate || it.updateDate,
+            bestPrice: best ? best.price : null,
+            bestStore: best ? best.storeName : null,
+            stores: MPS.flattenStores(detail.groups)
+          }));
+        } catch (_) {
+          next.push(it);
+        }
+      }
+      MPS.saveCart(next);
+      render();
+    }
+
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      if (confirm('確定清空清單？')) { MPS.clearCart(); render(); }
+    });
+    document.getElementById('btn-refresh').addEventListener('click', () => refreshPrices());
+    document.getElementById('btn-one-store').addEventListener('click', () => {
+      const cart = MPS.getCart();
+      const r = MPS.bestSingleStore(cart);
+      const card = document.getElementById('one-store-card');
+      const body = document.getElementById('one-store-body');
+      card.hidden = false;
+      if (!r.storeName) {
+        body.innerHTML = '<p class="empty">冇足夠分店價可計。</p>';
+        return;
+      }
+      body.innerHTML = `
+        <p><strong>${MPS.escapeHtml(r.storeName)}</strong>
+          ${r.partial ? '<span class="badge">部分貨品</span>' : '<span class="badge ok">齊貨</span>'}
+          · 總額 <span class="price best">${MPS.money(r.total)}</span></p>
+        <table class="store-table"><thead><tr><th>貨品</th><th>該店價</th></tr></thead>
+        <tbody>${r.lines.map((l) => `<tr><td>${MPS.escapeHtml(l.name)}</td><td class="price">${MPS.money(l.price)}</td></tr>`).join('')}</tbody></table>
+        ${r.skipped.length ? `<div class="notice">已跳過無價／未鏡像：${r.skipped.map((s) => MPS.escapeHtml(s.name || s.id)).join('、')}</div>` : ''}
+      `;
+    });
+
+    MPS.loadMeta().then((m) => { meta = m; MPS.fillFooter(meta); });
+    render();
+  </script>
+</body>
+</html>

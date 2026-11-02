@@ -1,0 +1,15 @@
+{
+  "mirroredAt": "2026-11-02T21:30:00+08:00",
+  "timezone": "Asia/Macau",
+  "sourceNote": "資料來源：消費者委員會（澳門物價情報站鏡像）。本站非官方網站。",
+  "coverage": {
+    "search": "牛奶關鍵字樣本（11 品）",
+    "items": [
+      "115"
+    ],
+    "market": [
+      "菜心／detail_veg.json"
+    ],
+    "note": "未鏡像之商品請於 ADM-3 跑 scripts/fetch_mirror.py"
+  }
+}

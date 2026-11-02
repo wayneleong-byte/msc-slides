@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>街市物價｜澳門物價站</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <div>
+        <h1>街市物價情報站</h1>
+        <p>當日／本週 · 分街市價（鏡像）</p>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-bar">
+    <a href="index.html">主頁</a>
+    <a href="supermarket.html">超市</a>
+    <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
+    <a href="market.html">街市</a>
+  </nav>
+  <main class="wrap">
+    <div class="card">
+      <h2>貨品入口</h2>
+      <ul class="list" id="catalog"></ul>
+    </div>
+    <div class="card" id="detail" hidden>
+      <h2 id="m-title"></h2>
+      <p class="meta-line" id="m-meta"></p>
+      <div class="toolbar">
+        <button type="button" id="btn-today" class="">今日</button>
+        <button type="button" id="btn-week" class="secondary">本週</button>
+      </div>
+      <table class="store-table" id="m-table">
+        <thead><tr><th>街市</th><th>司馬斤</th><th>公斤</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="app.js"></script>
+  <script>
+    let period = 'today';
+    let detail = null;
+    let meta = null;
+
+    function renderTable() {
+      if (!detail) return;
+      const tbody = document.querySelector('#m-table tbody');
+      const rows = (detail.markets || []).map((m) => {
+        const block = m[period] || {};
+        const catty = block.priceCatty;
+        const kg = block.priceKg;
+        const empty = catty === '' || catty == null;
+        return { m, catty, kg, empty, num: empty ? Infinity : Number(catty) };
+      });
+      const min = Math.min(...rows.filter((r) => !r.empty).map((r) => r.num));
+      tbody.innerHTML = rows.map((r) => {
+        const best = !r.empty && r.num === min;
+        return `<tr class="${best ? 'best' : ''}">
+          <td>${MPS.escapeHtml(r.m.marketName)}${best ? ' <span class="chip">最低</span>' : ''}</td>
+          <td class="price">${r.empty ? '—' : MPS.money(r.catty)}</td>
+          <td class="price">${r.empty ? '—' : MPS.money(r.kg)}</td>
+        </tr>`;
+      }).join('');
+      document.getElementById('btn-today').className = period === 'today' ? '' : 'secondary';
+      document.getElementById('btn-week').className = period === 'week' ? '' : 'secondary';
+    }
+
+    async function openDetail(file) {
+      detail = await MPS.loadJSON('data/market/' + file);
+      document.getElementById('detail').hidden = false;
+      document.getElementById('m-title').textContent =
+        (detail.itemName || '') + ' · ' + (detail.categoryName || '');
+      document.getElementById('m-meta').textContent =
+        `今日更新：${detail.todayUpdated || '—'} · 本週更新：${detail.weekUpdated || '—'}` +
+        (detail.mirroredAt ? ` · 鏡像 ${detail.mirroredAt}` : '');
+      period = 'today';
+      renderTable();
+      MPS.fillFooter(meta, [`街市 todayUpdated：${detail.todayUpdated || '—'}`]);
+    }
+
+    document.getElementById('btn-today').addEventListener('click', () => { period = 'today'; renderTable(); });
+    document.getElementById('btn-week').addEventListener('click', () => { period = 'week'; renderTable(); });
+
+    Promise.all([MPS.loadJSON('data/market/catalog.json'), MPS.loadMeta()]).then(([cat, m]) => {
+      meta = m;
+      MPS.fillFooter(meta);
+      const ul = document.getElementById('catalog');
+      ul.innerHTML = (cat.items || []).map((it) => `<li>
+        <div>
+          <div class="title">${MPS.escapeHtml(it.itemName)}</div>
+          <div class="qty">${MPS.escapeHtml(it.categoryName || '')}${it.todayUpdated ? ' · ' + MPS.escapeHtml(it.todayUpdated) : ''}</div>
+        </div>
+        <button type="button" data-file="${MPS.escapeHtml(it.detailFile)}">睇價</button>
+      </li>`).join('');
+      ul.querySelectorAll('button[data-file]').forEach((b) => {
+        b.addEventListener('click', () => openDetail(b.getAttribute('data-file')));
+      });
+      if (cat.items && cat.items[0]) openDetail(cat.items[0].detailFile);
+    });
+  </script>
+</body>
+</html>

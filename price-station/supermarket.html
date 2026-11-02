@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>超市物價｜澳門物價站</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <div>
+        <h1>超市物價一覽通</h1>
+        <p>名稱搜尋 → 分店價 → 加入清單</p>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-bar">
+    <a href="index.html">主頁</a>
+    <a href="supermarket.html">超市</a>
+    <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
+    <a href="market.html">街市</a>
+  </nav>
+  <main class="wrap">
+    <div class="card">
+      <h2>搜尋貨品</h2>
+      <form class="search-row" id="search-form">
+        <input type="search" id="q" placeholder="例如：牛奶" value="牛奶" autocomplete="off" />
+        <button type="submit">搜尋</button>
+      </form>
+      <p class="meta-line" id="search-meta"></p>
+      <ul class="list" id="results"></ul>
+    </div>
+    <div class="card" id="detail-card" hidden>
+      <h2 id="detail-title">分店價</h2>
+      <p class="meta-line" id="detail-meta"></p>
+      <div class="toolbar">
+        <button type="button" id="btn-add">加入清單</button>
+        <a class="btn secondary" href="cart.html">去清單</a>
+      </div>
+      <div id="detail-body"></div>
+    </div>
+  </main>
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="app.js"></script>
+  <script>
+    let searchIndex = { items: [] };
+    let currentItem = null;
+    let currentDetail = null;
+    let meta = null;
+
+    function renderResults(list) {
+      const ul = document.getElementById('results');
+      if (!list.length) {
+        ul.innerHTML = '<li class="empty">鏡像索引冇符合結果。可試「牛奶」。其他貨品請喺 ADM-3 跑拉數腳本擴充索引。</li>';
+        return;
+      }
+      ul.innerHTML = list.map((it) => {
+        const hasMirror = String(it._id) === '115';
+        return `<li>
+          <div>
+            <div class="title">${MPS.escapeHtml(it.name_cn || it.name_zh || '')}</div>
+            <div class="qty">${MPS.escapeHtml(it.quantity_cn || '')}${hasMirror ? '<span class="chip">有分店價鏡像</span>' : '<span class="badge muted">未鏡像分店價</span>'}</div>
+          </div>
+          <button type="button" data-id="${it._id}">睇價</button>
+        </li>`;
+      }).join('');
+      ul.querySelectorAll('button[data-id]').forEach((btn) => {
+        btn.addEventListener('click', () => openItem(btn.getAttribute('data-id')));
+      });
+    }
+
+    function doSearch() {
+      const q = (document.getElementById('q').value || '').trim();
+      const items = searchIndex.items || [];
+      const hit = !q ? items : items.filter((it) => {
+        const blob = [it.name_cn, it.name_zh, it.name_en, it.code].join(' ').toLowerCase();
+        return blob.includes(q.toLowerCase());
+      });
+      document.getElementById('search-meta').textContent =
+        `索引 ${items.length} 品 · 命中 ${hit.length}` + (searchIndex.mirroredAt ? ` · 索引鏡像 ${searchIndex.mirroredAt}` : '');
+      renderResults(hit);
+    }
+
+    async function openItem(id) {
+      currentItem = (searchIndex.items || []).find((x) => String(x._id) === String(id)) || { _id: id };
+      const card = document.getElementById('detail-card');
+      const body = document.getElementById('detail-body');
+      card.hidden = false;
+      document.getElementById('detail-title').textContent = currentItem.name_cn || ('貨品 #' + id);
+      body.innerHTML = '<p class="empty">載入中…</p>';
+      try {
+        currentDetail = await MPS.loadJSON('data/items/' + id + '.json');
+      } catch (e) {
+        currentDetail = null;
+        document.getElementById('detail-meta').textContent = '';
+        body.innerHTML = `<div class="notice">鏡像未有此品（id=${MPS.escapeHtml(id)}）。請喺 ADM-3 跑 <code>scripts/fetch_mirror.py --item ${MPS.escapeHtml(id)}</code> 後再部署。</div>`;
+        document.getElementById('btn-add').disabled = true;
+        return;
+      }
+      document.getElementById('btn-add').disabled = false;
+      const upd = currentDetail.updateDate || '—';
+      document.getElementById('detail-meta').textContent =
+        `官方資料日期：${upd}` + (currentDetail.mirroredAt ? ` · 鏡像 ${currentDetail.mirroredAt}` : '') +
+        (currentItem.quantity_cn ? ` · ${currentItem.quantity_cn}` : '');
+      const best = MPS.cheapestStore(currentDetail.groups);
+      const groups = currentDetail.groups || [];
+      body.innerHTML = (best ? `<div class="notice info">目前鏡像最低：<strong>${MPS.escapeHtml(best.storeName)}</strong> · <span class="price best">${MPS.money(best.price)}</span></div>` : '') +
+        groups.map((g) => {
+          const min = g.min_price;
+          const max = g.max_price;
+          const rows = (g.supermarkets || []).slice().sort((a, b) => Number(a.price) - Number(b.price));
+          return `<details class="group" ${rows.length && Number(rows[0].price) === Number(best && best.price) ? 'open' : ''}>
+            <summary>
+              <span>${MPS.escapeHtml(g.group_name_cn || g.group_name || '集團')}</span>
+              <span class="price">${MPS.money(min)} – ${MPS.money(max)}</span>
+            </summary>
+            <table class="store-table">
+              <thead><tr><th>分店</th><th>售價</th></tr></thead>
+              <tbody>
+                ${rows.map((s) => {
+                  const isBest = best && s.supermarket_name === best.storeName && Number(s.price) === Number(best.price);
+                  return `<tr class="${isBest ? 'best' : ''}"><td>${MPS.escapeHtml(s.supermarket_name)}${isBest ? ' <span class="chip">最低</span>' : ''}</td><td class="price">${MPS.money(s.price)}</td></tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </details>`;
+        }).join('');
+      MPS.fillFooter(meta, [`超市樣本資料日期：${upd}`]);
+    }
+
+    document.getElementById('btn-add').addEventListener('click', () => {
+      if (!currentDetail) return;
+      const item = currentDetail.item || currentItem;
+      const best = MPS.cheapestStore(currentDetail.groups);
+      const stores = MPS.flattenStores(currentDetail.groups);
+      MPS.addToCart({
+        id: item._id,
+        name: item.name_cn || item.name_zh,
+        quantity: item.quantity_cn || '',
+        code: item.code || '',
+        updateDate: currentDetail.updateDate || '',
+        bestPrice: best ? best.price : null,
+        bestStore: best ? best.storeName : null,
+        stores
+      });
+      alert('已加入清單');
+    });
+
+    document.getElementById('search-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      doSearch();
+    });
+
+    Promise.all([MPS.loadJSON('data/search_index.json'), MPS.loadMeta()]).then(([idx, m]) => {
+      searchIndex = idx;
+      meta = m;
+      MPS.fillFooter(meta);
+      doSearch();
+    }).catch((err) => {
+      document.getElementById('results').innerHTML = '<li class="empty">無法載入搜尋索引：' + MPS.escapeHtml(err.message) + '</li>';
+    });
+  </script>
+</body>
+</html>
