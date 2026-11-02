@@ -49,14 +49,28 @@
     let currentDetail = null;
     let meta = null;
 
+    function coverageIsFull() {
+      const cov = (meta && meta.coverage) || {};
+      return cov.coverageMode === 'full' || searchIndex.coverage === 'full';
+    }
+
+    function itemHasPriceMirror(it) {
+      if (coverageIsFull()) return true;
+      if (it && (it.hasPriceMirror === true || it.mirrored === true)) return true;
+      const cov = (meta && meta.coverage) || {};
+      const ids = cov.items;
+      if (Array.isArray(ids) && ids.map(String).includes(String(it._id))) return true;
+      return false;
+    }
+
     function renderResults(list) {
       const ul = document.getElementById('results');
       if (!list.length) {
-        ul.innerHTML = '<li class="empty">鏡像索引冇符合結果。可試「牛奶」。其他貨品請喺 ADM-3 跑拉數腳本擴充索引。</li>';
+        ul.innerHTML = '<li class="empty">鏡像索引冇符合結果。可換關鍵字；若索引未齊請喺 ADM-3 跑 <code>scripts/fetch_mirror.py --full</code>。</li>';
         return;
       }
       ul.innerHTML = list.map((it) => {
-        const hasMirror = String(it._id) === '115';
+        const hasMirror = itemHasPriceMirror(it);
         return `<li>
           <div>
             <div class="title">${MPS.escapeHtml(it.name_cn || it.name_zh || '')}</div>
@@ -94,7 +108,7 @@
       } catch (e) {
         currentDetail = null;
         document.getElementById('detail-meta').textContent = '';
-        body.innerHTML = `<div class="notice">鏡像未有此品（id=${MPS.escapeHtml(id)}）。請喺 ADM-3 跑 <code>scripts/fetch_mirror.py --item ${MPS.escapeHtml(id)}</code> 後再部署。</div>`;
+        body.innerHTML = `<div class="notice">鏡像未有此品（id=${MPS.escapeHtml(id)}）。請喺 ADM-3 跑 <code>scripts/fetch_mirror.py --item ${MPS.escapeHtml(id)}</code> 或 <code>--full</code> 後再部署。</div>`;
         document.getElementById('btn-add').disabled = true;
         return;
       }
@@ -126,7 +140,7 @@
             </table>
           </details>`;
         }).join('');
-      MPS.fillFooter(meta, [`超市樣本資料日期：${upd}`]);
+      MPS.fillFooter(meta, [`超市資料日期：${upd}`]);
     }
 
     document.getElementById('btn-add').addEventListener('click', () => {
