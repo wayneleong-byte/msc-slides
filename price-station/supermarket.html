@@ -49,6 +49,25 @@
     let currentItem = null;
     let currentDetail = null;
     let meta = null;
+    let activeLookId = null;
+    const LOOK_HINT = '請往網頁下方看結果';
+
+    function resetLookButtons() {
+      document.querySelectorAll('#results button[data-id]').forEach((btn) => {
+        btn.textContent = '睇價';
+        btn.classList.remove('hint-below', 'btn-scroll-hint');
+      });
+    }
+    function applyLookHint() {
+      resetLookButtons();
+      if (activeLookId == null) return;
+      document.querySelectorAll('#results button[data-id]').forEach((btn) => {
+        if (String(btn.getAttribute('data-id')) === String(activeLookId)) {
+          btn.textContent = LOOK_HINT;
+          btn.classList.add('hint-below');
+        }
+      });
+    }
 
     function coverageIsFull() {
       const cov = (meta && meta.coverage) || {};
@@ -83,6 +102,7 @@
       ul.querySelectorAll('button[data-id]').forEach((btn) => {
         btn.addEventListener('click', () => openItem(btn.getAttribute('data-id')));
       });
+      applyLookHint();
     }
 
     function doSearch() {
@@ -92,8 +112,9 @@
         const blob = [it.name_cn, it.name_zh, it.name_en, it.code].join(' ').toLowerCase();
         return blob.includes(q.toLowerCase());
       });
-      document.getElementById('search-meta').textContent =
-        `索引 ${items.length} 品 · 命中 ${hit.length}` + (searchIndex.mirroredAt ? ` · 索引鏡像 ${searchIndex.mirroredAt}` : '');
+      document.getElementById('search-meta').innerHTML =
+        `索引 ${items.length} 品 · 命中 ${hit.length}` +
+        (searchIndex.mirroredAt ? ' · ' + MPS.wrapUpdateHtml('索引鏡像', searchIndex.mirroredAt) : '');
       renderResults(hit);
     }
 
@@ -124,10 +145,19 @@
     }
 
     async function openItem(id) {
+      if (activeLookId != null && String(activeLookId) === String(id)) {
+        /* 再點同一粒：還原按鈕文案／顏色（detail 仍保留） */
+        activeLookId = null;
+        applyLookHint();
+        return;
+      }
+      activeLookId = id;
+      applyLookHint();
       currentItem = (searchIndex.items || []).find((x) => String(x._id) === String(id)) || { _id: id };
       const card = document.getElementById('detail-card');
       const body = document.getElementById('detail-body');
       card.hidden = false;
+      try { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (_) {}
       document.getElementById('detail-title').textContent = currentItem.name_cn || ('貨品 #' + id);
       body.innerHTML = '<p class="empty">載入中…</p>';
       document.getElementById('pick-hint').textContent = '';
@@ -141,10 +171,11 @@
         return;
       }
       document.getElementById('btn-add').disabled = false;
-      const upd = currentDetail.updateDate || '—';
-      document.getElementById('detail-meta').textContent =
-        `官方資料日期：${upd}` + (currentDetail.mirroredAt ? ` · 鏡像 ${currentDetail.mirroredAt}` : '') +
-        (currentItem.quantity_cn ? ` · ${currentItem.quantity_cn}` : '');
+      const upd = currentDetail.updateDate || '';
+      document.getElementById('detail-meta').innerHTML =
+        MPS.wrapUpdateHtml('官方資料日期', upd) +
+        (currentDetail.mirroredAt ? ' · ' + MPS.wrapUpdateHtml('鏡像', currentDetail.mirroredAt) : '') +
+        (currentItem.quantity_cn ? ' · ' + MPS.escapeHtml(currentItem.quantity_cn) : '');
       const best = MPS.cheapestStore(currentDetail.groups);
       const groups = currentDetail.groups || [];
       body.innerHTML = (best ? `<div class="notice info">目前鏡像最低：<strong>${MPS.escapeHtml(best.storeName)}</strong> · <span class="price best">${MPS.money(best.price)}</span>（預設勾選；可改選其他分店）</div>` : '') +
@@ -190,7 +221,7 @@
         if (first) first.checked = true;
       }
       updatePickHint();
-      MPS.fillFooter(meta, [`超市資料日期：${upd}`]);
+      MPS.fillFooter(meta, [MPS.wrapUpdateHtml('超市資料日期', upd)]);
     }
 
     document.getElementById('btn-add').addEventListener('click', () => {

@@ -162,6 +162,7 @@
               <div class="qty">
                 ${MPS.escapeHtml(it.categoryName || '')}
                 · <span class="badge">${periodLabel}</span>
+                ${it.todayUpdated ? ' · ' + MPS.wrapUpdateHtml('更新', it.todayUpdated) : ''}
                 <br>已選：${MPS.escapeHtml(it.preferredMarket || '—')}
                 ${it.preferredPriceKg != null ? ' · 公斤 ' + MPS.money(it.preferredPriceKg) : ''}
               </div>
@@ -182,7 +183,7 @@
               ${MPS.escapeHtml(it.name || '')}
             </div>
             <div class="qty">${MPS.escapeHtml(it.quantity || '')}
-              ${it.updateDate ? ' · 資料日 ' + MPS.escapeHtml(it.updateDate) : ''}
+              ${it.updateDate ? ' · ' + MPS.wrapUpdateHtml('資料日', it.updateDate) : ''}
               <br>已選：${MPS.escapeHtml(it.preferredStore || it.bestStore || '—')}
               ${it.bestStore && it.preferredStore && it.preferredStore !== it.bestStore
                 ? ' <span class="badge muted">參考最平 ' + MPS.escapeHtml(it.bestStore) + ' ' + MPS.money(it.bestPrice) + '</span>'

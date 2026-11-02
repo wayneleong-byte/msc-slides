@@ -70,8 +70,9 @@
   <script src="app.js"></script>
   <script>
     MPS.loadMeta().then((meta) => {
-      document.getElementById('meta-line').textContent =
-        '鏡像時間：' + (meta.mirroredAt || '—') + ' · ' + (meta.coverage && meta.coverage.search ? meta.coverage.search : '');
+      document.getElementById('meta-line').innerHTML =
+        MPS.wrapUpdateHtml('鏡像時間', meta.mirroredAt || '') + ' · ' +
+        MPS.escapeHtml((meta.coverage && meta.coverage.search) ? meta.coverage.search : '');
       MPS.fillFooter(meta);
     });
   </script>

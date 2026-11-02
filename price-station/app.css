@@ -156,3 +156,19 @@ button.danger { background: #c4574a; }
 }
 .kind-badge.supermarket { background: var(--green-soft); color: var(--green-dark); }
 .kind-badge.market { background: var(--blue-soft); color: #2a5a8a; }
+
+
+/* Stale update dates (>7 days) */
+.stale-update { color: #c62828; font-weight: 600; }
+.badge.stale-update {
+  background: var(--red-soft);
+  border: 1px solid #c62828;
+  color: #c62828;
+  font-weight: 600;
+}
+
+/* Selected-item scroll hint on 睇價 */
+button.hint-below, .btn-scroll-hint {
+  background: #c62828;
+  color: #fff;
+}

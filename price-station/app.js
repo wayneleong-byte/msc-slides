@@ -179,18 +179,7 @@
     }
   }
 
-  function fillFooter(meta, extraDates) {
-    const el = $('#site-footer');
-    if (!el) return;
-    const bits = [];
-    bits.push('<strong>資料來源：消費者委員會</strong>（澳門物價情報站公開資料鏡像；本站非官方網站）');
-    if (meta && meta.mirroredAt) bits.push('鏡像時間：' + meta.mirroredAt + '（Asia/Macau）');
-    (extraDates || []).forEach((d) => {
-      if (d) bits.push(d);
-    });
-    bits.push('非商業用途；數字以官方更新為準。');
-    el.innerHTML = bits.map((b) => '<div>' + b + '</div>').join('');
-  }
+  /* fillFooter defined after escapeHtml + date helpers */
 
   function markActiveNav() {
     const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
@@ -208,10 +197,69 @@
       .replace(/"/g, '&quot;');
   }
 
+  function parseLooseDate(s) {
+    if (s == null || s === '') return null;
+    const str = String(s).trim();
+    if (!str || str === '—' || str === '-' || str === '（未知）') return null;
+    const m = str.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/);
+    if (m) {
+      const y = Number(m[1]), mo = Number(m[2]) - 1, day = Number(m[3]);
+      const d = new Date(y, mo, day);
+      if (!Number.isNaN(d.getTime()) && d.getFullYear() === y && d.getMonth() === mo && d.getDate() === day) {
+        return d;
+      }
+    }
+    const iso = Date.parse(str);
+    if (!Number.isNaN(iso)) return new Date(iso);
+    return null;
+  }
+
+  function isStaleUpdate(dateStr, days) {
+    const limit = days == null ? 7 : days;
+    const d = parseLooseDate(dateStr);
+    if (!d) return false;
+    const now = new Date();
+    const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startD = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const diff = (startToday - startD) / 86400000;
+    return diff > limit;
+  }
+
+  /** Safe HTML for a labelled update date; adds .stale-update when >7 calendar days old. */
+  function wrapUpdateHtml(label, dateStr) {
+    const safeLabel = escapeHtml(label == null ? '' : label);
+    const raw = (dateStr == null || dateStr === '') ? '' : String(dateStr);
+    const display = raw || '—';
+    const safeDate = escapeHtml(display);
+    const stale = raw ? isStaleUpdate(raw) : false;
+    const prefix = safeLabel ? safeLabel + '：' : '';
+    if (stale) {
+      return prefix + '<span class="stale-update" title="超過一星期未更新">' + safeDate +
+        '</span> <span class="badge stale-update">過期</span>';
+    }
+    return prefix + safeDate;
+  }
+
+  function fillFooter(meta, extraDates) {
+    const el = $('#site-footer');
+    if (!el) return;
+    const bits = [];
+    bits.push('<strong>資料來源：消費者委員會</strong>（澳門物價情報站公開資料鏡像；本站非官方網站）');
+    if (meta && meta.mirroredAt) {
+      bits.push(wrapUpdateHtml('鏡像時間', meta.mirroredAt) + '（Asia/Macau）');
+    }
+    (extraDates || []).forEach((d) => {
+      if (d) bits.push(d);
+    });
+    bits.push('非商業用途；數字以官方更新為準。');
+    el.innerHTML = bits.map((b) => '<div>' + b + '</div>').join('');
+  }
+
   global.MPS = {
     IMG, CART_KEY, $, $all, loadJSON, money, getCart, saveCart, addToCart, removeFromCart,
     clearCart, updateCartBadge, flattenStores, cheapestStore, bestSingleStore, loadMeta,
-    fillFooter, markActiveNav, escapeHtml, isMarketItem, preferredLinePrice, bestPriceOfItem
+    fillFooter, markActiveNav, escapeHtml, isMarketItem, preferredLinePrice, bestPriceOfItem,
+    parseLooseDate, isStaleUpdate, wrapUpdateHtml
   };
 
   document.addEventListener('DOMContentLoaded', () => {

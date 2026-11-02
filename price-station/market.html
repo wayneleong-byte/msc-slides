@@ -49,6 +49,25 @@
     let detail = null;
     let detailFile = null;
     let meta = null;
+    let activeLookFile = null;
+    const LOOK_HINT = '請往網頁下方看結果';
+
+    function resetLookButtons() {
+      document.querySelectorAll('#catalog button[data-file]').forEach((btn) => {
+        btn.textContent = '睇價';
+        btn.classList.remove('hint-below', 'btn-scroll-hint');
+      });
+    }
+    function applyLookHint() {
+      resetLookButtons();
+      if (activeLookFile == null) return;
+      document.querySelectorAll('#catalog button[data-file]').forEach((btn) => {
+        if (String(btn.getAttribute('data-file')) === String(activeLookFile)) {
+          btn.textContent = LOOK_HINT;
+          btn.classList.add('hint-below');
+        }
+      });
+    }
 
     function pricedRows() {
       return (detail.markets || []).map((m) => {
@@ -145,17 +164,27 @@
     }
 
     async function openDetail(file) {
+      if (activeLookFile != null && String(activeLookFile) === String(file)) {
+        activeLookFile = null;
+        applyLookHint();
+        return;
+      }
+      activeLookFile = file;
+      applyLookHint();
       detailFile = file;
       detail = await MPS.loadJSON('data/market/' + file);
-      document.getElementById('detail').hidden = false;
+      const card = document.getElementById('detail');
+      card.hidden = false;
+      try { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (_) {}
       document.getElementById('m-title').textContent =
         (detail.itemName || '') + ' · ' + (detail.categoryName || '');
-      document.getElementById('m-meta').textContent =
-        `今日更新：${detail.todayUpdated || '—'} · 本週更新：${detail.weekUpdated || '—'}` +
-        (detail.mirroredAt ? ` · 鏡像 ${detail.mirroredAt}` : '');
+      document.getElementById('m-meta').innerHTML =
+        MPS.wrapUpdateHtml('今日更新', detail.todayUpdated || '') + ' · ' +
+        MPS.wrapUpdateHtml('本週更新', detail.weekUpdated || '') +
+        (detail.mirroredAt ? ' · ' + MPS.wrapUpdateHtml('鏡像', detail.mirroredAt) : '');
       period = 'today';
       renderTable();
-      MPS.fillFooter(meta, [`街市 todayUpdated：${detail.todayUpdated || '—'}`]);
+      MPS.fillFooter(meta, [MPS.wrapUpdateHtml('街市 todayUpdated', detail.todayUpdated || '')]);
     }
 
     document.getElementById('btn-today').addEventListener('click', () => { period = 'today'; renderTable(); });
@@ -201,7 +230,7 @@
       ul.innerHTML = (cat.items || []).map((it) => `<li>
         <div>
           <div class="title">${MPS.escapeHtml(it.itemName)}</div>
-          <div class="qty">${MPS.escapeHtml(it.categoryName || '')}${it.todayUpdated ? ' · ' + MPS.escapeHtml(it.todayUpdated) : ''}</div>
+          <div class="qty">${MPS.escapeHtml(it.categoryName || '')}${it.todayUpdated ? ' · ' + MPS.wrapUpdateHtml('更新', it.todayUpdated) : ''}</div>
         </div>
         <button type="button" data-file="${MPS.escapeHtml(it.detailFile)}">睇價</button>
       </li>`).join('');
@@ -209,6 +238,7 @@
         b.addEventListener('click', () => openDetail(b.getAttribute('data-file')));
       });
       if (cat.items && cat.items[0]) openDetail(cat.items[0].detailFile);
+      else applyLookHint();
     });
   </script>
 </body>
