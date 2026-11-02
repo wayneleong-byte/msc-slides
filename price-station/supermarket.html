@@ -11,7 +11,7 @@
     <div class="inner">
       <div>
         <h1>超市物價一覽通</h1>
-        <p>名稱搜尋 → 分店價 → 加入清單</p>
+        <p>名稱搜尋 → 分店價 → 自選店加入清單</p>
       </div>
     </div>
   </header>
@@ -38,6 +38,7 @@
         <button type="button" id="btn-add">加入清單</button>
         <a class="btn secondary" href="cart.html">去清單</a>
       </div>
+      <p class="meta-line" id="pick-hint"></p>
       <div id="detail-body"></div>
     </div>
   </main>
@@ -96,6 +97,32 @@
       renderResults(hit);
     }
 
+    function storeRadioValue(s) {
+      return String(s.storeName || '');
+    }
+
+    function selectedStore() {
+      const el = document.querySelector('input[name="pick-store"]:checked');
+      if (!el || !currentDetail) return null;
+      const name = el.value;
+      const stores = MPS.flattenStores(currentDetail.groups);
+      return stores.find((s) => s.storeName === name && s.price != null) ||
+        stores.find((s) => s.storeName === name) || null;
+    }
+
+    function updatePickHint() {
+      const hint = document.getElementById('pick-hint');
+      const pick = selectedStore();
+      const best = currentDetail ? MPS.cheapestStore(currentDetail.groups) : null;
+      if (!pick || pick.price == null) {
+        hint.textContent = '請先選有價嘅分店再加入清單。';
+        return;
+      }
+      const isBest = best && pick.storeName === best.storeName && Number(pick.price) === Number(best.price);
+      hint.innerHTML = '將加入：<strong>' + MPS.escapeHtml(pick.storeName) + '</strong> · <span class="price">' +
+        MPS.money(pick.price) + '</span>' + (isBest ? ' <span class="chip">即係最低</span>' : ' <span class="badge muted">非最低</span>');
+    }
+
     async function openItem(id) {
       currentItem = (searchIndex.items || []).find((x) => String(x._id) === String(id)) || { _id: id };
       const card = document.getElementById('detail-card');
@@ -103,6 +130,7 @@
       card.hidden = false;
       document.getElementById('detail-title').textContent = currentItem.name_cn || ('貨品 #' + id);
       body.innerHTML = '<p class="empty">載入中…</p>';
+      document.getElementById('pick-hint').textContent = '';
       try {
         currentDetail = await MPS.loadJSON('data/items/' + id + '.json');
       } catch (e) {
@@ -119,7 +147,7 @@
         (currentItem.quantity_cn ? ` · ${currentItem.quantity_cn}` : '');
       const best = MPS.cheapestStore(currentDetail.groups);
       const groups = currentDetail.groups || [];
-      body.innerHTML = (best ? `<div class="notice info">目前鏡像最低：<strong>${MPS.escapeHtml(best.storeName)}</strong> · <span class="price best">${MPS.money(best.price)}</span></div>` : '') +
+      body.innerHTML = (best ? `<div class="notice info">目前鏡像最低：<strong>${MPS.escapeHtml(best.storeName)}</strong> · <span class="price best">${MPS.money(best.price)}</span>（預設勾選；可改選其他分店）</div>` : '') +
         groups.map((g) => {
           const min = g.min_price;
           const max = g.max_price;
@@ -130,16 +158,38 @@
               <span class="price">${MPS.money(min)} – ${MPS.money(max)}</span>
             </summary>
             <table class="store-table">
-              <thead><tr><th>分店</th><th>售價</th></tr></thead>
+              <thead><tr><th class="col-pick">選</th><th>分店</th><th>售價</th></tr></thead>
               <tbody>
                 ${rows.map((s) => {
+                  const flat = { storeName: s.supermarket_name, price: s.price == null || s.price === '' ? null : Number(s.price) };
                   const isBest = best && s.supermarket_name === best.storeName && Number(s.price) === Number(best.price);
-                  return `<tr class="${isBest ? 'best' : ''}"><td>${MPS.escapeHtml(s.supermarket_name)}${isBest ? ' <span class="chip">最低</span>' : ''}</td><td class="price">${MPS.money(s.price)}</td></tr>`;
+                  const hasPrice = flat.price != null && !Number.isNaN(flat.price);
+                  const val = MPS.escapeHtml(storeRadioValue(flat));
+                  return `<tr class="${isBest ? 'best' : ''} pick-row">
+                    <td class="col-pick">
+                      <label class="pick-label">
+                        <input type="radio" name="pick-store" value="${val}"
+                          ${!hasPrice ? 'disabled' : ''}
+                          ${isBest && hasPrice ? 'checked' : ''} />
+                      </label>
+                    </td>
+                    <td>${MPS.escapeHtml(s.supermarket_name)}${isBest ? ' <span class="chip">最低</span>' : ''}</td>
+                    <td class="price">${MPS.money(s.price)}</td>
+                  </tr>`;
                 }).join('')}
               </tbody>
             </table>
           </details>`;
         }).join('');
+      body.querySelectorAll('input[name="pick-store"]').forEach((r) => {
+        r.addEventListener('change', updatePickHint);
+      });
+      // Ensure a default if best radio not present (edge)
+      if (best && !body.querySelector('input[name="pick-store"]:checked')) {
+        const first = body.querySelector('input[name="pick-store"]:not(:disabled)');
+        if (first) first.checked = true;
+      }
+      updatePickHint();
       MPS.fillFooter(meta, [`超市資料日期：${upd}`]);
     }
 
@@ -148,17 +198,24 @@
       const item = currentDetail.item || currentItem;
       const best = MPS.cheapestStore(currentDetail.groups);
       const stores = MPS.flattenStores(currentDetail.groups);
+      const pick = selectedStore();
+      const preferredStore = pick && pick.storeName ? pick.storeName : (best ? best.storeName : null);
+      const preferredPrice = pick && pick.price != null ? Number(pick.price)
+        : (best ? best.price : null);
       MPS.addToCart({
         id: item._id,
+        kind: 'supermarket',
         name: item.name_cn || item.name_zh,
         quantity: item.quantity_cn || '',
         code: item.code || '',
         updateDate: currentDetail.updateDate || '',
+        stores,
         bestPrice: best ? best.price : null,
         bestStore: best ? best.storeName : null,
-        stores
+        preferredStore,
+        preferredPrice
       });
-      alert('已加入清單');
+      alert('已加入清單（' + (preferredStore || '未選店') + ' · ' + MPS.money(preferredPrice) + '）');
     });
 
     document.getElementById('search-form').addEventListener('submit', (e) => {

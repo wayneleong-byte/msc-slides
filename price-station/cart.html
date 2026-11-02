@@ -11,7 +11,7 @@
     <div class="inner">
       <div>
         <h1>購物清單／最平店報表</h1>
-        <p>資料存於本機瀏覽器（localStorage）</p>
+        <p>資料存於本機瀏覽器（localStorage）；合計用已選店／街市價</p>
       </div>
     </div>
   </header>
@@ -24,7 +24,8 @@
   <main class="wrap">
     <div class="card">
       <div class="toolbar">
-        <a class="btn secondary" href="supermarket.html">繼續加貨</a>
+        <a class="btn secondary" href="supermarket.html">繼續加貨（超市）</a>
+        <a class="btn secondary" href="market.html">繼續加貨（街市）</a>
         <button type="button" class="secondary" id="btn-refresh">重新載入鏡像價</button>
         <button type="button" id="btn-one-store">一間店買齊</button>
         <button type="button" class="danger" id="btn-clear">清空清單</button>
@@ -34,7 +35,7 @@
     </div>
     <div class="card" id="one-store-card" hidden>
       <h2>一間店買齊（近似）</h2>
-      <p class="meta-line">喺「同時有價」嘅分店中揀總額最低；無鏡像價嘅貨會跳過。</p>
+      <p class="meta-line">只計超市貨；街市會跳過。喺「同時有價」嘅分店中揀總額最低。</p>
       <div id="one-store-body"></div>
     </div>
   </main>
@@ -43,57 +44,271 @@
   <script>
     let meta = null;
 
+    function uniqueStores(stores) {
+      const map = new Map();
+      (stores || []).forEach((s) => {
+        if (s.price == null || Number.isNaN(Number(s.price))) return;
+        const key = s.storeName;
+        if (!map.has(key) || Number(s.price) < Number(map.get(key).price)) {
+          map.set(key, s);
+        }
+      });
+      return Array.from(map.values()).sort((a, b) =>
+        Number(a.price) - Number(b.price) || a.storeName.localeCompare(b.storeName, 'zh-Hant'));
+    }
+
+    function storeSelectHtml(it) {
+      const stores = uniqueStores(it.stores);
+      const pref = it.preferredStore || it.bestStore || '';
+      if (!stores.length) return '<span class="badge muted">未有分店價</span>';
+      return `<select class="store-select" data-id="${MPS.escapeHtml(it.id)}" data-kind="supermarket" aria-label="改選分店">
+        ${stores.map((s) => {
+          const sel = s.storeName === pref ? 'selected' : '';
+          return `<option value="${MPS.escapeHtml(s.storeName)}" ${sel}>${MPS.escapeHtml(s.storeName)} · ${MPS.money(s.price)}</option>`;
+        }).join('')}
+      </select>`;
+    }
+
+    function marketSelectHtml(it) {
+      const period = it.period === 'week' ? 'week' : 'today';
+      const markets = (it.markets || []).filter((m) => {
+        const b = m[period] || {};
+        return b.priceCatty !== '' && b.priceCatty != null && !Number.isNaN(Number(b.priceCatty));
+      }).slice().sort((a, b) => {
+        const pa = Number((a[period] || {}).priceCatty);
+        const pb = Number((b[period] || {}).priceCatty);
+        return pa - pb || String(a.marketName).localeCompare(String(b.marketName), 'zh-Hant');
+      });
+      const prefTag = it.preferredMarketTag;
+      const prefName = it.preferredMarket || '';
+      if (!markets.length) return '<span class="badge muted">未有街市價</span>';
+      return `<select class="store-select" data-id="${MPS.escapeHtml(it.id)}" data-kind="market" aria-label="改選街市">
+        ${markets.map((m) => {
+          const block = m[period] || {};
+          const sel = (prefTag && String(m.marketTag) === String(prefTag)) ||
+            (!prefTag && m.marketName === prefName) ? 'selected' : '';
+          return `<option value="${MPS.escapeHtml(m.marketTag)}" ${sel}>${MPS.escapeHtml(m.marketName)} · 司馬斤 ${MPS.money(block.priceCatty)}</option>`;
+        }).join('')}
+      </select>`;
+    }
+
+    function bindSelects(ul) {
+      ul.querySelectorAll('select.store-select').forEach((sel) => {
+        sel.addEventListener('change', () => {
+          const id = sel.getAttribute('data-id');
+          const kind = sel.getAttribute('data-kind');
+          const cart = MPS.getCart();
+          const idx = cart.findIndex((x) => String(x.id) === String(id));
+          if (idx < 0) return;
+          const it = cart[idx];
+          if (kind === 'market') {
+            const period = it.period === 'week' ? 'week' : 'today';
+            const m = (it.markets || []).find((x) => String(x.marketTag) === String(sel.value));
+            if (!m) return;
+            const block = m[period] || {};
+            cart[idx] = Object.assign({}, it, {
+              preferredMarket: m.marketName,
+              preferredMarketTag: m.marketTag,
+              preferredPriceCatty: Number(block.priceCatty),
+              preferredPriceKg: block.priceKg === '' || block.priceKg == null ? null : Number(block.priceKg)
+            });
+          } else {
+            const s = uniqueStores(it.stores).find((x) => x.storeName === sel.value);
+            if (!s) return;
+            cart[idx] = Object.assign({}, it, {
+              preferredStore: s.storeName,
+              preferredPrice: Number(s.price)
+            });
+          }
+          MPS.saveCart(cart);
+          render();
+        });
+      });
+    }
+
     function render() {
       const cart = MPS.getCart();
       const ul = document.getElementById('cart-list');
       const summary = document.getElementById('summary');
       if (!cart.length) {
-        ul.innerHTML = '<li class="empty">清單係空嘅。去超市搜「牛奶」加入示範貨品。</li>';
+        ul.innerHTML = '<li class="empty">清單係空嘅。去超市或街市加入貨品。</li>';
         summary.innerHTML = '';
         document.getElementById('one-store-card').hidden = true;
         return;
       }
+      let sumPreferred = 0;
       let sumBest = 0;
-      let nPriced = 0;
+      let nPref = 0;
+      let nBest = 0;
+      let nMarket = 0;
+      let nSuper = 0;
+
       ul.innerHTML = cart.map((it) => {
-        if (it.bestPrice != null) { sumBest += Number(it.bestPrice); nPriced += 1; }
+        const market = MPS.isMarketItem(it);
+        const pref = MPS.preferredLinePrice(it);
+        const best = MPS.bestPriceOfItem(it);
+        if (pref != null) { sumPreferred += pref; nPref += 1; }
+        if (best != null) { sumBest += best; nBest += 1; }
+        if (market) nMarket += 1; else nSuper += 1;
+
+        if (market) {
+          const periodLabel = it.period === 'week' ? '本週' : '今日';
+          return `<li>
+            <div style="flex:1;min-width:180px">
+              <div class="title">
+                <span class="kind-badge market">街市</span>
+                ${MPS.escapeHtml(it.name || '')}
+              </div>
+              <div class="qty">
+                ${MPS.escapeHtml(it.categoryName || '')}
+                · <span class="badge">${periodLabel}</span>
+                <br>已選：${MPS.escapeHtml(it.preferredMarket || '—')}
+                ${it.preferredPriceKg != null ? ' · 公斤 ' + MPS.money(it.preferredPriceKg) : ''}
+              </div>
+              <div class="select-row">${marketSelectHtml(it)}</div>
+            </div>
+            <div style="text-align:right">
+              <div class="price best">${pref != null ? MPS.money(pref) : '—'}</div>
+              <div class="qty">／司馬斤</div>
+              <button type="button" class="secondary" data-rm="${MPS.escapeHtml(it.id)}" style="margin-top:6px">移除</button>
+            </div>
+          </li>`;
+        }
+
         return `<li>
-          <div>
-            <div class="title">${MPS.escapeHtml(it.name || '')}</div>
+          <div style="flex:1;min-width:180px">
+            <div class="title">
+              <span class="kind-badge supermarket">超市</span>
+              ${MPS.escapeHtml(it.name || '')}
+            </div>
             <div class="qty">${MPS.escapeHtml(it.quantity || '')}
               ${it.updateDate ? ' · 資料日 ' + MPS.escapeHtml(it.updateDate) : ''}
-              ${it.bestStore ? '<br>最平：' + MPS.escapeHtml(it.bestStore) : '<br><span class="badge muted">未有分店價</span>'}
+              <br>已選：${MPS.escapeHtml(it.preferredStore || it.bestStore || '—')}
+              ${it.bestStore && it.preferredStore && it.preferredStore !== it.bestStore
+                ? ' <span class="badge muted">參考最平 ' + MPS.escapeHtml(it.bestStore) + ' ' + MPS.money(it.bestPrice) + '</span>'
+                : ''}
             </div>
+            <div class="select-row">${storeSelectHtml(it)}</div>
           </div>
           <div style="text-align:right">
-            <div class="price best">${it.bestPrice != null ? MPS.money(it.bestPrice) : '—'}</div>
+            <div class="price best">${pref != null ? MPS.money(pref) : '—'}</div>
             <button type="button" class="secondary" data-rm="${MPS.escapeHtml(it.id)}" style="margin-top:6px">移除</button>
           </div>
         </li>`;
       }).join('');
+
       ul.querySelectorAll('button[data-rm]').forEach((b) => {
         b.addEventListener('click', () => { MPS.removeFromCart(b.getAttribute('data-rm')); render(); });
       });
+      bindSelects(ul);
+
       summary.innerHTML = `
-        <div>貨品數</div><div>${cart.length}</div>
-        <div>有價貨品最平合計</div><div class="price best">${MPS.money(sumBest)}（${nPriced} 品）</div>
-        <div>說明</div><div>合計係「每品各自最平店」相加，可能跨店。</div>`;
+        <div>貨品數</div><div>${cart.length}（超市 ${nSuper} · 街市 ${nMarket}）</div>
+        <div>已選店／街市合計</div><div class="price best">${MPS.money(sumPreferred)}（${nPref} 品${nMarket ? '；街市以司馬斤計' : ''}）</div>
+        <div>若全選最平（參考）</div><div>${MPS.money(sumBest)}（${nBest} 品）</div>
+        <div>說明</div><div>合計用各品「已選」價；街市單位為司馬斤，唔入「一間店買齊」。</div>`;
+    }
+
+    function marketDetailPath(it) {
+      if (it.detailFile) return 'data/market/' + it.detailFile;
+      const tag = it.tag || '';
+      const name = it.name || '';
+      if (tag && name) return 'data/market/detail_' + tag + '_' + name + '.json';
+      return null;
     }
 
     async function refreshPrices() {
       const cart = MPS.getCart();
       const next = [];
       for (const it of cart) {
+        if (MPS.isMarketItem(it)) {
+          const path = marketDetailPath(it);
+          if (!path) { next.push(it); continue; }
+          try {
+            const detail = await MPS.loadJSON(path);
+            const period = it.period === 'week' ? 'week' : 'today';
+            const markets = (detail.markets || []).map((m) => ({
+              marketTag: m.marketTag,
+              marketName: m.marketName,
+              today: m.today ? { priceCatty: m.today.priceCatty, priceKg: m.today.priceKg } : null,
+              week: m.week ? { priceCatty: m.week.priceCatty, priceKg: m.week.priceKg } : null
+            }));
+            let preferredMarket = it.preferredMarket;
+            let preferredMarketTag = it.preferredMarketTag;
+            let preferredPriceCatty = it.preferredPriceCatty;
+            let preferredPriceKg = it.preferredPriceKg;
+            const still = markets.find((m) =>
+              (preferredMarketTag && String(m.marketTag) === String(preferredMarketTag)) ||
+              (preferredMarket && m.marketName === preferredMarket)
+            );
+            const block = still ? (still[period] || {}) : null;
+            const stillOk = block && block.priceCatty !== '' && block.priceCatty != null;
+            if (stillOk) {
+              preferredMarket = still.marketName;
+              preferredMarketTag = still.marketTag;
+              preferredPriceCatty = Number(block.priceCatty);
+              preferredPriceKg = block.priceKg === '' || block.priceKg == null ? null : Number(block.priceKg);
+            } else {
+              const priced = markets.map((m) => {
+                const b = m[period] || {};
+                const empty = b.priceCatty === '' || b.priceCatty == null;
+                return { m, empty, num: empty ? Infinity : Number(b.priceCatty), b };
+              }).filter((r) => !r.empty).sort((a, b) => a.num - b.num);
+              if (priced.length) {
+                preferredMarket = priced[0].m.marketName;
+                preferredMarketTag = priced[0].m.marketTag;
+                preferredPriceCatty = priced[0].num;
+                preferredPriceKg = priced[0].b.priceKg === '' || priced[0].b.priceKg == null
+                  ? null : Number(priced[0].b.priceKg);
+              }
+            }
+            next.push(Object.assign({}, it, {
+              name: detail.itemName || it.name,
+              categoryName: detail.categoryName || it.categoryName,
+              tag: detail.tag || it.tag,
+              markets,
+              preferredMarket,
+              preferredMarketTag,
+              preferredPriceCatty,
+              preferredPriceKg,
+              todayUpdated: detail.todayUpdated || it.todayUpdated,
+              weekUpdated: detail.weekUpdated || it.weekUpdated,
+              detailFile: it.detailFile || path.split('/').pop()
+            }));
+          } catch (_) {
+            next.push(it);
+          }
+          continue;
+        }
+
         try {
           const detail = await MPS.loadJSON('data/items/' + it.id + '.json');
           const best = MPS.cheapestStore(detail.groups);
+          const stores = MPS.flattenStores(detail.groups);
+          let preferredStore = it.preferredStore || null;
+          let preferredPrice = it.preferredPrice != null ? Number(it.preferredPrice) : null;
+          const still = stores.find((s) =>
+            preferredStore && s.storeName === preferredStore && s.price != null);
+          if (still) {
+            preferredStore = still.storeName;
+            preferredPrice = Number(still.price);
+          } else if (best) {
+            preferredStore = best.storeName;
+            preferredPrice = best.price;
+          } else {
+            preferredStore = null;
+            preferredPrice = null;
+          }
           next.push(Object.assign({}, it, {
+            kind: 'supermarket',
             name: (detail.item && detail.item.name_cn) || it.name,
             quantity: (detail.item && detail.item.quantity_cn) || it.quantity,
             updateDate: detail.updateDate || it.updateDate,
             bestPrice: best ? best.price : null,
             bestStore: best ? best.storeName : null,
-            stores: MPS.flattenStores(detail.groups)
+            stores,
+            preferredStore,
+            preferredPrice
           }));
         } catch (_) {
           next.push(it);
@@ -113,17 +328,22 @@
       const card = document.getElementById('one-store-card');
       const body = document.getElementById('one-store-body');
       card.hidden = false;
+      const marketNote = (r.marketSkipped && r.marketSkipped.length)
+        ? `<div class="notice info">已跳過街市 ${r.marketSkipped.length} 品：${r.marketSkipped.map((s) => MPS.escapeHtml(s.name || s.id)).join('、')}</div>`
+        : '';
       if (!r.storeName) {
-        body.innerHTML = '<p class="empty">冇足夠分店價可計。</p>';
+        body.innerHTML = '<p class="empty">冇足夠超市分店價可計。</p>' + marketNote;
         return;
       }
+      const otherSkipped = (r.skipped || []).filter((s) => !MPS.isMarketItem(s));
       body.innerHTML = `
         <p><strong>${MPS.escapeHtml(r.storeName)}</strong>
           ${r.partial ? '<span class="badge">部分貨品</span>' : '<span class="badge ok">齊貨</span>'}
           · 總額 <span class="price best">${MPS.money(r.total)}</span></p>
         <table class="store-table"><thead><tr><th>貨品</th><th>該店價</th></tr></thead>
         <tbody>${r.lines.map((l) => `<tr><td>${MPS.escapeHtml(l.name)}</td><td class="price">${MPS.money(l.price)}</td></tr>`).join('')}</tbody></table>
-        ${r.skipped.length ? `<div class="notice">已跳過無價／未鏡像：${r.skipped.map((s) => MPS.escapeHtml(s.name || s.id)).join('、')}</div>` : ''}
+        ${otherSkipped.length ? `<div class="notice">已跳過無價／未鏡像超市貨：${otherSkipped.map((s) => MPS.escapeHtml(s.name || s.id)).join('、')}</div>` : ''}
+        ${marketNote}
       `;
     });
 

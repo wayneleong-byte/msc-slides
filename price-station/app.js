@@ -85,14 +85,61 @@
     return stores[0];
   }
 
-  /** One-store checkout: among stores that have price for every priced item, pick lowest sum.
-   *  Items without mirror prices are skipped and listed in skipped. */
-  function bestSingleStore(cartItems) {
-    const priced = (cartItems || []).filter((c) => Array.isArray(c.stores) && c.stores.some((s) => s.price != null));
-    const skipped = (cartItems || []).filter((c) => !priced.includes(c));
-    if (!priced.length) return { storeName: null, total: null, lines: [], skipped, missingCoverage: [] };
+  function isMarketItem(it) {
+    if (!it) return false;
+    if (it.kind === 'market') return true;
+    return String(it.id || '').indexOf('market:') === 0;
+  }
 
-    const storeMap = new Map(); // storeName -> { total, lines, count }
+  /** Line price used for cart totals: preferred first, then best, then null. */
+  function preferredLinePrice(it) {
+    if (!it) return null;
+    if (isMarketItem(it)) {
+      const n = it.preferredPriceCatty;
+      if (n != null && n !== '' && !Number.isNaN(Number(n))) return Number(n);
+      return null;
+    }
+    if (it.preferredPrice != null && it.preferredPrice !== '' && !Number.isNaN(Number(it.preferredPrice))) {
+      return Number(it.preferredPrice);
+    }
+    if (it.bestPrice != null && it.bestPrice !== '' && !Number.isNaN(Number(it.bestPrice))) {
+      return Number(it.bestPrice);
+    }
+    return null;
+  }
+
+  function bestPriceOfItem(it) {
+    if (!it) return null;
+    if (isMarketItem(it)) {
+      const period = it.period === 'week' ? 'week' : 'today';
+      let min = null;
+      (it.markets || []).forEach((m) => {
+        const block = m[period] || {};
+        const c = block.priceCatty;
+        if (c === '' || c == null || Number.isNaN(Number(c))) return;
+        const n = Number(c);
+        if (min == null || n < min) min = n;
+      });
+      return min;
+    }
+    if (it.bestPrice != null && !Number.isNaN(Number(it.bestPrice))) return Number(it.bestPrice);
+    const stores = (it.stores || []).filter((s) => s.price != null && !Number.isNaN(s.price));
+    if (!stores.length) return null;
+    return Math.min.apply(null, stores.map((s) => Number(s.price)));
+  }
+
+  /** One-store checkout: supermarket items only (market skipped). */
+  function bestSingleStore(cartItems) {
+    const all = cartItems || [];
+    const marketSkipped = all.filter(isMarketItem);
+    const supermarket = all.filter((c) => !isMarketItem(c));
+    const priced = supermarket.filter((c) => Array.isArray(c.stores) && c.stores.some((s) => s.price != null));
+    const skipped = supermarket.filter((c) => !priced.includes(c)).concat(marketSkipped);
+    if (!priced.length) {
+      return { storeName: null, total: null, lines: [], skipped, missingCoverage: [], marketSkipped };
+    }
+
+    const storeMap = new Map();
     priced.forEach((item) => {
       const seen = new Set();
       (item.stores || []).forEach((s) => {
@@ -118,6 +165,7 @@
       total: best ? best.total : null,
       lines: best ? best.lines : [],
       skipped,
+      marketSkipped,
       missingCoverage: full.length ? [] : priced.filter((p) => !best || !best.lines.some((l) => String(l.id) === String(p.id))),
       partial: !full.length && !!best
     };
@@ -163,7 +211,7 @@
   global.MPS = {
     IMG, CART_KEY, $, $all, loadJSON, money, getCart, saveCart, addToCart, removeFromCart,
     clearCart, updateCartBadge, flattenStores, cheapestStore, bestSingleStore, loadMeta,
-    fillFooter, markActiveNav, escapeHtml
+    fillFooter, markActiveNav, escapeHtml, isMarketItem, preferredLinePrice, bestPriceOfItem
   };
 
   document.addEventListener('DOMContentLoaded', () => {

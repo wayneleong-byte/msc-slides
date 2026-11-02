@@ -11,7 +11,7 @@
     <div class="inner">
       <div>
         <h1>街市物價情報站</h1>
-        <p>當日／本週 · 分街市價（鏡像）</p>
+        <p>當日／本週 · 分街市價 · 可加入清單</p>
       </div>
     </div>
   </header>
@@ -32,9 +32,12 @@
       <div class="toolbar">
         <button type="button" id="btn-today" class="">今日</button>
         <button type="button" id="btn-week" class="secondary">本週</button>
+        <button type="button" id="btn-add-market">加入清單</button>
+        <a class="btn secondary" href="cart.html">去清單</a>
       </div>
+      <p class="meta-line" id="pick-hint"></p>
       <table class="store-table" id="m-table">
-        <thead><tr><th>街市</th><th>司馬斤</th><th>公斤</th></tr></thead>
+        <thead><tr><th class="col-pick">選</th><th>街市</th><th>司馬斤</th><th>公斤</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -44,32 +47,105 @@
   <script>
     let period = 'today';
     let detail = null;
+    let detailFile = null;
     let meta = null;
+
+    function pricedRows() {
+      return (detail.markets || []).map((m) => {
+        const block = m[period] || {};
+        const catty = block.priceCatty;
+        const kg = block.priceKg;
+        const empty = catty === '' || catty == null || Number.isNaN(Number(catty));
+        return { m, catty, kg, empty, num: empty ? Infinity : Number(catty) };
+      });
+    }
+
+    function selectedMarket() {
+      const el = document.querySelector('input[name="pick-market"]:checked');
+      if (!el || !detail) return null;
+      const tag = el.value;
+      return (detail.markets || []).find((m) => String(m.marketTag) === String(tag)) || null;
+    }
+
+    function updatePickHint() {
+      const hint = document.getElementById('pick-hint');
+      if (!detail) { hint.textContent = ''; return; }
+      const pick = selectedMarket();
+      if (!pick) {
+        hint.textContent = '請先選有價嘅街市再加入清單。';
+        return;
+      }
+      const block = pick[period] || {};
+      const catty = block.priceCatty;
+      const empty = catty === '' || catty == null;
+      const rows = pricedRows();
+      const min = Math.min.apply(null, rows.filter((r) => !r.empty).map((r) => r.num).concat([Infinity]));
+      const isBest = !empty && Number(catty) === min;
+      hint.innerHTML = '將加入（' + (period === 'week' ? '本週' : '今日') + '）：<strong>' +
+        MPS.escapeHtml(pick.marketName) + '</strong> · 司馬斤 <span class="price">' +
+        (empty ? '—' : MPS.money(catty)) + '</span>' +
+        (isBest ? ' <span class="chip">即係最低</span>' : ' <span class="badge muted">非最低</span>');
+    }
 
     function renderTable() {
       if (!detail) return;
       const tbody = document.querySelector('#m-table tbody');
-      const rows = (detail.markets || []).map((m) => {
-        const block = m[period] || {};
-        const catty = block.priceCatty;
-        const kg = block.priceKg;
-        const empty = catty === '' || catty == null;
-        return { m, catty, kg, empty, num: empty ? Infinity : Number(catty) };
-      });
-      const min = Math.min(...rows.filter((r) => !r.empty).map((r) => r.num));
+      const rows = pricedRows();
+      const priced = rows.filter((r) => !r.empty);
+      const min = priced.length ? Math.min.apply(null, priced.map((r) => r.num)) : null;
+      const prev = document.querySelector('input[name="pick-market"]:checked');
+      const prevTag = prev ? prev.value : null;
       tbody.innerHTML = rows.map((r) => {
         const best = !r.empty && r.num === min;
-        return `<tr class="${best ? 'best' : ''}">
+        const tag = String(r.m.marketTag || '');
+        const check = (!r.empty && ((prevTag && prevTag === tag) || (!prevTag && best))) ? 'checked' : '';
+        return `<tr class="${best ? 'best' : ''} pick-row">
+          <td class="col-pick">
+            <label class="pick-label">
+              <input type="radio" name="pick-market" value="${MPS.escapeHtml(tag)}"
+                ${r.empty ? 'disabled' : ''} ${check} />
+            </label>
+          </td>
           <td>${MPS.escapeHtml(r.m.marketName)}${best ? ' <span class="chip">最低</span>' : ''}</td>
           <td class="price">${r.empty ? '—' : MPS.money(r.catty)}</td>
           <td class="price">${r.empty ? '—' : MPS.money(r.kg)}</td>
         </tr>`;
       }).join('');
+      if (!tbody.querySelector('input[name="pick-market"]:checked')) {
+        const first = tbody.querySelector('input[name="pick-market"]:not(:disabled)');
+        if (first) first.checked = true;
+      }
+      tbody.querySelectorAll('input[name="pick-market"]').forEach((r) => {
+        r.addEventListener('change', updatePickHint);
+      });
       document.getElementById('btn-today').className = period === 'today' ? '' : 'secondary';
       document.getElementById('btn-week').className = period === 'week' ? '' : 'secondary';
+      updatePickHint();
+    }
+
+    function marketCartId() {
+      const tag = (detail && (detail.tag || detail.categoryName)) || 'unknown';
+      const name = (detail && detail.itemName) || '';
+      return 'market:' + tag + ':' + name;
+    }
+
+    function marketsSnapshot() {
+      return (detail.markets || []).map((m) => ({
+        marketTag: m.marketTag,
+        marketName: m.marketName,
+        today: m.today ? {
+          priceCatty: m.today.priceCatty,
+          priceKg: m.today.priceKg
+        } : null,
+        week: m.week ? {
+          priceCatty: m.week.priceCatty,
+          priceKg: m.week.priceKg
+        } : null
+      }));
     }
 
     async function openDetail(file) {
+      detailFile = file;
       detail = await MPS.loadJSON('data/market/' + file);
       document.getElementById('detail').hidden = false;
       document.getElementById('m-title').textContent =
@@ -84,6 +160,39 @@
 
     document.getElementById('btn-today').addEventListener('click', () => { period = 'today'; renderTable(); });
     document.getElementById('btn-week').addEventListener('click', () => { period = 'week'; renderTable(); });
+
+    document.getElementById('btn-add-market').addEventListener('click', () => {
+      if (!detail) return;
+      const pick = selectedMarket();
+      if (!pick) {
+        alert('請先選有價嘅街市');
+        return;
+      }
+      const block = pick[period] || {};
+      const catty = block.priceCatty;
+      const kg = block.priceKg;
+      if (catty === '' || catty == null) {
+        alert('所選街市呢個時段冇價');
+        return;
+      }
+      MPS.addToCart({
+        id: marketCartId(),
+        kind: 'market',
+        name: detail.itemName || '',
+        categoryName: detail.categoryName || '',
+        tag: detail.tag || '',
+        detailFile: detailFile || '',
+        period: period,
+        preferredMarket: pick.marketName,
+        preferredMarketTag: pick.marketTag,
+        preferredPriceCatty: Number(catty),
+        preferredPriceKg: kg === '' || kg == null ? null : Number(kg),
+        markets: marketsSnapshot(),
+        todayUpdated: detail.todayUpdated || '',
+        weekUpdated: detail.weekUpdated || ''
+      });
+      alert('已加入清單（' + pick.marketName + ' · 司馬斤 ' + MPS.money(catty) + '）');
+    });
 
     Promise.all([MPS.loadJSON('data/market/catalog.json'), MPS.loadMeta()]).then(([cat, m]) => {
       meta = m;

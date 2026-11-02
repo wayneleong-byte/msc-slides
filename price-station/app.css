@@ -138,3 +138,21 @@ button.danger { background: #c4574a; }
   .site-header h1 { font-size: 1.15rem; }
   .tiles { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Pick radios / cart selects / kind badges */
+.col-pick { width: 2.4rem; text-align: center; }
+.pick-label { display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.pick-label input { width: 1.05rem; height: 1.05rem; accent-color: var(--green-dark); cursor: pointer; }
+.pick-row td { vertical-align: middle; }
+.store-select {
+  margin-top: 6px; max-width: 100%; min-width: 160px;
+  padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line);
+  font-family: inherit; font-size: 0.88rem; background: #fff; color: var(--ink);
+}
+.select-row { margin-top: 4px; }
+.kind-badge {
+  display: inline-block; font-size: 0.72rem; padding: 1px 7px; border-radius: 999px;
+  font-weight: 700; margin-right: 6px; vertical-align: middle;
+}
+.kind-badge.supermarket { background: var(--green-soft); color: var(--green-dark); }
+.kind-badge.market { background: var(--blue-soft); color: #2a5a8a; }
