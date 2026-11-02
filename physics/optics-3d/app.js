@@ -133,7 +133,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.08;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0b1016);
+scene.background = new THREE.Color(0xe8e9ec); // atlas-aligned stage
 
 const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 500);
 camera.position.set(10, 11, 30);
@@ -147,13 +147,13 @@ controls.maxDistance = 120;
 controls.target.set(0, 0, 0);
 /* 拖曳相機只改變檢視方位，不觸碰任何物理量 */
 
-scene.add(new THREE.HemisphereLight(0xa9c9ff, 0x1a2230, 0.85));
+scene.add(new THREE.HemisphereLight(0xffffff, 0xc8ccd2, 0.95));
 const dirLight = new THREE.DirectionalLight(0xffffff, 1.55);
 dirLight.position.set(16, 28, 20);
 scene.add(dirLight);
 
 /* 低處參考格線：只作空間感，不參與任何光路 */
-const grid = new THREE.GridHelper(90, 45, 0x223041, 0x17202b);
+const grid = new THREE.GridHelper(90, 45, 0xb8bcc4, 0xd0d3d8);
 grid.position.y = -11.5;
 grid.material.transparent = true;
 grid.material.opacity = 0.42;

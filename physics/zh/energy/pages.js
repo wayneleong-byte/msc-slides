@@ -226,7 +226,7 @@ export const PLATES = {
     facts: s => { const r = M.pull(s.pull.t); return [['F cos θ (along Δx)', `${f(M.PULL.Fx)} N`], ['F sin θ (across)', `${f(M.PULL.Fy)} N, no work`], ['Δx', `${f(r.x)} m`], ['W = F Δx cos θ', `${f(r.W)} J`], ['K = ½mv²', `${f(r.K)} J`]]; } },
   toss: {
     title: '豎直上拋的小球', sub: '重力先取走能量，再把它送回', text: `留意重力與速度之間的夾角。上升時兩者方向相反（180°）：重力做的功為負，K 棒縮短。下降時兩者同向（0°）：功為正，K 重新增大。在每一瞬間，K = K<sub>0</sub> + W<sub>g</sub>。`,
-    facts: s => { const r = M.toss(s.toss.t); return [['height', `${f(r.y)} m`], ['velocity', `${f(r.v)} m/s`], ['W by gravity so far', `${f(r.Wg)} J`], ['K = K₀ + W_g', `${f(M.toss(0).K)} + (${f(r.Wg)}) = ${f(r.K)} J`]]; } },
+    facts: s => { const r = M.toss(s.toss.t); return [['高度', `${f(r.y)} m`], ['velocity', `${f(r.v)} m/s`], ['W by gravity so far', `${f(r.Wg)} J`], ['K = K₀ + W_g', `${f(M.toss(0).K)} + (${f(r.Wg)}) = ${f(r.K)} J`]]; } },
   whirl: {
     title: '繩上的小球', sub: '拉力恆與運動方向垂直', text: `圖中為較早的幾個時刻，彼此相隔四分之一圈：每一時刻，張力（指向釘）與速度（沿圓周方向）都相交成90°。在任一小步中，位移沿 <b>v</b> 方向，所以 T·Δx·cos90° = 0。重力與桌面的承托力都是豎直方向，同樣不做功。`,
     facts: () => [['tension T', `${f(M.WHIRL.T)} N`], ['angle between T and v', '90°'], ['work by T', '0 J'], ['speed', `${f(M.WHIRL.v)} m/s, constant`], ['K', `${f(M.WHIRL.K)} J, constant`]] },
@@ -234,8 +234,8 @@ export const PLATES = {
     title: '加速中的汽車', sub: '輸入淨功，轉化為動能', text: `重力與法向力都是豎直方向，與運動方向成90°角，因此不做功，可以擱在一邊。沿 Δx 方向唯一的力是路面的推力，而它同時也是淨力（紅色）。它做的功 F·Δx 就是動能的全部變化。`,
     facts: s => { const r = M.car(s.car.t); return [['F (road, forward)', `${f(M.CAR.F / 1000)} kN`], ['Δx', `${f(r.x)} m`], ['W_net = F Δx', `${f(r.Wnet / 1000)} kJ`], ['v', `${f(r.v)} m/s`], ['K = ½mv²', `${f(r.K / 1000)} kJ`]]; } },
   drop: {
-    title: '下落的小球', sub: '高度轉化為速率', text: `把零點移高至 ${f(M.DROP.ref2,1)} m，每一個 U<sub>g</sub> 值都減少了 mg×${f(M.DROP.ref2,1)} = ${f(M.DROP.mBASELI.mdLICENSEREADME-MACAU.mdREADME.mdatlas.cssbaseli.htmlenengineequationsimgindex-junior.htmlindex-senior.htmlindex.htmlpackage-lock.jsonpackage.jsontoolsvercel.jsonzhM.GBASELI.mdLICENSEREADME-MACAU.mdREADME.mdatlas.cssbaseli.htmlenengineequationsimgindex-junior.htmlindex-senior.htmlindex.htmlpackage-lock.jsonpackage.jsontoolsvercel.jsonzhM.DROP.ref2)} J。在新零點以下，U<sub>g</sub> 為負值。但在下落過程中，U<sub>g</sub> 的<i>變化</i>保持不變，因此所預測的速率也一樣。選取令計算最簡便的零點即可。`,
-    facts: s => { const r = M.drop(s.drop.t), m = M.DROP.m * M.G; return [['height', `${f(r.y)} m`], ['U_g, zero at ground', `${f(r.U)} J`], [`U_g, zero at ${f(M.DROP.ref2, 1)} m`, `${f(m * (r.y - M.DROP.ref2))} J`], ['ΔU_g since release', `${f(r.U - M.DROP.E)} J either way`], ['K', `${f(r.K)} J`]]; } },
+    title: '下落的小球', sub: '高度轉化為速率', text: `把零點移高至 ${f(M.DROP.ref2,1)} m，每一個 U<sub>g</sub> 值都減少了 mg×${f(M.DROP.ref2,1)} = ${f(M.DROP.m * M.G * M.DROP.ref2)} J。在新零點以下，U<sub>g</sub> 為負值。但在下落過程中，U<sub>g</sub> 的<i>變化</i>保持不變，因此所預測的速率也一樣。選取令計算最簡便的零點即可。`,
+    facts: s => { const r = M.drop(s.drop.t), m = M.DROP.m * M.G; return [['高度', `${f(r.y)} m`], ['U_g，零點在地面', `${f(r.U)} J`], [`U_g，零點在 ${f(M.DROP.ref2, 1)} m`, `${f(m * (r.y - M.DROP.ref2))} J`], ['自釋放起 ΔU_g', `${f(r.U - M.DROP.E)} J（兩種零點皆然）`], ['動能 K', `${f(r.K)} J`]]; } },
   spring: {
     title: '木塊與彈簧', sub: '動能先被儲存，其後歸還', text: `灰色箭號表示壓縮量 Δx，由彈簧的原長起量度。彈簧力 F<sub>s</sub> = −kΔx 指向相反方向。木塊減速時，其 K 棒的能量逐漸流入 U<sub>s</sub> 棒；壓縮至最大時，全部變成 U<sub>s</sub>。總能量永不改變。`,
     facts: s => { const r = M.spring(s.spring.t); return [['compression Δx', `${f(r.x, 3)} m`], ['F_s = −kΔx', `${f(r.F)} N`], ['U_s = ½kΔx²', `${f(r.U)} J`], ['K = ½mv²', `${f(r.K)} J`], ['K + U_s', `${f(r.K + r.U)} J`]]; } },
@@ -246,14 +246,14 @@ export const PLATES = {
     title: '波形導線上的珠子', sub: '力等於 U 斜率的負值', text: `虛線是導線的切線。重力分解為沿導線的分量 mg sinθ，以及垂直於導線的分量，後者由導線的承托力抵消。由於 U = mgh，而沿導線 dh/dx = sinθ，沿線方向的分量正好是 −dU/dx。在谷底與峰頂處切線成水平：沒有沿線的力，處於平衡。`,
     facts: s => { const r = M.bead(s.bead.t); return [['x along the wire', `${f(r.x)} m`], ['U = mgh', `${f(r.U)} J`], ['dU/dx (slope)', `${f(r.slope)} J/m`], ['F = −dU/dx', `${f(r.F)} N`], ['K + U', `${f(r.K + r.U, 3)} J`]]; } },
   bond: {
-    title: '兩個原子與其鍵', sub: '勢阱中的粒子', text: `鍵採用 Lennard-Jones（蘭納–瓊斯）模型，U = ε[(r<sub>0</sub>/r)¹²−2(r<sub>0</sub>/r)⁶]，其中 r<sub>0</sub> = ${f(M.BOND.r0BASELI.mdLICENSEREADME-MACAU.mdREADME.mdatlas.cssbaseli.htmlenengineequationsimgindex-junior.htmlindex-senior.htmlindex.htmlpackage-lock.jsonpackage.jsontoolsvercel.jsonzh1e9)} nm；重的原子幾乎不動。殘影標出轉向點，該處 U = E，原子靜止。藍色虛線拋物線為 ½k(r−r<sub>0</sub>)²，其中 k = U″(r<sub>0</sub>) = ${f(M.BOND.k,0)} N/m：它與勢阱底部吻合，這正是小振動呈簡諧運動、且 ω² = U″/m 的原因。在較高處，真實的勢阱並不對稱：阱的內側陡峭、外側平緩，所以這次振盪較慢，而且在拉伸的一段停留較久。`,
-    facts: s => { const r = M.bond(s.bond.t); return [['r', `${f(r.r * 1e9, 4)} nm`], ['U', `${f(r.U / M.EV, 3)} eV`], ['K = E − U', `${f(r.K / M.EV, 3)} eV`], ['F = −dU/dr', `${f(r.F * 1e9)} nN`], ['k = U″(r₀)', `${f(M.BOND.k, 0)} N/m`], ['T small / this swing', `${f(2 * Math.PI / M.BOND.w * 1e15)} / ${f(M.BOND.period * 1e15)} fs`]]; } },
+    title: '兩個原子與其鍵', sub: '勢阱中的粒子', text: `鍵採用 Lennard-Jones（蘭納–瓊斯）模型，U = ε[(r<sub>0</sub>/r)¹²−2(r<sub>0</sub>/r)⁶]，其中 r<sub>0</sub> = ${f(M.BOND.r0 * 1e9)} nm；重的原子幾乎不動。殘影標出轉向點，該處 U = E，原子靜止。藍色虛線拋物線為 ½k(r−r<sub>0</sub>)²，其中 k = U″(r<sub>0</sub>) = ${f(M.BOND.k,0)} N/m：它與勢阱底部吻合，這正是小振動呈簡諧運動、且 ω² = U″/m 的原因。在較高處，真實的勢阱並不對稱：阱的內側陡峭、外側平緩，所以這次振盪較慢，而且在拉伸的一段停留較久。`,
+    facts: s => { const r = M.bond(s.bond.t); return [['r', `${f(r.r * 1e9, 4)} nm`], ['U', `${f(r.U / M.EV, 3)} eV`], ['K = E − U', `${f(r.K / M.EV, 3)} eV`], ['F = −dU/dr', `${f(r.F * 1e9)} nN`], ['k = U″(r₀)', `${f(M.BOND.k, 0)} N/m`], ['小振動／今次週期', `${f(2 * Math.PI / M.BOND.w * 1e15)} / ${f(M.BOND.period * 1e15)} fs`]]; } },
   pendulum: {
     title: '單擺', sub: 'K 與 U 互相轉換，總和保持不變', text: `重力分解為沿路徑的 mg sinθ，以及沿繩方向的 mg cosθ。只有 mg sinθ 做功：上升時它使擺錘減速，下降時使其加快。張力與 mg cosθ 都與運動方向垂直，一點功也不做，因此 K + U<sub>g</sub> 保持不變。`,
-    facts: s => { const r = M.pendulum(s.pendulum.t); return [['angle θ', `${f(r.th * 180 / Math.PI, 1)}°`], ['mg sin θ (along path)', `${f(r.Ftan)} N`], ['tension T', `${f(r.T)} N, no work`], ['K', `${f(r.K)} J`], ['U_g', `${f(r.U)} J`], ['K + U_g', `${f(r.K + r.U)} J`]]; } },
+    facts: s => { const r = M.pendulum(s.pendulum.t); return [['angle θ', `${f(r.th * 180 / Math.PI, 1)}°`], ['mg sin θ (along path)', `${f(r.Ftan)} N`], ['tension T', `${f(r.T)} N, no work`], ['動能 K', `${f(r.K)} J`], ['U_g', `${f(r.U)} J`], ['K + U_g', `${f(r.K + r.U)} J`]]; } },
   slide: {
     title: '滑行至停止的木塊', sub: '摩擦力把 K 轉化為熱', text: `重力與法向力不做功，可擱在一邊。摩擦力是沿運動方向唯一的力，而且指向後方：θ = 180°，所以它做的功是 −f·Δx。這份負功正好等於失去的動能，並以熱的形式重現在木塊和地板之中。`,
-    facts: s => { const r = M.slide(s.slide.t); return [['friction f = μk mg', `${f(M.SLIDE.f)} N`], ['Δx', `${f(r.x)} m`], ['W_f = −f Δx', `${f(r.Wf)} J`], ['K', `${f(r.K)} J`], ['thermal energy', `${f(r.Eth)} J`], ['K + thermal', `${f(r.K + r.Eth)} J`]]; } },
+    facts: s => { const r = M.slide(s.slide.t); return [['friction f = μk mg', `${f(M.SLIDE.f)} N`], ['Δx', `${f(r.x)} m`], ['W_f = −f Δx', `${f(r.Wf)} J`], ['動能 K', `${f(r.K)} J`], ['thermal energy', `${f(r.Eth)} J`], ['K + thermal', `${f(r.K + r.Eth)} J`]]; } },
   lift: {
     title: '吊起貨箱', sub: '功相同，功率不同', text: `灰色箭號表示每個貨箱上升的 Δy。勻速上升時，繩的拉力等於重力，所以每條繩做功 W = mgΔy。上升高度相同，做功便相同；較快的貨箱用一半的時間到達，因此它的繩輸出的功率是兩倍。`,
     facts: s => { const a = M.lift(s.lift.t, M.LIFT.vFast), b = M.lift(s.lift.t, M.LIFT.vSlow); return [['T = mg', `${f(M.LIFT.W, 1)} N`], ['fast: work so far', `${f(a.W, 0)} J, P ${f(a.P, 0)} W`], ['slow: work so far', `${f(b.W, 0)} J, P ${f(b.P, 0)} W`], ['P = Fv (fast)', `${f(M.LIFT.W, 0)} × ${f(M.LIFT.vFast, 1)} = ${f(M.LIFT.Pfast, 0)} W`]]; } },

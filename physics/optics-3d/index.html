@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>光學3D實驗室｜六站完整</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css" />
   <script type="importmap">
     {
@@ -15,6 +18,15 @@
   </script>
 </head>
 <body>
+  <nav id="atlas-nav" aria-label="返回圖集">
+    <a href="../zh/">← 返回圖集</a>
+    <span class="sep">·</span>
+    <a href="../zh/index-junior.html">初中入口</a>
+    <span class="sep">·</span>
+    <a href="../zh/index-senior.html">高中入口</a>
+    <span class="sep">·</span>
+    <a href="../en/">English</a>
+  </nav>
   <!-- 頂部：標題與六站切換 -->
   <header id="topbar">
     <div id="brand">
@@ -30,7 +42,6 @@
         <p class="orig-note">本實驗室六站互動為<strong>澳門科學館展教／教育科技本地原創</strong>（幾何光學教學用）；禁 explode／零件拆解。上游 Atlas 其他章另見站內授權說明。</p>
       </div>
     </div>
-    <a href="../" style="font-size:0.85rem;color:inherit;opacity:0.75;text-decoration:none;align-self:center;white-space:nowrap;margin:0 12px">← 返回物理圖集</a>
     <nav id="station-tabs" role="tablist" aria-label="實驗站切換">
       <button class="tab active" type="button" role="tab" aria-selected="true" id="btn-shadow" data-station="shadow">站1：影子</button>
       <button class="tab" type="button" role="tab" aria-selected="false" id="btn-reflection" data-station="reflection">站2：反射</button>

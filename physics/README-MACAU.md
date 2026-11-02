@@ -41,6 +41,7 @@ python3 -m http.server 8765
 
 保留上游 MIT 與 Copyright (c) 2026 Nathan Liow。繁中文案、光學章與入口為本地新增。
 
+
 ## 光學3D實驗室（六站·本地原創）
 
 目錄：`optics-3d/`（Three.js CDN；與 `zh/optics` 2D 章並列）。公開建議：`…/physics/optics-3d/`。
