@@ -1,0 +1,151 @@
+{
+  "tag": "Vegetables",
+  "ccn": "新鮮食用蔬菜類",
+  "mirroredAt": "2026-11-02T21:42:09+08:00",
+  "items": [
+    {
+      "name": "冬瓜",
+      "namePt": "Abóbora gigante",
+      "lpaToday": "5",
+      "lpbToday": "8.3",
+      "lpaWeek": "5",
+      "lpbWeek": "8.3"
+    },
+    {
+      "name": "椰菜",
+      "namePt": "Repolho redondo",
+      "lpaToday": "6.7",
+      "lpbToday": "11",
+      "lpaWeek": "6.7",
+      "lpbWeek": "11"
+    },
+    {
+      "name": "洋葱",
+      "namePt": "Cebola",
+      "lpaToday": "8",
+      "lpbToday": "13.2",
+      "lpaWeek": "8",
+      "lpbWeek": "13.2"
+    },
+    {
+      "name": "生菜",
+      "namePt": "Alface",
+      "lpaToday": "9.5",
+      "lpbToday": "15.7",
+      "lpaWeek": "9.5",
+      "lpbWeek": "15.7"
+    },
+    {
+      "name": "番茄",
+      "namePt": "Tomate",
+      "lpaToday": "9.3",
+      "lpbToday": "15.4",
+      "lpaWeek": "9.3",
+      "lpbWeek": "15.4"
+    },
+    {
+      "name": "番薯",
+      "namePt": "Batata doce",
+      "lpaToday": "10",
+      "lpbToday": "16.5",
+      "lpaWeek": "10.1",
+      "lpbWeek": "16.7"
+    },
+    {
+      "name": "白菜",
+      "namePt": "Mostarda da China",
+      "lpaToday": "10",
+      "lpbToday": "16.5",
+      "lpaWeek": "10.6",
+      "lpbWeek": "17.6"
+    },
+    {
+      "name": "節瓜",
+      "namePt": "Camalenga pequena",
+      "lpaToday": "10",
+      "lpbToday": "16.5",
+      "lpaWeek": "10",
+      "lpbWeek": "16.5"
+    },
+    {
+      "name": "紅蘿蔔",
+      "namePt": "Cenoura",
+      "lpaToday": "8.6",
+      "lpbToday": "14.3",
+      "lpaWeek": "8.6",
+      "lpbWeek": "14.3"
+    },
+    {
+      "name": "芥蘭",
+      "namePt": "Mostarda branca",
+      "lpaToday": "11",
+      "lpbToday": "18.2",
+      "lpaWeek": "11",
+      "lpbWeek": "18.2"
+    },
+    {
+      "name": "莧菜",
+      "namePt": "Bredo",
+      "lpaToday": "10.5",
+      "lpbToday": "17.4",
+      "lpaWeek": "10.5",
+      "lpbWeek": "17.4"
+    },
+    {
+      "name": "菜心",
+      "namePt": "Couve chinesa de flor",
+      "lpaToday": "9.3",
+      "lpbToday": "15.4",
+      "lpaWeek": "9.3",
+      "lpbWeek": "15.4"
+    },
+    {
+      "name": "菠菜",
+      "namePt": "Espinafre",
+      "lpaToday": "15.5",
+      "lpbToday": "25.7",
+      "lpaWeek": "15.5",
+      "lpbWeek": "25.7"
+    },
+    {
+      "name": "蕹菜",
+      "namePt": "Hortaliça da água",
+      "lpaToday": "11",
+      "lpbToday": "18.2",
+      "lpaWeek": "10.8",
+      "lpbWeek": "17.9"
+    },
+    {
+      "name": "西洋菜",
+      "namePt": "Agrião da água",
+      "lpaToday": "12",
+      "lpbToday": "19.8",
+      "lpaWeek": "12",
+      "lpbWeek": "19.8"
+    },
+    {
+      "name": "西蘭花",
+      "namePt": "Brócolos",
+      "lpaToday": "11",
+      "lpbToday": "18.2",
+      "lpaWeek": "11",
+      "lpbWeek": "18.2"
+    },
+    {
+      "name": "青瓜",
+      "namePt": "Pepino",
+      "lpaToday": "8.6",
+      "lpbToday": "14.3",
+      "lpaWeek": "8.6",
+      "lpbWeek": "14.3"
+    },
+    {
+      "name": "馬鈴薯",
+      "namePt": "Batata",
+      "lpaToday": "8",
+      "lpbToday": "13.2",
+      "lpaWeek": "8",
+      "lpbWeek": "13.2"
+    }
+  ]
+}

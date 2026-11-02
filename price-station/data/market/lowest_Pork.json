@@ -1,0 +1,87 @@
+{
+  "tag": "Pork",
+  "ccn": "豬肉類",
+  "mirroredAt": "2026-11-02T21:41:51+08:00",
+  "items": [
+    {
+      "name": "半肥瘦",
+      "namePt": "Carne de porco com gordura",
+      "lpaToday": "39.5",
+      "lpbToday": "65.3",
+      "lpaWeek": "39.4",
+      "lpbWeek": "65.1"
+    },
+    {
+      "name": "排骨",
+      "namePt": "Entrecosto",
+      "lpaToday": "58.5",
+      "lpbToday": "96.7",
+      "lpaWeek": "58.5",
+      "lpbWeek": "96.7"
+    },
+    {
+      "name": "柳梅",
+      "namePt": "Lombinho",
+      "lpaToday": "55.5",
+      "lpbToday": "91.8",
+      "lpaWeek": "55.4",
+      "lpbWeek": "91.6"
+    },
+    {
+      "name": "瘦肉",
+      "namePt": "Carne magra",
+      "lpaToday": "46.9",
+      "lpbToday": "77.6",
+      "lpaWeek": "46.8",
+      "lpbWeek": "77.4"
+    },
+    {
+      "name": "豬𦟌",
+      "namePt": "Chambão da pá e perna",
+      "lpaToday": "51.2",
+      "lpbToday": "84.6",
+      "lpaWeek": "51.4",
+      "lpbWeek": "85"
+    },
+    {
+      "name": "豬手",
+      "namePt": "Mão de porco",
+      "lpaToday": "34.2",
+      "lpbToday": "56.5",
+      "lpaWeek": "34.1",
+      "lpbWeek": "56.4"
+    },
+    {
+      "name": "豬扒",
+      "namePt": "Lombada {Lombo / Costeletas}",
+      "lpaToday": "43.2",
+      "lpbToday": "71.4",
+      "lpaWeek": "43",
+      "lpbWeek": "71.1"
+    },
+    {
+      "name": "豬肉骨",
+      "namePt": "Osso com carne",
+      "lpaToday": "48.3",
+      "lpbToday": "79.8",
+      "lpaWeek": "48.3",
+      "lpbWeek": "79.8"
+    },
+    {
+      "name": "豬腩",
+      "namePt": "Entremeada",
+      "lpaToday": "41.5",
+      "lpbToday": "68.7",
+      "lpaWeek": "41.3",
+      "lpbWeek": "68.3"
+    },
+    {
+      "name": "豬骨",
+      "namePt": "Osso",
+      "lpaToday": "32",
+      "lpbToday": "52.9",
+      "lpaWeek": "32",
+      "lpbWeek": "52.9"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "tag": "Pork",
+  "categoryName": "豬肉類",
+  "itemName": "半肥瘦",
+  "namePt": "Carne de porco com gordura",
+  "markets": [
+    {
+      "marketTag": "AL",
+      "marketName": "紅街市",
+      "today": {
+        "priceCatty": "39.7",
+        "priceKg": "65.6",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "39.6",
+        "priceKg": "65.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "CSL",
+      "marketName": "下環街市市政綜合大樓",
+      "today": {
+        "priceCatty": "51.5",
+        "priceKg": "85.2",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "50.9",
+        "priceKg": "84.1",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "NSD",
+      "marketName": "營地街市市政綜合大樓",
+      "today": {
+        "priceCatty": "50.3",
+        "priceKg": "83.2",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "50.3",
+        "priceKg": "83.2",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "PAT",
+      "marketName": "沙梨頭街市",
+      "today": {
+        "priceCatty": "43.8",
+        "priceKg": "72.5",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "43.8",
+        "priceKg": "72.5",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "CTB",
+      "marketName": "台山街市市政綜合大樓",
+      "today": {
+        "priceCatty": "43.0",
+        "priceKg": "71.1",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "43.0",
+        "priceKg": "71.1",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "IH",
+      "marketName": "祐漢街市",
+      "today": {
+        "priceCatty": "40.4",
+        "priceKg": "66.8",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "40.0",
+        "priceKg": "66.2",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "HM",
+      "marketName": "雀仔園街市",
+      "today": {
+        "priceCatty": "39.5",
+        "priceKg": "65.3",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "39.4",
+        "priceKg": "65.1",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "TA",
+      "marketName": "氹仔街市",
+      "today": {
+        "priceCatty": "52.0",
+        "priceKg": "86.0",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "52.0",
+        "priceKg": "86.0",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "CO",
+      "marketName": "路環街市",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    }
+  ],
+  "todayUpdated": "2026/11/2 23:00:09",
+  "weekUpdated": "2026/11/2 23:00:33",
+  "mirroredAt": "2026-11-02T21:41:51+08:00",
+  "source": "market_item_price_detail 半肥瘦"
+}

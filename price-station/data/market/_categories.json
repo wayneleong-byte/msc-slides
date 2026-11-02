@@ -1,0 +1,59 @@
+{
+  "mirroredAt": "2026-11-02T21:41:25+08:00",
+  "categories": [
+    {
+      "tag": "Beef",
+      "name": "牛肉類",
+      "ccn": "牛肉類",
+      "raw": {
+        "tag": "Beef",
+        "name": "牛肉類"
+      }
+    },
+    {
+      "tag": "FishFreshwater",
+      "name": "魚類 - 淡水魚",
+      "ccn": "魚類 - 淡水魚",
+      "raw": {
+        "tag": "FishFreshwater",
+        "name": "魚類 - 淡水魚"
+      }
+    },
+    {
+      "tag": "FishSaltwater",
+      "name": "魚類 - 鹹水魚",
+      "ccn": "魚類 - 鹹水魚",
+      "raw": {
+        "tag": "FishSaltwater",
+        "name": "魚類 - 鹹水魚"
+      }
+    },
+    {
+      "tag": "Pork",
+      "name": "豬肉類",
+      "ccn": "豬肉類",
+      "raw": {
+        "tag": "Pork",
+        "name": "豬肉類"
+      }
+    },
+    {
+      "tag": "Seafood",
+      "name": "海產品類",
+      "ccn": "海產品類",
+      "raw": {
+        "tag": "Seafood",
+        "name": "海產品類"
+      }
+    },
+    {
+      "tag": "Vegetables",
+      "name": "新鮮食用蔬菜類",
+      "ccn": "新鮮食用蔬菜類",
+      "raw": {
+        "tag": "Vegetables",
+        "name": "新鮮食用蔬菜類"
+      }
+    }
+  ]
+}

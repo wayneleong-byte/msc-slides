@@ -1,0 +1,79 @@
+{
+  "tag": "Beef",
+  "ccn": "牛肉類",
+  "mirroredAt": "2026-11-02T21:41:26+08:00",
+  "items": [
+    {
+      "name": "內腿肉",
+      "namePt": "Pojadouro",
+      "lpaToday": "91.5",
+      "lpbToday": "151.3",
+      "lpaWeek": "91.5",
+      "lpbWeek": "151.3"
+    },
+    {
+      "name": "冧肉",
+      "namePt": "Rabadilha",
+      "lpaToday": "91.5",
+      "lpbToday": "151.3",
+      "lpaWeek": "91.5",
+      "lpbWeek": "151.3"
+    },
+    {
+      "name": "尾龍扒",
+      "namePt": "Alcatra",
+      "lpaToday": "91.5",
+      "lpbToday": "151.3",
+      "lpaWeek": "91.5",
+      "lpbWeek": "151.3"
+    },
+    {
+      "name": "牛𦟌",
+      "namePt": "Chambão da pá e perna",
+      "lpaToday": "93",
+      "lpbToday": "153.8",
+      "lpaWeek": "93",
+      "lpbWeek": "153.8"
+    },
+    {
+      "name": "牛柳",
+      "namePt": "Lombo",
+      "lpaToday": "100",
+      "lpbToday": "165.4",
+      "lpaWeek": "100",
+      "lpbWeek": "165.4"
+    },
+    {
+      "name": "牛筋",
+      "namePt": "Tendões",
+      "lpaToday": "61",
+      "lpbToday": "100.9",
+      "lpaWeek": "61",
+      "lpbWeek": "100.9"
+    },
+    {
+      "name": "牛肉",
+      "namePt": "Carne de vaca limpa",
+      "lpaToday": "91.5",
+      "lpbToday": "151.3",
+      "lpaWeek": "91.5",
+      "lpbWeek": "151.3"
+    },
+    {
+      "name": "牛腩",
+      "namePt": "Aba descarregada",
+      "lpaToday": "64.2",
+      "lpbToday": "106.2",
+      "lpaWeek": "64.2",
+      "lpbWeek": "106.2"
+    },
+    {
+      "name": "西冷",
+      "namePt": "Vazia",
+      "lpaToday": "91.5",
+      "lpbToday": "151.3",
+      "lpaWeek": "91.5",
+      "lpbWeek": "151.3"
+    }
+  ]
+}

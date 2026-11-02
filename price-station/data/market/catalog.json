@@ -1,13 +1,545 @@
 {
-  "mirroredAt": "2026-11-02T21:30:00+08:00",
+  "mirroredAt": "2026-11-02T21:42:26+08:00",
+  "coverage": "full",
   "items": [
     {
-      "id": "veg-choisum",
+      "id": "Beef-內腿肉",
+      "itemName": "內腿肉",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Pojadouro",
+      "detailFile": "detail_Beef_內腿肉.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Beef-冧肉",
+      "itemName": "冧肉",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Rabadilha",
+      "detailFile": "detail_Beef_冧肉.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Beef-尾龍扒",
+      "itemName": "尾龍扒",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Alcatra",
+      "detailFile": "detail_Beef_尾龍扒.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Beef-牛𦟌",
+      "itemName": "牛𦟌",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Chambão da pá e perna",
+      "detailFile": "detail_Beef_牛𦟌.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Beef-牛柳",
+      "itemName": "牛柳",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Lombo",
+      "detailFile": "detail_Beef_牛柳.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Beef-牛筋",
+      "itemName": "牛筋",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Tendões",
+      "detailFile": "detail_Beef_牛筋.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Beef-牛肉",
+      "itemName": "牛肉",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Carne de vaca limpa",
+      "detailFile": "detail_Beef_牛肉.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Beef-牛腩",
+      "itemName": "牛腩",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Aba descarregada",
+      "detailFile": "detail_Beef_牛腩.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Beef-西冷",
+      "itemName": "西冷",
+      "categoryName": "牛肉類",
+      "tag": "Beef",
+      "namePt": "Vazia",
+      "detailFile": "detail_Beef_西冷.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishFreshwater-大魚",
+      "itemName": "大魚",
+      "categoryName": "魚類 - 淡水魚",
+      "tag": "FishFreshwater",
+      "namePt": "Carpa de cabeça grande",
+      "detailFile": "detail_FishFreshwater_大魚.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishFreshwater-鯇魚",
+      "itemName": "鯇魚",
+      "categoryName": "魚類 - 淡水魚",
+      "tag": "FishFreshwater",
+      "namePt": "Carpa de erva",
+      "detailFile": "detail_FishFreshwater_鯇魚.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishFreshwater-鯪魚",
+      "itemName": "鯪魚",
+      "categoryName": "魚類 - 淡水魚",
+      "tag": "FishFreshwater",
+      "namePt": "Dace",
+      "detailFile": "detail_FishFreshwater_鯪魚.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishFreshwater-鯽魚",
+      "itemName": "鯽魚",
+      "categoryName": "魚類 - 淡水魚",
+      "tag": "FishFreshwater",
+      "namePt": "Pimpão",
+      "detailFile": "detail_FishFreshwater_鯽魚.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-九吐",
+      "itemName": "九吐",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "KAO TOU",
+      "detailFile": "detail_FishSaltwater_九吐.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-幼鱗撻沙",
+      "itemName": "幼鱗撻沙",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Linguado de escama fina",
+      "detailFile": "detail_FishSaltwater_幼鱗撻沙.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-石斑",
+      "itemName": "石斑",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Garoupa",
+      "detailFile": "detail_FishSaltwater_石斑.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-粗鱗撻沙_中型_",
+      "itemName": "粗鱗撻沙(中型)",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Linguado de escama grossa (médio)",
+      "detailFile": "detail_FishSaltwater_粗鱗撻沙_中型_.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-紅衫",
+      "itemName": "紅衫",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Salmonete",
+      "detailFile": "detail_FishSaltwater_紅衫.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-馬頭",
+      "itemName": "馬頭",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Cabeça-de-cavalo",
+      "detailFile": "detail_FishSaltwater_馬頭.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-䱽魚",
+      "itemName": "䱽魚",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Peixe-manteiga, Pampano",
+      "detailFile": "detail_FishSaltwater_䱽魚.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-魷魚",
+      "itemName": "魷魚",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Lula",
+      "detailFile": "detail_FishSaltwater_魷魚.json",
+      "todayUpdated": "2021/12/30 23:01:08"
+    },
+    {
+      "id": "FishSaltwater-鮫魚",
+      "itemName": "鮫魚",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Serra",
+      "detailFile": "detail_FishSaltwater_鮫魚.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-鱸魚",
+      "itemName": "鱸魚",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Nairo",
+      "detailFile": "detail_FishSaltwater_鱸魚.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "FishSaltwater-黃腳𩶘",
+      "itemName": "黃腳𩶘",
+      "categoryName": "魚類 - 鹹水魚",
+      "tag": "FishSaltwater",
+      "namePt": "Asa amarela",
+      "detailFile": "detail_FishSaltwater_黃腳𩶘.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-半肥瘦",
+      "itemName": "半肥瘦",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Carne de porco com gordura",
+      "detailFile": "detail_Pork_半肥瘦.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-排骨",
+      "itemName": "排骨",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Entrecosto",
+      "detailFile": "detail_Pork_排骨.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-柳梅",
+      "itemName": "柳梅",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Lombinho",
+      "detailFile": "detail_Pork_柳梅.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-瘦肉",
+      "itemName": "瘦肉",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Carne magra",
+      "detailFile": "detail_Pork_瘦肉.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-豬𦟌",
+      "itemName": "豬𦟌",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Chambão da pá e perna",
+      "detailFile": "detail_Pork_豬𦟌.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-豬手",
+      "itemName": "豬手",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Mão de porco",
+      "detailFile": "detail_Pork_豬手.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-豬扒",
+      "itemName": "豬扒",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Lombada {Lombo / Costeletas}",
+      "detailFile": "detail_Pork_豬扒.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-豬肉骨",
+      "itemName": "豬肉骨",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Osso com carne",
+      "detailFile": "detail_Pork_豬肉骨.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-豬腩",
+      "itemName": "豬腩",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Entremeada",
+      "detailFile": "detail_Pork_豬腩.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Pork-豬骨",
+      "itemName": "豬骨",
+      "categoryName": "豬肉類",
+      "tag": "Pork",
+      "namePt": "Osso",
+      "detailFile": "detail_Pork_豬骨.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Seafood-中蝦",
+      "itemName": "中蝦",
+      "categoryName": "海產品類",
+      "tag": "Seafood",
+      "namePt": "Camarão médio",
+      "detailFile": "detail_Seafood_中蝦.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Seafood-帶子",
+      "itemName": "帶子",
+      "categoryName": "海產品類",
+      "tag": "Seafood",
+      "namePt": "Vieira",
+      "detailFile": "detail_Seafood_帶子.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Seafood-沙蝦",
+      "itemName": "沙蝦",
+      "categoryName": "海產品類",
+      "tag": "Seafood",
+      "namePt": "Camarão de areia",
+      "detailFile": "detail_Seafood_沙蝦.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Seafood-瀨尿蝦",
+      "itemName": "瀨尿蝦",
+      "categoryName": "海產品類",
+      "tag": "Seafood",
+      "namePt": "Camarão mantídeo",
+      "detailFile": "detail_Seafood_瀨尿蝦.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Seafood-肉蟹",
+      "itemName": "肉蟹",
+      "categoryName": "海產品類",
+      "tag": "Seafood",
+      "namePt": "Carangueijo carnoso",
+      "detailFile": "detail_Seafood_肉蟹.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Seafood-蟶子",
+      "itemName": "蟶子",
+      "categoryName": "海產品類",
+      "tag": "Seafood",
+      "namePt": "Navalha ou Lingueirão",
+      "detailFile": "detail_Seafood_蟶子.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Seafood-青口",
+      "itemName": "青口",
+      "categoryName": "海產品類",
+      "tag": "Seafood",
+      "namePt": "Mexilhão",
+      "detailFile": "detail_Seafood_青口.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Seafood-魷魚",
+      "itemName": "魷魚",
+      "categoryName": "海產品類",
+      "tag": "Seafood",
+      "namePt": "Lula",
+      "detailFile": "detail_Seafood_魷魚.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-冬瓜",
+      "itemName": "冬瓜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Abóbora gigante",
+      "detailFile": "detail_Vegetables_冬瓜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-椰菜",
+      "itemName": "椰菜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Repolho redondo",
+      "detailFile": "detail_Vegetables_椰菜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-洋葱",
+      "itemName": "洋葱",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Cebola",
+      "detailFile": "detail_Vegetables_洋葱.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-生菜",
+      "itemName": "生菜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Alface",
+      "detailFile": "detail_Vegetables_生菜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-番茄",
+      "itemName": "番茄",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Tomate",
+      "detailFile": "detail_Vegetables_番茄.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-番薯",
+      "itemName": "番薯",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Batata doce",
+      "detailFile": "detail_Vegetables_番薯.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-白菜",
+      "itemName": "白菜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Mostarda da China",
+      "detailFile": "detail_Vegetables_白菜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-節瓜",
+      "itemName": "節瓜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Camalenga pequena",
+      "detailFile": "detail_Vegetables_節瓜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-紅蘿蔔",
+      "itemName": "紅蘿蔔",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Cenoura",
+      "detailFile": "detail_Vegetables_紅蘿蔔.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-芥蘭",
+      "itemName": "芥蘭",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Mostarda branca",
+      "detailFile": "detail_Vegetables_芥蘭.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-莧菜",
+      "itemName": "莧菜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Bredo",
+      "detailFile": "detail_Vegetables_莧菜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-菜心",
       "itemName": "菜心",
       "categoryName": "新鮮食用蔬菜類",
       "tag": "Vegetables",
       "namePt": "Couve chinesa de flor",
-      "detailFile": "detail_veg.json",
+      "detailFile": "detail_Vegetables_菜心.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-菠菜",
+      "itemName": "菠菜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Espinafre",
+      "detailFile": "detail_Vegetables_菠菜.json",
+      "todayUpdated": ""
+    },
+    {
+      "id": "Vegetables-蕹菜",
+      "itemName": "蕹菜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Hortaliça da água",
+      "detailFile": "detail_Vegetables_蕹菜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-西洋菜",
+      "itemName": "西洋菜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Agrião da água",
+      "detailFile": "detail_Vegetables_西洋菜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-西蘭花",
+      "itemName": "西蘭花",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Brócolos",
+      "detailFile": "detail_Vegetables_西蘭花.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-青瓜",
+      "itemName": "青瓜",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Pepino",
+      "detailFile": "detail_Vegetables_青瓜.json",
+      "todayUpdated": "2026/11/2 23:00:09"
+    },
+    {
+      "id": "Vegetables-馬鈴薯",
+      "itemName": "馬鈴薯",
+      "categoryName": "新鮮食用蔬菜類",
+      "tag": "Vegetables",
+      "namePt": "Batata",
+      "detailFile": "detail_Vegetables_馬鈴薯.json",
       "todayUpdated": "2026/11/2 23:00:09"
     }
   ]

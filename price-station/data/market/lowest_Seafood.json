@@ -1,0 +1,71 @@
+{
+  "tag": "Seafood",
+  "ccn": "海產品類",
+  "mirroredAt": "2026-11-02T21:42:00+08:00",
+  "items": [
+    {
+      "name": "中蝦",
+      "namePt": "Camarão médio",
+      "lpaToday": "34",
+      "lpbToday": "56.2",
+      "lpaWeek": "34.8",
+      "lpbWeek": "57.5"
+    },
+    {
+      "name": "帶子",
+      "namePt": "Vieira",
+      "lpaToday": "10",
+      "lpbToday": "10",
+      "lpaWeek": "10.3",
+      "lpbWeek": "10.3"
+    },
+    {
+      "name": "沙蝦",
+      "namePt": "Camarão de areia",
+      "lpaToday": "98",
+      "lpbToday": "162",
+      "lpaWeek": "101.3",
+      "lpbWeek": "167.5"
+    },
+    {
+      "name": "瀨尿蝦",
+      "namePt": "Camarão mantídeo",
+      "lpaToday": "30",
+      "lpbToday": "49.6",
+      "lpaWeek": "30",
+      "lpbWeek": "49.6"
+    },
+    {
+      "name": "肉蟹",
+      "namePt": "Carangueijo carnoso",
+      "lpaToday": "125",
+      "lpbToday": "206.7",
+      "lpaWeek": "128.3",
+      "lpbWeek": "212.2"
+    },
+    {
+      "name": "蟶子",
+      "namePt": "Navalha ou Lingueirão",
+      "lpaToday": "45",
+      "lpbToday": "74.4",
+      "lpaWeek": "45",
+      "lpbWeek": "74.4"
+    },
+    {
+      "name": "青口",
+      "namePt": "Mexilhão",
+      "lpaToday": "20",
+      "lpbToday": "33.1",
+      "lpaWeek": "20",
+      "lpbWeek": "33.1"
+    },
+    {
+      "name": "魷魚",
+      "namePt": "Lula",
+      "lpaToday": "32",
+      "lpbToday": "52.9",
+      "lpaWeek": "43.4",
+      "lpbWeek": "71.8"
+    }
+  ]
+}

@@ -1,15 +1,22 @@
 {
-  "mirroredAt": "2026-11-02T21:30:00+08:00",
+  "mirroredAt": "2026-11-02T21:42:26+08:00",
   "timezone": "Asia/Macau",
   "sourceNote": "資料來源：消費者委員會（澳門物價情報站鏡像）。本站非官方網站。",
   "coverage": {
-    "search": "牛奶關鍵字樣本（11 品）",
+    "search": "full 索引 599 品",
     "items": [
       "115"
     ],
-    "market": [
-      "菜心／detail_veg.json"
-    ],
-    "note": "未鏡像之商品請於 ADM-3 跑 scripts/fetch_mirror.py"
+    "market": "full 60 品",
+    "note": "未鏡像之商品請於 ADM-3 跑 scripts/fetch_mirror.py",
+    "coverageMode": "full",
+    "supermarketCategories": 14,
+    "supermarketItems": 599,
+    "supermarketItemsOk": 599,
+    "marketCategories": 6,
+    "marketItems": 60,
+    "marketItemsOk": 60,
+    "elapsedSec": 550.1,
+    "failures": 0
   }
 }

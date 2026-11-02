@@ -1,0 +1,156 @@
+{
+  "tag": "Beef",
+  "categoryName": "牛肉類",
+  "itemName": "牛柳",
+  "namePt": "Lombo",
+  "markets": [
+    {
+      "marketTag": "AL",
+      "marketName": "紅街市",
+      "today": {
+        "priceCatty": "100.0",
+        "priceKg": "165.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "100.0",
+        "priceKg": "165.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "CSL",
+      "marketName": "下環街市市政綜合大樓",
+      "today": {
+        "priceCatty": "108.0",
+        "priceKg": "178.6",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "108.0",
+        "priceKg": "178.6",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "NSD",
+      "marketName": "營地街市市政綜合大樓",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    },
+    {
+      "marketTag": "PAT",
+      "marketName": "沙梨頭街市",
+      "today": {
+        "priceCatty": "114.0",
+        "priceKg": "188.5",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "114.0",
+        "priceKg": "188.5",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "CTB",
+      "marketName": "台山街市市政綜合大樓",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    },
+    {
+      "marketTag": "IH",
+      "marketName": "祐漢街市",
+      "today": {
+        "priceCatty": "104.5",
+        "priceKg": "172.8",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "104.5",
+        "priceKg": "172.8",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "HM",
+      "marketName": "雀仔園街市",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    },
+    {
+      "marketTag": "TA",
+      "marketName": "氹仔街市",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    },
+    {
+      "marketTag": "CO",
+      "marketName": "路環街市",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    }
+  ],
+  "todayUpdated": "2026/11/2 23:00:09",
+  "weekUpdated": "2026/11/2 23:00:33",
+  "mirroredAt": "2026-11-02T21:41:30+08:00",
+  "source": "market_item_price_detail 牛柳"
+}

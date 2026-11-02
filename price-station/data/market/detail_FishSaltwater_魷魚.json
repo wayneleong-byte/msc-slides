@@ -1,0 +1,156 @@
+{
+  "tag": "FishSaltwater",
+  "categoryName": "魚類 - 鹹水魚",
+  "itemName": "魷魚",
+  "namePt": "Lula",
+  "markets": [
+    {
+      "marketTag": "AL",
+      "marketName": "紅街市",
+      "today": {
+        "priceCatty": "3.0",
+        "priceKg": "79.4",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      },
+      "week": {
+        "priceCatty": "3.1",
+        "priceKg": "82.0",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      }
+    },
+    {
+      "marketTag": "CSL",
+      "marketName": "下環街市市政綜合大樓",
+      "today": {
+        "priceCatty": "3.1",
+        "priceKg": "82.0",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      },
+      "week": {
+        "priceCatty": "3.1",
+        "priceKg": "82.0",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      }
+    },
+    {
+      "marketTag": "NSD",
+      "marketName": "營地街市市政綜合大樓",
+      "today": {
+        "priceCatty": "4.5",
+        "priceKg": "119.0",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      },
+      "week": {
+        "priceCatty": "3.3",
+        "priceKg": "87.3",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      }
+    },
+    {
+      "marketTag": "PAT",
+      "marketName": "沙梨頭街市",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    },
+    {
+      "marketTag": "CTB",
+      "marketName": "台山街市市政綜合大樓",
+      "today": {
+        "priceCatty": "3.0",
+        "priceKg": "79.4",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      },
+      "week": {
+        "priceCatty": "3.0",
+        "priceKg": "79.4",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      }
+    },
+    {
+      "marketTag": "IH",
+      "marketName": "祐漢街市",
+      "today": {
+        "priceCatty": "2.9",
+        "priceKg": "76.7",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      },
+      "week": {
+        "priceCatty": "3.0",
+        "priceKg": "79.4",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      }
+    },
+    {
+      "marketTag": "HM",
+      "marketName": "雀仔園街市",
+      "today": {
+        "priceCatty": "3.0",
+        "priceKg": "79.4",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      },
+      "week": {
+        "priceCatty": "3.0",
+        "priceKg": "79.4",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      }
+    },
+    {
+      "marketTag": "TA",
+      "marketName": "氹仔街市",
+      "today": {
+        "priceCatty": "3.5",
+        "priceKg": "92.6",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      },
+      "week": {
+        "priceCatty": "3.5",
+        "priceKg": "92.6",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
+      }
+    },
+    {
+      "marketTag": "CO",
+      "marketName": "路環街市",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    }
+  ],
+  "todayUpdated": "2021/12/30 23:01:08",
+  "weekUpdated": "2021/12/30 23:02:00",
+  "mirroredAt": "2026-11-02T21:41:46+08:00",
+  "source": "market_item_price_detail 魷魚"
+}

@@ -1,0 +1,95 @@
+{
+  "tag": "FishSaltwater",
+  "ccn": "魚類 - 鹹水魚",
+  "mirroredAt": "2026-11-02T21:41:39+08:00",
+  "items": [
+    {
+      "name": "九吐",
+      "namePt": "KAO TOU",
+      "lpaToday": "1.4",
+      "lpbToday": "37.5",
+      "lpaWeek": "1.4",
+      "lpbWeek": "37.7"
+    },
+    {
+      "name": "幼鱗撻沙",
+      "namePt": "Linguado de escama fina",
+      "lpaToday": "2.5",
+      "lpbToday": "66.1",
+      "lpaWeek": "2.5",
+      "lpbWeek": "67"
+    },
+    {
+      "name": "石斑",
+      "namePt": "Garoupa",
+      "lpaToday": "3.7",
+      "lpbToday": "99.2",
+      "lpaWeek": "3",
+      "lpbWeek": "80.5"
+    },
+    {
+      "name": "粗鱗撻沙(中型)",
+      "namePt": "Linguado de escama grossa (médio)",
+      "lpaToday": "5",
+      "lpbToday": "132.3",
+      "lpaWeek": "3",
+      "lpbWeek": "79.4"
+    },
+    {
+      "name": "紅衫",
+      "namePt": "Salmonete",
+      "lpaToday": "2.9",
+      "lpbToday": "77.7",
+      "lpaWeek": "3.7",
+      "lpbWeek": "97.2"
+    },
+    {
+      "name": "馬頭",
+      "namePt": "Cabeça-de-cavalo",
+      "lpaToday": "2.9",
+      "lpbToday": "76.6",
+      "lpaWeek": "2.8",
+      "lpbWeek": "74.8"
+    },
+    {
+      "name": "䱽魚",
+      "namePt": "Peixe-manteiga, Pampano",
+      "lpaToday": "2",
+      "lpbToday": "52.9",
+      "lpaWeek": "2.5",
+      "lpbWeek": "66.3"
+    },
+    {
+      "name": "魷魚",
+      "namePt": "Lula",
+      "lpaToday": "2.9",
+      "lpbToday": "76.7",
+      "lpaWeek": "3",
+      "lpbWeek": "79.4"
+    },
+    {
+      "name": "鮫魚",
+      "namePt": "Serra",
+      "lpaToday": "3.5",
+      "lpbToday": "92.6",
+      "lpaWeek": "3.7",
+      "lpbWeek": "98.3"
+    },
+    {
+      "name": "鱸魚",
+      "namePt": "Nairo",
+      "lpaToday": "2.2",
+      "lpbToday": "58.2",
+      "lpaWeek": "2.2",
+      "lpbWeek": "58.2"
+    },
+    {
+      "name": "黃腳𩶘",
+      "namePt": "Asa amarela",
+      "lpaToday": "2.5",
+      "lpbToday": "66.1",
+      "lpaWeek": "2.8",
+      "lpbWeek": "75.1"
+    }
+  ]
+}

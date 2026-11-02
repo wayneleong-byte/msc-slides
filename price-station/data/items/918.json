@@ -1,0 +1,1133 @@
+{
+  "item": {
+    "_id": 918,
+    "code": "6926964269472",
+    "name_cn": "甄想記用家之寶濃椰漿",
+    "name_zh": "甄想記用家之寶濃椰漿",
+    "name_en": "KOS Coconut Milk",
+    "name_pt": "KOS Coconut Milk",
+    "quantity_cn": "400毫升",
+    "quantity_zh": "400毫升",
+    "quantity_en": "400ml",
+    "quantity_pt": "400ml"
+  },
+  "groups": [
+    {
+      "group_id": "0101",
+      "group_code": "0101",
+      "group_name": "來來",
+      "group_name_cn": "來來",
+      "group_name_en": "Royal",
+      "group_name_pt": "Royal",
+      "min_price": 8.6,
+      "max_price": 8.6,
+      "supermarkets": [
+        {
+          "supermarket_id": "1",
+          "supermarket_name": "澳門廣場 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "12",
+          "supermarket_name": "羅理基 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "18",
+          "supermarket_name": "下環街 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "23",
+          "supermarket_name": "氹仔金利達 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "25",
+          "supermarket_name": "慕拉士 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "27",
+          "supermarket_name": "皇朝 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "32",
+          "supermarket_name": "馬場海邊馬路 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "33",
+          "supermarket_name": "保利達 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "40",
+          "supermarket_name": "羅白沙街 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "42",
+          "supermarket_name": "水坑尾 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "43",
+          "supermarket_name": "民安新村 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "47",
+          "supermarket_name": "美副將 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "49",
+          "supermarket_name": "建富新村 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "55",
+          "supermarket_name": "大明閣 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "57",
+          "supermarket_name": "連勝馬路 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "58",
+          "supermarket_name": "怡南 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "61",
+          "supermarket_name": "俾利喇街 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "64",
+          "supermarket_name": "建華 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "70",
+          "supermarket_name": "信達廣場 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "74",
+          "supermarket_name": "紅街市 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "96",
+          "supermarket_name": "關閘廣場 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "117",
+          "supermarket_name": "聯薪廣場 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "119",
+          "supermarket_name": "十月初五街 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "127",
+          "supermarket_name": "司打口 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "129",
+          "supermarket_name": "粵華廣場 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "145",
+          "supermarket_name": "路環石排灣 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "148",
+          "supermarket_name": "群威 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "169",
+          "supermarket_name": "賈梅士商業中心 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "172",
+          "supermarket_name": "百利寶 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "173",
+          "supermarket_name": "得勝薈 來來超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "189",
+          "supermarket_name": "來來超級市場(寰宇天下分店)",
+          "price": 8.6,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0102",
+      "group_code": "0102",
+      "group_name": "新苗",
+      "group_name_cn": "新苗",
+      "group_name_en": "San Miu",
+      "group_name_pt": "San Miu",
+      "min_price": 8.5,
+      "max_price": 8.6,
+      "supermarkets": [
+        {
+          "supermarket_id": "2",
+          "supermarket_name": "營地街 新苗超市",
+          "price": 8.6,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "31",
+          "supermarket_name": "海名居 新苗超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "39",
+          "supermarket_name": "羅白沙街 新苗超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "50",
+          "supermarket_name": "氹仔匯景 新苗超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "133",
+          "supermarket_name": "路環石排灣 新苗超市",
+          "price": 8.5,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0107",
+      "group_code": "0107",
+      "group_name": "宏基",
+      "group_name_cn": "宏基",
+      "group_name_en": "Vang Kei",
+      "group_name_pt": "Vang Kei",
+      "min_price": 8.8,
+      "max_price": 8.8,
+      "supermarkets": [
+        {
+          "supermarket_id": "5",
+          "supermarket_name": "雅廉訪幸運閣 宏基超市",
+          "price": 8.8,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "84",
+          "supermarket_name": "水坑尾 宏基超市",
+          "price": 8.8,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "85",
+          "supermarket_name": "提督馬路通利 宏基超市",
+          "price": 8.8,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "149",
+          "supermarket_name": "河邊新街 宏基超市",
+          "price": 8.8,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "156",
+          "supermarket_name": "亞豐素 宏基超市",
+          "price": 8.8,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0119",
+      "group_code": "0119",
+      "group_name": "雀仔園",
+      "group_name_cn": "雀仔園",
+      "group_name_en": "Cheok Chai Un",
+      "group_name_pt": "Cheok Chai Un",
+      "min_price": 9,
+      "max_price": 9,
+      "supermarkets": [
+        {
+          "supermarket_id": "7",
+          "supermarket_name": "馬大臣街 雀仔園超市",
+          "price": 9,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0106",
+      "group_code": "0106",
+      "group_name": "成昌",
+      "group_name_cn": "成昌",
+      "group_name_en": "Seng Cheong",
+      "group_name_pt": "Seng Cheong",
+      "min_price": 8.8,
+      "max_price": 8.8,
+      "supermarkets": [
+        {
+          "supermarket_id": "11",
+          "supermarket_name": "氹仔利民 成昌超市",
+          "price": 8.8,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "103",
+          "supermarket_name": "氹仔海洋 成昌超市",
+          "price": 8.8,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "146",
+          "supermarket_name": "黑沙灣海上居 成昌超市",
+          "price": 8.8,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "155",
+          "supermarket_name": "晉海 成昌超市",
+          "price": 8.8,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "178",
+          "supermarket_name": "青洲茵豪薈 成昌超市",
+          "price": 8.8,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0103",
+      "group_code": "0103",
+      "group_name": "新花城",
+      "group_name_cn": "新花城",
+      "group_name_en": "Sunsco",
+      "group_name_pt": "Sunsco",
+      "min_price": 8.9,
+      "max_price": 9.5,
+      "supermarkets": [
+        {
+          "supermarket_id": "20",
+          "supermarket_name": "氹仔花城 新花城超市",
+          "price": 9.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "79",
+          "supermarket_name": "沙梨頭 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "80",
+          "supermarket_name": "南灣 新花城超市",
+          "price": 9.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "81",
+          "supermarket_name": "皇朝恆基 新花城超市",
+          "price": 9.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "82",
+          "supermarket_name": "高美士利新 新花城超市",
+          "price": 9.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "83",
+          "supermarket_name": "氹仔新海怡 新花城超市",
+          "price": 9.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "111",
+          "supermarket_name": "信託 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "125",
+          "supermarket_name": "新口岸鴻安中心 新花城超市",
+          "price": 9.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "161",
+          "supermarket_name": "司打口 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "162",
+          "supermarket_name": "御景灣 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "163",
+          "supermarket_name": "快盈 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "164",
+          "supermarket_name": "青洲坊 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "165",
+          "supermarket_name": "華龍 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "166",
+          "supermarket_name": "新馬路 新花城超市",
+          "price": 9.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "167",
+          "supermarket_name": "白鴿巢 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "168",
+          "supermarket_name": "華蘭台 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "175",
+          "supermarket_name": "高士德 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "182",
+          "supermarket_name": "東望洋 新花城超市",
+          "price": 8.9,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0108",
+      "group_code": "0108",
+      "group_name": "利豐",
+      "group_name_cn": "利豐",
+      "group_name_en": "Lee Fong",
+      "group_name_pt": "Lee Fong",
+      "min_price": 8.5,
+      "max_price": 8.5,
+      "supermarkets": [
+        {
+          "supermarket_id": "38",
+          "supermarket_name": "賈伯樂提督街 利豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "88",
+          "supermarket_name": "威龍花園 利豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "89",
+          "supermarket_name": "下環街 利豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "121",
+          "supermarket_name": "提督馬路 利豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "132",
+          "supermarket_name": "裕華 利豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "150",
+          "supermarket_name": "士多鳥拜斯 利豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "160",
+          "supermarket_name": "文豐樓 利豐超市",
+          "price": 8.5,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0104",
+      "group_code": "0104",
+      "group_name": "泰豐",
+      "group_name_cn": "泰豐",
+      "group_name_en": "Tai Fung",
+      "group_name_pt": "Tai Fung",
+      "min_price": 8.3,
+      "max_price": 8.5,
+      "supermarkets": [
+        {
+          "supermarket_id": "59",
+          "supermarket_name": "怡南 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "66",
+          "supermarket_name": "筷子基威翠 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "69",
+          "supermarket_name": "鏡湖馬路 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "86",
+          "supermarket_name": "金海山 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "87",
+          "supermarket_name": "菜園路新寶 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "115",
+          "supermarket_name": "激成 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "116",
+          "supermarket_name": "下環街 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "128",
+          "supermarket_name": "亞利鴉架街 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "136",
+          "supermarket_name": "氹仔威翠 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "158",
+          "supermarket_name": "白鴿巢 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "159",
+          "supermarket_name": "台山 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "177",
+          "supermarket_name": "新口岸 泰豐超市",
+          "price": 8.5,
+          "flag": ""
+        },
+        {
+          "supermarket_id": "187",
+          "supermarket_name": "回力 泰豐超市",
+          "price": 8.3,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0118",
+      "group_code": "0118",
+      "group_name": "大榮",
+      "group_name_cn": "大榮",
+      "group_name_en": "Dai Win",
+      "group_name_pt": "Dai Win",
+      "min_price": 8.5,
+      "max_price": 8.5,
+      "supermarkets": [
+        {
+          "supermarket_id": "100",
+          "supermarket_name": "筷子基 大榮超市",
+          "price": 8.5,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0110",
+      "group_code": "0110",
+      "group_name": "福倡",
+      "group_name_cn": "福倡",
+      "group_name_en": "Fok Cheong",
+      "group_name_pt": "Fok Cheong",
+      "min_price": 8.8,
+      "max_price": 8.8,
+      "supermarkets": [
+        {
+          "supermarket_id": "140",
+          "supermarket_name": "筷子基宏開 福昌超市",
+          "price": 8.8,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0109",
+      "group_code": "0109",
+      "group_name": "利民",
+      "group_name_cn": "利民",
+      "group_name_en": "Lei Man",
+      "group_name_pt": "Lei Man",
+      "min_price": 8.8,
+      "max_price": 8.8,
+      "supermarkets": [
+        {
+          "supermarket_id": "144",
+          "supermarket_name": "沙梨頭 利民超市",
+          "price": 8.8,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0117",
+      "group_code": "0117",
+      "group_name": "瑞興",
+      "group_name_cn": "瑞興",
+      "group_name_en": "Shui Heng",
+      "group_name_pt": "Shui Heng",
+      "min_price": 8.5,
+      "max_price": 8.5,
+      "supermarkets": [
+        {
+          "supermarket_id": "171",
+          "supermarket_name": "利和 瑞興超市",
+          "price": 8.5,
+          "flag": ""
+        }
+      ]
+    },
+    {
+      "group_id": "0122",
+      "group_code": "0122",
+      "group_name": "南華美式貨場",
+      "group_name_cn": "南華美式貨場",
+      "group_name_en": "Nanhua american Goods yarel",
+      "group_name_pt": "Nanhua american Goods yarel",
+      "min_price": 8.5,
+      "max_price": 8.5,
+      "supermarkets": [
+        {
+          "supermarket_id": "179",
+          "supermarket_name": "下環 南華美式貨場",
+          "price": 8.5,
+          "flag": ""
+        }
+      ]
+    }
+  ],
+  "regions": [
+    {
+      "_id": 30,
+      "oid": "0001",
+      "code": "0001",
+      "segment": "REGION_OPTION",
+      "desc": "青洲",
+      "val_1": "22.21119088171677, 113.54251558228727",
+      "val_2": "1"
+    },
+    {
+      "_id": 36,
+      "oid": "0002",
+      "code": "0002",
+      "segment": "REGION_OPTION",
+      "desc": "筷子基",
+      "val_1": "22.206735447988066, 113.5436211161951",
+      "val_2": "1"
+    },
+    {
+      "_id": 7,
+      "oid": "0003",
+      "code": "0003",
+      "segment": "REGION_OPTION",
+      "desc": "蓮峰",
+      "val_1": "22.207629247637968, 113.54586447766081",
+      "val_2": "1"
+    },
+    {
+      "_id": 8,
+      "oid": "0004",
+      "code": "0004",
+      "segment": "REGION_OPTION",
+      "desc": "台山",
+      "val_1": "22.21136661714978, 113.54666852372515",
+      "val_2": "1"
+    },
+    {
+      "_id": 1,
+      "oid": "0005",
+      "code": "0005",
+      "segment": "REGION_OPTION",
+      "desc": "關閘",
+      "val_1": "22.215263718905625, 113.54870367408445",
+      "val_2": "1"
+    },
+    {
+      "_id": 16,
+      "oid": "0006",
+      "code": "0006",
+      "segment": "REGION_OPTION",
+      "desc": "祐漢",
+      "val_1": "22.211085175932098, 113.55130120197178",
+      "val_2": "1"
+    },
+    {
+      "_id": 37,
+      "oid": "0007",
+      "code": "0007",
+      "segment": "REGION_OPTION",
+      "desc": "黑沙環",
+      "val_1": "22.210214971166494, 113.55346181392473",
+      "val_2": "1"
+    },
+    {
+      "_id": 17,
+      "oid": "0008",
+      "code": "0008",
+      "segment": "REGION_OPTION",
+      "desc": "二龍喉",
+      "val_1": "22.20057080135319, 113.55072249541652",
+      "val_2": "1"
+    },
+    {
+      "_id": 9,
+      "oid": "0009",
+      "code": "0009",
+      "segment": "REGION_OPTION",
+      "desc": "荷蘭園",
+      "val_1": "22.19835344733084, 113.54650020807418",
+      "val_2": "1"
+    },
+    {
+      "_id": 23,
+      "oid": "0010",
+      "code": "0010",
+      "segment": "REGION_OPTION",
+      "desc": "水坑尾",
+      "val_1": "22.194105652694546, 113.54383960439255",
+      "val_2": "1"
+    },
+    {
+      "_id": 2,
+      "oid": "0011",
+      "code": "0011",
+      "segment": "REGION_OPTION",
+      "desc": "高士德",
+      "val_1": "22.20160801381497, 113.5482365395641",
+      "val_2": "1"
+    },
+    {
+      "_id": 3,
+      "oid": "0012",
+      "code": "0012",
+      "segment": "REGION_OPTION",
+      "desc": "義字街",
+      "val_1": "22.203438990169175, 113.54414734940885",
+      "val_2": "1"
+    },
+    {
+      "_id": 24,
+      "oid": "0013",
+      "code": "0013",
+      "segment": "REGION_OPTION",
+      "desc": "提督馬路",
+      "val_1": "22.204118516602843, 113.54293004738317",
+      "val_2": "1"
+    },
+    {
+      "_id": 44,
+      "oid": "0014",
+      "code": "0014",
+      "segment": "REGION_OPTION",
+      "desc": "沙梨頭",
+      "val_1": "22.20253721795891, 113.53719651194659",
+      "val_2": "1"
+    },
+    {
+      "_id": 31,
+      "oid": "0015",
+      "code": "0015",
+      "segment": "REGION_OPTION",
+      "desc": "十六浦",
+      "val_1": "22.19717059352481, 113.53588791296563",
+      "val_2": "1"
+    },
+    {
+      "_id": 18,
+      "oid": "0016",
+      "code": "0016",
+      "segment": "REGION_OPTION",
+      "desc": "白鴿巢",
+      "val_1": "22.201402615602024, 113.54003429147602",
+      "val_2": "1"
+    },
+    {
+      "_id": 38,
+      "oid": "0017",
+      "code": "0017",
+      "segment": "REGION_OPTION",
+      "desc": "大三巴",
+      "val_1": "22.197871352218222, 113.54087412769408",
+      "val_2": "1"
+    },
+    {
+      "_id": 39,
+      "oid": "0018",
+      "code": "0018",
+      "segment": "REGION_OPTION",
+      "desc": "下環街",
+      "val_1": "22.19114783674956, 113.5347884559337",
+      "val_2": "1"
+    },
+    {
+      "_id": 10,
+      "oid": "0020",
+      "code": "0020",
+      "segment": "REGION_OPTION",
+      "desc": "西灣",
+      "val_1": "22.18868604210029, 113.53750138663092",
+      "val_2": "1"
+    },
+    {
+      "_id": 25,
+      "oid": "0021",
+      "code": "0021",
+      "segment": "REGION_OPTION",
+      "desc": "南灣",
+      "val_1": "22.190995845994554, 113.5403231631505",
+      "val_2": "1"
+    },
+    {
+      "_id": 40,
+      "oid": "0022",
+      "code": "0022",
+      "segment": "REGION_OPTION",
+      "desc": "新馬路",
+      "val_1": "22.193507079015006, 113.53972444111231",
+      "val_2": "1"
+    },
+    {
+      "_id": 11,
+      "oid": "0023",
+      "code": "0023",
+      "segment": "REGION_OPTION",
+      "desc": "新口岸",
+      "val_1": "22.193685502777093, 113.55181005900975",
+      "val_2": "1"
+    },
+    {
+      "_id": 12,
+      "oid": "0024",
+      "code": "0024",
+      "segment": "REGION_OPTION",
+      "desc": "宋玉生廣場",
+      "val_1": "22.190057691613948, 113.54945189581889",
+      "val_2": "1"
+    },
+    {
+      "_id": 41,
+      "oid": "0025",
+      "code": "0025",
+      "segment": "REGION_OPTION",
+      "desc": "葡京",
+      "val_1": "22.19082769620815, 113.54428607866048",
+      "val_2": "1"
+    },
+    {
+      "_id": 4,
+      "oid": "0026",
+      "code": "0026",
+      "segment": "REGION_OPTION",
+      "desc": "湖畔",
+      "val_1": "22.158890157654305, 113.56106192646095",
+      "val_2": "2"
+    },
+    {
+      "_id": 34,
+      "oid": "0027",
+      "code": "0027",
+      "segment": "REGION_OPTION",
+      "desc": "花城",
+      "val_1": "22.156524076963766, 113.55697937908948",
+      "val_2": "2"
+    },
+    {
+      "_id": 26,
+      "oid": "0028",
+      "code": "0028",
+      "segment": "REGION_OPTION",
+      "desc": "馬會",
+      "val_1": "22.157210879155716, 113.55181703247278",
+      "val_2": "2"
+    },
+    {
+      "_id": 5,
+      "oid": "0029",
+      "code": "0029",
+      "segment": "REGION_OPTION",
+      "desc": "海洋",
+      "val_1": "22.1614267052203, 113.54284157987314",
+      "val_2": "2"
+    },
+    {
+      "_id": 45,
+      "oid": "0030",
+      "code": "0030",
+      "segment": "REGION_OPTION",
+      "desc": "路環",
+      "val_1": "22.129643188200276, 113.56379948192745",
+      "val_2": "3"
+    },
+    {
+      "_id": 19,
+      "oid": "0031",
+      "code": "0031",
+      "segment": "REGION_OPTION",
+      "desc": "海名居",
+      "val_1": "22.210227021981602, 113.55763894643866",
+      "val_2": "1"
+    },
+    {
+      "_id": 13,
+      "oid": "0032",
+      "code": "0032",
+      "segment": "REGION_OPTION",
+      "desc": "觀音堂",
+      "val_1": "22.204104270837625, 113.55013750326177",
+      "val_2": "1"
+    },
+    {
+      "_id": 42,
+      "oid": "0032",
+      "code": "0032",
+      "segment": "REGION_OPTION",
+      "desc": "望廈社屋",
+      "val_1": "22.206503279793733, 113.55179263380693",
+      "val_2": "1"
+    },
+    {
+      "_id": 43,
+      "oid": "0033",
+      "code": "0033",
+      "segment": "REGION_OPTION",
+      "desc": "勞工事務局",
+      "val_1": "22.205667681458046, 113.55877669916467",
+      "val_2": "1"
+    },
+    {
+      "_id": 27,
+      "oid": "0034",
+      "code": "0034",
+      "segment": "REGION_OPTION",
+      "desc": "東方海岸",
+      "val_1": "22.206037451994565, 113.53814508404687",
+      "val_2": "1"
+    },
+    {
+      "_id": 20,
+      "oid": "0035",
+      "code": "0035",
+      "segment": "REGION_OPTION",
+      "desc": "幸運閣",
+      "val_1": "22.20435985833669, 113.54758045249841",
+      "val_2": "1"
+    },
+    {
+      "_id": 14,
+      "oid": "0036",
+      "code": "0036",
+      "segment": "REGION_OPTION",
+      "desc": "鏡湖醫院",
+      "val_1": "22.199513435274568, 113.5426279220321",
+      "val_2": "1"
+    },
+    {
+      "_id": 6,
+      "oid": "0037",
+      "code": "0037",
+      "segment": "REGION_OPTION",
+      "desc": "凱泉灣",
+      "val_1": "22.190324491470392, 113.53322054379761",
+      "val_2": "1"
+    },
+    {
+      "_id": 21,
+      "oid": "0038",
+      "code": "0038",
+      "segment": "REGION_OPTION",
+      "desc": "司打口公園",
+      "val_1": "22.193655641200895, 113.5358417303388",
+      "val_2": "1"
+    },
+    {
+      "_id": 35,
+      "oid": "0039",
+      "code": "0039",
+      "segment": "REGION_OPTION",
+      "desc": "雀仔園街市",
+      "val_1": "22.19512478103305, 113.54498162798282",
+      "val_2": "1"
+    },
+    {
+      "_id": 46,
+      "oid": "0040",
+      "code": "0040",
+      "segment": "REGION_OPTION",
+      "desc": "金龍酒店",
+      "val_1": "22.195367014215318, 113.55440515401237",
+      "val_2": "1"
+    },
+    {
+      "_id": 28,
+      "oid": "0041",
+      "code": "0041",
+      "segment": "REGION_OPTION",
+      "desc": "聖羅撒英文中學",
+      "val_1": "22.193078050807532, 113.54783279838085",
+      "val_2": "1"
+    },
+    {
+      "_id": 33,
+      "oid": "0042",
+      "code": "0042",
+      "segment": "REGION_OPTION",
+      "desc": "假日酒店",
+      "val_1": "22.19144142127511, 113.54741927414416",
+      "val_2": "1"
+    },
+    {
+      "_id": 15,
+      "oid": "0043",
+      "code": "0043",
+      "segment": "REGION_OPTION",
+      "desc": "中央公園",
+      "val_1": "22.159336498935268, 113.55459169640686",
+      "val_2": "2"
+    },
+    {
+      "_id": 29,
+      "oid": "0044",
+      "code": "0044",
+      "segment": "REGION_OPTION",
+      "desc": "金利達",
+      "val_1": "22.15776696018827, 113.55291694530838",
+      "val_2": "2"
+    },
+    {
+      "_id": 47,
+      "oid": "0045",
+      "code": "0045",
+      "segment": "REGION_OPTION",
+      "desc": "金峰南岸",
+      "val_1": "22.12726703493509, 113.55702543949765",
+      "val_2": "3"
+    },
+    {
+      "_id": 22,
+      "oid": "0046",
+      "code": "0046",
+      "segment": "REGION_OPTION",
+      "desc": "三盞燈",
+      "val_1": "22.20288374716538, 113.54597588056865",
+      "val_2": "1"
+    }
+  ],
+  "updateDate": "2026-10-28",
+  "itemId": "918",
+  "mirroredAt": "2026-11-02T21:36:51+08:00",
+  "source": "supermarketlist_pricerange item=918",
+  "buildId": "lg8uZWTJOxFNEICvbAPkx"
+}

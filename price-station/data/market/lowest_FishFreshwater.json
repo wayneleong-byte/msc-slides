@@ -1,0 +1,39 @@
+{
+  "tag": "FishFreshwater",
+  "ccn": "魚類 - 淡水魚",
+  "mirroredAt": "2026-11-02T21:41:35+08:00",
+  "items": [
+    {
+      "name": "大魚",
+      "namePt": "Carpa de cabeça grande",
+      "lpaToday": "20",
+      "lpbToday": "33.1",
+      "lpaWeek": "22.3",
+      "lpbWeek": "36.8"
+    },
+    {
+      "name": "鯇魚",
+      "namePt": "Carpa de erva",
+      "lpaToday": "29",
+      "lpbToday": "47.9",
+      "lpaWeek": "29",
+      "lpbWeek": "47.9"
+    },
+    {
+      "name": "鯪魚",
+      "namePt": "Dace",
+      "lpaToday": "30",
+      "lpbToday": "49.6",
+      "lpaWeek": "32",
+      "lpbWeek": "52.9"
+    },
+    {
+      "name": "鯽魚",
+      "namePt": "Pimpão",
+      "lpaToday": "28",
+      "lpbToday": "46.3",
+      "lpaWeek": "29.8",
+      "lpbWeek": "49.3"
+    }
+  ]
+}
