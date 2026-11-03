@@ -893,3 +893,31 @@ button { cursor: pointer; }
   font-size: 0.95rem;
   letter-spacing: 0.04em;
 }
+
+
+/* species photos (open-license webp) */
+.node-photo-wrap {
+  pointer-events: none;
+}
+.node-placeholder-text {
+  /* scaled inside unit clip; keep readable */
+}
+.detail-species-img {
+  display: block;
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 0 10px;
+  border: 1px solid rgba(106, 138, 72, 0.35);
+  background: #e8dfc8;
+}
+.lab-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(70, 50, 20, 0.25);
+  background: #e0d4b0;
+}

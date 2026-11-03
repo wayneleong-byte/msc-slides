@@ -280,8 +280,11 @@
       row.setAttribute("draggable", "false");
       const color = TROPHIC[s.trophic]?.color || "#888";
       const inNet = state.selectedIds.has(s.id);
+      const thumb = s.image
+        ? `<img class="lab-thumb" src="${escapeHtml(s.image)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'troph-pip',style:'background:${color}'}))" />`
+        : `<span class="troph-pip" style="background:${color}"></span>`;
       row.innerHTML = `
-        <span class="troph-pip" style="background:${color}"></span>
+        ${thumb}
         <span class="lab-name">${escapeHtml(s.name_zh)}</span>
         ${inNet ? '<span class="lab-badge">已在網</span>' : '<button type="button" class="lab-alt" data-add="' + s.id + '">或點一下加入</button>'}
       `;
@@ -759,6 +762,24 @@
     }
   }
 
+
+  function addNodePlaceholder(parent, s, rNode) {
+    const r = rNode || NODE_R;
+    const ph = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    ph.setAttribute("class", "node-placeholder");
+    ph.setAttribute("x", String(-r * 0.55));
+    ph.setAttribute("y", String(-r * 0.55));
+    ph.setAttribute("width", String(r * 1.1));
+    ph.setAttribute("height", String(r * 0.7));
+    ph.setAttribute("rx", "4");
+    parent.appendChild(ph);
+    const initial = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    initial.setAttribute("class", "node-placeholder-text");
+    initial.setAttribute("y", String(-r * 0.05));
+    initial.textContent = (s.name_zh || "?").slice(0, 2);
+    parent.appendChild(initial);
+  }
+
   function buildNodeEl(s, pos) {
     const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
     g.setAttribute("class", "node-g" + (state.selectedNodeId === s.id ? " selected" : ""));
@@ -778,20 +799,46 @@
     body.setAttribute("r", rNode);
     g.appendChild(body);
 
-    const ph = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    ph.setAttribute("class", "node-placeholder");
-    ph.setAttribute("x", -16);
-    ph.setAttribute("y", -18);
-    ph.setAttribute("width", 32);
-    ph.setAttribute("height", 20);
-    ph.setAttribute("rx", 4);
-    g.appendChild(ph);
+    const clipId = `node-clip-${s.id}`;
+    const defs = $("#webSvg defs");
+    let cp = defs && defs.querySelector("#" + clipId);
+    if (defs && !cp) {
+      cp = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
+      cp.setAttribute("id", clipId);
+      const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      c.setAttribute("cx", "0");
+      c.setAttribute("cy", "0");
+      c.setAttribute("r", String(rNode));
+      cp.appendChild(c);
+      defs.appendChild(cp);
+    } else if (cp) {
+      const c = cp.querySelector("circle");
+      if (c) c.setAttribute("r", String(rNode));
+    }
 
-    const initial = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    initial.setAttribute("class", "node-placeholder-text");
-    initial.setAttribute("y", -4);
-    initial.textContent = (s.name_zh || "?").slice(0, 2);
-    g.appendChild(initial);
+    const photoWrap = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    photoWrap.setAttribute("class", "node-photo-wrap");
+    photoWrap.setAttribute("clip-path", `url(#${clipId})`);
+
+    if (s.image) {
+      const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
+      img.setAttribute("class", "node-photo");
+      img.setAttributeNS("http://www.w3.org/1999/xlink", "href", s.image);
+      img.setAttribute("href", s.image);
+      img.setAttribute("x", String(-rNode));
+      img.setAttribute("y", String(-rNode));
+      img.setAttribute("width", String(rNode * 2));
+      img.setAttribute("height", String(rNode * 2));
+      img.setAttribute("preserveAspectRatio", "xMidYMid slice");
+      img.addEventListener("error", () => {
+        img.remove();
+        addNodePlaceholder(photoWrap, s, rNode);
+      });
+      photoWrap.appendChild(img);
+    } else {
+      addNodePlaceholder(photoWrap, s, rNode);
+    }
+    g.appendChild(photoWrap);
 
     const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
     label.setAttribute("class", "node-label");
@@ -1084,11 +1131,16 @@
         return;
       }
       const troph = TROPHIC[s.trophic];
+      const imgBlock = s.image
+        ? `<img class="detail-species-img" src="${escapeHtml(s.image)}" alt="${escapeHtml(s.name_zh)}" loading="lazy" onerror="this.style.display='none'" />`
+        : "";
       body.innerHTML = `
         <h3>${escapeHtml(s.name_zh)}</h3>
+        ${imgBlock}
         <div class="detail-meta">
           ${s.name_la ? `<div>學名：${escapeHtml(s.name_la)}</div>` : ""}
           <div>營養級：<button type="button" class="linkish" data-glossary="${s.trophic === "apex_consumer" ? "apex_consumer" : s.trophic}">${escapeHtml(troph?.zh || s.trophic)}</button></div>
+          <div class="tiny muted"><a class="linkish" href="assets/ATTRIBUTION.md" target="_blank" rel="noopener">圖像署名</a></div>
         </div>
         <p class="detail-l1"><strong>初階</strong>　${escapeHtml(s.blurb_l1 || "")}</p>
         <button type="button" class="expand-btn" id="btnExpandL2">展開進階說明</button>
