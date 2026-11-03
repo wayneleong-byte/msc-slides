@@ -1,0 +1,442 @@
+[
+  {
+    "name": "南非新奇士／澳洲高甜臍橙",
+    "unit": "2.8磅／袋",
+    "salePrice": 37.8,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05"
+  },
+  {
+    "name": "ZESPRI特大金奇異果",
+    "unit": "盒",
+    "salePrice": 69.8,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05"
+  },
+  {
+    "name": "袋裝都樂超甜香蕉",
+    "unit": "袋",
+    "salePrice": 16.5,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05"
+  },
+  {
+    "name": "沙糖桔",
+    "unit": "磅",
+    "salePrice": 11.7,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "note": "海報另標標準價25.6/kg（單位不同，不計折扣）"
+  },
+  {
+    "name": "冰鮮文昌雞",
+    "unit": "袋",
+    "salePrice": 65.8,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 79.9,
+    "discountPercent": 18,
+    "discountLabel": "-18%"
+  },
+  {
+    "name": "冰鮮竹絲雞",
+    "unit": "1kg",
+    "salePrice": 39.9,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05"
+  },
+  {
+    "name": "明治-CP100%鮮牛奶飲品",
+    "unit": "946ml（2件均價；2件42）",
+    "salePrice": 21.0,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 29.9,
+    "discountPercent": 30,
+    "discountLabel": "-30%"
+  },
+  {
+    "name": "Nimm2果汁／酸味果汁橡皮糖",
+    "unit": "90g（2件均價；2件19.8可混搭）",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 18.5,
+    "discountPercent": 46,
+    "discountLabel": "-46%"
+  },
+  {
+    "name": "嘉頓時時食夾心餅8包裝",
+    "unit": "376-400g",
+    "salePrice": 22.9,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 25.5,
+    "discountPercent": 10,
+    "discountLabel": "-10%",
+    "note": "標準價約25.5–29.5，折扣按25.5計"
+  },
+  {
+    "name": "雀巢雪糕批／甜筒多件裝",
+    "unit": "195-210g（2件均價；2件56可混搭）",
+    "salePrice": 28.0,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 65.0,
+    "discountPercent": 57,
+    "discountLabel": "-57%"
+  },
+  {
+    "name": "阿在伯手工餃子（豬肉／韭菜）",
+    "unit": "45隻／810g",
+    "salePrice": 27.8,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 36.8,
+    "discountPercent": 24,
+    "discountLabel": "-24%"
+  },
+  {
+    "name": "公仔8.5吋春卷皮",
+    "unit": "400g",
+    "salePrice": 14.5,
+    "currency": "MOP",
+    "page": "sanmiu-01",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 17.5,
+    "discountPercent": 17,
+    "discountLabel": "-17%"
+  },
+  {
+    "name": "維他九包裝檸檬茶／菊花茶（指定4款）",
+    "unit": "9×250ml",
+    "salePrice": 22.9,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 31.3,
+    "discountPercent": 27,
+    "discountLabel": "-27%"
+  },
+  {
+    "name": "維他九包裝豆奶／麥精豆奶（指定4款）",
+    "unit": "9×250ml",
+    "salePrice": 27.9,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 34.3,
+    "discountPercent": 19,
+    "discountLabel": "-19%"
+  },
+  {
+    "name": "雪花勇闖天涯啤酒",
+    "unit": "4×500ml（2件均價；2件29.8）",
+    "salePrice": 14.9,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 21.0,
+    "discountPercent": 29,
+    "discountLabel": "-29%"
+  },
+  {
+    "name": "奔富 BIN 704 赤霞珠紅酒",
+    "unit": "750ml",
+    "salePrice": 699.0,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 880.0,
+    "discountPercent": 21,
+    "discountLabel": "-21%"
+  },
+  {
+    "name": "B&W即溶咖啡混合裝",
+    "unit": "30×20g（2件均價；2件79.8）",
+    "salePrice": 39.9,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 52.9,
+    "discountPercent": 25,
+    "discountLabel": "-25%"
+  },
+  {
+    "name": "Nimm2 Smilegummi／Storck Mamba糖果",
+    "unit": "（2件均價；2件25）",
+    "salePrice": 12.5,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "note": "單件標準價約16.9–22.5，不計單一折扣"
+  },
+  {
+    "name": "明治夏威夷果／杏仁朱古力",
+    "unit": "63-79g",
+    "salePrice": 15.9,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 17.5,
+    "discountPercent": 9,
+    "discountLabel": "-9%"
+  },
+  {
+    "name": "日清杯麵／炒麵（多口味）",
+    "unit": "100-107g（3件均價；3件26）",
+    "salePrice": 8.7,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 9.2,
+    "discountPercent": 5,
+    "discountLabel": "-5%",
+    "note": "標準價約9.2–10，折扣按9.2計"
+  },
+  {
+    "name": "出前一丁北海道麵粉即食麵5包裝",
+    "unit": "5×91-100g",
+    "salePrice": 22.5,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 23.5,
+    "discountPercent": 4,
+    "discountLabel": "-4%"
+  },
+  {
+    "name": "御品皇優質泰國茉莉香米",
+    "unit": "8kg",
+    "salePrice": 88.0,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 109.0,
+    "discountPercent": 19,
+    "discountLabel": "-19%"
+  },
+  {
+    "name": "多芬滋養／西柚沐浴乳護髮精華套裝（Hangyodon）",
+    "unit": "100-107g",
+    "salePrice": 68.0,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 78.0,
+    "discountPercent": 13,
+    "discountLabel": "-13%",
+    "note": "買1送不鏽鋼餐具套裝（價值29.9）"
+  },
+  {
+    "name": "AXE檸檬洗潔精（泵＋補充裝）",
+    "unit": "1.3L",
+    "salePrice": 43.9,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 50.9,
+    "discountPercent": 14,
+    "discountLabel": "-14%"
+  },
+  {
+    "name": "潔柔軟抽／藍鳶尾廁紙（5包或12卷）",
+    "unit": "5包或12卷",
+    "salePrice": 26.9,
+    "currency": "MOP",
+    "page": "sanmiu-02",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 36.0,
+    "discountPercent": 25,
+    "discountLabel": "-25%",
+    "note": "標準價約36–36.8"
+  },
+  {
+    "name": "多芬滋養／西柚沐浴乳護髮精華套裝（Hangyodon）",
+    "unit": "100-107g",
+    "salePrice": 68.0,
+    "currency": "MOP",
+    "page": "sanmiu-03",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 78.0,
+    "discountPercent": 13,
+    "discountLabel": "-13%",
+    "note": "買1送不鏽鋼餐具套裝（價值29.9）；專題海報"
+  },
+  {
+    "name": "維他九包裝檸檬茶／菊花茶（指定4款）",
+    "unit": "9×250ml",
+    "salePrice": 22.9,
+    "currency": "MOP",
+    "page": "sanmiu-04",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 31.3,
+    "discountPercent": 27,
+    "discountLabel": "-27%",
+    "note": "滿$55維他／維他奶常溫飲品另送6盒檸檬茶（價值20.9）；專題海報"
+  },
+  {
+    "name": "維他九包裝豆奶／麥精豆奶（指定4款）",
+    "unit": "9×250ml",
+    "salePrice": 27.9,
+    "currency": "MOP",
+    "page": "sanmiu-04",
+    "promoSlot": "2026-10-30 至 2026-11-05",
+    "originalPrice": 34.3,
+    "discountPercent": 19,
+    "discountLabel": "-19%",
+    "note": "同上門檻贈品；專題海報"
+  },
+  {
+    "name": "ROKEBY Protein Milk Smoothie（香蕉蜂蜜肉桂）",
+    "unit": "425ml",
+    "salePrice": 25.9,
+    "currency": "MOP",
+    "page": "sanmiu-05",
+    "promoSlot": "2026-10-30 至 2026-11-05"
+  },
+  {
+    "name": "指定精選烘焙｜豬仔飽",
+    "unit": "兩個裝",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-06",
+    "promoSlot": "2026/10/28起（1週年係堅價）"
+  },
+  {
+    "name": "指定精選烘焙｜全麥方包",
+    "unit": "6片裝",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-06",
+    "promoSlot": "2026/10/28起（1週年係堅價）"
+  },
+  {
+    "name": "指定精選烘焙｜咸方包",
+    "unit": "六片裝",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-06",
+    "promoSlot": "2026/10/28起（1週年係堅價）"
+  },
+  {
+    "name": "指定精選烘焙｜芝味麵包棒",
+    "unit": "份",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-06",
+    "promoSlot": "2026/10/28起（1週年係堅價）"
+  },
+  {
+    "name": "指定精選烘焙｜法國棍飽",
+    "unit": "條",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-06",
+    "promoSlot": "2026/10/28起（1週年係堅價）"
+  },
+  {
+    "name": "指定精選烘焙｜椰蓉餐包",
+    "unit": "四個裝",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-06",
+    "promoSlot": "2026/10/28起（1週年係堅價）"
+  },
+  {
+    "name": "指定精選烘焙｜提子餐包",
+    "unit": "五個裝",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-06",
+    "promoSlot": "2026/10/28起（1週年係堅價）"
+  },
+  {
+    "name": "指定精選烘焙｜咸餐包",
+    "unit": "份",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sanmiu-06",
+    "promoSlot": "2026/10/28起（1週年係堅價）"
+  },
+  {
+    "name": "指定精選葉菜｜上海青（小棠菜）",
+    "unit": "包",
+    "salePrice": 5.0,
+    "currency": "MOP",
+    "page": "sanmiu-07",
+    "promoSlot": "2026/10/28起（1週年係堅價）",
+    "note": "加量不加價"
+  },
+  {
+    "name": "指定精選葉菜｜菜心",
+    "unit": "包",
+    "salePrice": 5.0,
+    "currency": "MOP",
+    "page": "sanmiu-07",
+    "promoSlot": "2026/10/28起（1週年係堅價）",
+    "note": "加量不加價"
+  },
+  {
+    "name": "指定精選葉菜｜羅馬生菜",
+    "unit": "包",
+    "salePrice": 5.0,
+    "currency": "MOP",
+    "page": "sanmiu-07",
+    "promoSlot": "2026/10/28起（1週年係堅價）",
+    "note": "加量不加價"
+  },
+  {
+    "name": "指定精選葉菜｜通菜",
+    "unit": "包",
+    "salePrice": 5.0,
+    "currency": "MOP",
+    "page": "sanmiu-07",
+    "promoSlot": "2026/10/28起（1週年係堅價）",
+    "note": "加量不加價"
+  },
+  {
+    "name": "ASAHI Wonda黑咖啡",
+    "unit": "370-400ml（2件均價；2件13.8）",
+    "salePrice": 6.9,
+    "currency": "MOP",
+    "page": "sanmiu-08",
+    "promoSlot": "2026/11/1起（1週年係堅價）",
+    "originalPrice": 10.5,
+    "discountPercent": 34,
+    "discountLabel": "-34%"
+  },
+  {
+    "name": "ASAHI Wonda極深煎咖啡（微糖）",
+    "unit": "370-400ml（2件均價；2件13.8）",
+    "salePrice": 6.9,
+    "currency": "MOP",
+    "page": "sanmiu-08",
+    "promoSlot": "2026/11/1起（1週年係堅價）",
+    "originalPrice": 10.5,
+    "discountPercent": 34,
+    "discountLabel": "-34%"
+  },
+  {
+    "name": "ASAHI Wonda極牛奶咖啡",
+    "unit": "370-400ml（2件均價；2件13.8）",
+    "salePrice": 6.9,
+    "currency": "MOP",
+    "page": "sanmiu-08",
+    "promoSlot": "2026/11/1起（1週年係堅價）",
+    "originalPrice": 10.5,
+    "discountPercent": 34,
+    "discountLabel": "-34%"
+  }
+]
