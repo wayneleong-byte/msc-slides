@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Re-OCR all P0 leaflet pages (chi_tra+eng). Run from repo root or any cwd.
+# Re-OCR leaflet pages (chi_tra+eng). Run from repo root or any cwd.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BASE="$ROOT/data/promo-leaflet/2026-11-03"
@@ -13,5 +13,11 @@ for f in "$BASE"/taifung/tf-*.jpg; do
   n=$((n+1))
   printf -v num '%02d' "$n"
   tesseract "$f" "$OCR/taifung-$num" -l chi_tra+eng --psm 6 2>"$OCR/taifung-$num.tesseract.log"
+done
+for i in 01 02 03 04 05 06 07 08; do
+  f="$BASE/sanmiu/sanmiu-$i.jpg"
+  if [[ -f "$f" ]]; then
+    tesseract "$f" "$OCR/sanmiu-$i" -l chi_tra+eng --psm 6 2>"$OCR/sanmiu-$i.tesseract.log"
+  fi
 done
 echo "OCR done → $OCR"

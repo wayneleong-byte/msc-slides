@@ -1,11 +1,11 @@
 {
-  "mirroredAt": "2026-11-03T12:00:04+08:00",
+  "mirroredAt": "2026-11-03T12:14:47+08:00",
   "timezone": "Asia/Macau",
   "period": "2026-11-03",
   "assetRoot": "data/promo-leaflet/2026-11-03/",
   "sourcePolicy": "official-website-leaflet + OCR; consumer-council discount API not primary",
   "ocrEngine": "tesseract 5 chi_tra+eng",
-  "ocrNote": "全頁 tesseract chi_tra+eng（來來 DM1–8、泰豐 6）。價錢美術字→null；品名經 SKU/欄位抽取＋嚴過濾，可入清單；圖為準。",
+  "ocrNote": "全頁 tesseract chi_tra+eng（來來 DM1–8、泰豐 6、新苗 8）。價錢美術字→null；品名經 OCR＋圖面核對過濾，可入清單；圖為準。",
   "stores": [
     {
       "id": "royal",
@@ -981,6 +981,340 @@
         }
       ],
       "ocrNote": "全頁 OCR；ocrItems=16；價全 null；圖為準"
+    },
+    {
+      "id": "sanmiu",
+      "scode": "0102",
+      "name_cn": "新苗",
+      "name_en": "San Miu",
+      "mark": "新苗",
+      "sourceUrl": "https://www.facebook.com/profile.php?id=100057436629940",
+      "sourceType": "facebook",
+      "promoWindow": "2026-10-30 至 2026-11-05（堅著數）；海報6–7：1週年係堅價自2026/10/28起；海報8自2026/11/1起",
+      "pages": [
+        {
+          "file": "sanmiu/sanmiu-01.jpg",
+          "label": "海報1"
+        },
+        {
+          "file": "sanmiu/sanmiu-02.jpg",
+          "label": "海報2"
+        },
+        {
+          "file": "sanmiu/sanmiu-03.jpg",
+          "label": "海報3"
+        },
+        {
+          "file": "sanmiu/sanmiu-04.jpg",
+          "label": "海報4"
+        },
+        {
+          "file": "sanmiu/sanmiu-05.jpg",
+          "label": "海報5"
+        },
+        {
+          "file": "sanmiu/sanmiu-06.jpg",
+          "label": "海報6"
+        },
+        {
+          "file": "sanmiu/sanmiu-07.jpg",
+          "label": "海報7"
+        },
+        {
+          "file": "sanmiu/sanmiu-08.jpg",
+          "label": "海報8"
+        }
+      ],
+      "ocrItems": [
+        {
+          "name": "南非新奇士/澳洲高甜臍橙",
+          "price": null,
+          "unit": "2.8磅",
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "ZESPRI特大金奇異果",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "袋裝都樂超甜香蕉",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "沙糖桔",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "冰鮮文昌雞",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "冰鮮竹絲雞",
+          "price": null,
+          "unit": "1kg",
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "明治-CP100%鮮牛奶飲品",
+          "price": null,
+          "unit": "946ml",
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "Nimm2果汁/酸味果汁橡皮糖",
+          "price": null,
+          "unit": "90g",
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "嘉頓時時食夾心餅(8包裝)",
+          "price": null,
+          "unit": "376-400g",
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "雀巢雪糕批/甜筒多件裝",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "阿在伯手工餃子(豬肉/韭菜)",
+          "price": null,
+          "unit": "810g",
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "公仔8.5\"春卷皮",
+          "price": null,
+          "unit": "400g",
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "維他九包裝檸檬茶/菊花茶",
+          "price": null,
+          "unit": "9*250ml",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "維他九包裝豆奶/麥精豆奶",
+          "price": null,
+          "unit": "9*250ml",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "雪花勇闖天涯啤酒",
+          "price": null,
+          "unit": "4*500ml",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "奔富BIN704赤霞珠紅酒",
+          "price": null,
+          "unit": "750ml",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "B&W即溶咖啡(30條)",
+          "price": null,
+          "unit": "30*20g",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "Nimm2 Smilegummi/餅乾指定款",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "明治夏威夷果/杏仁朱古力",
+          "price": null,
+          "unit": "63-79g",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "日清合味道杯麵指定9款",
+          "price": null,
+          "unit": "100-107g",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "出前一丁北海道小麥粉五包裝",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "御品皇泰國香米",
+          "price": null,
+          "unit": "8kg",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "多芬滋養/西柚沐浴乳護髮精華套裝",
+          "price": null,
+          "unit": "100-107g",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "AXE檸檬洗潔精泵裝+補充",
+          "price": null,
+          "unit": "1.3L",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "清風柔韌抽紙(5包裝)/藍隊廁紙(12卷)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "多芬Hangyodon限定沐浴乳護髮精華套裝",
+          "price": null,
+          "unit": "100-107g",
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "多芬不鏽鋼餐具套裝(贈品)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "維他鴨屎香/0糖/手指檸檬味檸檬茶(6盒贈品)",
+          "price": null,
+          "unit": "6*250ml",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "維他九包裝檸檬茶/菊花茶指定4款",
+          "price": null,
+          "unit": "9*250ml",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "維他九包裝豆奶/麥精豆奶指定4款",
+          "price": null,
+          "unit": "9*250ml",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Rokeby蛋白質奶昔(香蕉蜜糖肉桂)",
+          "price": null,
+          "unit": "425ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "豬仔飽(兩個裝)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "全麥方包(6片裝)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "咸方包(六片裝)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "芝味麵包棒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "法國棍飽",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "椰蓉餐包(四個裝)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "提子餐包(五個裝)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "咸餐包",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "指定精選葉菜",
+          "price": null,
+          "unit": "包",
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "ASAHI黑咖啡/極深煎咖啡(微糖)/極牛奶咖啡",
+          "price": null,
+          "unit": "370-400ml",
+          "sku": null,
+          "page": "海報8"
+        }
+      ],
+      "ocrNote": "全頁 OCR（tesseract chi_tra+eng）＋圖面核對；ocrItems=41；價全 null；圖為準。raw: ocr/sanmiu-01…08.txt"
     }
   ]
 }
