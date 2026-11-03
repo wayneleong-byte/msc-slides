@@ -257,11 +257,98 @@
     el.innerHTML = bits.map((b) => '<div>' + b + '</div>').join('');
   }
 
+
+  const LEAFLET_SCODE = {
+    royal: '0101',
+    taifung: '0104',
+    sanmiu: '0102',
+    sunsco: '0103',
+    namkwong: '0121'
+  };
+
+  /** Resolve promo scode from string, leaflet store object, or alias id. */
+  function resolvePromoScode(ref) {
+    if (ref == null || ref === '') return null;
+    if (typeof ref === 'string' || typeof ref === 'number') {
+      const s = String(ref).trim();
+      if (/^\d{4}$/.test(s)) return s;
+      if (LEAFLET_SCODE[s]) return LEAFLET_SCODE[s];
+      return null;
+    }
+    if (typeof ref === 'object') {
+      if (ref.scode != null && String(ref.scode).trim() !== '') return String(ref.scode).trim();
+      if (ref.id && LEAFLET_SCODE[ref.id]) return LEAFLET_SCODE[ref.id];
+      if (ref.leafletStoreId && LEAFLET_SCODE[ref.leafletStoreId]) return LEAFLET_SCODE[ref.leafletStoreId];
+    }
+    return null;
+  }
+
+  /** Look up store-branches entry by scode, leaflet id, or alias (t546 array schema + legacy dict). */
+  function storeBranchEntry(storeBranches, scodeOrAlias) {
+    if (!storeBranches || scodeOrAlias == null || scodeOrAlias === '') return null;
+    const key = String(scodeOrAlias);
+    const raw = storeBranches.stores;
+    if (Array.isArray(raw)) {
+      let hit = raw.find((s) => s && (s.id === key || String(s.scode) === key || String(s.groupId) === key));
+      if (hit) return hit;
+      const mapped = (LEAFLET_SCODE[key] || (storeBranches.aliases && storeBranches.aliases[key]));
+      if (mapped) {
+        hit = raw.find((s) => s && (String(s.scode) === String(mapped) || String(s.groupId) === String(mapped) || s.id === key));
+        if (hit) return hit;
+      }
+      const resolved = resolvePromoScode(key);
+      if (resolved) {
+        hit = raw.find((s) => s && (String(s.scode) === resolved || String(s.groupId) === resolved));
+        if (hit) return hit;
+      }
+      return null;
+    }
+    const stores = raw || {};
+    if (stores[key]) return stores[key];
+    const aliases = storeBranches.aliases || LEAFLET_SCODE;
+    const mapped = aliases[key];
+    if (mapped && stores[mapped]) return stores[mapped];
+    const resolved = resolvePromoScode(key);
+    if (resolved && stores[resolved]) return stores[resolved];
+    return null;
+  }
+
+  function pickDefaultBranch(entry) {
+    const branches = (entry && entry.branches) || [];
+    return branches.length ? branches[0] : null;
+  }
+
+  /** Attach preferredBranch / branchId / branches onto a cart entry. */
+  function withPromoBranch(entry, branchEntry, selected) {
+    const out = Object.assign({}, entry || {});
+    const branches = ((branchEntry && branchEntry.branches) || []).map((b) => ({
+      id: String(b.id),
+      name: String(b.name || '')
+    }));
+    out.branches = branches;
+    if (branchEntry && branchEntry.scode) out.scode = String(branchEntry.scode);
+    let sel = selected || null;
+    if (!sel && branches.length) sel = branches[0];
+    if (sel) {
+      out.branchId = String(sel.id != null ? sel.id : '');
+      out.preferredBranch = String(sel.name || '');
+      if (sel.name) {
+        out.preferredStore = String(sel.name);
+        out.bestStore = String(sel.name);
+      }
+    } else {
+      out.branchId = out.branchId || null;
+      out.preferredBranch = out.preferredBranch || '';
+    }
+    return out;
+  }
+
   global.MPS = {
     IMG, CART_KEY, $, $all, loadJSON, money, getCart, saveCart, addToCart, removeFromCart,
     clearCart, updateCartBadge, flattenStores, cheapestStore, bestSingleStore, loadMeta,
     fillFooter, markActiveNav, escapeHtml, isMarketItem, preferredLinePrice, bestPriceOfItem,
-    parseLooseDate, isStaleUpdate, wrapUpdateHtml
+    parseLooseDate, isStaleUpdate, wrapUpdateHtml,
+    LEAFLET_SCODE, resolvePromoScode, storeBranchEntry, pickDefaultBranch, withPromoBranch
   };
 
   document.addEventListener('DOMContentLoaded', () => {

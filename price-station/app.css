@@ -284,3 +284,38 @@ details.card > summary::-webkit-details-marker { display: none; }
   opacity: 0.75;
   font-weight: 500;
 }
+
+
+/* t546 branch pick modal */
+.branch-modal[hidden] { display: none !important; }
+.branch-modal {
+  position: fixed; inset: 0; z-index: 1100;
+  display: grid; place-items: center;
+  padding: 16px;
+}
+.branch-modal-backdrop {
+  position: absolute; inset: 0; background: rgba(10, 18, 10, 0.55);
+}
+.branch-modal-panel {
+  position: relative; z-index: 1;
+  width: min(420px, 96vw);
+  background: var(--card); color: var(--ink);
+  border-radius: var(--radius); border: 1px solid var(--line);
+  box-shadow: var(--shadow); padding: 16px 16px 14px;
+}
+.branch-modal-panel h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.branch-modal-panel label { display: block; font-size: 0.9rem; margin: 10px 0 6px; font-weight: 600; }
+.branch-modal-panel select {
+  width: 100%; padding: 8px 10px; border-radius: 10px;
+  border: 1px solid var(--line); font: inherit; background: #fff;
+}
+.branch-modal-panel .branch-address,
+.branch-modal-panel .branch-pending {
+  margin: 8px 0 0; padding: 10px 12px; border-radius: 10px;
+  font-size: 0.9rem; line-height: 1.45;
+}
+.branch-modal-panel .branch-address { background: var(--blue-soft); }
+.branch-modal-panel .branch-pending { background: var(--amber-soft); color: #8a5a10; }
+.branch-modal-actions {
+  display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
