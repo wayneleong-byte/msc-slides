@@ -1,0 +1,816 @@
+(() => {
+  "use strict";
+
+  const DATA = {
+    eco: "data/ecosystems/savanna.json",
+    glossary: "data/glossary.json",
+    quiz: "data/quiz/bank-v1.json",
+  };
+
+  const RELATION = {
+    predation: { zh: "捕食", color: "var(--rel-predation)", marker: "url(#arrowPredation)", feed: true },
+    herbivory: { zh: "草食", color: "var(--rel-herbivory)", marker: "url(#arrowHerbivory)", feed: true },
+    competition: { zh: "競爭", color: "var(--rel-competition)", marker: null, feed: false, dashed: true },
+    mutualism: { zh: "互利", color: "var(--rel-mutualism)", marker: "url(#arrowMutualism)", feed: false, sym: "＋／＋" },
+    parasitism: { zh: "寄生", color: "var(--rel-parasitism)", marker: "url(#arrowParasitism)", feed: true, sym: "＋／－" },
+    commensalism: { zh: "偏利", color: "var(--rel-commensalism)", marker: "url(#arrowCommensalism)", feed: false, sym: "＋／0" },
+    detritivory: { zh: "食碎屑", color: "var(--rel-detritivory)", marker: "url(#arrowDetritivory)", feed: true },
+  };
+
+  const TROPHIC = {
+    producer: { zh: "生產者", color: "var(--troph-producer)" },
+    primary_consumer: { zh: "初級消費者", color: "var(--troph-primary)" },
+    secondary_consumer: { zh: "次級消費者", color: "var(--troph-secondary)" },
+    apex_consumer: { zh: "頂級／近頂級", color: "var(--troph-apex)" },
+    decomposer: { zh: "分解者", color: "var(--troph-decomposer)" },
+  };
+
+  const IDLE_MS = 60000;
+  const NODE_R = 34;
+  const QUIZ_N = 9;
+
+  const state = {
+    eco: null,
+    glossary: null,
+    quizBank: null,
+    selectedIds: new Set(),
+    positions: new Map(),
+    filterRelation: "all",
+    selectedNodeId: null,
+    selectedEdgeKey: null,
+    drag: null,
+    idleTimer: null,
+    idleOn: false,
+    quiz: null,
+  };
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+  function showError(msg) {
+    const el = $("#loadError");
+    el.hidden = false;
+    el.textContent = msg;
+    $("#mainLayout").hidden = true;
+  }
+
+  async function loadJson(url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`無法載入 ${url}（HTTP ${res.status}）`);
+    return res.json();
+  }
+
+  async function boot() {
+    try {
+      const [eco, glossary, quizBank] = await Promise.all([
+        loadJson(DATA.eco),
+        loadJson(DATA.glossary),
+        loadJson(DATA.quiz),
+      ]);
+      state.eco = eco;
+      state.glossary = glossary;
+      state.quizBank = quizBank;
+      $("#disclaimerBanner").textContent =
+        eco.disclaimer_zh || "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。";
+      $("#glossaryDisclaimer").textContent = glossary.disclaimer_zh || "";
+      initSelection(true);
+      layoutInitial();
+      buildStaticUi();
+      renderAll();
+      $("#mainLayout").hidden = false;
+      bindGlobal();
+      bumpIdle();
+    } catch (err) {
+      console.error(err);
+      showError(`資料載入失敗：${err.message || err}。請用本機 HTTP 伺服器開啟（見 README）。`);
+    }
+  }
+
+  function initSelection(full) {
+    state.selectedIds = new Set(
+      full ? state.eco.species.map((s) => s.id) : state.selectedIds
+    );
+  }
+
+  function speciesById(id) {
+    return state.eco.species.find((s) => s.id === id);
+  }
+
+  function visibleSpecies() {
+    return state.eco.species.filter((s) => state.selectedIds.has(s.id));
+  }
+
+  function visibleEdges() {
+    const ids = state.selectedIds;
+    return state.eco.edges.filter(
+      (e) =>
+        ids.has(e.from) &&
+        ids.has(e.to) &&
+        (state.filterRelation === "all" || e.relation === state.filterRelation)
+    );
+  }
+
+  function allEdgesAmongSelected() {
+    const ids = state.selectedIds;
+    return state.eco.edges.filter((e) => ids.has(e.from) && ids.has(e.to));
+  }
+
+  function layoutInitial() {
+    const wrap = $("#canvasWrap");
+    const w = Math.max(wrap.clientWidth || 900, 640);
+    const h = Math.max(wrap.clientHeight || 560, 480);
+    const svg = $("#webSvg");
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+
+    const bands = {
+      producer: 0.12,
+      primary_consumer: 0.32,
+      secondary_consumer: 0.55,
+      apex_consumer: 0.78,
+      decomposer: 0.92,
+    };
+    const groups = {};
+    for (const s of state.eco.species) {
+      (groups[s.trophic] || (groups[s.trophic] = [])).push(s);
+    }
+    state.positions.clear();
+    for (const [trophic, list] of Object.entries(groups)) {
+      const y = (bands[trophic] || 0.5) * h;
+      list.forEach((s, i) => {
+        const x = ((i + 1) / (list.length + 1)) * w;
+        const jitter = ((i % 3) - 1) * 18;
+        state.positions.set(s.id, { x: x + jitter * 0.2, y: y + jitter });
+      });
+    }
+  }
+
+  function buildStaticUi() {
+    const abiotic = $("#abioticTags");
+    abiotic.innerHTML = "";
+    for (const a of state.eco.abiotic || []) {
+      const span = document.createElement("span");
+      span.className = "tag abiotic";
+      span.textContent = a;
+      abiotic.appendChild(span);
+    }
+
+    const filters = $("#relationFilters");
+    filters.innerHTML = "";
+    const allBtn = document.createElement("button");
+    allBtn.type = "button";
+    allBtn.className = "chip active";
+    allBtn.dataset.rel = "all";
+    allBtn.textContent = "全部關係";
+    filters.appendChild(allBtn);
+    for (const [key, meta] of Object.entries(RELATION)) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip";
+      btn.dataset.rel = key;
+      btn.innerHTML = `<span class="dot" style="background:${meta.color}"></span>${meta.zh}`;
+      filters.appendChild(btn);
+    }
+    filters.addEventListener("click", (ev) => {
+      const btn = ev.target.closest(".chip");
+      if (!btn) return;
+      state.filterRelation = btn.dataset.rel;
+      $$(".chip", filters).forEach((c) => c.classList.toggle("active", c === btn));
+      renderGraph();
+      bumpIdle();
+    });
+
+    const lr = $("#legendRelations");
+    lr.innerHTML = "";
+    for (const [key, meta] of Object.entries(RELATION)) {
+      const item = document.createElement("div");
+      item.className = "legend-item";
+      if (meta.dashed) {
+        item.innerHTML = `<span class="swatch dashed"></span>${meta.zh}`;
+      } else {
+        item.innerHTML = `<span class="swatch" style="background:${meta.color}"></span>${meta.zh}${meta.sym ? "（" + meta.sym + "）" : ""}`;
+      }
+      lr.appendChild(item);
+    }
+    const lt = $("#legendTrophic");
+    lt.innerHTML = "";
+    for (const meta of Object.values(TROPHIC)) {
+      const item = document.createElement("div");
+      item.className = "legend-item";
+      item.innerHTML = `<span class="dot-swatch" style="background:${meta.color}"></span>${meta.zh}`;
+      lt.appendChild(item);
+    }
+
+    renderLab();
+  }
+
+  function producerCount() {
+    return visibleSpecies().filter((s) => s.trophic === "producer").length;
+  }
+
+  function renderLab() {
+    const list = $("#labList");
+    list.innerHTML = "";
+    for (const s of state.eco.species) {
+      const label = document.createElement("label");
+      label.className = "lab-item";
+      const checked = state.selectedIds.has(s.id);
+      const color = TROPHIC[s.trophic]?.color || "#888";
+      label.innerHTML = `
+        <input type="checkbox" data-id="${s.id}" ${checked ? "checked" : ""} />
+        <span class="troph-pip" style="background:${color}"></span>
+        <span>${s.name_zh}</span>
+      `;
+      list.appendChild(label);
+    }
+    list.onchange = (ev) => {
+      const input = ev.target;
+      if (input.type !== "checkbox") return;
+      if (input.checked) state.selectedIds.add(input.dataset.id);
+      else state.selectedIds.delete(input.dataset.id);
+      updateLabWarn();
+      renderGraph();
+      if (state.selectedNodeId && !state.selectedIds.has(state.selectedNodeId)) {
+        state.selectedNodeId = null;
+        renderDetail();
+      }
+      bumpIdle();
+    };
+    updateLabWarn();
+  }
+
+  function updateLabWarn() {
+    const warn = $("#labWarn");
+    warn.hidden = producerCount() >= 2;
+  }
+
+  function edgeKey(e) {
+    return `${e.from}|${e.to}|${e.relation}`;
+  }
+
+  function renderAll() {
+    renderLab();
+    renderGraph();
+    renderDetail();
+  }
+
+  function renderGraph() {
+    const svg = $("#webSvg");
+    const wrap = $("#canvasWrap");
+    const w = Math.max(wrap.clientWidth || 900, 640);
+    const h = Math.max(wrap.clientHeight || 560, 480);
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+
+    const edgesG = $("#edgesLayer");
+    const nodesG = $("#nodesLayer");
+    edgesG.innerHTML = "";
+    nodesG.innerHTML = "";
+
+    const visIds = state.selectedIds;
+    const edges = visibleEdges();
+    const species = visibleSpecies();
+
+    for (const e of edges) {
+      const a = state.positions.get(e.from);
+      const b = state.positions.get(e.to);
+      if (!a || !b) continue;
+      const meta = RELATION[e.relation] || RELATION.predation;
+      const { x1, y1, x2, y2 } = shorten(a.x, a.y, b.x, b.y, NODE_R + 2, NODE_R + 2);
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      const midX = (x1 + x2) / 2;
+      const midY = (y1 + y2) / 2;
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const len = Math.hypot(dx, dy) || 1;
+      const ox = (-dy / len) * 12;
+      const oy = (dx / len) * 12;
+      const cx = midX + ox * 0.35;
+      const cy = midY + oy * 0.35;
+      path.setAttribute("d", `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+      path.setAttribute("class", "edge-path");
+      path.setAttribute("stroke", cssColor(meta.color));
+      path.dataset.key = edgeKey(e);
+      if (meta.dashed) {
+        path.setAttribute("stroke-dasharray", "5 4");
+        path.removeAttribute("marker-end");
+      } else if (meta.marker) {
+        path.setAttribute("marker-end", meta.marker);
+      }
+      if (state.selectedEdgeKey === edgeKey(e)) path.classList.add("selected");
+      path.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        state.selectedEdgeKey = edgeKey(e);
+        state.selectedNodeId = null;
+        renderGraph();
+        renderDetail();
+        bumpIdle();
+      });
+      edgesG.appendChild(path);
+
+      if (e.relation === "competition" || meta.sym) {
+        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        label.setAttribute("class", "edge-label");
+        label.setAttribute("x", cx);
+        label.setAttribute("y", cy - 4);
+        label.setAttribute("text-anchor", "middle");
+        label.textContent = e.relation === "competition" ? "競爭" : meta.sym || meta.zh;
+        edgesG.appendChild(label);
+      }
+    }
+
+    for (const s of species) {
+      const pos = state.positions.get(s.id) || { x: w / 2, y: h / 2 };
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("class", "node-g" + (state.selectedNodeId === s.id ? " selected" : ""));
+      g.dataset.id = s.id;
+      g.setAttribute("transform", `translate(${pos.x},${pos.y})`);
+
+      const troph = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      troph.setAttribute("class", "node-troph");
+      troph.setAttribute("r", NODE_R + 4);
+      troph.setAttribute("fill", cssColor(TROPHIC[s.trophic]?.color || "#888"));
+      troph.setAttribute("opacity", "0.35");
+      g.appendChild(troph);
+
+      const body = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      body.setAttribute("class", "node-body");
+      body.setAttribute("r", NODE_R);
+      g.appendChild(body);
+
+      // geometric placeholder (images may 404)
+      const ph = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      ph.setAttribute("class", "node-placeholder");
+      ph.setAttribute("x", -16);
+      ph.setAttribute("y", -18);
+      ph.setAttribute("width", 32);
+      ph.setAttribute("height", 20);
+      ph.setAttribute("rx", 4);
+      g.appendChild(ph);
+
+      const initial = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      initial.setAttribute("class", "node-placeholder-text");
+      initial.setAttribute("y", -4);
+      initial.textContent = (s.name_zh || "?").slice(0, 2);
+      g.appendChild(initial);
+
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "node-label");
+      label.setAttribute("y", 22);
+      label.textContent = shortName(s.name_zh);
+      g.appendChild(label);
+
+      g.addEventListener("pointerdown", onNodeDown);
+      g.addEventListener("click", (ev) => {
+        if (state.drag && state.drag.moved) return;
+        ev.stopPropagation();
+        state.selectedNodeId = s.id;
+        state.selectedEdgeKey = null;
+        renderGraph();
+        renderDetail();
+        bumpIdle();
+      });
+      nodesG.appendChild(g);
+    }
+
+    // dim non-adjacent when a node selected
+    if (state.selectedNodeId) {
+      const neigh = new Set([state.selectedNodeId]);
+      for (const e of allEdgesAmongSelected()) {
+        if (e.from === state.selectedNodeId || e.to === state.selectedNodeId) {
+          neigh.add(e.from);
+          neigh.add(e.to);
+        }
+      }
+      $$(".node-g", nodesG).forEach((g) => {
+        if (!neigh.has(g.dataset.id)) g.classList.add("dim");
+      });
+      $$(".edge-path", edgesG).forEach((p) => {
+        const [f, t] = p.dataset.key.split("|");
+        if (f !== state.selectedNodeId && t !== state.selectedNodeId) p.classList.add("dim");
+      });
+    }
+  }
+
+  function shortName(name) {
+    if (!name) return "";
+    return name.length > 6 ? name.slice(0, 5) + "…" : name;
+  }
+
+  function cssColor(v) {
+    // resolve CSS vars for SVG attributes that don't inherit custom props well in markers
+    if (!v) return "#ccc";
+    if (v.startsWith("var(")) {
+      const name = v.slice(4, -1).trim();
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#ccc";
+    }
+    return v;
+  }
+
+  function shorten(x1, y1, x2, y2, r1, r2) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const len = Math.hypot(dx, dy) || 1;
+    const ux = dx / len;
+    const uy = dy / len;
+    return {
+      x1: x1 + ux * r1,
+      y1: y1 + uy * r1,
+      x2: x2 - ux * r2,
+      y2: y2 - uy * r2,
+    };
+  }
+
+  function onNodeDown(ev) {
+    const g = ev.currentTarget;
+    const id = g.dataset.id;
+    const pos = state.positions.get(id);
+    if (!pos) return;
+    g.setPointerCapture(ev.pointerId);
+    state.drag = {
+      id,
+      pointerId: ev.pointerId,
+      ox: ev.clientX,
+      oy: ev.clientY,
+      startX: pos.x,
+      startY: pos.y,
+      moved: false,
+    };
+    g.classList.add("dragging");
+    bumpIdle();
+    g.addEventListener("pointermove", onNodeMove);
+    g.addEventListener("pointerup", onNodeUp);
+    g.addEventListener("pointercancel", onNodeUp);
+  }
+
+  function onNodeMove(ev) {
+    if (!state.drag || state.drag.pointerId !== ev.pointerId) return;
+    const svg = $("#webSvg");
+    const pt = clientToSvg(svg, ev.clientX, ev.clientY);
+    const start = clientToSvg(svg, state.drag.ox, state.drag.oy);
+    const dx = pt.x - start.x;
+    const dy = pt.y - start.y;
+    if (Math.hypot(dx, dy) > 3) state.drag.moved = true;
+    const vb = svg.viewBox.baseVal;
+    const x = clamp(state.drag.startX + dx, NODE_R, vb.width - NODE_R);
+    const y = clamp(state.drag.startY + dy, NODE_R, vb.height - NODE_R);
+    state.positions.set(state.drag.id, { x, y });
+    renderGraph();
+    bumpIdle();
+  }
+
+  function onNodeUp(ev) {
+    const g = ev.currentTarget;
+    g.releasePointerCapture(ev.pointerId);
+    g.classList.remove("dragging");
+    g.removeEventListener("pointermove", onNodeMove);
+    g.removeEventListener("pointerup", onNodeUp);
+    g.removeEventListener("pointercancel", onNodeUp);
+    // keep drag.moved flag briefly for click suppressor
+    setTimeout(() => {
+      if (state.drag) state.drag = null;
+    }, 0);
+    bumpIdle();
+  }
+
+  function clientToSvg(svg, clientX, clientY) {
+    const pt = svg.createSVGPoint();
+    pt.x = clientX;
+    pt.y = clientY;
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return { x: 0, y: 0 };
+    const p = pt.matrixTransform(ctm.inverse());
+    return { x: p.x, y: p.y };
+  }
+
+  function clamp(v, lo, hi) {
+    return Math.max(lo, Math.min(hi, v));
+  }
+
+  function renderDetail() {
+    const body = $("#detailBody");
+    if (state.selectedNodeId) {
+      const s = speciesById(state.selectedNodeId);
+      if (!s) {
+        body.innerHTML = `<p class="muted">點選畫布上的物種或連線。</p>`;
+        return;
+      }
+      const troph = TROPHIC[s.trophic];
+      body.innerHTML = `
+        <h3>${escapeHtml(s.name_zh)}</h3>
+        <div class="detail-meta">
+          ${s.name_la ? `<div>學名：${escapeHtml(s.name_la)}</div>` : ""}
+          <div>營養級：<button type="button" class="linkish" data-glossary="${s.trophic === "apex_consumer" ? "apex_consumer" : s.trophic}">${escapeHtml(troph?.zh || s.trophic)}</button></div>
+        </div>
+        <p class="detail-l1"><strong>初階</strong>　${escapeHtml(s.blurb_l1 || "")}</p>
+        <button type="button" class="expand-btn" id="btnExpandL2">展開進階說明</button>
+        <div class="detail-l2" id="detailL2" hidden>
+          <strong>進階</strong>　${escapeHtml(s.blurb_l2 || "")}
+        </div>
+      `;
+      $("#btnExpandL2").onclick = () => {
+        const box = $("#detailL2");
+        const open = box.hidden;
+        box.hidden = !open;
+        $("#btnExpandL2").textContent = open ? "收合進階說明" : "展開進階說明";
+        bumpIdle();
+      };
+      body.querySelectorAll("[data-glossary]").forEach((btn) => {
+        btn.onclick = () => openGlossary(btn.dataset.glossary);
+      });
+      return;
+    }
+
+    if (state.selectedEdgeKey) {
+      const [from, to, relation] = state.selectedEdgeKey.split("|");
+      const e = state.eco.edges.find(
+        (x) => x.from === from && x.to === to && x.relation === relation
+      );
+      if (!e) {
+        body.innerHTML = `<p class="muted">點選畫布上的物種或連線。</p>`;
+        return;
+      }
+      const a = speciesById(e.from);
+      const b = speciesById(e.to);
+      const meta = RELATION[e.relation];
+      body.innerHTML = `
+        <h3>關係：${escapeHtml(meta?.zh || e.relation)}</h3>
+        <div class="detail-meta">
+          <div>${escapeHtml(a?.name_zh || e.from)} → ${escapeHtml(b?.name_zh || e.to)}</div>
+          ${meta?.sym ? `<div>符號：${meta.sym}</div>` : ""}
+          ${e.relation === "competition" ? "<div>雙向虛線（無能量箭頭）</div>" : "<div>箭頭指向獲能方</div>"}
+        </div>
+        <p class="detail-l1">${escapeHtml(e.note_zh || "")}</p>
+        <p><button type="button" class="linkish" data-glossary="${e.relation}">查看「${escapeHtml(meta?.zh || e.relation)}」名詞</button></p>
+      `;
+      body.querySelectorAll("[data-glossary]").forEach((btn) => {
+        btn.onclick = () => openGlossary(btn.dataset.glossary);
+      });
+      return;
+    }
+
+    body.innerHTML = `<p class="muted">點選畫布上的物種或連線。</p>`;
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function bindGlobal() {
+    $("#btnSelectAll").onclick = () => {
+      initSelection(true);
+      renderAll();
+      bumpIdle();
+    };
+    $("#btnClearLab").onclick = () => {
+      state.selectedIds.clear();
+      state.selectedNodeId = null;
+      state.selectedEdgeKey = null;
+      renderAll();
+      bumpIdle();
+    };
+    $("#btnResetLab").onclick = () => {
+      initSelection(true);
+      layoutInitial();
+      state.selectedNodeId = null;
+      state.selectedEdgeKey = null;
+      state.filterRelation = "all";
+      $$("#relationFilters .chip").forEach((c) =>
+        c.classList.toggle("active", c.dataset.rel === "all")
+      );
+      renderAll();
+      bumpIdle();
+    };
+
+    $("#btnGlossary").onclick = () => openGlossary();
+    $("#btnCloseGlossary").onclick = () => closeGlossary();
+    $("#glossarySearch").oninput = () => renderGlossaryList($("#glossarySearch").value);
+
+    $("#btnQuiz").onclick = () => startQuiz();
+    $("#btnCloseQuiz").onclick = () => closeQuiz();
+
+    $("#webSvg").addEventListener("click", () => {
+      state.selectedNodeId = null;
+      state.selectedEdgeKey = null;
+      renderGraph();
+      renderDetail();
+      bumpIdle();
+    });
+
+    $("#idleOverlay").onclick = () => {
+      hideIdle();
+      bumpIdle();
+    };
+
+    window.addEventListener("resize", () => {
+      // keep positions proportionally if needed; just re-render
+      renderGraph();
+    });
+
+    ["pointerdown", "keydown", "wheel", "mousemove"].forEach((evt) => {
+      document.addEventListener(
+        evt,
+        () => {
+          if (!state.idleOn) bumpIdle();
+        },
+        { passive: true }
+      );
+    });
+  }
+
+  function bumpIdle() {
+    if (state.idleOn) return;
+    clearTimeout(state.idleTimer);
+    state.idleTimer = setTimeout(showIdle, IDLE_MS);
+  }
+
+  function showIdle() {
+    if ($("#quizModal").hidden === false || $("#glossaryModal").hidden === false) {
+      bumpIdle();
+      return;
+    }
+    state.idleOn = true;
+    $("#idleOverlay").hidden = false;
+  }
+
+  function hideIdle() {
+    state.idleOn = false;
+    $("#idleOverlay").hidden = true;
+  }
+
+  function openGlossary(focusId) {
+    hideIdle();
+    $("#glossaryModal").hidden = false;
+    $("#glossarySearch").value = "";
+    renderGlossaryList("", focusId);
+    bumpIdle();
+  }
+
+  function closeGlossary() {
+    $("#glossaryModal").hidden = true;
+    bumpIdle();
+  }
+
+  function renderGlossaryList(query, focusId) {
+    const q = (query || "").trim().toLowerCase();
+    const list = $("#glossaryList");
+    list.innerHTML = "";
+    const terms = state.glossary.terms || [];
+    let focused = null;
+    for (const t of terms) {
+      const hay = `${t.term_zh} ${t.blurb_l1 || ""} ${t.blurb_l2 || ""}`.toLowerCase();
+      if (q && !hay.includes(q) && !(t.id || "").includes(q)) continue;
+      const item = document.createElement("article");
+      item.className = "glossary-item";
+      item.dataset.id = t.id;
+      if (focusId && t.id === focusId) {
+        item.classList.add("highlight");
+        focused = item;
+      }
+      item.innerHTML = `
+        <h3>${escapeHtml(t.term_zh)}</h3>
+        <p class="detail-l1"><strong>初階</strong>　${escapeHtml(t.blurb_l1 || "")}</p>
+        <p class="detail-l2" style="margin-top:6px"><strong>進階</strong>　${escapeHtml(t.blurb_l2 || "")}</p>
+      `;
+      list.appendChild(item);
+    }
+    if (!list.children.length) {
+      list.innerHTML = `<p class="muted">沒有符合的名詞。</p>`;
+    }
+    if (focused) focused.scrollIntoView({ block: "nearest" });
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function startQuiz() {
+    hideIdle();
+    const questions = state.quizBank.questions || [];
+    const l1 = shuffle(questions.filter((q) => q.level === "L1"));
+    const l2 = shuffle(questions.filter((q) => q.level === "L2"));
+    const take = Math.min(QUIZ_N, questions.length);
+    const half = Math.ceil(take / 2);
+    const picked = shuffle([
+      ...l1.slice(0, Math.min(half, l1.length)),
+      ...l2.slice(0, Math.min(take - Math.min(half, l1.length), l2.length)),
+    ]).slice(0, take);
+    // top up if needed
+    if (picked.length < take) {
+      const rest = shuffle(questions.filter((q) => !picked.includes(q)));
+      picked.push(...rest.slice(0, take - picked.length));
+    }
+    state.quiz = {
+      items: picked,
+      index: 0,
+      score: 0,
+      answered: false,
+    };
+    $("#quizModal").hidden = false;
+    renderQuiz();
+  }
+
+  function closeQuiz() {
+    $("#quizModal").hidden = true;
+    state.quiz = null;
+    bumpIdle();
+  }
+
+  function renderQuiz() {
+    const box = $("#quizBody");
+    const qz = state.quiz;
+    if (!qz) return;
+    if (qz.index >= qz.items.length) {
+      const pct = Math.round((qz.score / qz.items.length) * 100);
+      box.innerHTML = `
+        <div class="quiz-score">
+          <p>本局完成</p>
+          <div class="big">${qz.score}／${qz.items.length}</div>
+          <p>正確率 ${pct}%</p>
+          <p class="muted tiny">${escapeHtml(state.quizBank.disclaimer_zh || "教學簡化")}</p>
+          <div class="quiz-nav">
+            <button type="button" class="btn" id="quizAgain">再測一次</button>
+            <button type="button" class="btn primary" id="quizDone">回到主畫面</button>
+          </div>
+        </div>
+      `;
+      $("#quizAgain").onclick = () => startQuiz();
+      $("#quizDone").onclick = () => closeQuiz();
+      return;
+    }
+
+    const item = qz.items[qz.index];
+    box.innerHTML = `
+      <div class="quiz-progress">第 ${qz.index + 1}／${qz.items.length} 題
+        <span class="level-badge">${item.level === "L2" ? "進階" : "初階"}</span>
+      </div>
+      <p class="quiz-stem">${escapeHtml(item.stem_zh)}</p>
+      <div class="quiz-choices" id="quizChoices"></div>
+      <div id="quizFeedback" class="quiz-feedback" hidden></div>
+      <div class="quiz-nav">
+        <button type="button" class="btn primary" id="quizNext" hidden>下一題</button>
+      </div>
+    `;
+    const choices = $("#quizChoices");
+    item.choices_zh.forEach((text, i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "quiz-choice";
+      btn.textContent = text;
+      btn.onclick = () => answerQuiz(i);
+      choices.appendChild(btn);
+    });
+    qz.answered = false;
+  }
+
+  function answerQuiz(choiceIndex) {
+    const qz = state.quiz;
+    if (!qz || qz.answered) return;
+    qz.answered = true;
+    const item = qz.items[qz.index];
+    const correct = choiceIndex === item.answer;
+    if (correct) qz.score += 1;
+    const buttons = $$("#quizChoices .quiz-choice");
+    buttons.forEach((btn, i) => {
+      btn.disabled = true;
+      if (i === item.answer) btn.classList.add("correct");
+      if (i === choiceIndex && !correct) btn.classList.add("wrong");
+    });
+    const fb = $("#quizFeedback");
+    fb.hidden = false;
+    fb.innerHTML = `
+      <strong>${correct ? "正確" : "不正確"}</strong>
+      <div>${escapeHtml(item.explain_zh || "")}</div>
+      ${(item.glossary_ids || [])
+        .map((id) => {
+          const t = (state.glossary.terms || []).find((x) => x.id === id);
+          return t
+            ? `<button type="button" class="linkish" data-g="${id}">名詞：${escapeHtml(t.term_zh)}</button> `
+            : "";
+        })
+        .join("")}
+    `;
+    fb.querySelectorAll("[data-g]").forEach((b) => {
+      b.onclick = () => {
+        closeQuiz();
+        openGlossary(b.dataset.g);
+      };
+    });
+    const next = $("#quizNext");
+    next.hidden = false;
+    next.textContent = qz.index + 1 >= qz.items.length ? "看成績" : "下一題";
+    next.onclick = () => {
+      qz.index += 1;
+      renderQuiz();
+    };
+  }
+
+  boot();
+})();

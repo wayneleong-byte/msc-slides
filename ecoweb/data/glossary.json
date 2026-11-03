@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "lang": "zh-Hant",
+  "disclaimer_zh": "名詞為中學生態教學常用定義；細節因課本而異。",
+  "terms": [
+    {
+      "id": "producer",
+      "term_zh": "生產者",
+      "blurb_l1": "自己製造有機物的生物（多為綠色植物）。",
+      "blurb_l2": "多行光合作用；是食物網能量的入口。",
+      "related": [
+        "food_chain",
+        "food_web",
+        "trophic_level"
+      ]
+    },
+    {
+      "id": "consumer",
+      "term_zh": "消費者",
+      "blurb_l1": "靠攝取其他生物或有機物獲得能量的生物。",
+      "blurb_l2": "可再分為初級、次級、頂級等消費者。",
+      "related": [
+        "primary_consumer",
+        "secondary_consumer",
+        "apex_consumer"
+      ]
+    },
+    {
+      "id": "primary_consumer",
+      "term_zh": "初級消費者",
+      "blurb_l1": "主要以生產者為食的消費者（多為草食動物）。",
+      "blurb_l2": "位於生產者之上的第一個消費者營養級。",
+      "related": [
+        "herbivory",
+        "producer"
+      ]
+    },
+    {
+      "id": "secondary_consumer",
+      "term_zh": "次級消費者",
+      "blurb_l1": "主要以初級消費者為食的消費者。",
+      "blurb_l2": "常為肉食或雜食；可再被更高營養級取食。",
+      "related": [
+        "predation",
+        "trophic_level"
+      ]
+    },
+    {
+      "id": "apex_consumer",
+      "term_zh": "頂級消費者",
+      "blurb_l1": "在該食物網中少有天敵的捕食者（教學近頂級）。",
+      "blurb_l2": "真實生態中「絕對頂級」少見；本 app 作簡化標籤。",
+      "related": [
+        "predation",
+        "food_web"
+      ]
+    },
+    {
+      "id": "decomposer",
+      "term_zh": "分解者",
+      "blurb_l1": "分解遺體與排泄物，使養分可再被利用的生物。",
+      "blurb_l2": "多為細菌、真菌等；連結碎屑鏈與養分循環。",
+      "related": [
+        "detritus",
+        "detritivory"
+      ]
+    },
+    {
+      "id": "food_chain",
+      "term_zh": "食物鏈",
+      "blurb_l1": "生物之間「誰被誰吃」的單線關係。",
+      "blurb_l2": "能量沿鏈傳遞且逐級損耗（教學定性說明）。",
+      "related": [
+        "food_web",
+        "trophic_level"
+      ]
+    },
+    {
+      "id": "food_web",
+      "term_zh": "食物網",
+      "blurb_l1": "多條食物鏈交織而成的取食關係網絡。",
+      "blurb_l2": "比單線食物鏈更接近真實複雜度，但仍是簡化模型。",
+      "related": [
+        "food_chain",
+        "ecosystem"
+      ]
+    },
+    {
+      "id": "trophic_level",
+      "term_zh": "營養級",
+      "blurb_l1": "生物在能量流動中所處的階層位置。",
+      "blurb_l2": "同一物種在不同鏈上可能扮演不同角色（進階提示）。",
+      "related": [
+        "producer",
+        "consumer",
+        "decomposer"
+      ]
+    },
+    {
+      "id": "community",
+      "term_zh": "群落",
+      "blurb_l1": "同一地區共存的所有生物種群的集合。",
+      "blurb_l2": "強調「生物與生物之間」的組成與關係。",
+      "related": [
+        "population",
+        "ecosystem",
+        "species"
+      ]
+    },
+    {
+      "id": "ecosystem",
+      "term_zh": "生態系",
+      "blurb_l1": "群落加上非生物環境，以及它們之間的相互作用。",
+      "blurb_l2": "常以草原、湖、紅樹林等作為有邊界的教學單位。",
+      "related": [
+        "community",
+        "biosphere",
+        "habitat"
+      ]
+    },
+    {
+      "id": "biosphere",
+      "term_zh": "生物圈",
+      "blurb_l1": "地球上有生命分布的整體範圍。",
+      "blurb_l2": "最大尺度；本應用程式不作全球模擬。",
+      "related": [
+        "ecosystem"
+      ]
+    },
+    {
+      "id": "habitat",
+      "term_zh": "棲地／生境",
+      "blurb_l1": "生物生活所依賴的環境類型。",
+      "blurb_l2": "與「生態系」相關，但更側重生活條件與空間。",
+      "related": [
+        "ecosystem"
+      ]
+    },
+    {
+      "id": "species",
+      "term_zh": "物種",
+      "blurb_l1": "一般指可互相繁殖並產下可育後代的生物類群（中學常用定義）。",
+      "blurb_l2": "真實分類有例外；本 app 不作深入展開。",
+      "related": [
+        "population"
+      ]
+    },
+    {
+      "id": "population",
+      "term_zh": "種群",
+      "blurb_l1": "同種生物在一定區域內的集合。",
+      "blurb_l2": "本 MVP 不演變數量動態曲線。",
+      "related": [
+        "species",
+        "community"
+      ]
+    },
+    {
+      "id": "competition",
+      "term_zh": "競爭",
+      "blurb_l1": "生物爭用有限資源的關係。",
+      "blurb_l2": "可發生在同種或異種之間；資源可為食物、空間、光等。",
+      "related": [
+        "herbivory",
+        "predation"
+      ]
+    },
+    {
+      "id": "predation",
+      "term_zh": "捕食",
+      "blurb_l1": "捕食者獵殺並攝食獵物的關係。",
+      "blurb_l2": "典型為動物食動物；與寄生的差異在於通常迅速致死並攝食。",
+      "related": [
+        "parasitism",
+        "food_chain"
+      ]
+    },
+    {
+      "id": "herbivory",
+      "term_zh": "草食",
+      "blurb_l1": "動物攝食植物的取食關係。",
+      "blurb_l2": "屬取食關係之一；草食者即常見的初級消費者。",
+      "related": [
+        "primary_consumer",
+        "producer"
+      ]
+    },
+    {
+      "id": "mutualism",
+      "term_zh": "互利共生",
+      "blurb_l1": "雙方都從互動中受益的關係。",
+      "blurb_l2": "例如傳粉、清潔共生等示意例子。",
+      "related": [
+        "commensalism",
+        "parasitism"
+      ]
+    },
+    {
+      "id": "parasitism",
+      "term_zh": "寄生",
+      "blurb_l1": "一方受益、一方受害的關係（通常不立即殺死宿主）。",
+      "blurb_l2": "與捕食區分：寄生者常長期依附宿主取食。",
+      "related": [
+        "predation",
+        "mutualism"
+      ]
+    },
+    {
+      "id": "commensalism",
+      "term_zh": "偏利共生",
+      "blurb_l1": "一方受益、另一方大致不受影響的關係。",
+      "blurb_l2": "教學示意即可；真實個案有時難嚴格判定。",
+      "related": [
+        "mutualism",
+        "parasitism"
+      ]
+    },
+    {
+      "id": "detritus",
+      "term_zh": "碎屑／碎屑鏈",
+      "blurb_l1": "以死亡有機物為起點的能量途徑。",
+      "blurb_l2": "在紅樹林、湖底與草原糞便分解中特別重要。",
+      "related": [
+        "decomposer",
+        "detritivory"
+      ]
+    },
+    {
+      "id": "detritivory",
+      "term_zh": "食碎屑",
+      "blurb_l1": "取食死亡有機物、糞便或殘渣的關係。",
+      "blurb_l2": "可與分解者活動緊密相連，促成養分循環。",
+      "related": [
+        "detritus",
+        "decomposer"
+      ]
+    }
+  ]
+}

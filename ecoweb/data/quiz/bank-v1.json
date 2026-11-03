@@ -1,0 +1,681 @@
+{
+  "version": 1,
+  "lang": "zh-Hant",
+  "title_zh": "生態通識自評題庫 v1",
+  "rules_zh": "不綁定特定真實物種學名作唯一答案；單次作答可由前端抽 8–12 題。",
+  "disclaimer_zh": "教學簡化；解釋可連回名詞表。",
+  "questions": [
+    {
+      "id": "q01",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "下列哪一類生物通常能自己製造有機物，作為食物網的能量入口？",
+      "choices_zh": [
+        "生產者",
+        "次級消費者",
+        "頂級消費者",
+        "寄生者"
+      ],
+      "answer": 0,
+      "explain_zh": "生產者（多為綠色植物）透過光合作用等自製有機物。",
+      "glossary_ids": [
+        "producer",
+        "food_web"
+      ]
+    },
+    {
+      "id": "q02",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "主要吃植物的動物，在營養級上多屬？",
+      "choices_zh": [
+        "生產者",
+        "初級消費者",
+        "分解者",
+        "生物圈"
+      ],
+      "answer": 1,
+      "explain_zh": "草食動物多為初級消費者。",
+      "glossary_ids": [
+        "primary_consumer",
+        "herbivory"
+      ]
+    },
+    {
+      "id": "q03",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "食物鏈與食物網的主要差別是？",
+      "choices_zh": [
+        "食物網是多條食物鏈交織",
+        "食物鏈一定包含人類",
+        "食物網不含生產者",
+        "兩者完全相同"
+      ],
+      "answer": 0,
+      "explain_zh": "食物網由多條交織的食物鏈組成，更接近簡化後的真實複雜度。",
+      "glossary_ids": [
+        "food_chain",
+        "food_web"
+      ]
+    },
+    {
+      "id": "q04",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "分解者的主要教學角色是？",
+      "choices_zh": [
+        "把遺體與排泄物分解，使養分可再被利用",
+        "只會獵殺大型獵物",
+        "專門與宿主互利",
+        "製造陽光"
+      ],
+      "answer": 0,
+      "explain_zh": "分解者連結碎屑與養分循環。",
+      "glossary_ids": [
+        "decomposer",
+        "detritus"
+      ]
+    },
+    {
+      "id": "q05",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "「草→兔→狐」這條關係，箭頭若表示能量流向消費者，則能量最後主要進入？",
+      "choices_zh": [
+        "狐",
+        "草",
+        "土壤礦物（本鏈未畫）",
+        "陽光本身"
+      ],
+      "answer": 0,
+      "explain_zh": "依約定，能量沿取食關係流向消費者；本鏈終點消費者是狐。",
+      "glossary_ids": [
+        "food_chain",
+        "trophic_level"
+      ]
+    },
+    {
+      "id": "q06",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "兩種草食動物搶吃同一片有限牧草，這主要是？",
+      "choices_zh": [
+        "競爭",
+        "互利共生",
+        "偏利共生",
+        "光合作用"
+      ],
+      "answer": 0,
+      "explain_zh": "爭用有限資源屬於競爭。",
+      "glossary_ids": [
+        "competition"
+      ]
+    },
+    {
+      "id": "q07",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "群落強調的是？",
+      "choices_zh": [
+        "同地所有生物種群的集合",
+        "只有非生物的水溫與陽光",
+        "整個地球的生物圈邊界",
+        "單一物種的基因庫計算"
+      ],
+      "answer": 0,
+      "explain_zh": "群落＝同地共存的生物集合。",
+      "glossary_ids": [
+        "community"
+      ]
+    },
+    {
+      "id": "q08",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "生態系比群落多考慮了什麼？",
+      "choices_zh": [
+        "非生物環境及其相互作用",
+        "只多了月球引力",
+        "只多了人類語言",
+        "完全不含生物"
+      ],
+      "answer": 0,
+      "explain_zh": "生態系＝群落＋非生物環境與相互作用。",
+      "glossary_ids": [
+        "ecosystem",
+        "community"
+      ]
+    },
+    {
+      "id": "q09",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "生物圈指的是？",
+      "choices_zh": [
+        "地球上有生命的整體範圍",
+        "一個池塘的邊界",
+        "單一鳥巢",
+        "實驗室培養皿"
+      ],
+      "answer": 0,
+      "explain_zh": "生物圈是最大尺度；本 app 不模擬全球。",
+      "glossary_ids": [
+        "biosphere"
+      ]
+    },
+    {
+      "id": "q10",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "下列哪項最像「捕食」？",
+      "choices_zh": [
+        "肉食動物獵殺並吃掉獵物",
+        "雙方都得到傳粉好處",
+        "一方受益另一方幾乎無影響",
+        "兩株植物爭陽光"
+      ],
+      "answer": 0,
+      "explain_zh": "捕食＝獵殺並攝食獵物。",
+      "glossary_ids": [
+        "predation"
+      ]
+    },
+    {
+      "id": "q11",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "草食關係指的是？",
+      "choices_zh": [
+        "動物攝食植物",
+        "真菌分解枯木",
+        "鳥類清掃壁蝨且雙方受益",
+        "兩獅搶屍體"
+      ],
+      "answer": 0,
+      "explain_zh": "草食是動物吃植物的取食關係。",
+      "glossary_ids": [
+        "herbivory"
+      ]
+    },
+    {
+      "id": "q12",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "為什麼課堂上的食物網通常比真實生態「簡很多」？",
+      "choices_zh": [
+        "為了可讀與可教，刻意控制物種與邊數",
+        "因為真實生態沒有生產者",
+        "因為分解者不重要",
+        "因為能量不會流動"
+      ],
+      "answer": 0,
+      "explain_zh": "教學模型必須簡化，本 app 亦明示「教學簡化」。",
+      "glossary_ids": [
+        "food_web"
+      ]
+    },
+    {
+      "id": "q13",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "營養級描述的是？",
+      "choices_zh": [
+        "生物在能量流動中的階層位置",
+        "動物的體重公斤數",
+        "緯度高低",
+        "DNA 鹼基對數"
+      ],
+      "answer": 0,
+      "explain_zh": "營養級＝能量流動中的階層。",
+      "glossary_ids": [
+        "trophic_level"
+      ]
+    },
+    {
+      "id": "q14",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "棲地／生境較側重？",
+      "choices_zh": [
+        "生物生活的環境類型與條件",
+        "全球生物圈的總面積公式",
+        "只有捕食者名單",
+        "Quiz 分數"
+      ],
+      "answer": 0,
+      "explain_zh": "棲地強調生活環境條件。",
+      "glossary_ids": [
+        "habitat",
+        "ecosystem"
+      ]
+    },
+    {
+      "id": "q15",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "下列何者通常不是「生產者」？",
+      "choices_zh": [
+        "老虎",
+        "藻類",
+        "草",
+        "多數樹木"
+      ],
+      "answer": 0,
+      "explain_zh": "老虎是消費者；綠色植物／藻類才是典型生產者。",
+      "glossary_ids": [
+        "producer",
+        "consumer"
+      ]
+    },
+    {
+      "id": "q16",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "若食物網中完全沒有生產者，長期來看最可能？",
+      "choices_zh": [
+        "能量入口缺失，網難以維持",
+        "競爭自動消失",
+        "生物圈會變小一圈",
+        "分解者會變成光合作用"
+      ],
+      "answer": 0,
+      "explain_zh": "生產者是能量入口；Lab 模式也應對缺生產者提出警告。",
+      "glossary_ids": [
+        "producer",
+        "food_web"
+      ]
+    },
+    {
+      "id": "q17",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "「種群」指的是？",
+      "choices_zh": [
+        "同種生物在一定區域的集合",
+        "所有物種加起來",
+        "只有分解者",
+        "非生物因子清單"
+      ],
+      "answer": 0,
+      "explain_zh": "種群＝同種、一定區域。",
+      "glossary_ids": [
+        "population",
+        "species"
+      ]
+    },
+    {
+      "id": "q18",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "能量在食物鏈中傳遞時，教學上常強調？",
+      "choices_zh": [
+        "會逐級損耗，不能百分之百傳下去",
+        "每一級都自動增加能量",
+        "只有分解者獲得能量",
+        "陽光會被消費者製造"
+      ],
+      "answer": 0,
+      "explain_zh": "定性理解：逐級損耗。",
+      "glossary_ids": [
+        "food_chain",
+        "trophic_level"
+      ]
+    },
+    {
+      "id": "q19",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "碎屑鏈的起點通常是？",
+      "choices_zh": [
+        "死亡有機物、糞便或殘渣",
+        "活體頂級捕食者的呼吸",
+        "岩石的顏色",
+        "Quiz 的題號"
+      ],
+      "answer": 0,
+      "explain_zh": "碎屑鏈以死亡有機物等為起點。",
+      "glossary_ids": [
+        "detritus",
+        "detritivory"
+      ]
+    },
+    {
+      "id": "q20",
+      "level": "L1",
+      "type": "single",
+      "stem_zh": "把「誰吃誰」畫成多條交錯箭頭，這比較像？",
+      "choices_zh": [
+        "食物網",
+        "單一食物鏈",
+        "只有競爭圖",
+        "生物圈邊界圖"
+      ],
+      "answer": 0,
+      "explain_zh": "多鏈交錯即食物網示意。",
+      "glossary_ids": [
+        "food_web"
+      ]
+    },
+    {
+      "id": "q21",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "互利共生（＋／＋）與偏利共生（＋／0）的關鍵差別是？",
+      "choices_zh": [
+        "後者另一方大致無影響，前者雙方都受益",
+        "兩者都必然立即殺死一方",
+        "偏利一定是植物吃動物",
+        "互利只發生在海洋"
+      ],
+      "answer": 0,
+      "explain_zh": "符號約定：互利雙方受益；偏利一方受益、另一方大致無影響。",
+      "glossary_ids": [
+        "mutualism",
+        "commensalism"
+      ]
+    },
+    {
+      "id": "q22",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "寄生與捕食最常被拿來對照的一點是？",
+      "choices_zh": [
+        "寄生者常長期依附且通常不立即殺死宿主",
+        "寄生者一定體型更大",
+        "捕食從不涉及能量",
+        "兩者在定義上完全相同"
+      ],
+      "answer": 0,
+      "explain_zh": "寄生強調長期依附與＋／－；捕食多迅速致死攝食。",
+      "glossary_ids": [
+        "parasitism",
+        "predation"
+      ]
+    },
+    {
+      "id": "q23",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "為什麼同一物種在不同食物鏈上，營養級標籤可能看起來不同？",
+      "choices_zh": [
+        "牠在不同鏈中扮演的取食角色可以不同",
+        "營養級由體色決定",
+        "營養級等於緯度",
+        "物種不能出現在食物網"
+      ],
+      "answer": 0,
+      "explain_zh": "進階提示：角色隨鏈而變；教學標籤仍可能寫死主角色。",
+      "glossary_ids": [
+        "trophic_level",
+        "food_web"
+      ]
+    },
+    {
+      "id": "q24",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "資源競爭與「直接打鬥搶食」相比，教學上更強調？",
+      "choices_zh": [
+        "爭用同一有限資源即可構成競爭，不一定要看到打鬥",
+        "沒有打鬥就沒有生態關係",
+        "只有同種才叫競爭",
+        "競爭等於互利"
+      ],
+      "answer": 0,
+      "explain_zh": "競爭核心是有限資源；可直接或間接。",
+      "glossary_ids": [
+        "competition"
+      ]
+    },
+    {
+      "id": "q25",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "群落與生態系的邊界在教科書裡有時難畫死，是因為？",
+      "choices_zh": [
+        "自然系統連續過渡，教學單位是人為劃分的便利",
+        "生物圈不存在",
+        "生產者不會出現在陸地",
+        "分解者只活在實驗室"
+      ],
+      "answer": 0,
+      "explain_zh": "生態系常作有邊界的教學單位，真實世界多連續。",
+      "glossary_ids": [
+        "ecosystem",
+        "community"
+      ]
+    },
+    {
+      "id": "q26",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "食碎屑（detritivory）與活體捕食的差別主要在於？",
+      "choices_zh": [
+        "前者取食死亡有機物／糞便殘渣，後者取食活獵物",
+        "前者一定是植物",
+        "後者不含能量流動",
+        "兩者都不能畫進食物網"
+      ],
+      "answer": 0,
+      "explain_zh": "碎屑途徑以死亡有機物為起點。",
+      "glossary_ids": [
+        "detritivory",
+        "predation",
+        "detritus"
+      ]
+    },
+    {
+      "id": "q27",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "若圖例規定「箭頭指向消費者」，則「草→斑馬」表示？",
+      "choices_zh": [
+        "能量／物質流向斑馬（斑馬吃草）",
+        "草在吃斑馬",
+        "兩者互利",
+        "只有競爭沒有取食"
+      ],
+      "answer": 0,
+      "explain_zh": "取食類箭頭指向獲能的消費者。",
+      "glossary_ids": [
+        "herbivory",
+        "food_chain"
+      ]
+    },
+    {
+      "id": "q28",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "為什麼清潔共生常被標成互利，但仍要說「教學簡化」？",
+      "choices_zh": [
+        "真實互動可能隨情境變成有害或複雜，模型取其典型",
+        "因為互利在自然界不存在",
+        "因為鳥類不是消費者",
+        "因為宿主沒有能量"
+      ],
+      "answer": 0,
+      "explain_zh": "生態關係常有條件性；課堂取典型示意。",
+      "glossary_ids": [
+        "mutualism"
+      ]
+    },
+    {
+      "id": "q29",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "非生物因子（如陽光、降雨、土壤）進入「生態系」模組，是為了說明？",
+      "choices_zh": [
+        "生物與環境相互作用，不只是生物名單",
+        "只有競爭需要陽光",
+        "Quiz 不需要環境",
+        "分解者排斥非生物"
+      ],
+      "answer": 0,
+      "explain_zh": "生態系包含非生物環境。",
+      "glossary_ids": [
+        "ecosystem"
+      ]
+    },
+    {
+      "id": "q30",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "頂級／近頂級消費者在教學網中「少天敵」，並不表示？",
+      "choices_zh": [
+        "牠們不受疾病、飢餓或人類影響",
+        "牠們一定體重最重",
+        "牠們從不吃草",
+        "牠們不是生物"
+      ],
+      "answer": 0,
+      "explain_zh": "「少天敵」是簡化標籤，不表示免疫所有限制因素。",
+      "glossary_ids": [
+        "apex_consumer"
+      ]
+    },
+    {
+      "id": "q31",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "判斷題情境：甲受益、乙受害且甲長期依附乙取食。最貼近？",
+      "choices_zh": [
+        "寄生",
+        "互利",
+        "偏利",
+        "純粹競爭（無取食）"
+      ],
+      "answer": 0,
+      "explain_zh": "＋／－且長期依附→寄生。",
+      "glossary_ids": [
+        "parasitism"
+      ]
+    },
+    {
+      "id": "q32",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "判斷題情境：甲乙都因對方存在而得益。最貼近？",
+      "choices_zh": [
+        "互利共生",
+        "捕食",
+        "寄生",
+        "碎屑"
+      ],
+      "answer": 0,
+      "explain_zh": "雙方受益＝互利。",
+      "glossary_ids": [
+        "mutualism"
+      ]
+    },
+    {
+      "id": "q33",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "在實驗室選種時，若幾乎不選生產者卻宣稱「完整生態系」，教學上應？",
+      "choices_zh": [
+        "提出警告：能量入口不足",
+        "自動把所有消費者改成生產者",
+        "刪除名詞表",
+        "禁止使用箭頭"
+      ],
+      "answer": 0,
+      "explain_zh": "規格要求缺生產者時警告，但仍可探索。",
+      "glossary_ids": [
+        "producer",
+        "ecosystem"
+      ]
+    },
+    {
+      "id": "q34",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "物種的中學常用定義強調？",
+      "choices_zh": [
+        "可互相繁殖並產下可育後代",
+        "必須外表完全一樣",
+        "必須營養級相同",
+        "必須生活在同一棵樹"
+      ],
+      "answer": 0,
+      "explain_zh": "中學常用生物種定義；例外不展開。",
+      "glossary_ids": [
+        "species"
+      ]
+    },
+    {
+      "id": "q35",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "把競爭畫成雙向虛線、取食畫成有箭頭實線，主要是為了？",
+      "choices_zh": [
+        "區分「無單向能量流的資源爭用」與「取食能量流」",
+        "讓畫面一定更亂",
+        "取消圖例",
+        "把偏利改成捕食"
+      ],
+      "answer": 0,
+      "explain_zh": "關係類型要用圖例與線型區分，避免誤讀。",
+      "glossary_ids": [
+        "competition",
+        "predation",
+        "herbivory"
+      ]
+    },
+    {
+      "id": "q36",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "下列哪一組尺度由小到大最合理（教學）？",
+      "choices_zh": [
+        "種群 → 群落 → 生態系 → 生物圈",
+        "生物圈 → 種群 → 細胞 → 原子",
+        "生態系 → 物種 → 夸克",
+        "只有群落，沒有其他"
+      ],
+      "answer": 0,
+      "explain_zh": "常見層級：種群／群落／生態系／生物圈。",
+      "glossary_ids": [
+        "population",
+        "community",
+        "ecosystem",
+        "biosphere"
+      ]
+    },
+    {
+      "id": "q37",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "為什麼兀鷲取食屍體常同時涉及「碎屑／腐食」敘事？",
+      "choices_zh": [
+        "能量來自已死亡的有機體，而非當場獵殺活獵物",
+        "兀鷲是生產者",
+        "屍體不是有機物",
+        "碎屑鏈禁止鳥類"
+      ],
+      "answer": 0,
+      "explain_zh": "腐食／食碎屑途徑以死亡有機物為起點。",
+      "glossary_ids": [
+        "detritivory",
+        "detritus"
+      ]
+    },
+    {
+      "id": "q38",
+      "level": "L2",
+      "type": "single",
+      "stem_zh": "異種競爭與同種競爭的共通點是？",
+      "choices_zh": [
+        "都涉及有限資源的爭用",
+        "都必須是捕食",
+        "都是互利",
+        "都只發生在海洋"
+      ],
+      "answer": 0,
+      "explain_zh": "競爭定義核心是資源有限。",
+      "glossary_ids": [
+        "competition"
+      ]
+    }
+  ]
+}
