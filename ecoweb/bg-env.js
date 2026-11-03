@@ -1,7 +1,7 @@
 /*! EcoWeb procedural ecosystem backdrop.
    教學示意：日夜／季節／天氣慢漸變，非精確氣候模擬。
    Canvas behind #webSvg; pointer-events none. Pauses when document.hidden. ~24fps.
-   Scenes: savanna | temperate_forest | mangrove | freshwater_lake */
+   Scenes: savanna | temperate_forest | mangrove | freshwater_lake | coral_reef */
 (() => {
   "use strict";
 
@@ -64,6 +64,11 @@
       weathers: ["clear", "haze", "clouds", "rain", "mist"],
       daySplit: "temperate",
       seasonMode: "four",
+    },
+    coral_reef: {
+      weathers: ["clear", "haze", "clouds", "storm"],
+      daySplit: "tropical",
+      seasonMode: "wet_dry_mild",
     },
   };
 
@@ -240,6 +245,15 @@
         clouds: 0.2 + wet * 0.2,
         rain: 0.08 + wet * 0.3,
         storm: 0.02 + wet * 0.18,
+      };
+    }
+    if (sceneId === "coral_reef") {
+      const wet = seasonT;
+      return {
+        clear: 0.28 + (1 - wet) * 0.22,
+        haze: 0.18,
+        clouds: 0.22 + wet * 0.18,
+        storm: 0.04 + wet * 0.2,
       };
     }
     // lake
@@ -437,6 +451,7 @@
       if (id === "temperate_forest") this._drawForest(now);
       else if (id === "mangrove") this._drawMangrove(now);
       else if (id === "freshwater_lake") this._drawLake(now);
+      else if (id === "coral_reef") this._drawCoralReef(now);
       else this._drawSavanna(now);
     }
 
@@ -1016,6 +1031,185 @@
         }
       }
       this._veil(ctx, w, h, hazeAmt, dayPhase, [210, 225, 230]);
+    }
+    _drawCoralReef(now) {
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      if (w < 2 || h < 2) return;
+      const elapsed = now - this.t0;
+      const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
+      const seasonT = seasonFactor(elapsed, "wet_dry_mild");
+      const windPulse = 0.35 + 0.2 * Math.sin(elapsed * 0.00035);
+      this.wind += 0.18 * windPulse;
+
+      // day brightness for underwater column (teaching, not physics)
+      let dayBright = 1;
+      if (dayPhase < 0.15) dayBright = lerp(0.32, 0.55, dayPhase / 0.15);
+      else if (dayPhase < 0.25) dayBright = lerp(0.55, 1, (dayPhase - 0.15) / 0.1);
+      else if (dayPhase < 0.7) dayBright = 1;
+      else if (dayPhase < 0.82) dayBright = lerp(1, 0.38, (dayPhase - 0.7) / 0.12);
+      else dayBright = 0.32;
+      const isNight = dayPhase < 0.15 || dayPhase > 0.82;
+
+      const weather = this._weatherMix(now, seasonT);
+      const stormAmt = this._weatherAmount("storm", weather);
+      const hazeAmt =
+        this._weatherAmount("haze", weather) + this._weatherAmount("clouds", weather) * 0.35;
+      const waveBoost = 1 + stormAmt * 0.9;
+
+      // water column: top bright teal (#3EC7C0) → bottom deep blue (#0A2A4A)
+      const topBase = mixRgb([62, 199, 192], [28, 90, 120], 1 - dayBright * 0.85);
+      const botBase = mixRgb([10, 42, 74], [4, 18, 36], 1 - dayBright * 0.5);
+      const topC = mixRgb(topBase, [8, 24, 48], hazeAmt * 0.25);
+      const botC = mixRgb(botBase, [4, 12, 28], hazeAmt * 0.2);
+      const wg = ctx.createLinearGradient(0, 0, 0, h);
+      wg.addColorStop(0, rgb(topC));
+      wg.addColorStop(0.45, rgb(mixRgb(topC, botC, 0.4)));
+      wg.addColorStop(1, rgb(botC));
+      ctx.fillStyle = wg;
+      ctx.fillRect(0, 0, w, h);
+
+      // sandy bottom band
+      const sandY = h * 0.78;
+      const sand = ctx.createLinearGradient(0, sandY, 0, h);
+      sand.addColorStop(0, rgb(mixRgb([180, 160, 110], botC, 0.55), 0.55));
+      sand.addColorStop(1, rgb(mixRgb([140, 120, 80], botC, 0.4), 0.85));
+      ctx.fillStyle = sand;
+      ctx.fillRect(0, sandY, w, h - sandY);
+
+      // soft light shafts drifting (2–4)
+      for (let i = 0; i < 3; i++) {
+        const drift = (elapsed * 0.012 * (0.4 + i * 0.15) + i * 0.33) % 1;
+        const sx = ((drift * 1.4 - 0.2) * w + i * w * 0.28 + w) % (w * 1.2) - w * 0.1;
+        const alpha = (0.04 + 0.08 * dayBright) * (isNight ? 0.22 : 1);
+        const topW = 18 + i * 8;
+        const botW = 55 + i * 20;
+        const sway = Math.sin(elapsed * 0.0004 + i) * 12 * waveBoost;
+        ctx.beginPath();
+        ctx.moveTo(sx - topW, 0);
+        ctx.lineTo(sx + topW, 0);
+        ctx.lineTo(sx + botW + sway, h * 0.85);
+        ctx.lineTo(sx - botW + sway, h * 0.85);
+        ctx.closePath();
+        const sg = ctx.createLinearGradient(sx, 0, sx, h * 0.85);
+        sg.addColorStop(0, `rgba(220,245,245,${alpha})`);
+        sg.addColorStop(0.5, `rgba(180,230,230,${alpha * 0.55})`);
+        sg.addColorStop(1, "rgba(150,210,220,0)");
+        ctx.fillStyle = sg;
+        ctx.fill();
+      }
+
+      // subtle caustic ellipses on sand
+      if (!isNight || dayBright > 0.4) {
+        const causticA = 0.05 + 0.08 * dayBright;
+        for (let i = 0; i < 10; i++) {
+          const ph = elapsed * 0.00055 * (0.3 + (i % 3) * 0.15) + i * 1.7;
+          const cx = ((i * 0.13 + 0.05) * w + Math.sin(ph) * 28 * waveBoost + w) % w;
+          const cy = sandY + 8 + (i % 4) * ((h - sandY) / 5) + Math.cos(ph * 0.8) * 6;
+          const rx = 14 + (i % 3) * 8;
+          const ry = 5 + (i % 2) * 3;
+          ctx.fillStyle = `rgba(240,245,220,${causticA * (0.5 + 0.5 * Math.sin(ph * 2))})`;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, rx, ry, Math.sin(ph) * 0.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // coral silhouettes: mound / staghorn / ridge
+      const coralCol = rgb(mixRgb([12, 48, 55], [8, 30, 40], 1 - dayBright * 0.4), 0.78);
+      ctx.fillStyle = coralCol;
+      ctx.beginPath();
+      ctx.ellipse(w * 0.18, h * 0.92, w * 0.09, h * 0.1, 0, Math.PI, 0);
+      ctx.fill();
+
+      ctx.strokeStyle = coralCol;
+      ctx.lineWidth = 5;
+      ctx.lineCap = "round";
+      const baseX = w * 0.48;
+      const baseY = h * 0.95;
+      const branchSway = Math.sin(elapsed * 0.0005) * 4 * waveBoost;
+      for (const [dx, dy] of [
+        [-18, -55],
+        [-5, -70],
+        [12, -60],
+        [22, -45],
+        [-28, -40],
+      ]) {
+        ctx.beginPath();
+        ctx.moveTo(baseX, baseY);
+        ctx.quadraticCurveTo(
+          baseX + dx * 0.4 + branchSway,
+          baseY + dy * 0.5,
+          baseX + dx + branchSway,
+          baseY + dy
+        );
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(baseX + dx + branchSway, baseY + dy);
+        ctx.lineTo(baseX + dx + branchSway - 8, baseY + dy - 14);
+        ctx.moveTo(baseX + dx + branchSway, baseY + dy);
+        ctx.lineTo(baseX + dx + branchSway + 10, baseY + dy - 12);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = coralCol;
+      ctx.beginPath();
+      ctx.moveTo(w * 0.72, h);
+      ctx.quadraticCurveTo(w * 0.78, h * 0.72, w * 0.88, h * 0.8);
+      ctx.quadraticCurveTo(w * 0.95, h * 0.88, w, h * 0.85);
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(w * 0.65, h * 0.94, w * 0.05, h * 0.06, 0, Math.PI, 0);
+      ctx.fill();
+
+      // sparse rising particulate
+      for (const p of this.dust) {
+        p.y -= 0.15 + p.r * 0.08;
+        p.x += Math.sin(elapsed * 0.001 + p.x * 0.01) * 0.15 * waveBoost;
+        if (p.y < 0) {
+          p.y = h;
+          p.x = Math.random() * w;
+        }
+        if (p.x < 0) p.x = w;
+        if (p.x > w) p.x = 0;
+        ctx.fillStyle = `rgba(200,230,235,${0.12 + p.r * 0.04})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, Math.max(0.6, p.r * 0.7), 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // night: faint bioluminescent dots
+      if (isNight) {
+        for (let i = 0; i < 22; i++) {
+          const bx = (i * 97 + elapsed * 0.008) % w;
+          const by = (i * 53 + Math.sin(elapsed * 0.0003 + i) * 20 + h) % h;
+          const ba = 0.08 + 0.1 * (0.5 + 0.5 * Math.sin(elapsed * 0.002 + i));
+          ctx.fillStyle = `rgba(120,230,220,${ba})`;
+          ctx.fillRect(bx, by, 2, 2);
+        }
+      }
+
+      // storm: stronger horizontal wave displacement mid-water
+      if (stormAmt > 0.05) {
+        ctx.strokeStyle = `rgba(180,220,230,${0.1 * stormAmt})`;
+        ctx.lineWidth = 1;
+        for (const wave of this.waves) {
+          const yy = h * 0.25 + (wave.y - h * 0.52) * 0.5;
+          const ph = wave.phase + this.wind * 0.08 * wave.speed * waveBoost;
+          ctx.beginPath();
+          for (let x = 0; x <= w; x += 20) {
+            const y = yy + Math.sin(ph + x * 0.03) * wave.amp * 0.6 * waveBoost;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      this._veil(ctx, w, h, hazeAmt * 0.5, dayPhase, [40, 100, 120]);
     }
   }
 

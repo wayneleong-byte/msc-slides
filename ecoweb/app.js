@@ -6,6 +6,7 @@
     { id: "temperate_forest", name_zh: "溫帶林", file: "data/ecosystems/temperate_forest.json" },
     { id: "mangrove", name_zh: "紅樹林濕地", file: "data/ecosystems/mangrove.json" },
     { id: "freshwater_lake", name_zh: "淡水湖泊", file: "data/ecosystems/freshwater_lake.json" },
+    { id: "coral_reef", name_zh: "珊瑚礁", file: "data/ecosystems/coral_reef.json" },
   ];
 
   const DATA = {

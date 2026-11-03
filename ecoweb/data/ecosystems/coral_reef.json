@@ -1,0 +1,276 @@
+{
+  "id": "coral_reef",
+  "name_zh": "珊瑚礁",
+  "name_en": "Coral reef",
+  "scene_zh": "南海／印太淺水珊瑚礁（教學錨點）",
+  "disclaimer_zh": "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。",
+  "abiotic": [
+    "陽光（淺水透光）",
+    "水溫",
+    "鹽度",
+    "波浪／浪湧"
+  ],
+  "energy_arrow_convention": "from=被取食／資源方；to=獲能方（消費者／受益方）。競爭為無能量流向之雙向關係，用 from／to 僅標兩端物種。",
+  "species": [
+    {
+      "id": "zooxanthellae",
+      "name_zh": "共生藻（蟲黃藻）",
+      "name_la": "Symbiodiniaceae（示意）",
+      "trophic": "producer",
+      "blurb_l1": "生活在石珊瑚組織內的微藻，行光合作用。",
+      "blurb_l2": "把醣類等產物供給宿主；白化＝藻排出／死亡的教學警示，本網不模擬動態。",
+      "image": "assets/coral_reef/zooxanthellae.png"
+    },
+    {
+      "id": "turf_algae",
+      "name_zh": "礁石附生藻／藻坪",
+      "name_la": null,
+      "trophic": "producer",
+      "blurb_l1": "覆蓋礁石表面的絲狀／墊狀藻類，是草食者的主要植物食源。",
+      "blurb_l2": "產量受光與養分影響；過度繁生可與珊瑚爭空間（教學示意）。",
+      "image": "assets/coral_reef/turf_algae.png"
+    },
+    {
+      "id": "hard_coral",
+      "name_zh": "石珊瑚",
+      "name_la": "Scleractinia（示意）",
+      "trophic": "secondary_consumer",
+      "blurb_l1": "造礁珊瑚蟲：可濾食浮游動物，並與共生藻互利。",
+      "blurb_l2": "同時是結構工程師：骨骼形成複雜生境；營養級因「動物＋共生」而教學上歸次級消費者。",
+      "image": "assets/coral_reef/hard_coral.png"
+    },
+    {
+      "id": "zooplankton_reef",
+      "name_zh": "浮游動物",
+      "name_la": null,
+      "trophic": "primary_consumer",
+      "blurb_l1": "水層中取食浮游植物／有機微粒的小型浮游動物。",
+      "blurb_l2": "夜間常更接近礁面；是珊瑚蟲與部分魚類的獵物。",
+      "image": "assets/coral_reef/zooplankton_reef.png"
+    },
+    {
+      "id": "parrotfish",
+      "name_zh": "鸚嘴魚",
+      "name_la": "Scaridae（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "用喙狀齒刮食附生藻，也會啃食部分珊瑚表面。",
+      "blurb_l2": "控制藻類覆蓋的關鍵草食者；排泄砂粒與碎屑進入碎屑途徑（示意）。",
+      "image": "assets/coral_reef/parrotfish.png"
+    },
+    {
+      "id": "sea_urchin_reef",
+      "name_zh": "海膽",
+      "name_la": "Echinoidea（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "在礁石上刮食附生藻的棘皮動物。",
+      "blurb_l2": "與鸚嘴魚爭用藻資源；密度過高可過度刮蝕礁面（不展開）。",
+      "image": "assets/coral_reef/sea_urchin_reef.png"
+    },
+    {
+      "id": "butterflyfish",
+      "name_zh": "蝴蝶魚",
+      "name_la": "Chaetodontidae（示意）",
+      "trophic": "secondary_consumer",
+      "blurb_l1": "吻尖細長，常取食珊瑚蟲或其他小型無脊椎。",
+      "blurb_l2": "部分種類專食珊瑚；教學上代表「吃珊瑚組織」的消費者。",
+      "image": "assets/coral_reef/butterflyfish.png"
+    },
+    {
+      "id": "cleaner_wrasse",
+      "name_zh": "清潔魚（裂唇魚類示意）",
+      "name_la": "Labroides spp.（示意）",
+      "trophic": "secondary_consumer",
+      "blurb_l1": "在清潔站啄食其他魚體表的寄生蟲與死皮。",
+      "blurb_l2": "經典互利示範：清潔魚得食，被清潔者減負擔；亦依賴礁區結構作為站點。",
+      "image": "assets/coral_reef/cleaner_wrasse.png"
+    },
+    {
+      "id": "crown_of_thorns",
+      "name_zh": "棘冠海星",
+      "name_la": "Acanthaster planci",
+      "trophic": "secondary_consumer",
+      "blurb_l1": "翻胃取食石珊瑚組織的大型海星。",
+      "blurb_l2": "印太礁區知名珊瑚捕食者；暴發可大幅降低活珊瑚覆蓋（本網不模擬數量）。",
+      "image": "assets/coral_reef/crown_of_thorns.png"
+    },
+    {
+      "id": "grouper",
+      "name_zh": "石斑",
+      "name_la": "Epinephelidae（示意）",
+      "trophic": "apex_consumer",
+      "blurb_l1": "埋伏於礁洞、捕食魚類與大型無脊椎的近頂級掠食者。",
+      "blurb_l2": "控制中層魚密度的示意；成體在教學網中少天敵。",
+      "image": "assets/coral_reef/grouper.png"
+    },
+    {
+      "id": "reef_microbes",
+      "name_zh": "礁區微生物／真菌（示意）",
+      "name_la": null,
+      "trophic": "decomposer",
+      "blurb_l1": "分解珊瑚黏液、藻類與動物殘體的微生物示意。",
+      "blurb_l2": "連接碎屑／微生物環；養分可再被浮游生物與底棲者利用。",
+      "image": "assets/coral_reef/reef_microbes.png"
+    },
+    {
+      "id": "fish_parasite_reef",
+      "name_zh": "魚類體表／鰓寄生蟲（示意）",
+      "name_la": null,
+      "trophic": "secondary_consumer",
+      "blurb_l1": "依附魚體取食組織、黏液或血液的小型寄生生物示意。",
+      "blurb_l2": "典型寄生（＋／－）；清潔魚取食牠們，形成互利與寄生交錯的教學點。",
+      "image": "assets/coral_reef/fish_parasite_reef.png"
+    }
+  ],
+  "edges": [
+    {
+      "from": "turf_algae",
+      "to": "parrotfish",
+      "relation": "herbivory",
+      "note_zh": "鸚嘴魚刮食礁石附生藻"
+    },
+    {
+      "from": "turf_algae",
+      "to": "sea_urchin_reef",
+      "relation": "herbivory",
+      "note_zh": "海膽刮食附生藻"
+    },
+    {
+      "from": "hard_coral",
+      "to": "parrotfish",
+      "relation": "herbivory",
+      "note_zh": "鸚嘴魚啃食／刮食部分珊瑚表面（珊瑚食性示意）"
+    },
+    {
+      "from": "hard_coral",
+      "to": "butterflyfish",
+      "relation": "predation",
+      "note_zh": "蝴蝶魚取食珊瑚蟲組織"
+    },
+    {
+      "from": "hard_coral",
+      "to": "crown_of_thorns",
+      "relation": "predation",
+      "note_zh": "棘冠海星捕食石珊瑚"
+    },
+    {
+      "from": "zooplankton_reef",
+      "to": "hard_coral",
+      "relation": "predation",
+      "note_zh": "珊瑚蟲觸手捕獲浮游動物"
+    },
+    {
+      "from": "parrotfish",
+      "to": "grouper",
+      "relation": "predation",
+      "note_zh": "石斑捕食鸚嘴魚（尤其幼體／小型個體示意）"
+    },
+    {
+      "from": "butterflyfish",
+      "to": "grouper",
+      "relation": "predation",
+      "note_zh": "石斑捕食蝴蝶魚"
+    },
+    {
+      "from": "sea_urchin_reef",
+      "to": "grouper",
+      "relation": "predation",
+      "note_zh": "大型石斑可取食海膽（機會性示意）"
+    },
+    {
+      "from": "parrotfish",
+      "to": "sea_urchin_reef",
+      "relation": "competition",
+      "note_zh": "爭用礁石附生藻"
+    },
+    {
+      "from": "butterflyfish",
+      "to": "crown_of_thorns",
+      "relation": "competition",
+      "note_zh": "爭用活珊瑚組織作為食源"
+    },
+    {
+      "from": "zooxanthellae",
+      "to": "hard_coral",
+      "relation": "mutualism",
+      "note_zh": "共生藻供醣類，珊瑚提供棲所與養分（＋／＋）"
+    },
+    {
+      "from": "cleaner_wrasse",
+      "to": "grouper",
+      "relation": "mutualism",
+      "note_zh": "清潔魚清除體表寄生／死皮，石斑獲得清潔（＋／＋）"
+    },
+    {
+      "from": "cleaner_wrasse",
+      "to": "parrotfish",
+      "relation": "mutualism",
+      "note_zh": "清潔站亦服務草食魚（＋／＋）"
+    },
+    {
+      "from": "fish_parasite_reef",
+      "to": "cleaner_wrasse",
+      "relation": "predation",
+      "note_zh": "清潔魚啄食寄生蟲（寄生蟲為獵物）"
+    },
+    {
+      "from": "grouper",
+      "to": "fish_parasite_reef",
+      "relation": "parasitism",
+      "note_zh": "寄生蟲寄生於石斑（＋／－）"
+    },
+    {
+      "from": "parrotfish",
+      "to": "fish_parasite_reef",
+      "relation": "parasitism",
+      "note_zh": "寄生蟲亦可寄生鸚嘴魚"
+    },
+    {
+      "from": "hard_coral",
+      "to": "sea_urchin_reef",
+      "relation": "commensalism",
+      "note_zh": "海膽利用礁體縫隙躲避（＋／0 示意）"
+    },
+    {
+      "from": "hard_coral",
+      "to": "cleaner_wrasse",
+      "relation": "commensalism",
+      "note_zh": "清潔魚利用珊瑚結構作為清潔站點（對珊瑚大致＋／0）"
+    },
+    {
+      "from": "hard_coral",
+      "to": "reef_microbes",
+      "relation": "detritivory",
+      "note_zh": "微生物分解珊瑚黏液與死亡組織"
+    },
+    {
+      "from": "turf_algae",
+      "to": "reef_microbes",
+      "relation": "detritivory",
+      "note_zh": "微生物分解藻類殘體"
+    },
+    {
+      "from": "parrotfish",
+      "to": "reef_microbes",
+      "relation": "detritivory",
+      "note_zh": "微生物參與動物排泄／殘體分解"
+    },
+    {
+      "from": "zooplankton_reef",
+      "to": "reef_microbes",
+      "relation": "detritivory",
+      "note_zh": "微生物分解死亡浮游動物"
+    },
+    {
+      "from": "crown_of_thorns",
+      "to": "reef_microbes",
+      "relation": "detritivory",
+      "note_zh": "分解海星殘體"
+    },
+    {
+      "from": "reef_microbes",
+      "to": "zooplankton_reef",
+      "relation": "detritivory",
+      "note_zh": "浮游動物取食經微生物 enrichment 的碎屑／菌體（微生物環示意）"
+    }
+  ]
+}
