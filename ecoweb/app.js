@@ -117,6 +117,7 @@
       buildStaticUi();
       renderAll();
       $("#mainLayout").hidden = false;
+      if (window.EcoWebEnvBg && typeof window.EcoWebEnvBg.resize === "function") window.EcoWebEnvBg.resize();
       bindGlobal();
       showTitleLayer(true);
     } catch (err) {
@@ -1305,6 +1306,9 @@
 
     window.addEventListener("resize", () => {
       renderGraph();
+      if (window.EcoWebEnvBg && typeof window.EcoWebEnvBg.resize === "function") {
+        window.EcoWebEnvBg.resize();
+      }
     });
 
     ["pointerdown", "keydown", "wheel", "mousemove"].forEach((evt) => {
