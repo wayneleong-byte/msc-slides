@@ -1,0 +1,582 @@
+[
+  {
+    "name": "探鮮椰子汁",
+    "unit": "620ml",
+    "salePrice": 6.0,
+    "originalPrice": 7.5,
+    "currency": "MOP",
+    "discountPercent": 20,
+    "page": "namkwong-01",
+    "promoSlot": "2026-11-19 至 2026-11-21"
+  },
+  {
+    "name": "維他檸檬茶（錫蘭）",
+    "unit": "250ml×6",
+    "salePrice": 14.8,
+    "originalPrice": 22.5,
+    "currency": "MOP",
+    "discountPercent": 34,
+    "page": "namkwong-01",
+    "promoSlot": "2026-11-22 至 2026-11-24"
+  },
+  {
+    "name": "丫丫火氣泡米酒（桂花／白桃）",
+    "unit": "330ml",
+    "salePrice": 7.0,
+    "originalPrice": 9.5,
+    "currency": "MOP",
+    "discountPercent": 26,
+    "page": "namkwong-01",
+    "promoSlot": "2026-11-25 至 2026-11-27"
+  },
+  {
+    "name": "東方樹葉茉莉花茶",
+    "unit": "500ml",
+    "salePrice": 6.0,
+    "originalPrice": 8.9,
+    "currency": "MOP",
+    "discountPercent": 33,
+    "page": "namkwong-01",
+    "promoSlot": "2026-11-28 至 2026-11-30"
+  },
+  {
+    "name": "獅球嘜初搾濃香花生油",
+    "unit": "5L",
+    "salePrice": 130.0,
+    "originalPrice": 218.0,
+    "currency": "MOP",
+    "discountPercent": 40,
+    "page": "namkwong-02",
+    "promoSlot": "2026-11-01 至 2026-11-03"
+  },
+  {
+    "name": "椰樹牌椰汁",
+    "unit": "245g×6",
+    "salePrice": 29.9,
+    "originalPrice": 39.5,
+    "currency": "MOP",
+    "discountPercent": 24,
+    "page": "namkwong-02",
+    "promoSlot": "2026-11-04 至 2026-11-06"
+  },
+  {
+    "name": "Kronenbourg 1664 Blanc 啤酒",
+    "unit": "500ml×4",
+    "salePrice": 38.9,
+    "originalPrice": 58.0,
+    "currency": "MOP",
+    "discountPercent": 33,
+    "page": "namkwong-02",
+    "promoSlot": "2026-11-07 至 2026-11-09"
+  },
+  {
+    "name": "獅球嘜粟米油",
+    "unit": "3L",
+    "salePrice": 85.0,
+    "originalPrice": 124.5,
+    "currency": "MOP",
+    "discountPercent": 32,
+    "page": "namkwong-02",
+    "promoSlot": "2026-11-10 至 2026-11-12"
+  },
+  {
+    "name": "IF 百分百椰青水",
+    "unit": "350ml×4",
+    "salePrice": 30.8,
+    "originalPrice": 36.8,
+    "currency": "MOP",
+    "discountPercent": 16,
+    "page": "namkwong-02",
+    "promoSlot": "2026-11-13 至 2026-11-15"
+  },
+  {
+    "name": "泰象啤酒",
+    "unit": "490ml×4",
+    "salePrice": 27.8,
+    "originalPrice": 33.8,
+    "currency": "MOP",
+    "discountPercent": 18,
+    "page": "namkwong-02",
+    "promoSlot": "2026-11-16 至 2026-11-18"
+  },
+  {
+    "name": "鹽味檸檬糖／鹽味檸檬糖（薄荷味）",
+    "unit": "150g",
+    "salePrice": 10.8,
+    "originalPrice": 12.9,
+    "currency": "MOP",
+    "discountPercent": 16,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "加鈣小魚杏仁（小包裝）",
+    "unit": "20g",
+    "salePrice": 8.2,
+    "originalPrice": 9.9,
+    "currency": "MOP",
+    "discountPercent": 17,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "森永製菓鹽味牛奶糖（大粒）",
+    "unit": "83g",
+    "salePrice": 12.8,
+    "originalPrice": 14.0,
+    "currency": "MOP",
+    "discountPercent": 9,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "KEMY 21種綜合穀物棒系列",
+    "unit": "80g",
+    "salePrice": 18.5,
+    "originalPrice": 21.5,
+    "currency": "MOP",
+    "discountPercent": 14,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "長城牌優質午餐肉系列",
+    "unit": "198g",
+    "salePrice": 10.8,
+    "originalPrice": 12.5,
+    "currency": "MOP",
+    "discountPercent": 14,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "韓國 CW 麻糬糯米朱古力派／草莓果醬夾心曲奇",
+    "unit": "215g／195g",
+    "salePrice": 23.8,
+    "originalPrice": 28.5,
+    "currency": "MOP",
+    "discountPercent": 16,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "瑞士三角迷你朱古力袋裝系列",
+    "unit": "200g",
+    "salePrice": 32.8,
+    "originalPrice": 39.8,
+    "currency": "MOP",
+    "discountPercent": 18,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "名取芝士魚肉腸（原味／辛辣味）",
+    "unit": "232g",
+    "salePrice": 19.9,
+    "originalPrice": 27.5,
+    "currency": "MOP",
+    "discountPercent": 28,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "養養牌泰式香辣海鮮湯麵（5包裝）",
+    "unit": "350g",
+    "salePrice": 13.5,
+    "originalPrice": 15.6,
+    "currency": "MOP",
+    "discountPercent": 13,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "養養牌冬蔭功麵（原味／濃湯味）",
+    "unit": "70g",
+    "salePrice": 6.5,
+    "originalPrice": 7.9,
+    "currency": "MOP",
+    "discountPercent": 18,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "Indomie 印尼撈麵（5包裝）",
+    "unit": "425g",
+    "salePrice": 11.0,
+    "originalPrice": 13.0,
+    "currency": "MOP",
+    "discountPercent": 15,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "營多印尼撈麵（原味／特殊辣）5包裝",
+    "unit": "425g",
+    "salePrice": 12.9,
+    "originalPrice": 14.0,
+    "currency": "MOP",
+    "discountPercent": 8,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "帕農藍泰國特選茉莉香米",
+    "unit": "5kg",
+    "salePrice": 79.0,
+    "originalPrice": 95.0,
+    "currency": "MOP",
+    "discountPercent": 17,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "駱駝牌花生特級食油",
+    "unit": "5L",
+    "salePrice": 99.0,
+    "originalPrice": 155.0,
+    "currency": "MOP",
+    "discountPercent": 36,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "獅王衣物香氛柔順劑系列",
+    "unit": "480ml",
+    "salePrice": 22.8,
+    "originalPrice": 25.8,
+    "currency": "MOP",
+    "discountPercent": 12,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "Plu 自然香氛沐浴液（爽身粉／白麝香）",
+    "unit": "1L",
+    "salePrice": 62.8,
+    "originalPrice": 72.0,
+    "currency": "MOP",
+    "discountPercent": 13,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "澳雪丹夢首烏滋養韌髮洗髮露",
+    "unit": "1000g",
+    "salePrice": 39.5,
+    "originalPrice": 45.8,
+    "currency": "MOP",
+    "discountPercent": 14,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "澳雪小黃姜洗髮露（多效修復／控油去屑）",
+    "unit": "750g",
+    "salePrice": 39.8,
+    "originalPrice": 55.0,
+    "currency": "MOP",
+    "discountPercent": 28,
+    "page": "namkwong-03",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "海珠高罐啤酒（12度）",
+    "unit": "500ml×4",
+    "salePrice": 19.5,
+    "originalPrice": 24.8,
+    "currency": "MOP",
+    "discountPercent": 21,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "味道鮮全脂奶／低脂奶",
+    "unit": "250ml×6",
+    "salePrice": 23.8,
+    "originalPrice": 37.9,
+    "currency": "MOP",
+    "discountPercent": 37,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "出前一丁港版包裝麵（麻油味）",
+    "unit": "5包裝 455g",
+    "salePrice": 17.8,
+    "originalPrice": 23.8,
+    "currency": "MOP",
+    "discountPercent": 25,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "亨氏樽裝茄汁",
+    "unit": "300g×2",
+    "salePrice": 10.0,
+    "originalPrice": 13.8,
+    "currency": "MOP",
+    "discountPercent": 28,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "麒麟一番搾（罐裝）",
+    "unit": "500ml×4",
+    "salePrice": 39.5,
+    "originalPrice": 48.0,
+    "currency": "MOP",
+    "discountPercent": 18,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "味道鮮全脂奶／低脂奶",
+    "unit": "1L",
+    "salePrice": 13.5,
+    "originalPrice": 18.8,
+    "currency": "MOP",
+    "discountPercent": 28,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "九陽豆奶（原味／黑豆）",
+    "unit": "200ml×3",
+    "salePrice": 6.8,
+    "originalPrice": 10.8,
+    "currency": "MOP",
+    "discountPercent": 37,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "維他檸檬茶系列",
+    "unit": "250ml×6",
+    "salePrice": 16.5,
+    "originalPrice": 22.5,
+    "currency": "MOP",
+    "discountPercent": 27,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "維他氣泡水（罐裝）系列",
+    "unit": "310ml×6",
+    "salePrice": 18.5,
+    "originalPrice": 37.5,
+    "currency": "MOP",
+    "discountPercent": 51,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "尚奶英式奶茶",
+    "unit": "320ml×2",
+    "salePrice": 7.0,
+    "originalPrice": 9.0,
+    "currency": "MOP",
+    "discountPercent": 22,
+    "page": "namkwong-04",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "CJ 王餃子各味系列",
+    "unit": "280g×2包任選",
+    "salePrice": 30.0,
+    "originalPrice": 49.0,
+    "currency": "MOP",
+    "discountPercent": 39,
+    "page": "namkwong-05",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "新鮮盒裝黃心蛋／紅心蛋",
+    "unit": "30枚／排",
+    "salePrice": 30.0,
+    "originalPrice": 39.0,
+    "currency": "MOP",
+    "discountPercent": 23,
+    "page": "namkwong-05",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "急凍精選雞腳",
+    "unit": "磅（散裝稱重）",
+    "salePrice": 9.8,
+    "originalPrice": 16.5,
+    "currency": "MOP",
+    "discountPercent": 41,
+    "page": "namkwong-05",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "急凍介豬手粒",
+    "unit": "磅（散裝稱重）",
+    "salePrice": 8.9,
+    "originalPrice": 14.6,
+    "currency": "MOP",
+    "discountPercent": 39,
+    "page": "namkwong-05",
+    "promoSlot": "至 2026-11-30"
+  },
+  {
+    "name": "紅洋蔥",
+    "unit": "2包",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-01 至 2026-11-07"
+  },
+  {
+    "name": "節瓜",
+    "unit": "3條",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-01 至 2026-11-07"
+  },
+  {
+    "name": "貝貝南瓜",
+    "unit": "3個",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-01 至 2026-11-07"
+  },
+  {
+    "name": "鴨梨",
+    "unit": "4個",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-01 至 2026-11-07"
+  },
+  {
+    "name": "黃洋蔥",
+    "unit": "3包",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-08 至 2026-11-14"
+  },
+  {
+    "name": "涼瓜",
+    "unit": "3條",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-08 至 2026-11-14"
+  },
+  {
+    "name": "南非啤梨",
+    "unit": "5個",
+    "salePrice": 20.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-08 至 2026-11-14"
+  },
+  {
+    "name": "澳洲甜橙",
+    "unit": "5個",
+    "salePrice": 20.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-08 至 2026-11-14"
+  },
+  {
+    "name": "蒜頭",
+    "unit": "2包",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-15 至 2026-11-21"
+  },
+  {
+    "name": "黃瓜",
+    "unit": "3個",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-15 至 2026-11-21"
+  },
+  {
+    "name": "紅幹蔥頭",
+    "unit": "3包",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-15 至 2026-11-21"
+  },
+  {
+    "name": "沙田柚",
+    "unit": "1個",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-15 至 2026-11-21"
+  },
+  {
+    "name": "雲南小瓜",
+    "unit": "3條",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-22 至 2026-11-30"
+  },
+  {
+    "name": "白蘿蔔",
+    "unit": "3條",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-22 至 2026-11-30"
+  },
+  {
+    "name": "袋裝蜜桔",
+    "unit": "1包",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-22 至 2026-11-30"
+  },
+  {
+    "name": "黃心菜",
+    "unit": "3個",
+    "salePrice": 10.0,
+    "originalPrice": null,
+    "currency": "MOP",
+    "discountPercent": null,
+    "page": "namkwong-05",
+    "promoSlot": "2026-11-22 至 2026-11-30"
+  }
+]

@@ -27,4 +27,11 @@ for i in 01 02 03 04 05 06 07 08; do
     tesseract "$f" "$OCR/sunsco-$i" -l chi_tra+eng --psm 6 2>"$OCR/sunsco-$i.tesseract.log"
   fi
 done
+
+for i in 01 02 03 04 05; do
+  f="$BASE/namkwong/namkwong-$i.jpg"
+  if [[ -f "$f" ]]; then
+    tesseract "$f" "$OCR/namkwong-$i" -l chi_tra+eng --psm 6 2>"$OCR/namkwong-$i.tesseract.log"
+  fi
+done
 echo "OCR done → $OCR"

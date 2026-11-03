@@ -277,3 +277,10 @@ button.hint-below, .btn-scroll-hint {
 
 details.card > summary { list-style: none; }
 details.card > summary::-webkit-details-marker { display: none; }
+
+/* Leaflet OCR priced items (t534) */
+.ocr-orig {
+  text-decoration: line-through;
+  opacity: 0.75;
+  font-weight: 500;
+}

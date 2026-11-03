@@ -189,7 +189,15 @@
         else if (special) kindBadge = '<span class="kind-badge special">專項</span>';
         let selectRow = storeSelectHtml(it);
         if (leaflet) {
-          selectRow = '<span class="badge muted">來源店：' + MPS.escapeHtml(it.preferredStore || '—') + ' · 請對照海報核價</span>';
+          const orig = (it.originalPrice != null && it.originalPrice !== '' && !Number.isNaN(Number(it.originalPrice)))
+            ? Number(it.originalPrice) : null;
+          const disc = it.discountLabel || (it.discountPercent != null && !Number.isNaN(Number(it.discountPercent))
+            ? ('-' + Number(it.discountPercent).toFixed(0) + '%') : '');
+          let bits = '來源店：' + MPS.escapeHtml(it.preferredStore || '—');
+          if (it.leafletPage) bits += ' · ' + MPS.escapeHtml(String(it.leafletPage));
+          if (orig != null) bits += ' · <span class="badge muted">原價 ' + MPS.money(orig) + '</span>';
+          if (disc) bits += ' · <span class="badge ok">' + MPS.escapeHtml(String(disc)) + '</span>';
+          selectRow = '<span class="badge muted">' + bits + '</span>';
         } else if (special) {
           const cat = it.specialCat ? (' · 分類 ' + it.specialCat) : '';
           if ((it.stores || []).some((s) => s.price != null)) {
@@ -217,6 +225,10 @@
           </div>
           <div style="text-align:right">
             <div class="price best">${pref != null ? MPS.money(pref) : '—'}</div>
+            ${leaflet && it.originalPrice != null && it.originalPrice !== '' && !Number.isNaN(Number(it.originalPrice))
+              ? '<div class="qty">原價 ' + MPS.money(it.originalPrice) +
+                (it.discountLabel ? ' · ' + MPS.escapeHtml(String(it.discountLabel)) : '') + '</div>'
+              : ''}
             <button type="button" class="secondary" data-rm="${MPS.escapeHtml(it.id)}" style="margin-top:6px">移除</button>
           </div>
         </li>`;

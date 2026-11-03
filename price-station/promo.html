@@ -26,7 +26,8 @@
   <main class="wrap">
     <p class="meta-line" id="promo-meta">載入中…</p>
     <div class="notice info" id="policy-note">
-      <strong>Hybrid 展示</strong>：有官網／社交 leaflet 嘅店以<strong>海報＋檔期＋來源</strong>為主（不限 11 月；OCR 品名可入清單，價錢 OCR 弱時唔造價）。
+      <strong>Hybrid 展示</strong>：有官網／社交 leaflet 嘅店以<strong>海報＋檔期＋來源</strong>為主（不限 11 月）。
+      OCR 品<strong>必須有減價（salePrice）</strong>先顯示「加入清單」；主顯示減價，旁註原價同折扣率。無價品唔入清單。
       暫難找 leaflet 嘅五店（Tmart／利豐／福倡／南華美式貨場／宏基）<strong>保留消委會／DSEDT 折扣價表</strong>（可標資料日；常見 2026-10）。
       Leaflet 店<strong>唔</strong>用舊折扣作主展示。
     </div>
@@ -72,7 +73,7 @@
     </div>
 
     <div class="card" id="ocr-card" hidden>
-      <h2>OCR 品名 · 加入清單 <span class="badge muted">價可空</span></h2>
+      <h2>OCR 品名 · 加入清單 <span class="badge muted">須有減價</span></h2>
       <p class="meta-line" id="ocr-meta"></p>
       <div id="ocr-body"></div>
     </div>
@@ -180,7 +181,7 @@
         btn.type = 'button';
         btn.className = 'store-chip' + (mode === 'leaflet' && selectedLeaflet && selectedLeaflet.id === st.id ? ' active' : '');
         const n = (st.pages || []).length;
-        const ocrN = (st.ocrItems || []).length;
+        const ocrN = (st.ocrItems || []).filter((it) => it && it.salePrice != null && it.salePrice !== '' && !Number.isNaN(Number(it.salePrice))).length;
         const win = st.promoWindow || '';
         btn.innerHTML = '<span>' + MPS.escapeHtml(st.name_cn || st.mark || st.id) + '</span>' +
           (win ? '<span class="badge ok">' + MPS.escapeHtml(win) + '</span>' : '') +
@@ -279,25 +280,57 @@
       document.body.style.overflow = '';
     }
 
+    function leafletSalePrice(it) {
+      if (!it) return null;
+      const n = Number(it.salePrice);
+      return (it.salePrice == null || it.salePrice === '' || Number.isNaN(n)) ? null : n;
+    }
+
+    function leafletDiscountLabel(it) {
+      if (!it) return '';
+      if (it.discountLabel) return String(it.discountLabel);
+      if (it.discountPercent != null && it.discountPercent !== '' && !Number.isNaN(Number(it.discountPercent))) {
+        return '-' + Number(it.discountPercent).toFixed(0) + '%';
+      }
+      const sale = leafletSalePrice(it);
+      const orig = (it.originalPrice == null || it.originalPrice === '') ? null : Number(it.originalPrice);
+      if (sale == null || orig == null || Number.isNaN(orig) || orig <= 0 || sale >= orig) return '';
+      return '-' + Math.round((1 - sale / orig) * 100) + '%';
+    }
+
     function renderOcr() {
       const card = document.getElementById('ocr-card');
       const body = document.getElementById('ocr-body');
       const meta = document.getElementById('ocr-meta');
-      const items = (selectedLeaflet && selectedLeaflet.ocrItems) || [];
+      const raw = (selectedLeaflet && selectedLeaflet.ocrItems) || [];
+      // t534：無 salePrice 唔入清單／唔顯示加入掣
+      const items = raw.filter((it) => leafletSalePrice(it) != null);
       card.hidden = false;
-      meta.textContent = selectedLeaflet.ocrNote || (leafletIndex && leafletIndex.ocrNote) || '';
+      const note = selectedLeaflet.ocrNote || (leafletIndex && leafletIndex.ocrNote) || '';
+      meta.textContent = note + (raw.length && items.length < raw.length
+        ? (' · 已隱藏 ' + (raw.length - items.length) + ' 項無減價')
+        : '');
       if (!items.length) {
-        body.innerHTML = '<p class="empty">此店暫無可入清單嘅 OCR 品名（仍可翻頁睇海報）。</p>';
+        body.innerHTML = '<p class="empty">此店暫無可入清單嘅有價 OCR 品（須有 salePrice；仍可翻頁睇海報）。</p>';
         return;
       }
       let html = '<ul class="list">';
       items.forEach((it, idx) => {
+        const sale = leafletSalePrice(it);
+        const orig = (it.originalPrice == null || it.originalPrice === '') ? null : Number(it.originalPrice);
+        const disc = leafletDiscountLabel(it);
         const unit = it.unit || '';
         const sku = it.sku || '';
+        const page = it.page || '';
+        let priceBits = '<span class="price best">' + MPS.money(sale) + '</span>';
+        if (orig != null && !Number.isNaN(orig)) {
+          priceBits += ' <span class="badge muted ocr-orig">原價 ' + MPS.money(orig) + '</span>';
+        }
+        if (disc) priceBits += ' <span class="badge ok">' + MPS.escapeHtml(disc) + '</span>';
         html += '<li><div style="flex:1;min-width:160px"><div class="title">' +
           MPS.escapeHtml(it.name || '—') + '</div><div class="qty">' +
-          MPS.escapeHtml([unit, sku ? ('貨號 ' + sku) : ''].filter(Boolean).join(' · ')) +
-          ' · <span class="badge muted">價：—（OCR 未讀）</span></div></div>' +
+          MPS.escapeHtml([unit, sku ? ('貨號 ' + sku) : '', page].filter(Boolean).join(' · ')) +
+          '</div><div class="qty" style="margin-top:4px">' + priceBits + '</div></div>' +
           '<button type="button" data-ocr-idx="' + idx + '">加入清單</button></li>';
       });
       html += '</ul>';
@@ -306,7 +339,11 @@
         btn.addEventListener('click', () => {
           const it = items[Number(btn.getAttribute('data-ocr-idx'))];
           if (!it) return;
+          const sale = leafletSalePrice(it);
+          if (sale == null) return;
           const storeName = selectedLeaflet.name_cn || selectedLeaflet.mark || selectedLeaflet.id;
+          const orig = (it.originalPrice == null || it.originalPrice === '') ? null : Number(it.originalPrice);
+          const disc = leafletDiscountLabel(it);
           const id = 'leaflet:' + selectedLeaflet.id + ':' +
             encodeURIComponent(String(it.sku || it.name || Math.random()).slice(0, 80));
           MPS.addToCart({
@@ -317,15 +354,20 @@
             code: it.sku || '',
             updateDate: (leafletIndex && leafletIndex.mirroredAt) || '',
             stores: [],
-            bestPrice: null,
-            bestStore: null,
+            bestPrice: sale,
+            bestStore: storeName,
             preferredStore: storeName,
-            preferredPrice: null,
+            preferredPrice: sale,
+            originalPrice: (orig != null && !Number.isNaN(orig)) ? orig : null,
+            discountLabel: disc || '',
+            discountPercent: it.discountPercent != null ? Number(it.discountPercent) : null,
             source: 'leaflet-ocr',
             leafletStoreId: selectedLeaflet.id,
-            leafletPage: it.page || ''
+            leafletPage: it.page || '',
+            salePrice: sale
           });
-          alert('已加入清單（' + storeName + ' · 價 — · 請對照海報）');
+          alert('已加入清單（' + storeName + ' · 減價 ' + MPS.money(sale) +
+            (orig != null && !Number.isNaN(orig) ? ' · 原價 ' + MPS.money(orig) : '') + '）');
         });
       });
     }
