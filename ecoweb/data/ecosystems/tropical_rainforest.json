@@ -1,0 +1,264 @@
+{
+  "id": "tropical_rainforest",
+  "name_zh": "熱帶雨林",
+  "name_en": "Tropical rainforest",
+  "scene_zh": "東南亞／亞馬遜類熱帶雨林（教學錨點）",
+  "disclaimer_zh": "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。",
+  "abiotic": [
+    "陽光（林冠截取）",
+    "高濕度／降雨",
+    "土壤養分循環快",
+    "垂直層次（光隙）"
+  ],
+  "energy_arrow_convention": "from=被取食／資源方；to=獲能方（消費者／受益方）。競爭為無能量流向之雙向關係，用 from／to 僅標兩端物種。",
+  "species": [
+    {
+      "id": "emergent_tree",
+      "name_zh": "高大喬木（林冠／突生層）",
+      "name_la": null,
+      "trophic": "producer",
+      "blurb_l1": "形成林冠與突生層的高大樹木，攔截大部分陽光並生產大量有機物。",
+      "blurb_l2": "果實、葉與枯枝落葉是草食者與分解者的主要入口；亦提供附生植物著生表面。",
+      "image": "assets/tropical_rainforest/emergent_tree.png"
+    },
+    {
+      "id": "epiphyte_orchid",
+      "name_zh": "附生蘭",
+      "name_la": "Orchidaceae（示意）",
+      "trophic": "producer",
+      "blurb_l1": "著生於樹幹或枝條的蘭科植物，自行光合作用。",
+      "blurb_l2": "依賴傳粉昆蟲完成繁殖；教學上代表林冠附生生產者，而非寄生吸取樹液。",
+      "image": "assets/tropical_rainforest/epiphyte_orchid.png"
+    },
+    {
+      "id": "understory_herb",
+      "name_zh": "林下草本",
+      "name_la": null,
+      "trophic": "producer",
+      "blurb_l1": "適應低光環境的林下草本與幼苗層。",
+      "blurb_l2": "光隙出現時可短暫加速生長；是地面與下層草食者的食源。",
+      "image": "assets/tropical_rainforest/understory_herb.png"
+    },
+    {
+      "id": "three_toed_sloth",
+      "name_zh": "三趾樹懶（示意）",
+      "name_la": "Bradypus spp.（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "在樹冠緩緩取食樹葉的樹棲草食哺乳類示意。",
+      "blurb_l2": "代謝慢、活動少；教學上代表林冠葉食者，亦可示意被大型貓科機會性捕食。",
+      "image": "assets/tropical_rainforest/three_toed_sloth.png"
+    },
+    {
+      "id": "scarlet_macaw",
+      "name_zh": "金剛鸚鵡（示意）",
+      "name_la": "Ara spp.（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "取食果實、種子與堅果的大型鸚鵡。",
+      "blurb_l2": "部分種子經消化或攜帶後傳播，可示範種子傳播互利；亦與犀鳥等爭用果實。",
+      "image": "assets/tropical_rainforest/scarlet_macaw.png"
+    },
+    {
+      "id": "hornbill",
+      "name_zh": "犀鳥（示意）",
+      "name_la": "Bucerotidae（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "以果實為主、偶取小型動物的大型林鳥示意。",
+      "blurb_l2": "長距離吞食並排泄種子，是熱帶林種子傳播的經典教學例子。",
+      "image": "assets/tropical_rainforest/hornbill.png"
+    },
+    {
+      "id": "leafcutter_ant",
+      "name_zh": "切葉蟻",
+      "name_la": "Atta / Acromyrmex（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "剪切樹葉搬回巢穴、培養真菌作為食源的社會性昆蟲。",
+      "blurb_l2": "教學上以「取葉→真菌農場」簡化為草食入口；與樹懶等爭用葉資源（示意）。",
+      "image": "assets/tropical_rainforest/leafcutter_ant.png"
+    },
+    {
+      "id": "orchid_pollinator",
+      "name_zh": "蘭花傳粉昆蟲（示意）",
+      "name_la": null,
+      "trophic": "primary_consumer",
+      "blurb_l1": "訪花取食花蜜／花粉的蜂類或其他昆蟲示意。",
+      "blurb_l2": "與附生蘭形成傳粉互利；亦是樹蛙等的獵物。",
+      "image": "assets/tropical_rainforest/orchid_pollinator.png"
+    },
+    {
+      "id": "tree_frog",
+      "name_zh": "樹蛙",
+      "name_la": "Hylidae 等（示意）",
+      "trophic": "secondary_consumer",
+      "blurb_l1": "在葉面與枝條捕食小型昆蟲的兩棲類。",
+      "blurb_l2": "依賴潮濕微生境；教學上串起「傳粉昆蟲→蛙→大型掠食者」的能量階梯。",
+      "image": "assets/tropical_rainforest/tree_frog.png"
+    },
+    {
+      "id": "jaguar",
+      "name_zh": "美洲豹／雲豹類（示意）",
+      "name_la": "Panthera onca / Neofelis（示意）",
+      "trophic": "apex_consumer",
+      "blurb_l1": "林中埋伏、捕食中大型脊椎動物的近頂級貓科示意。",
+      "blurb_l2": "教學上合併美洲豹與雲豹類角色：控制樹懶、猴類等樹棲／半樹棲獵物密度。",
+      "image": "assets/tropical_rainforest/jaguar.png"
+    },
+    {
+      "id": "rainforest_fungi",
+      "name_zh": "真菌／微生物（示意）",
+      "name_la": null,
+      "trophic": "decomposer",
+      "blurb_l1": "分解落葉、枯木與動物殘體的真菌與微生物示意。",
+      "blurb_l2": "熱帶林養分多存於生物量；快速分解把養分釋回根系可及範圍（教學簡化）。",
+      "image": "assets/tropical_rainforest/rainforest_fungi.png"
+    },
+    {
+      "id": "rainforest_parasite",
+      "name_zh": "體表／體內寄生物（示意）",
+      "name_la": null,
+      "trophic": "secondary_consumer",
+      "blurb_l1": "寄生於脊椎動物、吸取血液或組織的小型寄生物示意。",
+      "blurb_l2": "典型寄生（＋／－）；可示範對樹懶、美洲豹等宿主的負擔。",
+      "image": "assets/tropical_rainforest/rainforest_parasite.png"
+    }
+  ],
+  "edges": [
+    {
+      "from": "emergent_tree",
+      "to": "three_toed_sloth",
+      "relation": "herbivory",
+      "note_zh": "樹懶取食喬木葉片"
+    },
+    {
+      "from": "emergent_tree",
+      "to": "leafcutter_ant",
+      "relation": "herbivory",
+      "note_zh": "切葉蟻剪切喬木葉片運回巢"
+    },
+    {
+      "from": "understory_herb",
+      "to": "leafcutter_ant",
+      "relation": "herbivory",
+      "note_zh": "切葉蟻亦可取用林下葉片"
+    },
+    {
+      "from": "emergent_tree",
+      "to": "scarlet_macaw",
+      "relation": "herbivory",
+      "note_zh": "金剛鸚鵡取食果實與種子"
+    },
+    {
+      "from": "emergent_tree",
+      "to": "hornbill",
+      "relation": "herbivory",
+      "note_zh": "犀鳥取食林冠果實"
+    },
+    {
+      "from": "epiphyte_orchid",
+      "to": "orchid_pollinator",
+      "relation": "herbivory",
+      "note_zh": "傳粉昆蟲取食花蜜／花粉（訪花入口）"
+    },
+    {
+      "from": "orchid_pollinator",
+      "to": "tree_frog",
+      "relation": "predation",
+      "note_zh": "樹蛙捕食傳粉昆蟲等小型昆蟲"
+    },
+    {
+      "from": "leafcutter_ant",
+      "to": "tree_frog",
+      "relation": "predation",
+      "note_zh": "樹蛙可機會性捕食小型工蟻（示意）"
+    },
+    {
+      "from": "three_toed_sloth",
+      "to": "jaguar",
+      "relation": "predation",
+      "note_zh": "大型貓科捕食樹懶"
+    },
+    {
+      "from": "tree_frog",
+      "to": "jaguar",
+      "relation": "predation",
+      "note_zh": "貓科可機會性取食樹蛙等小型脊椎（示意）"
+    },
+    {
+      "from": "scarlet_macaw",
+      "to": "hornbill",
+      "relation": "competition",
+      "note_zh": "爭用林冠果實資源"
+    },
+    {
+      "from": "three_toed_sloth",
+      "to": "leafcutter_ant",
+      "relation": "competition",
+      "note_zh": "爭用葉片資源（生態位部分重疊示意）"
+    },
+    {
+      "from": "epiphyte_orchid",
+      "to": "orchid_pollinator",
+      "relation": "mutualism",
+      "note_zh": "傳粉互利：蘭得傳粉，昆蟲得食（＋／＋）"
+    },
+    {
+      "from": "emergent_tree",
+      "to": "hornbill",
+      "relation": "mutualism",
+      "note_zh": "種子傳播互利：樹得擴散，犀鳥得果實（＋／＋）"
+    },
+    {
+      "from": "emergent_tree",
+      "to": "scarlet_macaw",
+      "relation": "mutualism",
+      "note_zh": "部分種子經鸚鵡攜帶／排泄後傳播（＋／＋示意）"
+    },
+    {
+      "from": "emergent_tree",
+      "to": "epiphyte_orchid",
+      "relation": "commensalism",
+      "note_zh": "附生蘭利用樹幹／枝條著生（對喬木大致＋／0）"
+    },
+    {
+      "from": "three_toed_sloth",
+      "to": "rainforest_parasite",
+      "relation": "parasitism",
+      "note_zh": "寄生物寄生於樹懶（＋／－）"
+    },
+    {
+      "from": "jaguar",
+      "to": "rainforest_parasite",
+      "relation": "parasitism",
+      "note_zh": "寄生物亦可寄生大型貓科"
+    },
+    {
+      "from": "emergent_tree",
+      "to": "rainforest_fungi",
+      "relation": "detritivory",
+      "note_zh": "真菌／微生物分解落葉與枯木"
+    },
+    {
+      "from": "understory_herb",
+      "to": "rainforest_fungi",
+      "relation": "detritivory",
+      "note_zh": "分解林下草本殘體"
+    },
+    {
+      "from": "three_toed_sloth",
+      "to": "rainforest_fungi",
+      "relation": "detritivory",
+      "note_zh": "分解動物排泄與殘體"
+    },
+    {
+      "from": "leafcutter_ant",
+      "to": "rainforest_fungi",
+      "relation": "detritivory",
+      "note_zh": "巢外落葉與廢棄基質進入分解途徑（示意）"
+    },
+    {
+      "from": "orchid_pollinator",
+      "to": "rainforest_fungi",
+      "relation": "detritivory",
+      "note_zh": "分解死亡昆蟲"
+    }
+  ]
+}

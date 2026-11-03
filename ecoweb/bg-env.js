@@ -1,7 +1,7 @@
 /*! EcoWeb procedural ecosystem backdrop.
    教學示意：日夜／季節／天氣慢漸變，非精確氣候模擬。
    Canvas behind #webSvg; pointer-events none. Pauses when document.hidden. ~24fps.
-   Scenes: savanna | temperate_forest | mangrove | freshwater_lake | coral_reef */
+   Scenes: savanna | temperate_forest | mangrove | freshwater_lake | coral_reef | tropical_rainforest | desert */
 (() => {
   "use strict";
 
@@ -69,6 +69,16 @@
       weathers: ["clear", "haze", "clouds", "storm"],
       daySplit: "tropical",
       seasonMode: "wet_dry_mild",
+    },
+    tropical_rainforest: {
+      weathers: ["clear", "haze", "clouds", "rain", "storm"],
+      daySplit: "equatorial",
+      seasonMode: "wet_dry_mild",
+    },
+    desert: {
+      weathers: ["clear", "haze", "dust", "clouds"],
+      daySplit: "tropical",
+      seasonMode: "dry_wet",
     },
   };
 
@@ -452,6 +462,8 @@
       else if (id === "mangrove") this._drawMangrove(now);
       else if (id === "freshwater_lake") this._drawLake(now);
       else if (id === "coral_reef") this._drawCoralReef(now);
+      else if (id === "tropical_rainforest") this._drawTropicalRainforest(now);
+      else if (id === "desert") this._drawDesert(now);
       else this._drawSavanna(now);
     }
 
@@ -1211,6 +1223,267 @@
 
       this._veil(ctx, w, h, hazeAmt * 0.5, dayPhase, [40, 100, 120]);
     }
+
+    _drawTropicalRainforest(now) {
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      if (w < 2 || h < 2) return;
+      const elapsed = now - this.t0;
+      const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
+      const seasonT = seasonFactor(elapsed, "wet_dry_mild");
+      const windPulse = 0.4 + 0.25 * Math.sin(elapsed * 0.00038);
+      this.wind += 0.2 * windPulse;
+
+      const { sky, ground } = phaseColorsGeneric(dayPhase, {
+        sky: {
+          night: [8, 18, 22],
+          dawn: [70, 110, 100],
+          day: [110, 170, 165],
+          noon: [95, 155, 150],
+          dusk: [55, 80, 90],
+        },
+        ground: {
+          night: [12, 28, 18],
+          dawn: [28, 55, 32],
+          day: [34, 72, 38],
+          dusk: [22, 42, 28],
+        },
+      });
+      const weather = this._weatherMix(now, seasonT);
+      const cloudAmt = clamp(
+        this._weatherAmount("clouds", weather) +
+          this._weatherAmount("rain", weather) * 0.65 +
+          this._weatherAmount("storm", weather) * 0.85 +
+          0.2,
+        0,
+        1
+      );
+      const rainAmt = this._weatherAmount("rain", weather) + this._weatherAmount("storm", weather) * 0.7;
+      const hazeAmt = this._weatherAmount("haze", weather) + 0.18;
+      this._commonSkyClouds(ctx, w, h, sky, dayPhase, windPulse, cloudAmt);
+
+      // dense canopy band (upper third) — layered greens
+      const canopyY = h * 0.38;
+      const canopy = ctx.createLinearGradient(0, 0, 0, canopyY + h * 0.2);
+      canopy.addColorStop(0, rgb(mixRgb([18, 48, 28], sky, 0.15), 0.92));
+      canopy.addColorStop(0.55, rgb([22, 68, 36], 0.95));
+      canopy.addColorStop(1, rgb([16, 42, 24], 0.9));
+      ctx.fillStyle = canopy;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(w, 0);
+      ctx.lineTo(w, canopyY * 0.55);
+      for (let i = 0; i <= 8; i++) {
+        const x = w - (i / 8) * w;
+        const y = canopyY + Math.sin(i * 1.3 + this.wind * 0.02) * h * 0.025 + (i % 2) * h * 0.02;
+        ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fill();
+
+      // mid-canopy mounds
+      ctx.fillStyle = rgb([28, 78, 42], 0.78);
+      for (const [fx, fy, rx, ry] of [
+        [0.12, 0.42, 0.14, 0.1],
+        [0.38, 0.4, 0.16, 0.12],
+        [0.62, 0.43, 0.15, 0.1],
+        [0.88, 0.41, 0.13, 0.11],
+      ]) {
+        ctx.beginPath();
+        ctx.ellipse(w * fx, h * fy, w * rx, h * ry, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // forest floor
+      ctx.fillStyle = rgb(ground);
+      ctx.fillRect(0, h * 0.62, w, h * 0.38);
+
+      // trunk silhouettes
+      const trunkCol = rgb([48, 34, 22], 0.75);
+      ctx.fillStyle = trunkCol;
+      for (const [tx, tw, th] of [
+        [0.18, 0.018, 0.28],
+        [0.45, 0.022, 0.32],
+        [0.72, 0.016, 0.26],
+        [0.9, 0.02, 0.3],
+      ]) {
+        const lean = Math.sin(this.wind * 0.025 + tx * 10) * 4;
+        ctx.beginPath();
+        ctx.moveTo(w * tx - w * tw + lean * 0.2, h * 0.68);
+        ctx.lineTo(w * tx + w * tw + lean * 0.2, h * 0.68);
+        ctx.lineTo(w * tx + w * tw * 0.7 + lean, h * (0.68 - th));
+        ctx.lineTo(w * tx - w * tw * 0.7 + lean, h * (0.68 - th));
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // light shafts / gaps through canopy
+      const dayBright = dayPhase > 0.18 && dayPhase < 0.78 ? 1 : 0.35;
+      for (let i = 0; i < 3; i++) {
+        const drift = (elapsed * 0.008 * (0.35 + i * 0.12) + i * 0.27) % 1;
+        const sx = ((drift * 1.2 - 0.1) * w + i * w * 0.3 + w) % (w * 1.15) - w * 0.08;
+        const alpha = (0.05 + 0.07 * dayBright) * (1 - hazeAmt * 0.4);
+        const sway = Math.sin(elapsed * 0.00045 + i) * 10;
+        ctx.beginPath();
+        ctx.moveTo(sx - 10, h * 0.2);
+        ctx.lineTo(sx + 10, h * 0.2);
+        ctx.lineTo(sx + 36 + sway, h * 0.72);
+        ctx.lineTo(sx - 36 + sway, h * 0.72);
+        ctx.closePath();
+        const sg = ctx.createLinearGradient(sx, h * 0.2, sx, h * 0.72);
+        sg.addColorStop(0, `rgba(200,230,180,${alpha})`);
+        sg.addColorStop(1, "rgba(160,200,140,0)");
+        ctx.fillStyle = sg;
+        ctx.fill();
+      }
+
+      // mist / fog veil mid height
+      const mist = ctx.createLinearGradient(0, h * 0.45, 0, h * 0.7);
+      mist.addColorStop(0, `rgba(180,210,195,${0.08 + hazeAmt * 0.12})`);
+      mist.addColorStop(1, "rgba(160,190,170,0)");
+      ctx.fillStyle = mist;
+      ctx.fillRect(0, h * 0.45, w, h * 0.28);
+
+      if (rainAmt > 0.02) {
+        ctx.strokeStyle = `rgba(170,200,210,${0.28 * rainAmt})`;
+        ctx.lineWidth = 1;
+        for (const drop of this.rain) {
+          drop.y += drop.spd * (0.9 + rainAmt);
+          drop.x += 0.2 * windPulse;
+          if (drop.y > h) {
+            drop.y = -10;
+            drop.x = Math.random() * w;
+          }
+          ctx.beginPath();
+          ctx.moveTo(drop.x, drop.y);
+          ctx.lineTo(drop.x - 1, drop.y + drop.len);
+          ctx.stroke();
+        }
+      }
+
+      this._veil(ctx, w, h, hazeAmt * 0.55, dayPhase, [40, 80, 55]);
+    }
+
+    _drawDesert(now) {
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      if (w < 2 || h < 2) return;
+      const elapsed = now - this.t0;
+      const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
+      const seasonT = seasonFactor(elapsed, "dry_wet");
+      const windPulse = 0.5 + 0.35 * Math.sin(elapsed * 0.00042);
+      this.wind += 0.28 * windPulse;
+
+      const { sky, ground } = phaseColorsGeneric(dayPhase, {
+        sky: {
+          night: [18, 22, 48],
+          dawn: [255, 160, 100],
+          day: [120, 185, 230],
+          noon: [100, 175, 225],
+          dusk: [230, 120, 70],
+        },
+        ground: {
+          night: [48, 36, 28],
+          dawn: [180, 130, 85],
+          day: [210, 170, 110],
+          dusk: [150, 95, 60],
+        },
+      });
+      const weather = this._weatherMix(now, seasonT);
+      const cloudAmt = clamp(
+        this._weatherAmount("clouds", weather) * 0.7 + this._weatherAmount("haze", weather) * 0.25,
+        0,
+        0.75
+      );
+      const dustAmt =
+        this._weatherAmount("dust", weather) + this._weatherAmount("haze", weather) * 0.55 + 0.08;
+      this._commonSkyClouds(ctx, w, h, sky, dayPhase, windPulse, cloudAmt);
+
+      // sand dunes silhouette
+      const duneBase = mixRgb(ground, [190, 145, 90], 0.35);
+      ctx.fillStyle = rgb(duneBase);
+      ctx.beginPath();
+      ctx.moveTo(0, h);
+      ctx.lineTo(0, h * 0.62);
+      for (let x = 0; x <= w; x += 24) {
+        const y =
+          h * 0.58 +
+          Math.sin(x * 0.008 + this.wind * 0.015) * h * 0.04 +
+          Math.sin(x * 0.003 + 1.2) * h * 0.03;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      ctx.fill();
+
+      // second dune ridge
+      ctx.fillStyle = rgb(mixRgb(duneBase, [160, 110, 70], 0.35), 0.92);
+      ctx.beginPath();
+      ctx.moveTo(0, h);
+      ctx.lineTo(0, h * 0.78);
+      for (let x = 0; x <= w; x += 20) {
+        const y =
+          h * 0.72 +
+          Math.sin(x * 0.012 + this.wind * 0.02 + 2) * h * 0.035 +
+          Math.cos(x * 0.004) * h * 0.02;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, h);
+      ctx.closePath();
+      ctx.fill();
+
+      // sparse cactus / shrub silhouettes
+      const plantCol = rgb(mixRgb([40, 70, 45], [30, 50, 35], dayPhase < 0.2 || dayPhase > 0.8 ? 0.4 : 0), 0.7);
+      ctx.fillStyle = plantCol;
+      for (const [px, ph, pw] of [
+        [0.22, 0.09, 0.012],
+        [0.55, 0.12, 0.014],
+        [0.78, 0.08, 0.011],
+      ]) {
+        const baseY = h * 0.7;
+        ctx.fillRect(w * px - w * pw * 0.5, baseY - h * ph, w * pw, h * ph);
+        // arms
+        ctx.fillRect(w * px - w * pw * 2.2, baseY - h * ph * 0.65, w * pw * 1.8, w * pw * 0.9);
+        ctx.fillRect(w * px + w * pw * 0.4, baseY - h * ph * 0.5, w * pw * 1.6, w * pw * 0.9);
+      }
+
+      // heat haze shimmer bands
+      const heat = 0.04 + 0.06 * (dayPhase > 0.25 && dayPhase < 0.7 ? 1 : 0.2);
+      ctx.strokeStyle = `rgba(255,220,160,${heat})`;
+      ctx.lineWidth = 1.2;
+      for (let i = 0; i < 5; i++) {
+        const yy = h * (0.55 + i * 0.05);
+        const ph = elapsed * 0.0012 + i;
+        ctx.beginPath();
+        for (let x = 0; x <= w; x += 16) {
+          const y = yy + Math.sin(ph + x * 0.04) * 2.5;
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      // dust particles
+      if (dustAmt > 0.05) {
+        for (const p of this.dust) {
+          p.x += (0.4 + p.r * 0.15) * windPulse * (0.8 + dustAmt);
+          p.y += Math.sin(elapsed * 0.001 + p.x) * 0.15;
+          if (p.x > w) {
+            p.x = 0;
+            p.y = Math.random() * h * 0.7 + h * 0.2;
+          }
+          ctx.fillStyle = `rgba(210,180,130,${0.1 + dustAmt * 0.15})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, Math.max(0.7, p.r * 0.6), 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      this._veil(ctx, w, h, dustAmt * 0.65, dayPhase, [220, 180, 120]);
+    }
+
   }
 
   function boot() {

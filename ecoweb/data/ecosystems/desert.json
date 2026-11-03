@@ -1,0 +1,294 @@
+{
+  "id": "desert",
+  "name_zh": "沙漠／乾旱荒漠",
+  "name_en": "Hot desert",
+  "scene_zh": "亞熱帶熱沙漠（教學錨點）",
+  "disclaimer_zh": "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。",
+  "abiotic": [
+    "日照強",
+    "水稀缺",
+    "晝夜溫差大",
+    "風沙"
+  ],
+  "energy_arrow_convention": "from=被取食／資源方；to=獲能方（消費者／受益方）。競爭為無能量流向之雙向關係，用 from／to 僅標兩端物種。",
+  "species": [
+    {
+      "id": "cactus",
+      "name_zh": "仙人掌",
+      "name_la": "Cactaceae（示意）",
+      "trophic": "producer",
+      "blurb_l1": "肉質莖貯水、刺減少蒸散的耐旱生產者。",
+      "blurb_l2": "花與果實吸引取食者；教學上代表荒漠多肉植物。",
+      "image": "assets/desert/cactus.png"
+    },
+    {
+      "id": "drought_shrub",
+      "name_zh": "耐旱灌木",
+      "name_la": null,
+      "trophic": "producer",
+      "blurb_l1": "葉小、根系深、可長期忍受乾旱的灌木。",
+      "blurb_l2": "提供種子、嫩枝與遮蔽；與仙人掌分層利用水分與空間。",
+      "image": "assets/desert/drought_shrub.png"
+    },
+    {
+      "id": "ephemeral_herb",
+      "name_zh": "一年生短命草",
+      "name_la": null,
+      "trophic": "producer",
+      "blurb_l1": "雨後短暫萌發、開花結子的一年生草本。",
+      "blurb_l2": "把偶發降雨轉成快速初級生產；乾季以種子庫休眠。",
+      "image": "assets/desert/ephemeral_herb.png"
+    },
+    {
+      "id": "kangaroo_rat",
+      "name_zh": "袋鼠鼠／跳鼠類（示意）",
+      "name_la": "Dipodomys / Dipodidae（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "夜間活動、以種子為主的小型齧齒類示意。",
+      "blurb_l2": "代謝水效率高；是蛇類與猛禽的重要獵物，亦與野兔爭用種子。",
+      "image": "assets/desert/kangaroo_rat.png"
+    },
+    {
+      "id": "jackrabbit",
+      "name_zh": "荒漠野兔（示意）",
+      "name_la": "Lepus spp.（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "取食草本、灌木嫩枝與部分種子的草食兔形目。",
+      "blurb_l2": "大耳散熱；晝伏夜出或晨昏活動，常成猛禽與蛇的獵物。",
+      "image": "assets/desert/jackrabbit.png"
+    },
+    {
+      "id": "darkling_beetle",
+      "name_zh": "擬步甲（荒漠甲蟲示意）",
+      "name_la": "Tenebrionidae（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "取食植物碎屑、種子與偶發綠葉的耐旱甲蟲。",
+      "blurb_l2": "部分種類可冷凝霧氣取水（教學趣點）；亦進入分解／碎屑途徑。",
+      "image": "assets/desert/darkling_beetle.png"
+    },
+    {
+      "id": "desert_lizard",
+      "name_zh": "荒漠蜥蜴",
+      "name_la": null,
+      "trophic": "secondary_consumer",
+      "blurb_l1": "白天活動、捕食昆蟲與小型無脊椎的蜥蜴。",
+      "blurb_l2": "行為性調溫（日曬／陰影）；本身是蛇與猛禽的獵物。",
+      "image": "assets/desert/desert_lizard.png"
+    },
+    {
+      "id": "desert_snake",
+      "name_zh": "荒漠蛇類（示意）",
+      "name_la": null,
+      "trophic": "secondary_consumer",
+      "blurb_l1": "捕食齧齒類、蜥蜴等的蛇類示意。",
+      "blurb_l2": "埋伏或追擊；教學上串起「種子食者→蛇→鷹」的能量階。",
+      "image": "assets/desert/desert_snake.png"
+    },
+    {
+      "id": "buzzard_hawk",
+      "name_zh": "鷹／鵟（示意）",
+      "name_la": "Buteo / Accipitridae（示意）",
+      "trophic": "apex_consumer",
+      "blurb_l1": "盤旋搜尋、捕食小型哺乳類、爬行類與大型昆蟲的猛禽。",
+      "blurb_l2": "荒漠開闊視野利於視覺狩獵；成體在教學網中少天敵。",
+      "image": "assets/desert/buzzard_hawk.png"
+    },
+    {
+      "id": "desert_fungi",
+      "name_zh": "真菌／微生物（示意）",
+      "name_la": null,
+      "trophic": "decomposer",
+      "blurb_l1": "在短暫濕潤窗口分解植物與動物殘體的微生物示意。",
+      "blurb_l2": "荒漠分解受水限制；雨後脈衝式活動把養分釋回土壤。",
+      "image": "assets/desert/desert_fungi.png"
+    },
+    {
+      "id": "desert_parasite",
+      "name_zh": "寄生物（示意）",
+      "name_la": null,
+      "trophic": "secondary_consumer",
+      "blurb_l1": "寄生於哺乳類或爬行類的體表／體內寄生物示意。",
+      "blurb_l2": "典型寄生（＋／－）；乾旱環境下宿主密度影響傳播（不展開）。",
+      "image": "assets/desert/desert_parasite.png"
+    },
+    {
+      "id": "scorpion",
+      "name_zh": "蠍子",
+      "name_la": "Scorpiones（示意）",
+      "trophic": "secondary_consumer",
+      "blurb_l1": "夜行、捕食昆蟲與其他小型節肢動物的蠍類。",
+      "blurb_l2": "可被蜥蜴、蛇或猛禽取食；教學上補強中層掠食與被食關係。",
+      "image": "assets/desert/scorpion.png"
+    }
+  ],
+  "edges": [
+    {
+      "from": "ephemeral_herb",
+      "to": "kangaroo_rat",
+      "relation": "herbivory",
+      "note_zh": "袋鼠鼠取食短命草種子"
+    },
+    {
+      "from": "drought_shrub",
+      "to": "kangaroo_rat",
+      "relation": "herbivory",
+      "note_zh": "取食灌木種子"
+    },
+    {
+      "from": "cactus",
+      "to": "kangaroo_rat",
+      "relation": "herbivory",
+      "note_zh": "偶取仙人掌果實／種子（示意）"
+    },
+    {
+      "from": "ephemeral_herb",
+      "to": "jackrabbit",
+      "relation": "herbivory",
+      "note_zh": "野兔取食短命草"
+    },
+    {
+      "from": "drought_shrub",
+      "to": "jackrabbit",
+      "relation": "herbivory",
+      "note_zh": "野兔啃食灌木嫩枝"
+    },
+    {
+      "from": "cactus",
+      "to": "jackrabbit",
+      "relation": "herbivory",
+      "note_zh": "野兔可取食仙人掌肉質組織（示意）"
+    },
+    {
+      "from": "ephemeral_herb",
+      "to": "darkling_beetle",
+      "relation": "herbivory",
+      "note_zh": "甲蟲取食植物碎屑與種子"
+    },
+    {
+      "from": "drought_shrub",
+      "to": "darkling_beetle",
+      "relation": "herbivory",
+      "note_zh": "取食灌木落葉／碎屑"
+    },
+    {
+      "from": "darkling_beetle",
+      "to": "desert_lizard",
+      "relation": "predation",
+      "note_zh": "蜥蜴捕食甲蟲"
+    },
+    {
+      "from": "darkling_beetle",
+      "to": "scorpion",
+      "relation": "predation",
+      "note_zh": "蠍子捕食甲蟲等昆蟲"
+    },
+    {
+      "from": "scorpion",
+      "to": "desert_lizard",
+      "relation": "predation",
+      "note_zh": "蜥蜴可捕食較小蠍子（示意）"
+    },
+    {
+      "from": "kangaroo_rat",
+      "to": "desert_snake",
+      "relation": "predation",
+      "note_zh": "蛇捕食袋鼠鼠"
+    },
+    {
+      "from": "desert_lizard",
+      "to": "desert_snake",
+      "relation": "predation",
+      "note_zh": "蛇捕食蜥蜴"
+    },
+    {
+      "from": "kangaroo_rat",
+      "to": "buzzard_hawk",
+      "relation": "predation",
+      "note_zh": "鷹／鵟捕食袋鼠鼠"
+    },
+    {
+      "from": "jackrabbit",
+      "to": "buzzard_hawk",
+      "relation": "predation",
+      "note_zh": "猛禽捕食野兔（尤其幼體）"
+    },
+    {
+      "from": "desert_snake",
+      "to": "buzzard_hawk",
+      "relation": "predation",
+      "note_zh": "猛禽可取食蛇類"
+    },
+    {
+      "from": "desert_lizard",
+      "to": "buzzard_hawk",
+      "relation": "predation",
+      "note_zh": "猛禽捕食蜥蜴"
+    },
+    {
+      "from": "scorpion",
+      "to": "buzzard_hawk",
+      "relation": "predation",
+      "note_zh": "猛禽可機會性取食蠍子"
+    },
+    {
+      "from": "kangaroo_rat",
+      "to": "jackrabbit",
+      "relation": "competition",
+      "note_zh": "爭用種子與部分草本資源"
+    },
+    {
+      "from": "desert_snake",
+      "to": "buzzard_hawk",
+      "relation": "competition",
+      "note_zh": "爭用齧齒類獵物（部分重疊）"
+    },
+    {
+      "from": "cactus",
+      "to": "drought_shrub",
+      "relation": "competition",
+      "note_zh": "爭用土壤水分與空間（示意）"
+    },
+    {
+      "from": "kangaroo_rat",
+      "to": "desert_parasite",
+      "relation": "parasitism",
+      "note_zh": "寄生物寄生於袋鼠鼠（＋／－）"
+    },
+    {
+      "from": "jackrabbit",
+      "to": "desert_parasite",
+      "relation": "parasitism",
+      "note_zh": "寄生物亦可寄生野兔"
+    },
+    {
+      "from": "cactus",
+      "to": "desert_fungi",
+      "relation": "detritivory",
+      "note_zh": "雨後分解仙人掌殘體"
+    },
+    {
+      "from": "ephemeral_herb",
+      "to": "desert_fungi",
+      "relation": "detritivory",
+      "note_zh": "分解短命草殘株"
+    },
+    {
+      "from": "kangaroo_rat",
+      "to": "desert_fungi",
+      "relation": "detritivory",
+      "note_zh": "分解動物排泄與殘體"
+    },
+    {
+      "from": "darkling_beetle",
+      "to": "desert_fungi",
+      "relation": "detritivory",
+      "note_zh": "甲蟲殘體進入分解；甲蟲亦促進碎屑破碎（示意）"
+    },
+    {
+      "from": "drought_shrub",
+      "to": "desert_lizard",
+      "relation": "commensalism",
+      "note_zh": "蜥蜴利用灌木陰影調溫／躲藏（對灌木大致＋／0）"
+    }
+  ]
+}
