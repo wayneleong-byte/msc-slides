@@ -1,8 +1,14 @@
 (() => {
   "use strict";
 
+  const ECO_LIST = [
+    { id: "savanna", name_zh: "熱帶稀樹草原", file: "data/ecosystems/savanna.json" },
+    { id: "temperate_forest", name_zh: "溫帶林", file: "data/ecosystems/temperate_forest.json" },
+    { id: "mangrove", name_zh: "紅樹林濕地", file: "data/ecosystems/mangrove.json" },
+    { id: "freshwater_lake", name_zh: "淡水湖泊", file: "data/ecosystems/freshwater_lake.json" },
+  ];
+
   const DATA = {
-    eco: "data/ecosystems/savanna.json",
     glossary: "data/glossary.json",
     quiz: "data/quiz/bank-v1.json",
   };
@@ -62,6 +68,7 @@
   const POP_CHART = { w: 340, h: 168, padL: 36, padR: 10, padT: 10, padB: 22 };
 
   const state = {
+    ecoId: "savanna",
     eco: null,
     glossary: null,
     quizBank: null,
@@ -98,18 +105,95 @@
     return res.json();
   }
 
+  function ecoMeta(id) {
+    return ECO_LIST.find((e) => e.id === id) || ECO_LIST[0];
+  }
+
+  function applyEcoChrome(eco) {
+    const name = eco.name_zh || ecoMeta(state.ecoId).name_zh;
+    const title = `生態網｜${name}`;
+    document.title = title;
+    const h1 = $(".brand h1");
+    if (h1) h1.textContent = title;
+    $("#disclaimerBanner").textContent =
+      eco.disclaimer_zh || "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。";
+    const kicker = $(".title-kicker");
+    if (kicker) kicker.textContent = `課堂互動 · ${name}`;
+    const th = $("#titleLayerHeading");
+    if (th) th.textContent = title;
+    const blurb = $(".title-blurb");
+    if (blurb) {
+      blurb.textContent = `${eco.scene_zh || name}：把物種拖入場景，觀察能量與互動如何串成食物網。可篩選關係、查看詳情，並用通識自評檢視理解。`;
+    }
+    const td = $(".title-disclaimer");
+    if (td) {
+      td.textContent =
+        eco.disclaimer_zh ||
+        "教學簡化：物種與連線為課堂可見模型，刻意控層級與數量，唔等於真實完整生態系。";
+    }
+    const sel = $("#ecoSelect");
+    if (sel && sel.value !== state.ecoId) sel.value = state.ecoId;
+  }
+
+  function refreshAbiotic() {
+    const abiotic = $("#abioticTags");
+    if (!abiotic) return;
+    abiotic.innerHTML = "";
+    for (const a of state.eco.abiotic || []) {
+      const span = document.createElement("span");
+      span.className = "tag abiotic";
+      span.textContent = a;
+      abiotic.appendChild(span);
+    }
+  }
+
+  async function switchEcosystem(id, { resetDemo = true, showTitle = false } = {}) {
+    const meta = ecoMeta(id);
+    const eco = await loadJson(meta.file);
+    state.ecoId = meta.id;
+    state.eco = eco;
+    state.selectedNodeId = null;
+    state.selectedEdgeKey = null;
+    state.filterRelation = "all";
+    state.popSeries = null;
+    state.popTerminal = new Map();
+    state.popHighlight = null;
+    applyEcoChrome(eco);
+    refreshAbiotic();
+    // reset relation chips active state
+    const filters = $("#relationFilters");
+    if (filters) {
+      $$(".chip", filters).forEach((c) => c.classList.toggle("active", c.dataset.rel === "all"));
+    }
+    initSelection(false);
+    layoutInitial();
+    renderAll();
+    if (window.EcoWebEnvBg && typeof window.EcoWebEnvBg.setScene === "function") {
+      window.EcoWebEnvBg.setScene(meta.id);
+    } else if (window.EcoWebEnvBg && typeof window.EcoWebEnvBg.resize === "function") {
+      window.EcoWebEnvBg.resize();
+    }
+    if (resetDemo) {
+      // empty net is default; caller may load demo separately
+    }
+    if (showTitle) showTitleLayer(true);
+    bumpIdle();
+  }
+
   async function boot() {
     try {
+      const params = new URLSearchParams(location.search);
+      const initialEco = params.get("eco") || "savanna";
+      state.ecoId = ecoMeta(initialEco).id;
       const [eco, glossary, quizBank] = await Promise.all([
-        loadJson(DATA.eco),
+        loadJson(ecoMeta(state.ecoId).file),
         loadJson(DATA.glossary),
         loadJson(DATA.quiz),
       ]);
       state.eco = eco;
       state.glossary = glossary;
       state.quizBank = quizBank;
-      $("#disclaimerBanner").textContent =
-        eco.disclaimer_zh || "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。";
+      applyEcoChrome(eco);
       $("#glossaryDisclaimer").textContent = glossary.disclaimer_zh || "";
       // R3：預設空網
       initSelection(false);
@@ -117,7 +201,11 @@
       buildStaticUi();
       renderAll();
       $("#mainLayout").hidden = false;
-      if (window.EcoWebEnvBg && typeof window.EcoWebEnvBg.resize === "function") window.EcoWebEnvBg.resize();
+      if (window.EcoWebEnvBg && typeof window.EcoWebEnvBg.setScene === "function") {
+        window.EcoWebEnvBg.setScene(state.ecoId);
+      } else if (window.EcoWebEnvBg && typeof window.EcoWebEnvBg.resize === "function") {
+        window.EcoWebEnvBg.resize();
+      }
       bindGlobal();
       showTitleLayer(true);
     } catch (err) {
@@ -209,14 +297,7 @@
   }
 
   function buildStaticUi() {
-    const abiotic = $("#abioticTags");
-    abiotic.innerHTML = "";
-    for (const a of state.eco.abiotic || []) {
-      const span = document.createElement("span");
-      span.className = "tag abiotic";
-      span.textContent = a;
-      abiotic.appendChild(span);
-    }
+    refreshAbiotic();
 
     const filters = $("#relationFilters");
     filters.innerHTML = "";
@@ -1257,6 +1338,23 @@
   }
 
   function bindGlobal() {
+    const ecoSelect = $("#ecoSelect");
+    if (ecoSelect) {
+      ecoSelect.value = state.ecoId;
+      ecoSelect.onchange = async () => {
+        const next = ecoSelect.value;
+        ecoSelect.disabled = true;
+        try {
+          await switchEcosystem(next, { showTitle: false });
+        } catch (err) {
+          console.error(err);
+          showError(`切換生態系失敗：${err.message || err}`);
+          ecoSelect.value = state.ecoId;
+        } finally {
+          ecoSelect.disabled = false;
+        }
+      };
+    }
     $("#btnSelectAll").onclick = () => {
       initSelection(true);
       layoutInitial();

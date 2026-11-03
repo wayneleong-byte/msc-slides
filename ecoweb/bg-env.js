@@ -1,20 +1,16 @@
-/*! EcoWeb procedural savanna backdrop.
-   教學示意：東非稀樹草原乾雨季／日夜，非精確氣候模擬。
-   Canvas behind #webSvg; pointer-events none. Pauses when document.hidden. ~24fps. */
+/*! EcoWeb procedural ecosystem backdrop.
+   教學示意：日夜／季節／天氣慢漸變，非精確氣候模擬。
+   Canvas behind #webSvg; pointer-events none. Pauses when document.hidden. ~24fps.
+   Scenes: savanna | temperate_forest | mangrove | freshwater_lake */
 (() => {
   "use strict";
 
   const TARGET_FPS = 24;
   const FRAME_MS = 1000 / TARGET_FPS;
-  // Equatorial teaching day ≈ 12h light / 12h dark (compressed cycle)
-  const DAY_CYCLE_MS = 144000; // ~2.4 min full day/night
-  // Dry ↔ wet alternate slowly (two-state emphasis, not temperate 4 seasons)
+  const DAY_CYCLE_MS = 144000;
   const SEASON_CYCLE_MS = 240000;
   const WEATHER_HOLD_MS = 52000;
   const WEATHER_FADE_MS = 10000;
-
-  // Weather ids used in mix weights (season-biased, not equal cycle)
-  const WEATHERS = ["clear", "haze", "clouds", "dust", "rain"];
 
   function lerp(a, b, t) {
     return a + (b - a) * t;
@@ -47,31 +43,99 @@
     return items[items.length - 1];
   }
 
-  // Day phases tuned for ~equal day/night near equator (teaching)
-  const SKY = {
+  const SCENES = {
+    savanna: {
+      weathers: ["clear", "haze", "clouds", "dust", "rain"],
+      // equatorial ≈ equal day/night; dry↔wet two-state
+      daySplit: "equatorial",
+      seasonMode: "dry_wet",
+    },
+    temperate_forest: {
+      weathers: ["clear", "clouds", "overcast", "rain", "snow"],
+      daySplit: "temperate",
+      seasonMode: "four",
+    },
+    mangrove: {
+      weathers: ["clear", "haze", "clouds", "rain", "storm"],
+      daySplit: "tropical",
+      seasonMode: "wet_dry_mild",
+    },
+    freshwater_lake: {
+      weathers: ["clear", "haze", "clouds", "rain", "mist"],
+      daySplit: "temperate",
+      seasonMode: "four",
+    },
+  };
+
+  function seasonFactor(elapsed, mode) {
+    const raw = 0.5 + 0.5 * Math.sin((elapsed / SEASON_CYCLE_MS) * Math.PI * 2);
+    if (mode === "dry_wet" || mode === "wet_dry_mild") return smoothstep(raw);
+    // four seasons: 0 winter → 0.25 spring → 0.5 summer → 0.75 autumn → 1
+    return (elapsed / SEASON_CYCLE_MS) % 1;
+  }
+
+  function seasonLeafTint(seasonT, mode) {
+    // returns {leaf, trunk lean hint} for temperate trees
+    if (mode !== "four") {
+      return { leaf: [58, 92, 48], litter: [120, 100, 60], snow: 0 };
+    }
+    // seasonT 0..1 around year
+    const ph = seasonT;
+    if (ph < 0.2) {
+      // winter
+      return { leaf: [120, 125, 118], litter: [90, 85, 75], snow: 0.85 };
+    }
+    if (ph < 0.4) {
+      const t = smoothstep((ph - 0.2) / 0.2);
+      return {
+        leaf: mixRgb([120, 125, 118], [72, 130, 62], t),
+        litter: mixRgb([90, 85, 75], [110, 120, 70], t),
+        snow: 1 - t,
+      };
+    }
+    if (ph < 0.6) {
+      return { leaf: [52, 118, 58], litter: [100, 110, 70], snow: 0 };
+    }
+    if (ph < 0.8) {
+      const t = smoothstep((ph - 0.6) / 0.2);
+      return {
+        leaf: mixRgb([52, 118, 58], [180, 110, 40], t),
+        litter: mixRgb([100, 110, 70], [160, 100, 45], t),
+        snow: 0,
+      };
+    }
+    const t = smoothstep((ph - 0.8) / 0.2);
+    return {
+      leaf: mixRgb([180, 110, 40], [120, 125, 118], t),
+      litter: mixRgb([160, 100, 45], [90, 85, 75], t),
+      snow: t * 0.5,
+    };
+  }
+
+  const SKY_EQ = {
     night: [22, 30, 52],
     dawn: [214, 148, 110],
     day: [186, 214, 232],
-    noon: [160, 200, 228], // dry clearer; wet will tint via haze/cloud
+    noon: [160, 200, 228],
     dusk: [232, 150, 98],
   };
-  const GRASS = {
-    night: [58, 72, 48],
-    dawn: [168, 148, 88],
-    dayWet: [142, 166, 78], // greener in rains
-    dayDry: [198, 168, 96], // yellow-brown dry season
-    dusk: [148, 118, 68],
+  const SKY_TEMP = {
+    night: [18, 24, 42],
+    dawn: [200, 150, 130],
+    day: [170, 200, 230],
+    noon: [150, 185, 220],
+    dusk: [210, 130, 100],
   };
 
-  /** seasonT: 0 = dry, 1 = wet (slow sine, held toward extremes) */
-  function seasonFactor(elapsed) {
-    const raw = 0.5 + 0.5 * Math.sin((elapsed / SEASON_CYCLE_MS) * Math.PI * 2);
-    // Push toward dry/wet poles so mid-season is shorter (two-state feel)
-    return smoothstep(raw);
-  }
-
-  function phaseColors(phase, seasonT) {
-    // phase: ~0–0.22 night, dawn, day(~12h), dusk, night — equatorial split
+  function phaseColorsSavanna(phase, seasonT) {
+    const SKY = SKY_EQ;
+    const GRASS = {
+      night: [58, 72, 48],
+      dawn: [168, 148, 88],
+      dayWet: [142, 166, 78],
+      dayDry: [198, 168, 96],
+      dusk: [148, 118, 68],
+    };
     let sky, grassBase;
     if (phase < 0.2) {
       const t = smoothstep(phase / 0.2);
@@ -82,14 +146,10 @@
       sky = mixRgb(SKY.dawn, SKY.day, t);
       grassBase = mixRgb(GRASS.dawn, mixRgb(GRASS.dayDry, GRASS.dayWet, seasonT), t);
     } else if (phase < 0.62) {
-      // midday: dry = clearer/warmer sky; wet = slightly cooler/greyer via season
       const t = smoothstep((phase - 0.3) / 0.32);
       const noonSky = mixRgb(SKY.day, SKY.noon, 0.5 + (1 - seasonT) * 0.25);
       sky = mixRgb(SKY.day, noonSky, t * 0.7);
-      // wet season sky a touch greyer/bluer
-      if (seasonT > 0.5) {
-        sky = mixRgb(sky, [150, 175, 200], (seasonT - 0.5) * 0.35);
-      }
+      if (seasonT > 0.5) sky = mixRgb(sky, [150, 175, 200], (seasonT - 0.5) * 0.35);
       grassBase = mixRgb(GRASS.dayDry, GRASS.dayWet, seasonT);
     } else if (phase < 0.74) {
       const t = smoothstep((phase - 0.62) / 0.12);
@@ -100,18 +160,43 @@
       sky = mixRgb(SKY.dusk, SKY.night, t);
       grassBase = mixRgb(GRASS.dusk, GRASS.night, t);
     }
-    // dry season: yellower/browner grass, clearer warm cast
     const dryPush = 1 - seasonT;
     grassBase = [
       clamp(grassBase[0] + dryPush * 22, 0, 255),
       clamp(grassBase[1] - dryPush * 10, 0, 255),
       clamp(grassBase[2] - dryPush * 16, 0, 255),
     ];
-    return { sky, grass: grassBase };
+    return { sky, ground: grassBase };
+  }
+
+  function phaseColorsGeneric(phase, palette) {
+    let sky, ground;
+    const SKY = palette.sky;
+    const GND = palette.ground;
+    if (phase < 0.22) {
+      const t = smoothstep(phase / 0.22);
+      sky = mixRgb(SKY.night, SKY.dawn, t);
+      ground = mixRgb(GND.night, GND.dawn, t);
+    } else if (phase < 0.32) {
+      const t = smoothstep((phase - 0.22) / 0.1);
+      sky = mixRgb(SKY.dawn, SKY.day, t);
+      ground = mixRgb(GND.dawn, GND.day, t);
+    } else if (phase < 0.62) {
+      sky = mixRgb(SKY.day, SKY.noon, 0.4);
+      ground = GND.day;
+    } else if (phase < 0.74) {
+      const t = smoothstep((phase - 0.62) / 0.12);
+      sky = mixRgb(SKY.noon, SKY.dusk, t);
+      ground = mixRgb(GND.day, GND.dusk, t);
+    } else {
+      const t = smoothstep((phase - 0.74) / 0.26);
+      sky = mixRgb(SKY.dusk, SKY.night, t);
+      ground = mixRgb(GND.dusk, GND.night, t);
+    }
+    return { sky, ground };
   }
 
   function sunPos(phase, w, h) {
-    // Visible ~half cycle (equatorial day); arc peaks near zenith at midday
     const day = clamp((phase - 0.18) / 0.56, 0, 1);
     const ang = Math.PI * (0.08 + day * 0.84);
     return {
@@ -123,17 +208,48 @@
     };
   }
 
-  /** Dry: clear / heat-haze / dust dominate; Wet: cumulus / convective rain */
-  function weatherWeightsForSeason(seasonT) {
-    // seasonT 0 dry → 1 wet
-    const dry = 1 - seasonT;
-    const wet = seasonT;
+  function weatherWeights(sceneId, seasonT) {
+    if (sceneId === "savanna") {
+      const dry = 1 - seasonT;
+      const wet = seasonT;
+      return {
+        clear: 0.12 + dry * 0.42,
+        haze: 0.08 + dry * 0.28,
+        dust: 0.02 + dry * 0.22,
+        clouds: 0.1 + wet * 0.38,
+        rain: 0.02 + wet * 0.32,
+      };
+    }
+    if (sceneId === "temperate_forest") {
+      // seasonT 0..1 year; winter snow, summer clearer, spring/autumn rain
+      const win = seasonT < 0.2 || seasonT > 0.85 ? 1 : 0;
+      const sum = seasonT > 0.4 && seasonT < 0.65 ? 1 : 0;
+      return {
+        clear: 0.15 + sum * 0.35,
+        clouds: 0.25,
+        overcast: 0.15 + (1 - sum) * 0.15,
+        rain: 0.12 + (1 - win - sum) * 0.2,
+        snow: 0.02 + win * 0.45,
+      };
+    }
+    if (sceneId === "mangrove") {
+      const wet = seasonT;
+      return {
+        clear: 0.2 + (1 - wet) * 0.25,
+        haze: 0.15,
+        clouds: 0.2 + wet * 0.2,
+        rain: 0.08 + wet * 0.3,
+        storm: 0.02 + wet * 0.18,
+      };
+    }
+    // lake
+    const win = seasonT < 0.2 || seasonT > 0.85 ? 1 : 0;
     return {
-      clear: 0.12 + dry * 0.42, // dry clear skies common
-      haze: 0.08 + dry * 0.28, // heat haze / dry haze
-      dust: 0.02 + dry * 0.22, // dusty wind in dry season
-      clouds: 0.1 + wet * 0.38, // cumulus in wet
-      rain: 0.02 + wet * 0.32, // convective showers mainly wet
+      clear: 0.22,
+      haze: 0.12,
+      clouds: 0.25,
+      rain: 0.15 + (1 - win) * 0.1,
+      mist: 0.1 + win * 0.25,
     };
   }
 
@@ -148,15 +264,17 @@
       this.lastDraw = 0;
       this.t0 = performance.now();
       this.wind = 0;
+      this.sceneId = "savanna";
       this.clouds = [];
       this.grass = [];
       this.trees = [];
       this.dust = [];
       this.rain = [];
+      this.waves = [];
+      this.roots = [];
       this.curWeather = "clear";
       this.nextWeather = "haze";
       this.weatherStart = this.t0;
-      this._seasonAtPick = 0;
       this._ro = null;
       this._raf = 0;
       this._onVis = () => this._syncVisibility();
@@ -165,12 +283,26 @@
     mount() {
       this.resize();
       this._seed();
-      this._pickNextWeather(seasonFactor(0));
+      this._pickNextWeather(seasonFactor(0, SCENES[this.sceneId].seasonMode));
       this._ro = new ResizeObserver(() => this.resize());
       this._ro.observe(this.canvas.parentElement || this.canvas);
       document.addEventListener("visibilitychange", this._onVis);
       this.running = !document.hidden;
       this._loop(performance.now());
+    }
+
+    setScene(id) {
+      if (!SCENES[id]) id = "savanna";
+      if (this.sceneId === id) {
+        this.resize();
+        return;
+      }
+      this.sceneId = id;
+      this.t0 = performance.now();
+      this.weatherStart = this.t0;
+      this.curWeather = "clear";
+      this._seed();
+      this._pickNextWeather(seasonFactor(0, SCENES[id].seasonMode));
     }
 
     destroy() {
@@ -213,7 +345,6 @@
       const w = this.w;
       const h = this.h;
       const rnd = (a, b) => a + Math.random() * (b - a);
-      // Cumulus-like soft piles (wet) / thinner scraps (dry opacity handles look)
       this.clouds = Array.from({ length: 7 }, () => ({
         x: rnd(-0.2, 1.2) * w,
         y: rnd(0.06, 0.34) * h,
@@ -221,12 +352,12 @@
         speed: rnd(0.006, 0.018),
         opacity: rnd(0.25, 0.55),
       }));
-      // Acacia flat-canopy silhouettes only (savanna, not temperate forest)
-      this.trees = Array.from({ length: 9 }, (_, i) => ({
+      this.trees = Array.from({ length: this.sceneId === "temperate_forest" ? 11 : 9 }, (_, i) => ({
         x: (i / 8) * w + rnd(-18, 18),
-        baseY: h * 0.52 + rnd(-8, 14),
+        baseY: h * (this.sceneId === "mangrove" ? 0.58 : 0.52) + rnd(-8, 14),
         scale: rnd(0.55, 1.15),
         lean: rnd(-0.08, 0.08),
+        kind: i % 3,
       }));
       const nGrass = Math.min(90, Math.floor(w / 10));
       this.grass = Array.from({ length: nGrass }, () => ({
@@ -249,20 +380,29 @@
         len: rnd(8, 16),
         spd: rnd(3.2, 5.5),
       }));
+      this.waves = Array.from({ length: 18 }, (_, i) => ({
+        y: h * (0.52 + i * 0.02),
+        amp: rnd(2, 6),
+        phase: rnd(0, Math.PI * 2),
+        speed: rnd(0.8, 1.6),
+      }));
+      this.roots = Array.from({ length: 8 }, (_, i) => ({
+        x: (i / 7) * w + rnd(-20, 20),
+        baseY: h * 0.62 + rnd(-6, 10),
+        scale: rnd(0.7, 1.2),
+      }));
     }
 
     _pickNextWeather(seasonT) {
-      const wmap = weatherWeightsForSeason(seasonT);
-      const names = WEATHERS.slice();
-      const weights = names.map((n) => wmap[n]);
-      // Prefer not repeating current immediately when alternatives exist
+      const wmap = weatherWeights(this.sceneId, seasonT);
+      const names = SCENES[this.sceneId].weathers.slice();
+      const weights = names.map((n) => wmap[n] || 0.05);
       let next = pickWeighted(names, weights, Math.random());
       if (next === this.curWeather && Math.random() < 0.65) {
         const altW = weights.map((w, i) => (names[i] === this.curWeather ? w * 0.15 : w));
         next = pickWeighted(names, altW, Math.random());
       }
       this.nextWeather = next;
-      this._seasonAtPick = seasonT;
     }
 
     _weatherMix(now, seasonT) {
@@ -281,8 +421,7 @@
     }
 
     _weatherAmount(name, mix) {
-      const a = name === mix.cur ? 1 - mix.t : name === mix.next ? mix.t : 0;
-      return a;
+      return name === mix.cur ? 1 - mix.t : name === mix.next ? mix.t : 0;
     }
 
     _loop(now) {
@@ -294,43 +433,14 @@
     }
 
     draw(now) {
-      const ctx = this.ctx;
-      const w = this.w;
-      const h = this.h;
-      if (w < 2 || h < 2) return;
+      const id = this.sceneId;
+      if (id === "temperate_forest") this._drawForest(now);
+      else if (id === "mangrove") this._drawMangrove(now);
+      else if (id === "freshwater_lake") this._drawLake(now);
+      else this._drawSavanna(now);
+    }
 
-      const elapsed = now - this.t0;
-      const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
-      const seasonT = seasonFactor(elapsed);
-      // Mild wind; slightly stronger in dry (dusty) season
-      const windPulse = 0.5 + 0.35 * Math.sin(elapsed * 0.00035) + (1 - seasonT) * 0.12;
-      this.wind += 0.28 * windPulse;
-
-      const { sky, grass } = phaseColors(dayPhase, seasonT);
-      const weather = this._weatherMix(now, seasonT);
-      const cloudAmt = clamp(
-        this._weatherAmount("clouds", weather) +
-          this._weatherAmount("haze", weather) * 0.35 +
-          this._weatherAmount("rain", weather) * 0.75 +
-          this._weatherAmount("dust", weather) * 0.2 +
-          0.08 +
-          seasonT * 0.08,
-        0,
-        1
-      );
-      const dustAmt = this._weatherAmount("dust", weather);
-      const rainAmt = this._weatherAmount("rain", weather);
-      const hazeAmt = this._weatherAmount("haze", weather) + dustAmt * 0.4;
-
-      // --- sky ---
-      const gSky = ctx.createLinearGradient(0, 0, 0, h * 0.58);
-      const skyTop = mixRgb(sky, [sky[0] - 20, sky[1] - 10, sky[2] + 10], 0.25);
-      gSky.addColorStop(0, rgb(skyTop));
-      gSky.addColorStop(1, rgb(sky));
-      ctx.fillStyle = gSky;
-      ctx.fillRect(0, 0, w, h);
-
-      // sun / moon
+    _drawSunMoon(ctx, dayPhase, w, h) {
       const sun = sunPos(dayPhase, w, h);
       if (sun.visible) {
         const glow = ctx.createRadialGradient(sun.x, sun.y, 0, sun.x, sun.y, sun.r * 4.5);
@@ -354,121 +464,9 @@
         ctx.fill();
         ctx.fillStyle = "rgba(240,245,255,0.35)";
         for (let i = 0; i < 18; i++) {
-          const sx = (i * 97) % w;
-          const sy = (i * 53) % Math.floor(h * 0.4);
-          ctx.fillRect(sx, sy, 1.5, 1.5);
+          ctx.fillRect((i * 97) % w, (i * 53) % Math.floor(h * 0.4), 1.5, 1.5);
         }
       }
-
-      // clouds (more / denser look when wet via cloudAmt)
-      for (const c of this.clouds) {
-        c.x += c.speed * windPulse * 16 * (0.55 + cloudAmt);
-        if (c.x > w + 120) c.x = -140;
-        const alpha = c.opacity * cloudAmt * (dayPhase > 0.15 && dayPhase < 0.8 ? 1 : 0.45);
-        this._drawCloud(ctx, c.x, c.y, c.s, alpha);
-      }
-
-      // distant hills
-      ctx.fillStyle = rgb(
-        mixRgb(grass, [clamp(grass[0] - 30, 0, 255), clamp(grass[1] - 20, 0, 255), clamp(grass[2] - 25, 0, 255)], 0.55),
-        0.85
-      );
-      ctx.beginPath();
-      ctx.moveTo(0, h * 0.52);
-      ctx.quadraticCurveTo(w * 0.25, h * 0.46, w * 0.48, h * 0.51);
-      ctx.quadraticCurveTo(w * 0.72, h * 0.56, w, h * 0.49);
-      ctx.lineTo(w, h);
-      ctx.lineTo(0, h);
-      ctx.closePath();
-      ctx.fill();
-
-      // acacia silhouettes
-      const treeColor = rgb(
-        mixRgb([48, 58, 36], [32, 38, 28], dayPhase < 0.2 || dayPhase > 0.75 ? 0.7 : 0.25),
-        0.72
-      );
-      for (const tr of this.trees) {
-        this._drawAcacia(
-          ctx,
-          tr.x,
-          tr.baseY,
-          tr.scale,
-          tr.lean + Math.sin(this.wind * 0.035 + tr.x) * 0.012,
-          treeColor
-        );
-      }
-
-      // grass field
-      const gGrass = ctx.createLinearGradient(0, h * 0.5, 0, h);
-      const grassDeep = [
-        clamp(grass[0] - 28, 0, 255),
-        clamp(grass[1] - 22, 0, 255),
-        clamp(grass[2] - 18, 0, 255),
-      ];
-      gGrass.addColorStop(0, rgb(grass, 0.92));
-      gGrass.addColorStop(1, rgb(grassDeep, 1));
-      ctx.fillStyle = gGrass;
-      ctx.fillRect(0, h * 0.52, w, h * 0.48);
-
-      // swaying blades (gentle)
-      ctx.strokeStyle = rgb(
-        [clamp(grass[0] - 40, 0, 255), clamp(grass[1] - 10, 0, 255), clamp(grass[2] - 30, 0, 255)],
-        0.45
-      );
-      ctx.lineWidth = 1.2;
-      ctx.lineCap = "round";
-      for (const blade of this.grass) {
-        const sway = Math.sin(this.wind * 0.07 + blade.phase) * blade.amp * windPulse * 0.85;
-        ctx.beginPath();
-        ctx.moveTo(blade.x, blade.y);
-        ctx.quadraticCurveTo(blade.x + sway * 0.6, blade.y - blade.h * 0.55, blade.x + sway, blade.y - blade.h);
-        ctx.stroke();
-      }
-
-      // dry-season dust / dusty wind
-      if (dustAmt > 0.02) {
-        ctx.fillStyle = `rgba(210,180,120,${0.22 * dustAmt})`;
-        for (const d of this.dust) {
-          d.x += d.vx * windPulse * (1.1 + dustAmt);
-          d.y += d.vy;
-          if (d.x > w) d.x = 0;
-          if (d.y < h * 0.3 || d.y > h) d.y = h * 0.35 + Math.random() * h * 0.55;
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.fillStyle = `rgba(200,170,110,${0.08 * dustAmt})`;
-        ctx.fillRect(0, 0, w, h);
-      }
-
-      // wet-season convective shower
-      if (rainAmt > 0.02) {
-        ctx.strokeStyle = `rgba(210,220,230,${0.28 * rainAmt})`;
-        ctx.lineWidth = 1;
-        for (const drop of this.rain) {
-          drop.y += drop.spd * (0.8 + rainAmt);
-          drop.x += 0.3 * windPulse;
-          if (drop.y > h) {
-            drop.y = -10;
-            drop.x = Math.random() * w;
-          }
-          ctx.beginPath();
-          ctx.moveTo(drop.x, drop.y);
-          ctx.lineTo(drop.x - 1.2, drop.y + drop.len);
-          ctx.stroke();
-        }
-      }
-
-      // readability veil
-      const veil = 0.1 + hazeAmt * 0.06 + (dayPhase < 0.15 || dayPhase > 0.8 ? 0.06 : 0);
-      ctx.fillStyle = `rgba(232, 220, 196, ${veil})`;
-      ctx.fillRect(0, 0, w, h);
-
-      const vig = ctx.createRadialGradient(w * 0.5, h * 0.45, h * 0.2, w * 0.5, h * 0.5, h * 0.85);
-      vig.addColorStop(0, "rgba(0,0,0,0)");
-      vig.addColorStop(1, "rgba(40,30,15,0.12)");
-      ctx.fillStyle = vig;
-      ctx.fillRect(0, 0, w, h);
     }
 
     _drawCloud(ctx, x, y, s, a) {
@@ -495,13 +493,529 @@
       ctx.lineTo(-2, -42);
       ctx.closePath();
       ctx.fill();
-      // flat umbrella canopy (Vachellia / Acacia silhouette)
       ctx.beginPath();
       ctx.ellipse(0, -48, 36, 14, 0, 0, Math.PI * 2);
       ctx.ellipse(-22, -42, 18, 10, -0.2, 0, Math.PI * 2);
       ctx.ellipse(24, -44, 16, 9, 0.15, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
+    }
+
+    _drawDeciduous(ctx, x, y, scale, lean, trunk, leaf, bare) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(lean);
+      ctx.scale(scale, scale);
+      ctx.fillStyle = trunk;
+      ctx.fillRect(-4, -55, 8, 55);
+      ctx.beginPath();
+      ctx.moveTo(-2, -40);
+      ctx.lineTo(-18, -62);
+      ctx.lineTo(-14, -62);
+      ctx.lineTo(0, -44);
+      ctx.lineTo(16, -66);
+      ctx.lineTo(20, -64);
+      ctx.lineTo(3, -40);
+      ctx.closePath();
+      ctx.fill();
+      if (!bare) {
+        ctx.fillStyle = leaf;
+        ctx.beginPath();
+        ctx.ellipse(0, -70, 28, 22, 0, 0, Math.PI * 2);
+        ctx.ellipse(-18, -60, 16, 14, -0.3, 0, Math.PI * 2);
+        ctx.ellipse(18, -62, 15, 13, 0.25, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    _drawMangroveRoot(ctx, x, y, scale, color) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(scale, scale);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.lineCap = "round";
+      // prop roots
+      for (const [dx, dy] of [
+        [-22, 8],
+        [-10, 14],
+        [8, 12],
+        [20, 6],
+      ]) {
+        ctx.beginPath();
+        ctx.moveTo(0, -36);
+        ctx.quadraticCurveTo(dx * 0.4, -10, dx, dy);
+        ctx.stroke();
+      }
+      ctx.fillStyle = color;
+      ctx.fillRect(-3, -50, 6, 20);
+      ctx.beginPath();
+      ctx.ellipse(0, -58, 22, 12, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    _commonSkyClouds(ctx, w, h, sky, dayPhase, windPulse, cloudAmt) {
+      const gSky = ctx.createLinearGradient(0, 0, 0, h * 0.58);
+      const skyTop = mixRgb(sky, [sky[0] - 20, sky[1] - 10, sky[2] + 10], 0.25);
+      gSky.addColorStop(0, rgb(skyTop));
+      gSky.addColorStop(1, rgb(sky));
+      ctx.fillStyle = gSky;
+      ctx.fillRect(0, 0, w, h);
+      this._drawSunMoon(ctx, dayPhase, w, h);
+      for (const c of this.clouds) {
+        c.x += c.speed * windPulse * 16 * (0.55 + cloudAmt);
+        if (c.x > w + 120) c.x = -140;
+        const alpha = c.opacity * cloudAmt * (dayPhase > 0.15 && dayPhase < 0.8 ? 1 : 0.45);
+        this._drawCloud(ctx, c.x, c.y, c.s, alpha);
+      }
+    }
+
+    _veil(ctx, w, h, hazeAmt, dayPhase, tint) {
+      const veil = 0.1 + hazeAmt * 0.06 + (dayPhase < 0.15 || dayPhase > 0.8 ? 0.06 : 0);
+      ctx.fillStyle = `rgba(${tint[0]}, ${tint[1]}, ${tint[2]}, ${veil})`;
+      ctx.fillRect(0, 0, w, h);
+      const vig = ctx.createRadialGradient(w * 0.5, h * 0.45, h * 0.2, w * 0.5, h * 0.5, h * 0.85);
+      vig.addColorStop(0, "rgba(0,0,0,0)");
+      vig.addColorStop(1, "rgba(40,30,15,0.12)");
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    _drawSavanna(now) {
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      if (w < 2 || h < 2) return;
+      const elapsed = now - this.t0;
+      const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
+      const seasonT = seasonFactor(elapsed, "dry_wet");
+      const windPulse = 0.5 + 0.35 * Math.sin(elapsed * 0.00035) + (1 - seasonT) * 0.12;
+      this.wind += 0.28 * windPulse;
+      const { sky, ground: grass } = phaseColorsSavanna(dayPhase, seasonT);
+      const weather = this._weatherMix(now, seasonT);
+      const cloudAmt = clamp(
+        this._weatherAmount("clouds", weather) +
+          this._weatherAmount("haze", weather) * 0.35 +
+          this._weatherAmount("rain", weather) * 0.75 +
+          this._weatherAmount("dust", weather) * 0.2 +
+          0.08 +
+          seasonT * 0.08,
+        0,
+        1
+      );
+      const dustAmt = this._weatherAmount("dust", weather);
+      const rainAmt = this._weatherAmount("rain", weather);
+      const hazeAmt = this._weatherAmount("haze", weather) + dustAmt * 0.4;
+      this._commonSkyClouds(ctx, w, h, sky, dayPhase, windPulse, cloudAmt);
+      ctx.fillStyle = rgb(
+        mixRgb(grass, [clamp(grass[0] - 30, 0, 255), clamp(grass[1] - 20, 0, 255), clamp(grass[2] - 25, 0, 255)], 0.55),
+        0.85
+      );
+      ctx.beginPath();
+      ctx.moveTo(0, h * 0.52);
+      ctx.quadraticCurveTo(w * 0.25, h * 0.46, w * 0.48, h * 0.51);
+      ctx.quadraticCurveTo(w * 0.72, h * 0.56, w, h * 0.49);
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fill();
+      const treeColor = rgb(
+        mixRgb([48, 58, 36], [32, 38, 28], dayPhase < 0.2 || dayPhase > 0.75 ? 0.7 : 0.25),
+        0.72
+      );
+      for (const tr of this.trees) {
+        this._drawAcacia(
+          ctx,
+          tr.x,
+          tr.baseY,
+          tr.scale,
+          tr.lean + Math.sin(this.wind * 0.035 + tr.x) * 0.012,
+          treeColor
+        );
+      }
+      const gGrass = ctx.createLinearGradient(0, h * 0.5, 0, h);
+      const grassDeep = [clamp(grass[0] - 28, 0, 255), clamp(grass[1] - 22, 0, 255), clamp(grass[2] - 18, 0, 255)];
+      gGrass.addColorStop(0, rgb(grass, 0.92));
+      gGrass.addColorStop(1, rgb(grassDeep, 1));
+      ctx.fillStyle = gGrass;
+      ctx.fillRect(0, h * 0.52, w, h * 0.48);
+      ctx.strokeStyle = rgb(
+        [clamp(grass[0] - 40, 0, 255), clamp(grass[1] - 10, 0, 255), clamp(grass[2] - 30, 0, 255)],
+        0.45
+      );
+      ctx.lineWidth = 1.2;
+      ctx.lineCap = "round";
+      for (const blade of this.grass) {
+        const sway = Math.sin(this.wind * 0.07 + blade.phase) * blade.amp * windPulse * 0.85;
+        ctx.beginPath();
+        ctx.moveTo(blade.x, blade.y);
+        ctx.quadraticCurveTo(blade.x + sway * 0.6, blade.y - blade.h * 0.55, blade.x + sway, blade.y - blade.h);
+        ctx.stroke();
+      }
+      if (dustAmt > 0.02) {
+        ctx.fillStyle = `rgba(210,180,120,${0.22 * dustAmt})`;
+        for (const d of this.dust) {
+          d.x += d.vx * windPulse * (1.1 + dustAmt);
+          d.y += d.vy;
+          if (d.x > w) d.x = 0;
+          if (d.y < h * 0.3 || d.y > h) d.y = h * 0.35 + Math.random() * h * 0.55;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.fillStyle = `rgba(200,170,110,${0.08 * dustAmt})`;
+        ctx.fillRect(0, 0, w, h);
+      }
+      if (rainAmt > 0.02) {
+        ctx.strokeStyle = `rgba(210,220,230,${0.28 * rainAmt})`;
+        ctx.lineWidth = 1;
+        for (const drop of this.rain) {
+          drop.y += drop.spd * (0.8 + rainAmt);
+          drop.x += 0.3 * windPulse;
+          if (drop.y > h) {
+            drop.y = -10;
+            drop.x = Math.random() * w;
+          }
+          ctx.beginPath();
+          ctx.moveTo(drop.x, drop.y);
+          ctx.lineTo(drop.x - 1.2, drop.y + drop.len);
+          ctx.stroke();
+        }
+      }
+      this._veil(ctx, w, h, hazeAmt, dayPhase, [232, 220, 196]);
+    }
+
+    _drawForest(now) {
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      if (w < 2 || h < 2) return;
+      const elapsed = now - this.t0;
+      const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
+      const seasonT = seasonFactor(elapsed, "four");
+      const leaf = seasonLeafTint(seasonT, "four");
+      const windPulse = 0.45 + 0.3 * Math.sin(elapsed * 0.0004);
+      this.wind += 0.25 * windPulse;
+      const { sky, ground } = phaseColorsGeneric(dayPhase, {
+        sky: SKY_TEMP,
+        ground: {
+          night: [40, 48, 36],
+          dawn: [90, 100, 70],
+          day: mixRgb(leaf.litter, [70, 100, 55], 0.35),
+          dusk: [80, 70, 50],
+        },
+      });
+      // winter sky cooler
+      let skyUse = sky;
+      if (leaf.snow > 0.4) skyUse = mixRgb(sky, [180, 195, 215], leaf.snow * 0.35);
+      const weather = this._weatherMix(now, seasonT);
+      const cloudAmt = clamp(
+        this._weatherAmount("clouds", weather) +
+          this._weatherAmount("overcast", weather) * 0.9 +
+          this._weatherAmount("rain", weather) * 0.7 +
+          this._weatherAmount("snow", weather) * 0.55 +
+          0.12,
+        0,
+        1
+      );
+      const rainAmt = this._weatherAmount("rain", weather);
+      const snowAmt = this._weatherAmount("snow", weather);
+      const hazeAmt = this._weatherAmount("overcast", weather) * 0.5;
+      this._commonSkyClouds(ctx, w, h, skyUse, dayPhase, windPulse, cloudAmt);
+
+      // forest floor
+      const floor = mixRgb(ground, [245, 248, 252], leaf.snow * 0.55);
+      ctx.fillStyle = rgb(floor);
+      ctx.fillRect(0, h * 0.55, w, h * 0.45);
+
+      // trunks + seasonal canopy
+      const trunk = rgb(mixRgb([72, 52, 34], [40, 32, 24], dayPhase < 0.2 || dayPhase > 0.75 ? 0.5 : 0.15), 0.9);
+      const leafCol = rgb(leaf.leaf, 0.82);
+      const bare = leaf.snow > 0.7 || (seasonT > 0.85 || seasonT < 0.12);
+      for (const tr of this.trees) {
+        this._drawDeciduous(
+          ctx,
+          tr.x,
+          tr.baseY + 20,
+          tr.scale,
+          tr.lean + Math.sin(this.wind * 0.03 + tr.x) * 0.015,
+          trunk,
+          leafCol,
+          bare && tr.kind !== 1 // keep some evergreens (pine-like) with leaf
+        );
+        if (tr.kind === 1) {
+          // simple pine triangle
+          ctx.save();
+          ctx.translate(tr.x + 30, tr.baseY + 20);
+          ctx.scale(tr.scale * 0.85, tr.scale * 0.85);
+          ctx.fillStyle = trunk;
+          ctx.fillRect(-2, -50, 4, 50);
+          ctx.fillStyle = bare ? rgb([40, 70, 45], 0.85) : rgb(mixRgb(leaf.leaf, [30, 80, 45], 0.5), 0.9);
+          ctx.beginPath();
+          ctx.moveTo(0, -95);
+          ctx.lineTo(22, -40);
+          ctx.lineTo(-22, -40);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      // understory sway
+      ctx.strokeStyle = rgb([clamp(leaf.leaf[0] - 20, 0, 255), leaf.leaf[1], clamp(leaf.leaf[2] - 10, 0, 255)], 0.35);
+      ctx.lineWidth = 1.1;
+      for (const blade of this.grass) {
+        const sway = Math.sin(this.wind * 0.06 + blade.phase) * blade.amp * windPulse * 0.7;
+        ctx.beginPath();
+        ctx.moveTo(blade.x, blade.y);
+        ctx.quadraticCurveTo(blade.x + sway * 0.5, blade.y - blade.h * 0.5, blade.x + sway, blade.y - blade.h * 0.85);
+        ctx.stroke();
+      }
+
+      if (rainAmt > 0.02) {
+        ctx.strokeStyle = `rgba(200,210,225,${0.3 * rainAmt})`;
+        for (const drop of this.rain) {
+          drop.y += drop.spd * (0.85 + rainAmt);
+          drop.x += 0.25 * windPulse;
+          if (drop.y > h) {
+            drop.y = -10;
+            drop.x = Math.random() * w;
+          }
+          ctx.beginPath();
+          ctx.moveTo(drop.x, drop.y);
+          ctx.lineTo(drop.x - 1, drop.y + drop.len);
+          ctx.stroke();
+        }
+      }
+      if (snowAmt > 0.02 || leaf.snow > 0.3) {
+        const a = Math.max(snowAmt, leaf.snow * 0.35);
+        ctx.fillStyle = `rgba(245,248,255,${0.55 * a})`;
+        for (const d of this.dust) {
+          d.y += 0.6 + a;
+          d.x += Math.sin(this.wind * 0.02 + d.y) * 0.4;
+          if (d.y > h) {
+            d.y = 0;
+            d.x = Math.random() * w;
+          }
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r * 1.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      this._veil(ctx, w, h, hazeAmt, dayPhase, [220, 230, 220]);
+    }
+
+    _drawMangrove(now) {
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      if (w < 2 || h < 2) return;
+      const elapsed = now - this.t0;
+      const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
+      const seasonT = seasonFactor(elapsed, "wet_dry_mild");
+      const windPulse = 0.4 + 0.25 * Math.sin(elapsed * 0.00038) + seasonT * 0.1;
+      this.wind += 0.22 * windPulse;
+      // tide oscillation (teaching): slow rise/fall of waterline
+      const tide = 0.5 + 0.5 * Math.sin(elapsed * 0.00012);
+      const waterLine = h * (0.58 - tide * 0.04);
+      const { sky, ground } = phaseColorsGeneric(dayPhase, {
+        sky: {
+          night: [18, 28, 48],
+          dawn: [210, 150, 120],
+          day: [150, 200, 220],
+          noon: [120, 180, 210],
+          dusk: [220, 140, 100],
+        },
+        ground: {
+          night: [40, 50, 42],
+          dawn: [90, 100, 70],
+          day: [70, 110, 80],
+          dusk: [60, 80, 60],
+        },
+      });
+      const weather = this._weatherMix(now, seasonT);
+      const cloudAmt = clamp(
+        this._weatherAmount("clouds", weather) +
+          this._weatherAmount("rain", weather) * 0.7 +
+          this._weatherAmount("storm", weather) * 0.9 +
+          this._weatherAmount("haze", weather) * 0.4 +
+          0.15,
+        0,
+        1
+      );
+      const rainAmt = this._weatherAmount("rain", weather) + this._weatherAmount("storm", weather) * 0.85;
+      const hazeAmt = this._weatherAmount("haze", weather) + this._weatherAmount("storm", weather) * 0.2;
+      this._commonSkyClouds(ctx, w, h, sky, dayPhase, windPulse, cloudAmt);
+
+      // mudflat
+      ctx.fillStyle = rgb(mixRgb([92, 78, 58], [60, 70, 55], 0.35));
+      ctx.fillRect(0, waterLine - 8, w, h);
+
+      // water with salinity/estuarian tint
+      const water = mixRgb([40, 90, 95], [55, 110, 100], seasonT);
+      const wg = ctx.createLinearGradient(0, waterLine, 0, h);
+      wg.addColorStop(0, rgb(water, 0.75));
+      wg.addColorStop(1, rgb([25, 55, 60], 0.95));
+      ctx.fillStyle = wg;
+      ctx.fillRect(0, waterLine, w, h - waterLine);
+
+      // humidity haze near water
+      ctx.fillStyle = `rgba(180,210,210,${0.08 + hazeAmt * 0.1})`;
+      ctx.fillRect(0, waterLine - 30, w, 50);
+
+      // prop-root mangrove silhouettes
+      const rootCol = rgb(mixRgb([36, 55, 42], ground, 0.25), 0.85);
+      for (const r of this.roots) {
+        this._drawMangroveRoot(
+          ctx,
+          r.x,
+          Math.max(r.baseY, waterLine + 6),
+          r.scale,
+          rootCol
+        );
+      }
+
+      // gentle wave glints
+      ctx.strokeStyle = `rgba(220,240,235,${0.18 + (1 - dayPhase % 1) * 0.05})`;
+      ctx.lineWidth = 1.2;
+      for (const wave of this.waves) {
+        const yy = waterLine + (wave.y - h * 0.52) * 0.7;
+        if (yy < waterLine) continue;
+        const ph = wave.phase + this.wind * 0.04 * wave.speed;
+        ctx.beginPath();
+        ctx.moveTo(0, yy);
+        for (let x = 0; x <= w; x += 24) {
+          ctx.lineTo(x, yy + Math.sin(ph + x * 0.02) * wave.amp * 0.35);
+        }
+        ctx.stroke();
+      }
+
+      if (rainAmt > 0.02) {
+        ctx.strokeStyle = `rgba(200,220,230,${0.32 * rainAmt})`;
+        for (const drop of this.rain) {
+          drop.y += drop.spd * (0.9 + rainAmt);
+          drop.x += 0.45 * windPulse;
+          if (drop.y > h) {
+            drop.y = -10;
+            drop.x = Math.random() * w;
+          }
+          ctx.beginPath();
+          ctx.moveTo(drop.x, drop.y);
+          ctx.lineTo(drop.x - 2, drop.y + drop.len);
+          ctx.stroke();
+        }
+      }
+      this._veil(ctx, w, h, hazeAmt, dayPhase, [200, 220, 210]);
+    }
+
+    _drawLake(now) {
+      const ctx = this.ctx;
+      const w = this.w;
+      const h = this.h;
+      if (w < 2 || h < 2) return;
+      const elapsed = now - this.t0;
+      const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
+      const seasonT = seasonFactor(elapsed, "four");
+      const leaf = seasonLeafTint(seasonT, "four");
+      const windPulse = 0.35 + 0.28 * Math.sin(elapsed * 0.00042);
+      this.wind += 0.2 * windPulse;
+      const { sky, ground } = phaseColorsGeneric(dayPhase, {
+        sky: SKY_TEMP,
+        ground: {
+          night: [30, 50, 45],
+          dawn: [70, 110, 90],
+          day: [60, 120, 95],
+          dusk: [50, 80, 70],
+        },
+      });
+      let skyUse = sky;
+      if (leaf.snow > 0.4) skyUse = mixRgb(sky, [175, 190, 210], leaf.snow * 0.3);
+      const weather = this._weatherMix(now, seasonT);
+      const cloudAmt = clamp(
+        this._weatherAmount("clouds", weather) +
+          this._weatherAmount("rain", weather) * 0.65 +
+          this._weatherAmount("mist", weather) * 0.5 +
+          0.12,
+        0,
+        1
+      );
+      const rainAmt = this._weatherAmount("rain", weather);
+      const mistAmt = this._weatherAmount("mist", weather) + leaf.snow * 0.2;
+      const hazeAmt = mistAmt * 0.6;
+      this._commonSkyClouds(ctx, w, h, skyUse, dayPhase, windPulse, cloudAmt);
+
+      // far shore
+      ctx.fillStyle = rgb(mixRgb(ground, leaf.litter, 0.4), 0.9);
+      ctx.beginPath();
+      ctx.moveTo(0, h * 0.48);
+      ctx.quadraticCurveTo(w * 0.3, h * 0.44, w * 0.55, h * 0.49);
+      ctx.quadraticCurveTo(w * 0.8, h * 0.52, w, h * 0.47);
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fill();
+
+      // lake body — photic layer lighter near surface (teaching)
+      const waterLine = h * 0.5;
+      const deep = mixRgb([20, 55, 75], [30, 70, 80], 1 - leaf.snow * 0.3);
+      const shallow = mixRgb([70, 140, 150], [180, 200, 210], leaf.snow * 0.4);
+      const wg = ctx.createLinearGradient(0, waterLine, 0, h);
+      wg.addColorStop(0, rgb(shallow, 0.78));
+      wg.addColorStop(0.45, rgb(mixRgb(shallow, deep, 0.45), 0.88));
+      wg.addColorStop(1, rgb(deep, 0.96));
+      ctx.fillStyle = wg;
+      ctx.fillRect(0, waterLine, w, h - waterLine);
+
+      // specular wave glitter (day)
+      if (dayPhase > 0.2 && dayPhase < 0.75) {
+        ctx.strokeStyle = `rgba(230,245,250,${0.16 + windPulse * 0.08})`;
+        ctx.lineWidth = 1.1;
+        for (const wave of this.waves) {
+          const yy = waterLine + 8 + (wave.y - h * 0.52) * 0.85;
+          const ph = wave.phase + this.wind * 0.05 * wave.speed;
+          ctx.beginPath();
+          for (let x = 0; x <= w; x += 18) {
+            const y = yy + Math.sin(ph + x * 0.028) * wave.amp * 0.45;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      // reed silhouettes at margin
+      ctx.strokeStyle = rgb([40, 70, 50], 0.45);
+      ctx.lineWidth = 1.4;
+      for (const blade of this.grass) {
+        if (blade.y < h * 0.62) continue;
+        const sway = Math.sin(this.wind * 0.05 + blade.phase) * blade.amp * windPulse;
+        ctx.beginPath();
+        ctx.moveTo(blade.x, Math.max(blade.y, waterLine + 4));
+        ctx.quadraticCurveTo(blade.x + sway, blade.y - blade.h, blade.x + sway * 1.1, blade.y - blade.h * 1.3);
+        ctx.stroke();
+      }
+
+      if (mistAmt > 0.05) {
+        ctx.fillStyle = `rgba(210,225,230,${0.12 * mistAmt})`;
+        ctx.fillRect(0, waterLine - 40, w, 70);
+      }
+      if (rainAmt > 0.02) {
+        ctx.strokeStyle = `rgba(200,215,230,${0.28 * rainAmt})`;
+        for (const drop of this.rain) {
+          drop.y += drop.spd * (0.85 + rainAmt);
+          if (drop.y > h) {
+            drop.y = -10;
+            drop.x = Math.random() * w;
+          }
+          ctx.beginPath();
+          ctx.moveTo(drop.x, drop.y);
+          ctx.lineTo(drop.x - 1, drop.y + drop.len);
+          ctx.stroke();
+        }
+      }
+      this._veil(ctx, w, h, hazeAmt, dayPhase, [210, 225, 230]);
     }
   }
 

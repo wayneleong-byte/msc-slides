@@ -107,7 +107,36 @@ button { cursor: pointer; }
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.top-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.top-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+
+.eco-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 4px;
+  color: var(--chrome-text);
+  font-size: 0.8rem;
+}
+.eco-switch-label { opacity: 0.85; white-space: nowrap; }
+.eco-switch select {
+  appearance: none;
+  border: 1px solid var(--chrome-line);
+  background: var(--chrome-card);
+  color: var(--chrome-text);
+  border-radius: 999px;
+  padding: 6px 28px 6px 12px;
+  font-size: 0.84rem;
+  max-width: 11.5rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--accent-bright) 50%), linear-gradient(135deg, var(--accent-bright) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 55%, calc(100% - 9px) 55%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.eco-switch select:focus {
+  outline: 2px solid rgba(224, 176, 80, 0.45);
+  outline-offset: 1px;
+}
 
 .btn {
   border: 1px solid var(--chrome-line);

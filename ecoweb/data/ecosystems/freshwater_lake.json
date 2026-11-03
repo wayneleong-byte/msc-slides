@@ -1,0 +1,279 @@
+{
+  "id": "freshwater_lake",
+  "name_zh": "淡水湖泊",
+  "name_en": "Freshwater lake",
+  "scene_zh": "溫帶／亞熱帶淺湖（教學錨點）",
+  "disclaimer_zh": "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。",
+  "abiotic": [
+    "陽光（透光層）",
+    "水溫分層（示意）",
+    "溶氧",
+    "營養鹽"
+  ],
+  "energy_arrow_convention": "from=被取食／資源方；to=獲能方（消費者／受益方）。競爭為無能量流向之雙向關係，用 from／to 僅標兩端物種。",
+  "species": [
+    {
+      "id": "phytoplankton",
+      "name_zh": "浮游植物",
+      "name_la": null,
+      "trophic": "producer",
+      "blurb_l1": "懸浮於水中的微型藻類，是開敞水域能量入口。",
+      "blurb_l2": "產量受光與營養鹽限制；水華為教學警示而非本網模擬重點。",
+      "image": "assets/freshwater_lake/phytoplankton.png"
+    },
+    {
+      "id": "aquatic_plant",
+      "name_zh": "沉水／挺水植物",
+      "name_la": null,
+      "trophic": "producer",
+      "blurb_l1": "紮根於淺水帶的大型水生植物。",
+      "blurb_l2": "提供棲息結構與碎屑；與浮游植物競爭營養鹽與光。",
+      "image": "assets/freshwater_lake/aquatic_plant.png"
+    },
+    {
+      "id": "zooplankton",
+      "name_zh": "浮游動物",
+      "name_la": null,
+      "trophic": "primary_consumer",
+      "blurb_l1": "濾食浮游植物的小型浮游動物。",
+      "blurb_l2": "連接近水面初級生產與魚類；晝夜垂直遷移可提但不強制。",
+      "image": "assets/freshwater_lake/zooplankton.png"
+    },
+    {
+      "id": "benthic_invert",
+      "name_zh": "底棲無脊椎",
+      "name_la": null,
+      "trophic": "primary_consumer",
+      "blurb_l1": "湖底取食碎屑與藻類的無脊椎動物（如搖蚊幼蟲示意）。",
+      "blurb_l2": "碎屑鏈與底棲食物網的關鍵；受溶氧影響大。",
+      "image": "assets/freshwater_lake/benthic_invert.png"
+    },
+    {
+      "id": "snail_lake",
+      "name_zh": "淡水螺",
+      "name_la": "Gastropoda（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "刮食附生藻與取食部分水草／碎屑的螺類。",
+      "blurb_l2": "淺水帶常見；可被魚與水鳥取食。",
+      "image": "assets/freshwater_lake/snail_lake.png"
+    },
+    {
+      "id": "omnivore_fish",
+      "name_zh": "雜食魚",
+      "name_la": null,
+      "trophic": "secondary_consumer",
+      "blurb_l1": "既吃浮游動物、底棲生物，也取植物碎屑的魚類。",
+      "blurb_l2": "能量途徑廣；與肉食魚競爭避難空間與部分獵物。",
+      "image": "assets/freshwater_lake/omnivore_fish.png"
+    },
+    {
+      "id": "piscivore_fish",
+      "name_zh": "肉食魚",
+      "name_la": null,
+      "trophic": "apex_consumer",
+      "blurb_l1": "以其他魚類為主食的掠食魚（教學近頂級）。",
+      "blurb_l2": "控制雜食魚密度的示意；成體少水生天敵。",
+      "image": "assets/freshwater_lake/piscivore_fish.png"
+    },
+    {
+      "id": "waterbird",
+      "name_zh": "水鳥",
+      "name_la": "Anseriformes／涉禽（示意）",
+      "trophic": "secondary_consumer",
+      "blurb_l1": "在淺水取食魚、無脊椎或水草的鳥類。",
+      "blurb_l2": "連結水陸界面；種類食性差異大，本節點為教學概括。",
+      "image": "assets/freshwater_lake/waterbird.png"
+    },
+    {
+      "id": "amphipod",
+      "name_zh": "端足類／水虱（示意）",
+      "name_la": "Amphipoda（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "取食碎屑與附生藻的小型甲殼類。",
+      "blurb_l2": "底棲碎屑鏈一員；是雜食魚的常見獵物。",
+      "image": "assets/freshwater_lake/amphipod.png"
+    },
+    {
+      "id": "lake_fungi",
+      "name_zh": "水生真菌／細菌（示意）",
+      "name_la": null,
+      "trophic": "decomposer",
+      "blurb_l1": "分解沉水植物殘體與有機碎屑的微生物示意。",
+      "blurb_l2": "封閉／半封閉水域養分再生的關鍵；缺氧時分解途徑改變（不展開）。",
+      "image": "assets/freshwater_lake/lake_fungi.png"
+    },
+    {
+      "id": "fish_parasite",
+      "name_zh": "魚類寄生蟲（示意）",
+      "name_la": null,
+      "trophic": "secondary_consumer",
+      "blurb_l1": "依附魚體取食組織或體液的寄生生物示意。",
+      "blurb_l2": "典型寄生：受益且通常不立即殺死宿主；教學與捕食區分。",
+      "image": "assets/freshwater_lake/fish_parasite.png"
+    }
+  ],
+  "edges": [
+    {
+      "from": "phytoplankton",
+      "to": "zooplankton",
+      "relation": "herbivory",
+      "note_zh": "浮游動物濾食浮游植物"
+    },
+    {
+      "from": "aquatic_plant",
+      "to": "snail_lake",
+      "relation": "herbivory",
+      "note_zh": "螺刮食／啃食水生植物與附生藻"
+    },
+    {
+      "from": "aquatic_plant",
+      "to": "omnivore_fish",
+      "relation": "herbivory",
+      "note_zh": "雜食魚取食部分植物材料"
+    },
+    {
+      "from": "phytoplankton",
+      "to": "omnivore_fish",
+      "relation": "herbivory",
+      "note_zh": "雜食魚濾食／取食浮游植物（簡化）"
+    },
+    {
+      "from": "zooplankton",
+      "to": "omnivore_fish",
+      "relation": "predation",
+      "note_zh": "雜食魚捕食浮游動物"
+    },
+    {
+      "from": "benthic_invert",
+      "to": "omnivore_fish",
+      "relation": "predation",
+      "note_zh": "雜食魚捕食底棲無脊椎"
+    },
+    {
+      "from": "amphipod",
+      "to": "omnivore_fish",
+      "relation": "predation",
+      "note_zh": "雜食魚捕食端足類"
+    },
+    {
+      "from": "snail_lake",
+      "to": "omnivore_fish",
+      "relation": "predation",
+      "note_zh": "雜食魚取食螺（機會性）"
+    },
+    {
+      "from": "omnivore_fish",
+      "to": "piscivore_fish",
+      "relation": "predation",
+      "note_zh": "肉食魚捕食雜食魚"
+    },
+    {
+      "from": "omnivore_fish",
+      "to": "waterbird",
+      "relation": "predation",
+      "note_zh": "水鳥捕食魚"
+    },
+    {
+      "from": "benthic_invert",
+      "to": "waterbird",
+      "relation": "predation",
+      "note_zh": "水鳥取食底棲無脊椎"
+    },
+    {
+      "from": "snail_lake",
+      "to": "waterbird",
+      "relation": "predation",
+      "note_zh": "水鳥取食螺"
+    },
+    {
+      "from": "zooplankton",
+      "to": "waterbird",
+      "relation": "predation",
+      "note_zh": "部分水鳥濾食浮游動物（示意）"
+    },
+    {
+      "from": "phytoplankton",
+      "to": "aquatic_plant",
+      "relation": "competition",
+      "note_zh": "競爭光與營養鹽"
+    },
+    {
+      "from": "omnivore_fish",
+      "to": "waterbird",
+      "relation": "competition",
+      "note_zh": "爭用部分無脊椎／小魚獵物"
+    },
+    {
+      "from": "benthic_invert",
+      "to": "amphipod",
+      "relation": "competition",
+      "note_zh": "爭用底泥碎屑資源"
+    },
+    {
+      "from": "aquatic_plant",
+      "to": "lake_fungi",
+      "relation": "mutualism",
+      "note_zh": "根際／附生微生物促進養分再生（教學＋／＋示意）"
+    },
+    {
+      "from": "omnivore_fish",
+      "to": "fish_parasite",
+      "relation": "parasitism",
+      "note_zh": "寄生蟲寄生於雜食魚（＋／－）"
+    },
+    {
+      "from": "piscivore_fish",
+      "to": "fish_parasite",
+      "relation": "parasitism",
+      "note_zh": "寄生蟲亦可寄生肉食魚"
+    },
+    {
+      "from": "aquatic_plant",
+      "to": "benthic_invert",
+      "relation": "detritivory",
+      "note_zh": "底棲無脊椎取食植物碎屑"
+    },
+    {
+      "from": "aquatic_plant",
+      "to": "amphipod",
+      "relation": "detritivory",
+      "note_zh": "端足類取食植物碎屑"
+    },
+    {
+      "from": "aquatic_plant",
+      "to": "lake_fungi",
+      "relation": "detritivory",
+      "note_zh": "微生物分解沉水植物殘體"
+    },
+    {
+      "from": "phytoplankton",
+      "to": "lake_fungi",
+      "relation": "detritivory",
+      "note_zh": "微生物分解死亡浮游植物"
+    },
+    {
+      "from": "omnivore_fish",
+      "to": "lake_fungi",
+      "relation": "detritivory",
+      "note_zh": "微生物參與動物殘體分解"
+    },
+    {
+      "from": "benthic_invert",
+      "to": "lake_fungi",
+      "relation": "detritivory",
+      "note_zh": "分解底棲生物殘體"
+    },
+    {
+      "from": "lake_fungi",
+      "to": "amphipod",
+      "relation": "detritivory",
+      "note_zh": "碎屑經微生物 enrichment 後被取食"
+    },
+    {
+      "from": "aquatic_plant",
+      "to": "snail_lake",
+      "relation": "commensalism",
+      "note_zh": "螺利用植株表面附生藻生境（＋／0 示意）"
+    }
+  ]
+}

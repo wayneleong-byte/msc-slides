@@ -1,0 +1,276 @@
+{
+  "id": "mangrove",
+  "name_zh": "紅樹林濕地",
+  "name_en": "Mangrove wetland",
+  "scene_zh": "華南／東南亞河口紅樹林（教學錨點）",
+  "disclaimer_zh": "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。",
+  "abiotic": [
+    "潮汐",
+    "鹽度",
+    "陽光",
+    "沉積物／淤泥"
+  ],
+  "energy_arrow_convention": "from=被取食／資源方；to=獲能方（消費者／受益方）。競爭為無能量流向之雙向關係，用 from／to 僅標兩端物種。",
+  "species": [
+    {
+      "id": "red_mangrove",
+      "name_zh": "紅樹",
+      "name_la": "Rhizophora spp.",
+      "trophic": "producer",
+      "blurb_l1": "具支柱根的木本植物，能耐鹽並固岸。",
+      "blurb_l2": "落葉與根系碎屑是碎屑鏈主入口；支柱根提供微生境。",
+      "image": "assets/mangrove/red_mangrove.png"
+    },
+    {
+      "id": "mangrove_algae",
+      "name_zh": "附生藻類／底藻",
+      "name_la": null,
+      "trophic": "producer",
+      "blurb_l1": "附著在根與泥表的藻類，進行光合作用。",
+      "blurb_l2": "潮間帶光強與暴露時間影響產量；補充活體初級生產。",
+      "image": "assets/mangrove/mangrove_algae.png"
+    },
+    {
+      "id": "fiddler_crab",
+      "name_zh": "招潮蟹",
+      "name_la": "Uca / Austruca spp.",
+      "trophic": "primary_consumer",
+      "blurb_l1": "在泥灘取食有機碎屑與藻類的蟹類。",
+      "blurb_l2": "挖穴改變沉積物；雄蟹巨螯用於展示（行為示意）。",
+      "image": "assets/mangrove/fiddler_crab.png"
+    },
+    {
+      "id": "mudskipper",
+      "name_zh": "彈塗魚",
+      "name_la": "Oxudercinae（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "可離水活動的魚類，取食藻類、小型無脊椎與碎屑。",
+      "blurb_l2": "示範潮間帶兩棲式生活；與蟹等爭用岸緣資源。",
+      "image": "assets/mangrove/mudskipper.png"
+    },
+    {
+      "id": "shrimp",
+      "name_zh": "蝦類",
+      "name_la": "Caridea／Penaeidae（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "取食碎屑、藻類與小型有機物的甲殼類。",
+      "blurb_l2": "幼體常依賴紅樹林育幼場；是魚與鳥的獵物。",
+      "image": "assets/mangrove/shrimp.png"
+    },
+    {
+      "id": "snail",
+      "name_zh": "紅樹林螺",
+      "name_la": "Potamididae 等（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "刮食藻類與碎屑的腹足類。",
+      "blurb_l2": "在根表與泥面移動；連結附生藻與碎屑鏈。",
+      "image": "assets/mangrove/snail.png"
+    },
+    {
+      "id": "mangrove_fish",
+      "name_zh": "河口雜食魚",
+      "name_la": null,
+      "trophic": "secondary_consumer",
+      "blurb_l1": "在紅樹林水道活動的雜食／肉食性魚類。",
+      "blurb_l2": "捕食蝦、蟹幼體與小型無脊椎；亦取部分碎屑。",
+      "image": "assets/mangrove/mangrove_fish.png"
+    },
+    {
+      "id": "egret",
+      "name_zh": "鷺鳥",
+      "name_la": "Ardeidae（示意）",
+      "trophic": "secondary_consumer",
+      "blurb_l1": "涉水捕食魚、蝦、蟹的長腳涉禽。",
+      "blurb_l2": "利用退潮淺灘；與翠鳥在獵物上可有時空分工。",
+      "image": "assets/mangrove/egret.png"
+    },
+    {
+      "id": "kingfisher",
+      "name_zh": "翠鳥",
+      "name_la": "Alcedinidae（示意）",
+      "trophic": "apex_consumer",
+      "blurb_l1": "俯衝捕魚的翠鳥類（教學近頂級）。",
+      "blurb_l2": "依賴清澈水面與棲枝；成鳥少天敵。",
+      "image": "assets/mangrove/kingfisher.png"
+    },
+    {
+      "id": "barnacle",
+      "name_zh": "藤壺（示意）",
+      "name_la": "Cirripedia",
+      "trophic": "primary_consumer",
+      "blurb_l1": "固著在支柱根上濾食浮游有機物的甲殼類。",
+      "blurb_l2": "對紅樹大致偏利：藤壺得固著基，樹木通常影響有限（＋／0）。",
+      "image": "assets/mangrove/barnacle.png"
+    },
+    {
+      "id": "mangrove_fungi",
+      "name_zh": "紅樹林真菌／微生物（示意）",
+      "name_la": null,
+      "trophic": "decomposer",
+      "blurb_l1": "分解落葉與木質碎屑的真菌與細菌群落示意。",
+      "blurb_l2": "碎屑鏈核心：把難分解的落葉轉化為可被蟹、螺等利用的碎屑。",
+      "image": "assets/mangrove/mangrove_fungi.png"
+    },
+    {
+      "id": "polychaete",
+      "name_zh": "底棲多毛類",
+      "name_la": "Polychaeta（示意）",
+      "trophic": "primary_consumer",
+      "blurb_l1": "在淤泥中取食有機碎屑的蠕蟲類。",
+      "blurb_l2": "紅樹林底泥碎屑鏈的重要環節；可被魚、蟹捕食。",
+      "image": "assets/mangrove/polychaete.png"
+    }
+  ],
+  "edges": [
+    {
+      "from": "mangrove_algae",
+      "to": "fiddler_crab",
+      "relation": "herbivory",
+      "note_zh": "招潮蟹刮食泥表藻類"
+    },
+    {
+      "from": "mangrove_algae",
+      "to": "snail",
+      "relation": "herbivory",
+      "note_zh": "螺刮食附生藻"
+    },
+    {
+      "from": "mangrove_algae",
+      "to": "mudskipper",
+      "relation": "herbivory",
+      "note_zh": "彈塗魚取食藻類"
+    },
+    {
+      "from": "red_mangrove",
+      "to": "fiddler_crab",
+      "relation": "detritivory",
+      "note_zh": "招潮蟹取食紅樹落葉碎屑"
+    },
+    {
+      "from": "red_mangrove",
+      "to": "shrimp",
+      "relation": "detritivory",
+      "note_zh": "蝦利用紅樹來源有機碎屑"
+    },
+    {
+      "from": "red_mangrove",
+      "to": "snail",
+      "relation": "detritivory",
+      "note_zh": "螺取食落葉與碎屑"
+    },
+    {
+      "from": "red_mangrove",
+      "to": "mudskipper",
+      "relation": "detritivory",
+      "note_zh": "彈塗魚取食碎屑與有機殘渣"
+    },
+    {
+      "from": "red_mangrove",
+      "to": "polychaete",
+      "relation": "detritivory",
+      "note_zh": "多毛類取食底泥有機碎屑"
+    },
+    {
+      "from": "red_mangrove",
+      "to": "mangrove_fungi",
+      "relation": "detritivory",
+      "note_zh": "真菌／微生物分解落葉枯枝"
+    },
+    {
+      "from": "mangrove_fungi",
+      "to": "fiddler_crab",
+      "relation": "detritivory",
+      "note_zh": "蟹取食經微生物分解之碎屑（碎屑鏈）"
+    },
+    {
+      "from": "mangrove_fungi",
+      "to": "polychaete",
+      "relation": "detritivory",
+      "note_zh": "多毛類利用微生物 enrichment 碎屑"
+    },
+    {
+      "from": "shrimp",
+      "to": "mangrove_fish",
+      "relation": "predation",
+      "note_zh": "魚捕食蝦"
+    },
+    {
+      "from": "fiddler_crab",
+      "to": "mangrove_fish",
+      "relation": "predation",
+      "note_zh": "魚捕食蟹（幼體／小型）"
+    },
+    {
+      "from": "polychaete",
+      "to": "mangrove_fish",
+      "relation": "predation",
+      "note_zh": "魚捕食底棲多毛類"
+    },
+    {
+      "from": "shrimp",
+      "to": "egret",
+      "relation": "predation",
+      "note_zh": "鷺捕食蝦"
+    },
+    {
+      "from": "mangrove_fish",
+      "to": "egret",
+      "relation": "predation",
+      "note_zh": "鷺捕食魚"
+    },
+    {
+      "from": "fiddler_crab",
+      "to": "egret",
+      "relation": "predation",
+      "note_zh": "鷺捕食招潮蟹"
+    },
+    {
+      "from": "mudskipper",
+      "to": "egret",
+      "relation": "predation",
+      "note_zh": "鷺捕食彈塗魚"
+    },
+    {
+      "from": "mangrove_fish",
+      "to": "kingfisher",
+      "relation": "predation",
+      "note_zh": "翠鳥捕魚"
+    },
+    {
+      "from": "fiddler_crab",
+      "to": "mudskipper",
+      "relation": "competition",
+      "note_zh": "爭用泥灘藻類與碎屑"
+    },
+    {
+      "from": "egret",
+      "to": "kingfisher",
+      "relation": "competition",
+      "note_zh": "爭用魚類獵物（時空重疊示意）"
+    },
+    {
+      "from": "red_mangrove",
+      "to": "barnacle",
+      "relation": "commensalism",
+      "note_zh": "藤壺固著於支柱根（＋／0）"
+    },
+    {
+      "from": "red_mangrove",
+      "to": "fiddler_crab",
+      "relation": "commensalism",
+      "note_zh": "蟹利用根區洞穴微生境（＋／0 示意）"
+    },
+    {
+      "from": "mangrove_fungi",
+      "to": "shrimp",
+      "relation": "mutualism",
+      "note_zh": "微生物預分解提高碎屑可利用性（教學＋／＋示意）"
+    },
+    {
+      "from": "barnacle",
+      "to": "red_mangrove",
+      "relation": "parasitism",
+      "note_zh": "過密附著增加負載（輕度＋／－示意）"
+    }
+  ]
+}
