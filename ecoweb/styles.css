@@ -388,8 +388,8 @@ button { cursor: pointer; }
   top: -158px;
   font-size: 0.62rem;
   color: #6a5840;
+  /* vertical-rl alone: CJK stays upright (top→bottom). Do NOT rotate(180deg) — that flips glyphs. */
   writing-mode: vertical-rl;
-  transform: rotate(180deg);
   letter-spacing: 0.08em;
 }
 .pop-x-label {

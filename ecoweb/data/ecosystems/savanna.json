@@ -215,6 +215,18 @@
       "note_zh": "鬣狗取食瞪羚"
     },
     {
+      "from": "giraffe",
+      "to": "lion",
+      "relation": "predation",
+      "note_zh": "獅為長頸鹿主要天敵；成體較難獵殺，幼體與落單個體風險較高"
+    },
+    {
+      "from": "giraffe",
+      "to": "spotted_hyena",
+      "relation": "predation",
+      "note_zh": "鬣狗較常針對幼體或機會性奪食，較少主動獵殺成體長頸鹿"
+    },
+    {
       "from": "tick",
       "to": "red_billed_oxpecker",
       "relation": "predation",

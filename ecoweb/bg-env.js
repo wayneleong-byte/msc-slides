@@ -1,15 +1,19 @@
-/*! EcoWeb procedural savanna backdrop — day/night, season, wind, weather.
-   Canvas behind #webSvg; pointer-events none. Pauses when document.hidden. */
+/*! EcoWeb procedural savanna backdrop.
+   教學示意：東非稀樹草原乾雨季／日夜，非精確氣候模擬。
+   Canvas behind #webSvg; pointer-events none. Pauses when document.hidden. ~24fps. */
 (() => {
   "use strict";
 
   const TARGET_FPS = 24;
   const FRAME_MS = 1000 / TARGET_FPS;
-  const DAY_CYCLE_MS = 140000; // ~2.3 min teaching-slow day/night
-  const SEASON_CYCLE_MS = 210000;
-  const WEATHER_HOLD_MS = 48000;
-  const WEATHER_FADE_MS = 9000;
+  // Equatorial teaching day ≈ 12h light / 12h dark (compressed cycle)
+  const DAY_CYCLE_MS = 144000; // ~2.4 min full day/night
+  // Dry ↔ wet alternate slowly (two-state emphasis, not temperate 4 seasons)
+  const SEASON_CYCLE_MS = 240000;
+  const WEATHER_HOLD_MS = 52000;
+  const WEATHER_FADE_MS = 10000;
 
+  // Weather ids used in mix weights (season-biased, not equal cycle)
   const WEATHERS = ["clear", "haze", "clouds", "dust", "rain"];
 
   function lerp(a, b, t) {
@@ -32,67 +36,104 @@
   function rgb(c, a) {
     return a == null ? `rgb(${c[0]},${c[1]},${c[2]})` : `rgba(${c[0]},${c[1]},${c[2]},${a})`;
   }
+  function pickWeighted(items, weights, rnd) {
+    let sum = 0;
+    for (const w of weights) sum += w;
+    let r = rnd * sum;
+    for (let i = 0; i < items.length; i++) {
+      r -= weights[i];
+      if (r <= 0) return items[i];
+    }
+    return items[items.length - 1];
+  }
 
-  // Day phases: night → dawn → day → dusk → night (phase 0..1)
+  // Day phases tuned for ~equal day/night near equator (teaching)
   const SKY = {
-    night: [28, 36, 62],
+    night: [22, 30, 52],
     dawn: [214, 148, 110],
     day: [186, 214, 232],
-    noon: [168, 204, 228],
+    noon: [160, 200, 228], // dry clearer; wet will tint via haze/cloud
     dusk: [232, 150, 98],
   };
   const GRASS = {
     night: [58, 72, 48],
     dawn: [168, 148, 88],
-    dayWet: [154, 168, 86],
-    dayDry: [198, 168, 96],
+    dayWet: [142, 166, 78], // greener in rains
+    dayDry: [198, 168, 96], // yellow-brown dry season
     dusk: [148, 118, 68],
   };
 
+  /** seasonT: 0 = dry, 1 = wet (slow sine, held toward extremes) */
+  function seasonFactor(elapsed) {
+    const raw = 0.5 + 0.5 * Math.sin((elapsed / SEASON_CYCLE_MS) * Math.PI * 2);
+    // Push toward dry/wet poles so mid-season is shorter (two-state feel)
+    return smoothstep(raw);
+  }
+
   function phaseColors(phase, seasonT) {
-    // phase: 0 night, 0.2 dawn, 0.45 day, 0.75 dusk, 1 night
+    // phase: ~0–0.22 night, dawn, day(~12h), dusk, night — equatorial split
     let sky, grassBase;
-    if (phase < 0.18) {
-      const t = smoothstep(phase / 0.18);
+    if (phase < 0.2) {
+      const t = smoothstep(phase / 0.2);
       sky = mixRgb(SKY.night, SKY.dawn, t);
       grassBase = mixRgb(GRASS.night, GRASS.dawn, t);
-    } else if (phase < 0.32) {
-      const t = smoothstep((phase - 0.18) / 0.14);
+    } else if (phase < 0.3) {
+      const t = smoothstep((phase - 0.2) / 0.1);
       sky = mixRgb(SKY.dawn, SKY.day, t);
       grassBase = mixRgb(GRASS.dawn, mixRgb(GRASS.dayDry, GRASS.dayWet, seasonT), t);
-    } else if (phase < 0.58) {
-      const t = smoothstep((phase - 0.32) / 0.26);
-      sky = mixRgb(SKY.day, SKY.noon, t * 0.55);
+    } else if (phase < 0.62) {
+      // midday: dry = clearer/warmer sky; wet = slightly cooler/greyer via season
+      const t = smoothstep((phase - 0.3) / 0.32);
+      const noonSky = mixRgb(SKY.day, SKY.noon, 0.5 + (1 - seasonT) * 0.25);
+      sky = mixRgb(SKY.day, noonSky, t * 0.7);
+      // wet season sky a touch greyer/bluer
+      if (seasonT > 0.5) {
+        sky = mixRgb(sky, [150, 175, 200], (seasonT - 0.5) * 0.35);
+      }
       grassBase = mixRgb(GRASS.dayDry, GRASS.dayWet, seasonT);
-    } else if (phase < 0.72) {
-      const t = smoothstep((phase - 0.58) / 0.14);
+    } else if (phase < 0.74) {
+      const t = smoothstep((phase - 0.62) / 0.12);
       sky = mixRgb(SKY.noon, SKY.dusk, t);
       grassBase = mixRgb(mixRgb(GRASS.dayDry, GRASS.dayWet, seasonT), GRASS.dusk, t);
     } else {
-      const t = smoothstep((phase - 0.72) / 0.28);
+      const t = smoothstep((phase - 0.74) / 0.26);
       sky = mixRgb(SKY.dusk, SKY.night, t);
       grassBase = mixRgb(GRASS.dusk, GRASS.night, t);
     }
-    // dry season (seasonT→0) warmer/yellower; wet (→1) greener
+    // dry season: yellower/browner grass, clearer warm cast
     const dryPush = 1 - seasonT;
     grassBase = [
-      clamp(grassBase[0] + dryPush * 18, 0, 255),
-      clamp(grassBase[1] - dryPush * 8, 0, 255),
-      clamp(grassBase[2] - dryPush * 12, 0, 255),
+      clamp(grassBase[0] + dryPush * 22, 0, 255),
+      clamp(grassBase[1] - dryPush * 10, 0, 255),
+      clamp(grassBase[2] - dryPush * 16, 0, 255),
     ];
     return { sky, grass: grassBase };
   }
 
   function sunPos(phase, w, h) {
-    // arc across sky during day
-    const day = clamp((phase - 0.15) / 0.6, 0, 1);
-    const ang = Math.PI * (0.05 + day * 0.9);
+    // Visible ~half cycle (equatorial day); arc peaks near zenith at midday
+    const day = clamp((phase - 0.18) / 0.56, 0, 1);
+    const ang = Math.PI * (0.08 + day * 0.84);
     return {
-      x: w * (0.12 + day * 0.76),
-      y: h * (0.42 - Math.sin(ang) * 0.32),
+      x: w * (0.1 + day * 0.8),
+      y: h * (0.4 - Math.sin(ang) * 0.34),
       r: lerp(14, 22, Math.sin(ang)),
-      visible: phase > 0.12 && phase < 0.78,
-      moon: phase < 0.12 || phase > 0.78,
+      visible: phase > 0.16 && phase < 0.76,
+      moon: phase < 0.16 || phase > 0.76,
+    };
+  }
+
+  /** Dry: clear / heat-haze / dust dominate; Wet: cumulus / convective rain */
+  function weatherWeightsForSeason(seasonT) {
+    // seasonT 0 dry → 1 wet
+    const dry = 1 - seasonT;
+    const wet = seasonT;
+    return {
+      clear: 0.12 + dry * 0.42, // dry clear skies common
+      haze: 0.08 + dry * 0.28, // heat haze / dry haze
+      dust: 0.02 + dry * 0.22, // dusty wind in dry season
+      clouds: 0.1 + wet * 0.38, // cumulus in wet
+      rain: 0.02 + wet * 0.32, // convective showers mainly wet
     };
   }
 
@@ -112,8 +153,10 @@
       this.trees = [];
       this.dust = [];
       this.rain = [];
-      this.weatherIndex = 0;
+      this.curWeather = "clear";
+      this.nextWeather = "haze";
       this.weatherStart = this.t0;
+      this._seasonAtPick = 0;
       this._ro = null;
       this._raf = 0;
       this._onVis = () => this._syncVisibility();
@@ -122,6 +165,7 @@
     mount() {
       this.resize();
       this._seed();
+      this._pickNextWeather(seasonFactor(0));
       this._ro = new ResizeObserver(() => this.resize());
       this._ro.observe(this.canvas.parentElement || this.canvas);
       document.addEventListener("visibilitychange", this._onVis);
@@ -169,20 +213,21 @@
       const w = this.w;
       const h = this.h;
       const rnd = (a, b) => a + Math.random() * (b - a);
-      this.clouds = Array.from({ length: 7 }, (_, i) => ({
+      // Cumulus-like soft piles (wet) / thinner scraps (dry opacity handles look)
+      this.clouds = Array.from({ length: 7 }, () => ({
         x: rnd(-0.2, 1.2) * w,
         y: rnd(0.06, 0.34) * h,
         s: rnd(0.55, 1.35),
-        speed: rnd(0.008, 0.022),
+        speed: rnd(0.006, 0.018),
         opacity: rnd(0.25, 0.55),
       }));
+      // Acacia flat-canopy silhouettes only (savanna, not temperate forest)
       this.trees = Array.from({ length: 9 }, (_, i) => ({
         x: (i / 8) * w + rnd(-18, 18),
         baseY: h * 0.52 + rnd(-8, 14),
         scale: rnd(0.55, 1.15),
         lean: rnd(-0.08, 0.08),
       }));
-      // sparse grass tufts across lower band
       const nGrass = Math.min(90, Math.floor(w / 10));
       this.grass = Array.from({ length: nGrass }, () => ({
         x: rnd(0, w),
@@ -206,22 +251,36 @@
       }));
     }
 
-    _weatherWeights(now) {
+    _pickNextWeather(seasonT) {
+      const wmap = weatherWeightsForSeason(seasonT);
+      const names = WEATHERS.slice();
+      const weights = names.map((n) => wmap[n]);
+      // Prefer not repeating current immediately when alternatives exist
+      let next = pickWeighted(names, weights, Math.random());
+      if (next === this.curWeather && Math.random() < 0.65) {
+        const altW = weights.map((w, i) => (names[i] === this.curWeather ? w * 0.15 : w));
+        next = pickWeighted(names, altW, Math.random());
+      }
+      this.nextWeather = next;
+      this._seasonAtPick = seasonT;
+    }
+
+    _weatherMix(now, seasonT) {
       const elapsed = now - this.weatherStart;
       if (elapsed > WEATHER_HOLD_MS + WEATHER_FADE_MS) {
+        this.curWeather = this.nextWeather;
         this.weatherStart = now;
-        this.weatherIndex = (this.weatherIndex + 1) % WEATHERS.length;
+        this._pickNextWeather(seasonT);
       }
       const e = now - this.weatherStart;
-      const cur = WEATHERS[this.weatherIndex];
-      const next = WEATHERS[(this.weatherIndex + 1) % WEATHERS.length];
+      const cur = this.curWeather;
+      const next = this.nextWeather;
       if (e < WEATHER_HOLD_MS) return { cur, next, t: 0 };
       const t = smoothstep((e - WEATHER_HOLD_MS) / WEATHER_FADE_MS);
       return { cur, next, t };
     }
 
     _weatherAmount(name, mix) {
-      // mix: {cur, next, t}
       const a = name === mix.cur ? 1 - mix.t : name === mix.next ? mix.t : 0;
       return a;
     }
@@ -242,24 +301,26 @@
 
       const elapsed = now - this.t0;
       const dayPhase = (elapsed % DAY_CYCLE_MS) / DAY_CYCLE_MS;
-      const seasonT = 0.5 + 0.5 * Math.sin((elapsed / SEASON_CYCLE_MS) * Math.PI * 2);
-      const windPulse = 0.55 + 0.45 * Math.sin(elapsed * 0.00035);
-      this.wind += 0.35 * windPulse; // cumulative drift units
+      const seasonT = seasonFactor(elapsed);
+      // Mild wind; slightly stronger in dry (dusty) season
+      const windPulse = 0.5 + 0.35 * Math.sin(elapsed * 0.00035) + (1 - seasonT) * 0.12;
+      this.wind += 0.28 * windPulse;
 
       const { sky, grass } = phaseColors(dayPhase, seasonT);
-      const weather = this._weatherWeights(now);
+      const weather = this._weatherMix(now, seasonT);
       const cloudAmt = clamp(
         this._weatherAmount("clouds", weather) +
-          this._weatherAmount("haze", weather) * 0.45 +
-          this._weatherAmount("rain", weather) * 0.7 +
-          this._weatherAmount("dust", weather) * 0.25 +
-          0.15,
+          this._weatherAmount("haze", weather) * 0.35 +
+          this._weatherAmount("rain", weather) * 0.75 +
+          this._weatherAmount("dust", weather) * 0.2 +
+          0.08 +
+          seasonT * 0.08,
         0,
         1
       );
       const dustAmt = this._weatherAmount("dust", weather);
       const rainAmt = this._weatherAmount("rain", weather);
-      const hazeAmt = this._weatherAmount("haze", weather) + dustAmt * 0.35;
+      const hazeAmt = this._weatherAmount("haze", weather) + dustAmt * 0.4;
 
       // --- sky ---
       const gSky = ctx.createLinearGradient(0, 0, 0, h * 0.58);
@@ -280,7 +341,7 @@
         ctx.beginPath();
         ctx.arc(sun.x, sun.y, sun.r * 4.5, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = dayPhase > 0.6 ? "rgba(255,180,110,0.95)" : "rgba(255,240,200,0.95)";
+        ctx.fillStyle = dayPhase > 0.58 ? "rgba(255,180,110,0.95)" : "rgba(255,240,200,0.95)";
         ctx.beginPath();
         ctx.arc(sun.x, sun.y, sun.r, 0, Math.PI * 2);
         ctx.fill();
@@ -291,18 +352,17 @@
         ctx.beginPath();
         ctx.arc(mx, my, 11, 0, Math.PI * 2);
         ctx.fill();
-        // soft stars
         ctx.fillStyle = "rgba(240,245,255,0.35)";
         for (let i = 0; i < 18; i++) {
-          const sx = ((i * 97) % w);
-          const sy = ((i * 53) % Math.floor(h * 0.4));
+          const sx = (i * 97) % w;
+          const sy = (i * 53) % Math.floor(h * 0.4);
           ctx.fillRect(sx, sy, 1.5, 1.5);
         }
       }
 
-      // clouds
+      // clouds (more / denser look when wet via cloudAmt)
       for (const c of this.clouds) {
-        c.x += c.speed * windPulse * 18 * (0.6 + cloudAmt);
+        c.x += c.speed * windPulse * 16 * (0.55 + cloudAmt);
         if (c.x > w + 120) c.x = -140;
         const alpha = c.opacity * cloudAmt * (dayPhase > 0.15 && dayPhase < 0.8 ? 1 : 0.45);
         this._drawCloud(ctx, c.x, c.y, c.s, alpha);
@@ -322,17 +382,20 @@
       ctx.closePath();
       ctx.fill();
 
-      // tree silhouettes
+      // acacia silhouettes
       const treeColor = rgb(
-        mixRgb(
-          [48, 58, 36],
-          [32, 38, 28],
-          dayPhase < 0.2 || dayPhase > 0.75 ? 0.7 : 0.25
-        ),
+        mixRgb([48, 58, 36], [32, 38, 28], dayPhase < 0.2 || dayPhase > 0.75 ? 0.7 : 0.25),
         0.72
       );
       for (const tr of this.trees) {
-        this._drawAcacia(ctx, tr.x, tr.baseY, tr.scale, tr.lean + Math.sin(this.wind * 0.04 + tr.x) * 0.015, treeColor);
+        this._drawAcacia(
+          ctx,
+          tr.x,
+          tr.baseY,
+          tr.scale,
+          tr.lean + Math.sin(this.wind * 0.035 + tr.x) * 0.012,
+          treeColor
+        );
       }
 
       // grass field
@@ -347,7 +410,7 @@
       ctx.fillStyle = gGrass;
       ctx.fillRect(0, h * 0.52, w, h * 0.48);
 
-      // swaying blades
+      // swaying blades (gentle)
       ctx.strokeStyle = rgb(
         [clamp(grass[0] - 40, 0, 255), clamp(grass[1] - 10, 0, 255), clamp(grass[2] - 30, 0, 255)],
         0.45
@@ -355,18 +418,18 @@
       ctx.lineWidth = 1.2;
       ctx.lineCap = "round";
       for (const blade of this.grass) {
-        const sway = Math.sin(this.wind * 0.08 + blade.phase) * blade.amp * windPulse;
+        const sway = Math.sin(this.wind * 0.07 + blade.phase) * blade.amp * windPulse * 0.85;
         ctx.beginPath();
         ctx.moveTo(blade.x, blade.y);
         ctx.quadraticCurveTo(blade.x + sway * 0.6, blade.y - blade.h * 0.55, blade.x + sway, blade.y - blade.h);
         ctx.stroke();
       }
 
-      // dust particles
+      // dry-season dust / dusty wind
       if (dustAmt > 0.02) {
         ctx.fillStyle = `rgba(210,180,120,${0.22 * dustAmt})`;
         for (const d of this.dust) {
-          d.x += d.vx * windPulse * (1.2 + dustAmt);
+          d.x += d.vx * windPulse * (1.1 + dustAmt);
           d.y += d.vy;
           if (d.x > w) d.x = 0;
           if (d.y < h * 0.3 || d.y > h) d.y = h * 0.35 + Math.random() * h * 0.55;
@@ -374,18 +437,17 @@
           ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
           ctx.fill();
         }
-        // dust veil
         ctx.fillStyle = `rgba(200,170,110,${0.08 * dustAmt})`;
         ctx.fillRect(0, 0, w, h);
       }
 
-      // light rain
+      // wet-season convective shower
       if (rainAmt > 0.02) {
         ctx.strokeStyle = `rgba(210,220,230,${0.28 * rainAmt})`;
         ctx.lineWidth = 1;
         for (const drop of this.rain) {
           drop.y += drop.spd * (0.8 + rainAmt);
-          drop.x += 0.35 * windPulse;
+          drop.x += 0.3 * windPulse;
           if (drop.y > h) {
             drop.y = -10;
             drop.x = Math.random() * w;
@@ -397,12 +459,11 @@
         }
       }
 
-      // haze / readability veil (keeps nodes readable)
-      const veil = 0.10 + hazeAmt * 0.06 + (dayPhase < 0.15 || dayPhase > 0.8 ? 0.06 : 0);
+      // readability veil
+      const veil = 0.1 + hazeAmt * 0.06 + (dayPhase < 0.15 || dayPhase > 0.8 ? 0.06 : 0);
       ctx.fillStyle = `rgba(232, 220, 196, ${veil})`;
       ctx.fillRect(0, 0, w, h);
 
-      // soft vignette
       const vig = ctx.createRadialGradient(w * 0.5, h * 0.45, h * 0.2, w * 0.5, h * 0.5, h * 0.85);
       vig.addColorStop(0, "rgba(0,0,0,0)");
       vig.addColorStop(1, "rgba(40,30,15,0.12)");
@@ -427,7 +488,6 @@
       ctx.rotate(lean);
       ctx.scale(scale, scale);
       ctx.fillStyle = color;
-      // trunk
       ctx.beginPath();
       ctx.moveTo(-3, 0);
       ctx.lineTo(3, 0);
@@ -435,7 +495,7 @@
       ctx.lineTo(-2, -42);
       ctx.closePath();
       ctx.fill();
-      // flat canopy
+      // flat umbrella canopy (Vachellia / Acacia silhouette)
       ctx.beginPath();
       ctx.ellipse(0, -48, 36, 14, 0, 0, Math.PI * 2);
       ctx.ellipse(-22, -42, 18, 10, -0.2, 0, Math.PI * 2);
