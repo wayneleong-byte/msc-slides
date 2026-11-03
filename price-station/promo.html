@@ -26,13 +26,22 @@
   <main class="wrap">
     <p class="meta-line" id="promo-meta">載入中…</p>
     <div class="notice info" id="policy-note">
-      主展示改為<strong>官網／社交 leaflet 原圖</strong>＋可選 OCR 品名入清單。價錢 OCR 弱時<strong>唔造價</strong>，以圖為準。消委會折扣價表已降為次要／停用主展示。
+      <strong>主資料＝官網／社交 leaflet 海報</strong>（標明檔期／月份＋來源連結）。OCR 品名可入清單；價錢 OCR 弱時<strong>唔造價</strong>，以圖為準。
+      消委會／DSEDT 舊折扣價表（多見 2026-10-01）<strong>已非主資料、唔預設載入</strong>。
+      暫未有 leaflet 嘅店（如 Tmart／利豐／福倡／南華美式／宏基等）會列於下方「待補來源」，唔回退顯示舊折扣表。
     </div>
 
     <div class="card">
-      <h2>揀超市（P0）</h2>
+      <h2>有海報嘅超市（leaflet 主展示）</h2>
+      <p class="meta-line">點店名睇海報／檔期／官網連結；圖可翻頁同放大。</p>
       <div class="chip-row" id="store-chips"></div>
       <p class="empty" id="store-empty" hidden>暫無 leaflet 店資料。請確認 <code>data/promo-leaflet/index.json</code>。</p>
+    </div>
+
+    <div class="card" id="pending-card" hidden>
+      <h2>待補 leaflet／社交來源</h2>
+      <p class="meta-line" id="pending-meta">其餘超市需官網或 FB／IG 海報後先納入；唔用消委會舊折扣頂替。</p>
+      <ul class="list" id="pending-list"></ul>
     </div>
 
     <div class="card" id="viewer-card" hidden>
@@ -60,14 +69,7 @@
       <div id="ocr-body"></div>
     </div>
 
-    <details class="card" id="legacy-card">
-      <summary style="cursor:pointer;font-weight:700;font-size:1.05rem">消委會折扣價表（已停用主展示）</summary>
-      <p class="meta-line" style="margin-top:10px">以下為舊鏡像 <code>data/promo/</code> 折扣 API 資料，僅備查；產品主線改走 leaflet。</p>
-      <div class="chip-row" id="legacy-store-chips"></div>
-      <div class="chip-row" id="legacy-gt-chips" style="margin-top:8px"></div>
-      <div id="legacy-price-body" style="margin-top:10px"></div>
-      <p class="empty" id="legacy-empty" hidden>未有 <code>data/promo/index.json</code> 或已移除。</p>
-    </details>
+    <p class="meta-line" id="legacy-footnote" style="opacity:.75">舊消委會折扣鏡像（<code>data/promo/</code>，常見資料日 2026-10-01）已停用主展示，本頁唔載入該價表。更新以 leaflet 檔期為準。</p>
   </main>
 
   <div class="lightbox" id="lightbox" hidden>
@@ -91,10 +93,7 @@
     let leafletIndex = null;
     let selectedStore = null;
     let pageIdx = 0;
-    let legacyIndex = null;
-    let legacyStore = null;
-    let legacyGt = null;
-    let legacyActive = {};
+    /* legacy DSEDT discount UI removed from main; data/promo kept on disk only */
 
     function assetUrl(rel) {
       const root = (leafletIndex && leafletIndex.assetRoot) || 'data/promo-leaflet/2026-11-03/';
@@ -113,9 +112,11 @@
         btn.className = 'store-chip' + (selectedStore && selectedStore.id === st.id ? ' active' : '');
         const n = (st.pages || []).length;
         const ocrN = (st.ocrItems || []).length;
+        const win = st.promoWindow || '';
         btn.innerHTML = '<span>' + MPS.escapeHtml(st.name_cn || st.mark || st.id) + '</span>' +
+          (win ? '<span class="badge ok">' + MPS.escapeHtml(win) + '</span>' : '') +
           '<span class="badge muted">' + n + ' 頁</span>' +
-          (ocrN ? '<span class="badge ok">OCR ' + ocrN + '</span>' : '');
+          (ocrN ? '<span class="badge">OCR ' + ocrN + '</span>' : '');
         btn.addEventListener('click', () => selectLeafletStore(st));
         box.appendChild(btn);
       });
@@ -131,10 +132,21 @@
       src.href = st.sourceUrl || '#';
       src.hidden = !st.sourceUrl;
       const bits = [];
-      if (st.promoWindow) bits.push('推廣期／期次：' + st.promoWindow);
+      if (st.promoWindow) bits.push('檔期／月份：' + st.promoWindow);
       if (st.sourceType) bits.push('渠道：' + st.sourceType);
       bits.push((st.pages || []).length + ' 頁');
-      document.getElementById('viewer-meta').textContent = bits.join(' · ');
+      const metaEl = document.getElementById('viewer-meta');
+      metaEl.textContent = '';
+      metaEl.appendChild(document.createTextNode(bits.join(' · ')));
+      if (st.sourceUrl) {
+        metaEl.appendChild(document.createTextNode(' · 來源：'));
+        const a = document.createElement('a');
+        a.href = st.sourceUrl;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = st.sourceUrl;
+        metaEl.appendChild(a);
+      }
       renderThumbs();
       showPage(0);
       renderOcr();
@@ -244,102 +256,7 @@
       });
     }
 
-    /* —— legacy DSEDT discount (demoted) —— */
-    function storeDisplayName(st) {
-      if (!st) return '';
-      const cn = st.name_cn || st.name_zh || st.mark || '';
-      if (cn && /[\u4e00-\u9fff]/.test(String(cn))) return String(cn);
-      return st.name || st.groupName || st.scode || '';
-    }
-
-    function renderLegacyStores() {
-      const box = document.getElementById('legacy-store-chips');
-      const empty = document.getElementById('legacy-empty');
-      box.innerHTML = '';
-      const stores = (legacyIndex && legacyIndex.stores) || [];
-      empty.hidden = stores.length > 0;
-      if (!stores.length) return;
-      stores.forEach((st) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'store-chip' + (legacyStore && legacyStore.scode === st.scode ? ' active' : '');
-        btn.textContent = storeDisplayName(st);
-        btn.addEventListener('click', async () => {
-          legacyStore = st;
-          legacyGt = null;
-          renderLegacyStores();
-          await loadLegacyActive(st.scode);
-          renderLegacyGts();
-          document.getElementById('legacy-price-body').innerHTML = '';
-        });
-        box.appendChild(btn);
-      });
-    }
-
-    async function loadLegacyActive(scode) {
-      try {
-        const j = await MPS.loadJSON('data/promo/stores/' + encodeURIComponent(scode) + '.json');
-        const raw = j.raw || j;
-        const codes = [];
-        const list = Array.isArray(raw) ? raw
-          : (Array.isArray(raw.data) ? raw.data
-            : (raw.data && typeof raw.data === 'object' ? Object.keys(raw.data).filter((k) => {
-                const v = raw.data[k];
-                return v === 1 || v === '1' || v === true || v === 'Y';
-              }) : []));
-        list.forEach((row) => {
-          if (typeof row === 'string') { codes.push(row.toUpperCase()); return; }
-          if (!row || typeof row !== 'object') return;
-          let c = row.gtcode || row.code || row.gt_code || row.value || row.id;
-          if (c != null) codes.push(String(c).toUpperCase());
-        });
-        legacyActive[scode] = codes.length ? codes : (legacyIndex.goodTypes || []).map((g) => g.code);
-      } catch (_) {
-        legacyActive[scode] = (legacyIndex.goodTypes || []).map((g) => g.code);
-      }
-    }
-
-    function renderLegacyGts() {
-      const box = document.getElementById('legacy-gt-chips');
-      box.innerHTML = '';
-      if (!legacyStore) return;
-      const allowed = new Set(legacyActive[legacyStore.scode] || []);
-      (legacyIndex.goodTypes || []).forEach((gt) => {
-        if (allowed.size && !allowed.has(gt.code)) return;
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'gt-chip' + (legacyGt && legacyGt.code === gt.code ? ' active' : '');
-        btn.textContent = gt.name || gt.code;
-        btn.addEventListener('click', () => loadLegacyPrices(gt));
-        box.appendChild(btn);
-      });
-    }
-
-    async function loadLegacyPrices(gt) {
-      legacyGt = gt;
-      renderLegacyGts();
-      const body = document.getElementById('legacy-price-body');
-      body.innerHTML = '<p class="empty">載入…</p>';
-      const path = 'data/promo/prices/' + encodeURIComponent(legacyStore.scode) + '_' + encodeURIComponent(gt.code) + '.json';
-      try {
-        const data = await MPS.loadJSON(path);
-        const items = data.items || [];
-        if (!items.length) {
-          body.innerHTML = '<p class="empty">此品類暫無折扣價</p>';
-          return;
-        }
-        let html = '<table class="store-table"><thead><tr><th>品名</th><th>原價</th><th>優惠價</th></tr></thead><tbody>';
-        items.forEach((it) => {
-          html += '<tr><td>' + MPS.escapeHtml(it.name || '—') + '</td>' +
-            '<td>' + MPS.escapeHtml(it.price == null || it.price === '' ? '—' : String(it.price)) + '</td>' +
-            '<td class="price">' + MPS.escapeHtml(it.discount == null || it.discount === '' ? '—' : String(it.discount)) + '</td></tr>';
-        });
-        html += '</tbody></table>';
-        body.innerHTML = html;
-      } catch (e) {
-        body.innerHTML = '<p class="empty">未有價檔</p>';
-      }
-    }
+    /* legacy discount UI removed */
 
     document.getElementById('btn-prev').addEventListener('click', () => showPage(pageIdx - 1));
     document.getElementById('btn-next').addEventListener('click', () => showPage(pageIdx + 1));
@@ -357,13 +274,31 @@
       if (e.key === 'ArrowRight') showPage(pageIdx + 1);
     });
 
+    const PENDING_STORES = [
+      { name: 'Tmart', note: '暫未納入 leaflet；待 IG／官網海報' },
+      { name: '利豐', note: '官網疑 lander／壞站；暫剔自動取圖' },
+      { name: '福倡', note: '待社媒／官網 leaflet' },
+      { name: '南華美式貨場', note: '待社媒／官網 leaflet' },
+      { name: '宏基', note: 'FB 更新慢；P1 手動落圖' },
+      { name: '新苗／新花城／南光Mart／FB 優惠群', note: 'P1 社媒來源（見來源表）' }
+    ];
+
+    function renderPending() {
+      const card = document.getElementById('pending-card');
+      const list = document.getElementById('pending-list');
+      if (!card || !list) return;
+      card.hidden = false;
+      list.innerHTML = PENDING_STORES.map((p) =>
+        '<li><div><div class="title">' + MPS.escapeHtml(p.name) + '</div>' +
+        '<div class="qty">' + MPS.escapeHtml(p.note) + '</div></div></li>'
+      ).join('');
+    }
+
     Promise.all([
       MPS.loadMeta(),
-      MPS.loadJSON('data/promo-leaflet/index.json').catch(() => null),
-      MPS.loadJSON('data/promo/index.json').catch(() => null)
-    ]).then(([meta, leaf, promo]) => {
+      MPS.loadJSON('data/promo-leaflet/index.json').catch(() => null)
+    ]).then(([meta, leaf]) => {
       leafletIndex = leaf;
-      legacyIndex = promo;
       if (!leaf) {
         document.getElementById('promo-meta').textContent = '未有 data/promo-leaflet/index.json';
         document.getElementById('store-empty').hidden = false;
@@ -371,21 +306,19 @@
         const stores = leaf.stores || [];
         const pages = stores.reduce((n, s) => n + ((s.pages || []).length), 0);
         const ocrN = stores.reduce((n, s) => n + ((s.ocrItems || []).length), 0);
+        const windows = stores.map((s) => s.promoWindow).filter(Boolean);
         document.getElementById('promo-meta').innerHTML =
           MPS.wrapUpdateHtml('leaflet 鏡像', leaf.mirroredAt || '') +
           ' · ' + stores.length + ' 店 · ' + pages + ' 頁圖 · OCR 品名 ' + ocrN +
-          ' · <span class="badge ok">主展示</span>';
+          (windows.length ? ' · 檔期 ' + MPS.escapeHtml(windows.join('／')) : '') +
+          ' · <span class="badge ok">主展示＝海報</span>';
         renderStoreChips();
         if (stores[0]) selectLeafletStore(stores[0]);
       }
-      if (promo) {
-        renderLegacyStores();
-      } else {
-        document.getElementById('legacy-empty').hidden = false;
-      }
+      renderPending();
       const extras = [];
       if (leaf) extras.push(MPS.wrapUpdateHtml('leaflet', leaf.mirroredAt || ''));
-      if (promo) extras.push(MPS.wrapUpdateHtml('舊折扣鏡像', promo.mirroredAt || ''));
+      extras.push('舊折扣表：已停用主展示（唔載入 data/promo 價檔）');
       MPS.fillFooter(meta, extras);
     });
   </script>

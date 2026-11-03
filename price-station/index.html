@@ -17,10 +17,12 @@
     </div>
   </header>
   <nav class="nav-bar" aria-label="主選單">
-    <a href="index.html">主頁</a>
+    <a href="index.html" class="active">主頁</a>
     <a href="supermarket.html">超市</a>
+    <a href="promo.html">優惠</a>
     <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
     <a href="market.html">街市</a>
+    <a href="special.html">專項</a>
   </nav>
   <main class="wrap">
     <p class="meta-line" id="meta-line">載入鏡像資料中…</p>
@@ -44,7 +46,7 @@
         <img src="https://consumer-api03.dsedt.gov.mo/app/nextmacauprice/images/img_2.png" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'" />
         <div class="icon-fallback special" style="display:none">專</div>
         <h2>專項物價</h2>
-        <div class="sub">分類報告 · 官方連結</div>
+        <div class="sub">分類價表 · 加入清單</div>
       </a>
       <a class="tile" href="cart.html">
         <div class="icon-fallback">單</div>
@@ -58,7 +60,7 @@
         <li>喺<strong>超市</strong>用名稱搜尋貨品，揀分店價後加入清單（可自選非最平店）。</li>
         <li>喺<strong>優惠情報站</strong>睇超市官網 leaflet 海報（可翻頁／放大），OCR 品名可入清單（價可空；以圖為準）。</li>
         <li>喺<strong>街市</strong>揀貨品睇今日／本週分街市價，亦可加入清單。</li>
-        <li>喺<strong>專項物價</strong>睇分類同官方報告連結（PDF 只記 URL）。</li>
+        <li>喺<strong>專項物價</strong>睇分類站內價表（nss／itemlist），每品可加入清單；無表時先睇本站 PDF。</li>
         <li>喺<strong>清單</strong>睇已選店／街市同合計；可改選分店，或試「一間店買齊」（街市項會跳過）。</li>
       </ol>
       <p class="meta-line">資料來自澳門特別行政區政府／消費者委員會「澳門物價情報站」公開資料（Open Data／公開 API 鏡像）；本站非官方，僅供參考。瀏覽器唔會直連官方 API（無 CORS）；數字存於本站 <code>data/</code> 鏡像。</p>

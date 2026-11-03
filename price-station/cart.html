@@ -15,16 +15,20 @@
       </div>
     </div>
   </header>
-  <nav class="nav-bar">
+  <nav class="nav-bar" aria-label="主選單">
     <a href="index.html">主頁</a>
     <a href="supermarket.html">超市</a>
-    <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
+    <a href="promo.html">優惠</a>
+    <a href="cart.html" class="active">清單 <span class="chip" data-cart-count hidden>0</span></a>
     <a href="market.html">街市</a>
+    <a href="special.html">專項</a>
   </nav>
   <main class="wrap">
     <div class="card">
       <div class="toolbar">
         <a class="btn secondary" href="supermarket.html">繼續加貨（超市）</a>
+        <a class="btn secondary" href="promo.html">優惠海報</a>
+        <a class="btn secondary" href="special.html">專項</a>
         <a class="btn secondary" href="market.html">繼續加貨（街市）</a>
         <button type="button" class="secondary" id="btn-refresh">重新載入鏡像價</button>
         <button type="button" id="btn-one-store">一間店買齊</button>
@@ -131,7 +135,7 @@
       const ul = document.getElementById('cart-list');
       const summary = document.getElementById('summary');
       if (!cart.length) {
-        ul.innerHTML = '<li class="empty">清單係空嘅。去超市或街市加入貨品。</li>';
+        ul.innerHTML = '<li class="empty">清單係空嘅。去超市、優惠、專項或街市加入貨品。</li>';
         summary.innerHTML = '';
         document.getElementById('one-store-card').hidden = true;
         return;
@@ -177,12 +181,23 @@
         }
 
         const leaflet = it.kind === 'promo-leaflet' || String(it.id || '').indexOf('leaflet:') === 0;
-        const kindBadge = leaflet
-          ? '<span class="kind-badge promo-leaflet">優惠海報</span>'
-          : '<span class="kind-badge supermarket">超市</span>';
-        const selectRow = leaflet
-          ? '<span class="badge muted">來源店：' + MPS.escapeHtml(it.preferredStore || '—') + ' · 請對照海報核價</span>'
-          : storeSelectHtml(it);
+        const special = it.kind === 'special' || String(it.id || '').indexOf('special:') === 0;
+        let kindBadge = '<span class="kind-badge supermarket">超市</span>';
+        if (leaflet) kindBadge = '<span class="kind-badge promo-leaflet">優惠海報</span>';
+        else if (special) kindBadge = '<span class="kind-badge special">專項</span>';
+        let selectRow = storeSelectHtml(it);
+        if (leaflet) {
+          selectRow = '<span class="badge muted">來源店：' + MPS.escapeHtml(it.preferredStore || '—') + ' · 請對照海報核價</span>';
+        } else if (special) {
+          const cat = it.specialCat ? (' · 分類 ' + it.specialCat) : '';
+          if ((it.stores || []).some((s) => s.price != null)) {
+            selectRow = storeSelectHtml(it) +
+              '<div class="qty" style="margin-top:4px"><span class="badge muted">專項' + MPS.escapeHtml(cat) + '</span></div>';
+          } else {
+            selectRow = '<span class="badge muted">專項' + MPS.escapeHtml(cat) +
+              ' · 已選：' + MPS.escapeHtml(it.preferredStore || '—') + '（價可空）</span>';
+          }
+        }
         return `<li>
           <div style="flex:1;min-width:180px">
             <div class="title">
@@ -211,7 +226,7 @@
       bindSelects(ul);
 
       summary.innerHTML = `
-        <div>貨品數</div><div>${cart.length}（超市 ${nSuper} · 街市 ${nMarket}）</div>
+        <div>貨品數</div><div>${cart.length}（非街市 ${nSuper} · 街市 ${nMarket}）</div>
         <div>已選店／街市合計</div><div class="price best">${MPS.money(sumPreferred)}（${nPref} 品${nMarket ? '；街市以司馬斤計' : ''}）</div>
         <div>若全選最平（參考）</div><div>${MPS.money(sumBest)}（${nBest} 品）</div>
         <div>說明</div><div>合計用各品「已選」價；街市單位為司馬斤，唔入「一間店買齊」。</div>`;

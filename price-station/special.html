@@ -11,15 +11,17 @@
     <div class="inner">
       <div>
         <h1>專項物價</h1>
-        <p>分類清單＋站內價表／PDF（鏡像）</p>
+        <p>分類清單＋站內價表／PDF（鏡像 · 可入清單）</p>
       </div>
     </div>
   </header>
   <nav class="nav-bar" aria-label="主選單">
     <a href="index.html">主頁</a>
     <a href="supermarket.html">超市</a>
+    <a href="promo.html">優惠</a>
     <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
     <a href="market.html">街市</a>
+    <a href="special.html" class="active">專項</a>
   </nav>
   <main class="wrap">
     <p class="meta-line" id="special-meta">載入中…</p>
@@ -139,6 +141,84 @@
       return out;
     }
 
+    let detailCtx = { cat: null, detail: null };
+
+    function parsePriceNum(v) {
+      if (v == null || v === '' || v === '—') return null;
+      const n = Number(String(v).replace(/,/g, ''));
+      return Number.isNaN(n) ? null : n;
+    }
+
+    function addSpecialFromItem(it, cat, detail) {
+      const minP = (it.minPrice != null && it.minPrice !== '') ? it.minPrice
+        : (it.lowest_price != null ? it.lowest_price : null);
+      const price = parsePriceNum(minP);
+      const st = it.lowest_price_store || {};
+      const storeName = st.name_cn || st.name || '';
+      const catName = (cat && (cat.name_cn || cat.name)) || (detail && (detail.name_cn || pickCatName(detail))) || '專項';
+      const oid = it.oid != null ? it.oid : (it.name_cn || Math.random());
+      const coid = (detail && detail.coid != null) ? detail.coid : (cat && cat.coid);
+      MPS.addToCart({
+        id: 'special:' + coid + ':item:' + oid,
+        kind: 'special',
+        name: it.name_cn || it.name_en || '未名品',
+        quantity: it.quantity_cn || '',
+        code: it.oid != null ? String(it.oid) : '',
+        updateDate: (detail && (detail.date || detail.sdate)) || (cat && cat.date) || '',
+        stores: storeName && price != null ? [{ storeName: storeName, price: price, groupName: catName }] : [],
+        bestPrice: price,
+        bestStore: storeName || null,
+        preferredStore: storeName || catName,
+        preferredPrice: price,
+        source: 'special-' + ((detail && detail.mode) || 'table'),
+        specialCoid: coid,
+        specialCat: catName
+      });
+      alert('已加入清單（' + (storeName || catName) + ' · ' + (price != null ? MPS.money(price) : '價 —') + '）');
+    }
+
+    function addSpecialFromPrice(p, cat, detail) {
+      const price = parsePriceNum(p.price);
+      const storeName = p.storeName || '';
+      const catName = (cat && (cat.name_cn || cat.name)) || (detail && (detail.name_cn || pickCatName(detail))) || '專項';
+      const coid = (detail && detail.coid != null) ? detail.coid : (cat && cat.coid);
+      const itemOid = p.itemOid != null ? p.itemOid : '';
+      const storeOid = p.storeOid != null ? p.storeOid : '';
+      const name = (p.itemName || '未名品');
+      MPS.addToCart({
+        id: 'special:' + coid + ':price:' + itemOid + ':' + storeOid + ':' + encodeURIComponent(String(storeName).slice(0, 40)),
+        kind: 'special',
+        name: name,
+        quantity: p.quantity || '',
+        code: itemOid !== '' ? String(itemOid) : '',
+        updateDate: p.priceDate || (detail && (detail.date || detail.sdate)) || (cat && cat.date) || '',
+        stores: storeName && price != null ? [{ storeName: storeName, price: price, groupName: catName, address: p.address || '', region: p.region || '' }] : [],
+        bestPrice: price,
+        bestStore: storeName || null,
+        preferredStore: storeName || catName,
+        preferredPrice: price,
+        source: 'special-' + ((detail && detail.mode) || 'table'),
+        specialCoid: coid,
+        specialCat: catName
+      });
+      alert('已加入清單（' + (storeName || catName) + ' · ' + (price != null ? MPS.money(price) : '價 —') + '）');
+    }
+
+    function bindSpecialCartButtons(root, cat, detail) {
+      root.querySelectorAll('button[data-special-item-idx]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const it = (detail.items || [])[Number(btn.getAttribute('data-special-item-idx'))];
+          if (it) addSpecialFromItem(it, cat, detail);
+        });
+      });
+      root.querySelectorAll('button[data-special-price-idx]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const p = (detail.prices || [])[Number(btn.getAttribute('data-special-price-idx'))];
+          if (p) addSpecialFromPrice(p, cat, detail);
+        });
+      });
+    }
+
     function renderPriceTable(d) {
       const items = d.items || [];
       const prices = d.prices || [];
@@ -149,13 +229,16 @@
         html += '<h3 style="margin:12px 0 8px;font-size:1rem;">品項一覽（最低／最高）</h3>';
         if (isItemlist) {
           html += '<p class="meta-line">來源：官方 <code>special/itemlist</code> 鏡像'
-            + (prices.length ? '＋<code>storelist</code>' : '（含 lowest_price）') + '。</p>';
+            + (prices.length ? '＋<code>storelist</code>' : '（含 lowest_price）') + '。可「加入清單」（帶最低價／店，若有）。</p>';
+        } else {
+          html += '<p class="meta-line">nss 品項摘要；可「加入清單」（帶最低價，店名若無可填分類）。</p>';
         }
         html += '<div style="overflow:auto"><table class="store-table"><thead><tr>' +
           '<th>品名</th><th>規格</th><th>最低</th><th>最高</th><th>報價數</th>' +
           (isItemlist ? '<th>最低價店舖</th>' : '') +
+          '<th>清單</th>' +
           '</tr></thead><tbody>';
-        items.forEach((it) => {
+        items.forEach((it, idx) => {
           const minP = (it.minPrice != null && it.minPrice !== '') ? it.minPrice
             : (it.lowest_price != null ? it.lowest_price : '—');
           const maxP = (it.maxPrice != null && it.maxPrice !== '') ? it.maxPrice : '—';
@@ -175,7 +258,8 @@
             '<td>' + MPS.escapeHtml(String(minP)) + '</td>' +
             '<td>' + MPS.escapeHtml(String(maxP)) + '</td>' +
             '<td>' + MPS.escapeHtml(String(pc)) + '</td>' +
-            storeCell + '</tr>';
+            storeCell +
+            '<td><button type="button" class="secondary" data-special-item-idx="' + idx + '">加入清單</button></td></tr>';
         });
         html += '</tbody></table></div>';
       }
@@ -183,16 +267,17 @@
         html += '<h3 style="margin:16px 0 8px;font-size:1rem;">分店價目（' + prices.length + ' 筆）</h3>';
         html += '<p class="meta-line">來源：官方 '
           + (isItemlist ? '<code>special/storelist</code>' : 'nss <code>price_by_item</code>')
-          + ' 鏡像；可捲動瀏覽全部。</p>';
+          + ' 鏡像；可捲動瀏覽；每列可入清單。</p>';
         html += '<div style="overflow:auto;max-height:480px"><table class="store-table" id="special-price-table"><thead><tr>' +
-          '<th>品名</th><th>價格</th><th>店舖</th><th>堂區／區</th><th>地址</th></tr></thead><tbody>';
-        prices.forEach((p) => {
+          '<th>品名</th><th>價格</th><th>店舖</th><th>堂區／區</th><th>地址</th><th>清單</th></tr></thead><tbody>';
+        prices.forEach((p, idx) => {
           html += '<tr><td>' + MPS.escapeHtml((p.itemName || '') + (p.quantity ? ' ' + p.quantity : '')) + '</td>' +
             '<td><strong>' + MPS.escapeHtml(p.price || '') + '</strong>' +
             (p.flag ? ' <span class="badge">' + MPS.escapeHtml(p.flag) + '</span>' : '') + '</td>' +
             '<td>' + MPS.escapeHtml(p.storeName || '') + '</td>' +
             '<td>' + MPS.escapeHtml(p.region || '') + '</td>' +
-            '<td>' + MPS.escapeHtml(p.address || '') + '</td></tr>';
+            '<td>' + MPS.escapeHtml(p.address || '') + '</td>' +
+            '<td><button type="button" class="secondary" data-special-price-idx="' + idx + '">加入清單</button></td></tr>';
         });
         html += '</tbody></table></div>';
       }
@@ -286,6 +371,8 @@
           }
         }
         body.innerHTML = html;
+        detailCtx = { cat: cat, detail: d };
+        bindSpecialCartButtons(body, cat, d);
       } catch (e) {
         const links = mergeLinks(cat.links, linksFromNameObj(cat.nameObj));
         if (links.length) {
