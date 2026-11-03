@@ -1,11 +1,11 @@
 {
-  "mirroredAt": "2026-11-03T11:25:00+08:00",
+  "mirroredAt": "2026-11-03T12:00:04+08:00",
   "timezone": "Asia/Macau",
   "period": "2026-11-03",
   "assetRoot": "data/promo-leaflet/2026-11-03/",
   "sourcePolicy": "official-website-leaflet + OCR; consumer-council discount API not primary",
   "ocrEngine": "tesseract 5 chi_tra+eng",
-  "ocrNote": "價錢 OCR 弱（美術字）；品名／單位／SKU 半可用。圖為準。",
+  "ocrNote": "全頁 tesseract chi_tra+eng（來來 DM1–8、泰豐 6）。價錢美術字→null；品名經 SKU/欄位抽取＋嚴過濾，可入清單；圖為準。",
   "stores": [
     {
       "id": "royal",
@@ -134,9 +134,702 @@
           "unit": "140g",
           "sku": "155245",
           "page": "DM1"
+        },
+        {
+          "name": "糖(維他命C/護齒)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM1"
+        },
+        {
+          "name": "韓國香印提子",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "雲南牛油果",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "新疆阿克蘇蘋果",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "南非金巴利橙",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "連州菜心",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國香芹",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國黃糯拇指小玉米",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國椰菜花",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國蒲瓜(2條裝)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國紫薯",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國迷你薯仔",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國洪湖粉藕",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國扁青椰菜",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "中國三色彩西椒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM2"
+        },
+        {
+          "name": "急凍中國帶子",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "急凍中國雞柳肉",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "急凍穀飼火鍋肥和牛片",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "解凍竹絲雞",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "冰鮮老母雞",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "泰國新鮮啡蛋(特大/8大營養)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "去骨帶皮三文魚",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "滑豆腐(煎炸/蒸煮)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "菲力奶油芝士(費城)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "燒賣(瑤柱雞肉/魚肉)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "日式餃子/麻辣珍珠雞",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "凍烏冬(讚岐/稻庭手打)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "蒙牛 優益C",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "鮮奶布丁(原味/抹匠)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "無蔗糖乳酪(指定款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "高鈣鮮牛奶(低脂/脫脂)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "活乳酸飲品(原味/低糖)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "即食麵(各款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "啤酒/醇滑啤酒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "公仔點心",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM3"
+        },
+        {
+          "name": "橄欖果渣油",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "純正花生油",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "純正芥花籽油",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "日式烏冬",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "通粉/蜆殼粉/螺絲粉(各款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "胡椒粉",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "金牌咖喱磚(各款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "鷹粟粉",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "鎮江香醋",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "一品鮮醬油",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "蘋果醋",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "甜辣雞醬",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "紅燒排骨",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "午餐肉",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "東尼香甜玉米片",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM4"
+        },
+        {
+          "name": "鯛魚燒威化餅",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "夾心餅(指定款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "真脆薯條(蕃茄/原味/紫菜)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "朱古力(牛奶/抹茶/黑)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "朱古力味/士多啤梨味",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "營養豬肉酥(台式/海苔)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "磯燒豬肉乾",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "小丸子(魷魚味/海苔味)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "花生朱古力年糕派",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "魷魚味脆片",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "麻薯批(指定款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "牛奶(純/低脂高鈣)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "梳打水",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "無糖茶飲(各款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "美粒果",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "豆奶(指定款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "冷泡無糖香片茶/鐵觀音茶",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "生豆乳(五黑/原味)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM5"
+        },
+        {
+          "name": "維生素/電解質飲品",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "咖啡(指定款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "啤酒(麥濃12度)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "智利拉菲",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "法國別緻",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "法國樂佰",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "法國蒙妮綺",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "特級華詩歌佳美娜紅酒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "納華利紅酒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "波爾多紅酒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "葡國白嘉吉",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "金酒桶/金馬車紅葡萄酒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "日本氈酒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "香奢美肌沐浴泡泡",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "嬰兒潤膚乳(各款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "嬰兒沐浴露(各款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "極致修護潤膚乳",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "雙重薄荷牙膏",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM6"
+        },
+        {
+          "name": "三/四層印花廁紙",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "親膚4層壓花面紙",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "極致棉柔濕廁紙",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "衣物柔順劑(各款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "超濃縮洗潔精(各款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "西施電飯煲",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "韓國製造廚具(指定1 7款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "家居拖鞋(指定6款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "雨傘(指定10款)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "前揭式拉鏈行李箱",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM7"
+        },
+        {
+          "name": "特潤修護精華雪融霜",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM8"
+        },
+        {
+          "name": "嬰兒天然燕麥保濕乳",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM8"
+        },
+        {
+          "name": "低糖豆奶(麥精/蜜瓜味)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "DM8"
         }
       ],
-      "ocrNote": "品名來自 DM1 OCR；價全 null"
+      "ocrNote": "全頁 OCR；ocrItems=111；價全 null；圖為準"
     },
     {
       "id": "taifung",
@@ -173,8 +866,121 @@
           "label": "海報6"
         }
       ],
-      "ocrItems": [],
-      "ocrNote": "tf-01 OCR 為分店電話／類別橫額，暫無可入清單品名；價目或在其餘頁，P1 再掃"
+      "ocrItems": [
+        {
+          "name": "屈臣氏梳打水",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "笑牛牌芝士片(12片裝)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "無激素豬排骨粒",
+          "price": null,
+          "unit": "450g",
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "無激素豬柳",
+          "price": null,
+          "unit": "450g",
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "一口台灣腸(密汁味/黑椒味)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "單一麥芽蘇格蘭威士忌8年",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "蘇格蘭威士忌12年",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "黃金威士忌(金牌)12年",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "中山拔蘭地酒",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "江西米粉",
+          "price": null,
+          "unit": "2kg",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "鎮江香醋",
+          "price": null,
+          "unit": "250ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "舊莊特級蠔油",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "掛式抽紙",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "軟抽面巾紙",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "蘇格蘭威士忌(錦盒裝)",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "世達時(白)2020",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報4"
+        }
+      ],
+      "ocrNote": "全頁 OCR；ocrItems=16；價全 null；圖為準"
     }
   ]
 }
