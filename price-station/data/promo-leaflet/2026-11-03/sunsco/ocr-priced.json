@@ -1,0 +1,1056 @@
+[
+  {
+    "name": "小老闆紫菜／Calbee薯片[指定系列]",
+    "unit": "28g&55g（2件均價；2件20）",
+    "salePrice": 10.0,
+    "currency": "MOP",
+    "page": "sunsco-02",
+    "promoSlot": "2026-11-01 至 2026-11-15",
+    "originalPrice": 15.0,
+    "discountPercent": 33,
+    "note": "慳$10"
+  },
+  {
+    "name": "辛拉麵杯麵[指定系列]",
+    "unit": "杯（4件均價；買3送1／4件18）",
+    "salePrice": 4.5,
+    "currency": "MOP",
+    "page": "sunsco-02",
+    "promoSlot": "2026-11-01 至 2026-11-15",
+    "originalPrice": 6.0,
+    "discountPercent": 25
+  },
+  {
+    "name": "Pascual豆奶／燕麥奶／杏仁奶／牛奶",
+    "unit": "1L",
+    "salePrice": 19.9,
+    "currency": "MOP",
+    "page": "sunsco-02",
+    "promoSlot": "2026-11-01 至 2026-11-15",
+    "originalPrice": 23.9,
+    "discountPercent": 17,
+    "note": "買2送McVitie消化餅250g"
+  },
+  {
+    "name": "Vaseline潤膚露[指定系列]贈品裝",
+    "unit": "支",
+    "salePrice": 29.0,
+    "currency": "MOP",
+    "page": "sunsco-02",
+    "promoSlot": "2026-11-01 至 2026-11-15",
+    "originalPrice": 35.9,
+    "discountPercent": 19,
+    "note": "買2送近江兄弟潤唇膏"
+  },
+  {
+    "name": "Yano波蘭無激素雞中翼",
+    "unit": "500g",
+    "salePrice": 25.9,
+    "currency": "MOP",
+    "page": "sunsco-03",
+    "promoSlot": "2026-11-01 至 2026-11-15",
+    "originalPrice": 31.9,
+    "discountPercent": 19
+  },
+  {
+    "name": "Peppito蘇打餅乾",
+    "unit": "405g（2件均價；2件23）",
+    "salePrice": 11.5,
+    "currency": "MOP",
+    "page": "sunsco-03",
+    "promoSlot": "2026-11-01 至 2026-11-15",
+    "originalPrice": 18.0,
+    "discountPercent": 36,
+    "note": "慳$13"
+  },
+  {
+    "name": "海倫仙度絲洗護髮乳[指定系列]",
+    "unit": "680g",
+    "salePrice": 59.9,
+    "currency": "MOP",
+    "page": "sunsco-03",
+    "promoSlot": "2026-11-01 至 2026-11-15",
+    "originalPrice": 75.9,
+    "discountPercent": 21,
+    "note": "買2送雨條蛋花仔迷你紙手巾10包裝"
+  },
+  {
+    "name": "唯潔雅壓花卷紙[指定系列]",
+    "unit": "10卷",
+    "salePrice": 29.9,
+    "currency": "MOP",
+    "page": "sunsco-03",
+    "promoSlot": "2026-11-01 至 2026-11-15",
+    "originalPrice": 36.9,
+    "discountPercent": 19,
+    "note": "買1送唯潔雅懸掛式面巾"
+  },
+  {
+    "name": "Chiikawa朱古力塗層蛋黃小饅頭",
+    "unit": "35g",
+    "salePrice": 13.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 16.5,
+    "discountPercent": 16
+  },
+  {
+    "name": "湖池屋薯粟米條／薯條[指定系列]",
+    "unit": "70-73g",
+    "salePrice": 9.5,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 11.9,
+    "discountPercent": 20
+  },
+  {
+    "name": "童星天下一品闊條麵[指定系列]",
+    "unit": "60g",
+    "salePrice": 10.5,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 12.5,
+    "discountPercent": 16
+  },
+  {
+    "name": "Calbee卡樂B薯片[指定系列]",
+    "unit": "53-65g",
+    "salePrice": 10.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 12.9,
+    "discountPercent": 16
+  },
+  {
+    "name": "Calbee Jagabee薯條[指定系列]",
+    "unit": "5袋入",
+    "salePrice": 23.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 27.9,
+    "discountPercent": 14
+  },
+  {
+    "name": "YBC夾心脆棒Picola[指定系列]",
+    "unit": "2袋入",
+    "salePrice": 8.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 11.9,
+    "discountPercent": 25
+  },
+  {
+    "name": "Lotte Toppo朱古力夾心棒[指定系列]",
+    "unit": "2袋入",
+    "salePrice": 15.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 18.9,
+    "discountPercent": 16
+  },
+  {
+    "name": "固力果百力滋／Pocky／Pretz家庭裝[指定系列]",
+    "unit": "家庭裝",
+    "salePrice": 19.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 25.5,
+    "discountPercent": 22
+  },
+  {
+    "name": "三立Bis-kun大滋酥乾條[家庭裝]",
+    "unit": "144g",
+    "salePrice": 20.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 22.9,
+    "discountPercent": 9
+  },
+  {
+    "name": "明治朱古力欣欣杯[指定系列]",
+    "unit": "48g",
+    "salePrice": 16.5,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 19.5,
+    "discountPercent": 15
+  },
+  {
+    "name": "Bourbon帆船迷你朱古力餅乾[指定系列]",
+    "unit": "55-59g",
+    "salePrice": 15.5,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 18.5,
+    "discountPercent": 16
+  },
+  {
+    "name": "Lotte朱古力夾心千層酥餅Pie no Mi[指定系列]",
+    "unit": "69-73g",
+    "salePrice": 16.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 19.9,
+    "discountPercent": 15
+  },
+  {
+    "name": "Bourbon造型朱古力餅[指定系列]",
+    "unit": "66g",
+    "salePrice": 14.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 17.9,
+    "discountPercent": 17
+  },
+  {
+    "name": "Dasses朱古力味夾心薄燒餅乾[指定系列]",
+    "unit": "盒",
+    "salePrice": 15.5,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 17.9,
+    "discountPercent": 13
+  },
+  {
+    "name": "森永Choice／Moonlight曲奇[指定系列]",
+    "unit": "盒",
+    "salePrice": 16.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 19.9,
+    "discountPercent": 15
+  },
+  {
+    "name": "Bourbon朱古力塗層一口蛋糕",
+    "unit": "100g",
+    "salePrice": 15.5,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 17.9,
+    "discountPercent": 13
+  },
+  {
+    "name": "固力果Bitte流心朱古力餅乾[指定系列]",
+    "unit": "6枚入",
+    "salePrice": 27.9,
+    "currency": "MOP",
+    "page": "sunsco-04",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 31.9,
+    "discountPercent": 13
+  },
+  {
+    "name": "Capri-Sun果汁[指定系列]",
+    "unit": "200ml",
+    "salePrice": 5.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 7.5,
+    "discountPercent": 21
+  },
+  {
+    "name": "Cantabile樽裝飲品[指定系列]",
+    "unit": "230ml",
+    "salePrice": 5.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 7.5,
+    "discountPercent": 21
+  },
+  {
+    "name": "Lotte咖啡[指定系列]",
+    "unit": "230ml",
+    "salePrice": 7.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 9.9,
+    "discountPercent": 20
+  },
+  {
+    "name": "VTalk氣泡飲[指定系列]",
+    "unit": "350ml",
+    "salePrice": 6.5,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 7.9,
+    "discountPercent": 18
+  },
+  {
+    "name": "Pororo果汁飲[指定系列]",
+    "unit": "235ml",
+    "salePrice": 8.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 11.5,
+    "discountPercent": 23
+  },
+  {
+    "name": "森永In Jelly維他命能量啫喱[指定系列]",
+    "unit": "150-180g",
+    "salePrice": 10.5,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 11.9,
+    "discountPercent": 12
+  },
+  {
+    "name": "Kagome野菜生活100混合果汁[指定系列]",
+    "unit": "200ml",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 12.5,
+    "discountPercent": 21
+  },
+  {
+    "name": "Kirin力混合果汁[指定系列]",
+    "unit": "330ml",
+    "salePrice": 11.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 15.5,
+    "discountPercent": 23
+  },
+  {
+    "name": "Sangaria酎嗨Time強爽無糖氣泡飲[指定系列]",
+    "unit": "500ml",
+    "salePrice": 13.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 17.5,
+    "discountPercent": 21
+  },
+  {
+    "name": "Suntory -196°C果酒[指定系列]",
+    "unit": "500ml",
+    "salePrice": 18.5,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 22.9,
+    "discountPercent": 19
+  },
+  {
+    "name": "Sangaria牛奶飲[指定系列]",
+    "unit": "420ml",
+    "salePrice": 9.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 12.9,
+    "discountPercent": 23
+  },
+  {
+    "name": "Suntory伊右衛門茶[指定系列]",
+    "unit": "600ml",
+    "salePrice": 10.5,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 13.5,
+    "discountPercent": 22
+  },
+  {
+    "name": "AGF Blendy冰美式[指定系列]",
+    "unit": "950ml",
+    "salePrice": 17.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 22.9,
+    "discountPercent": 22
+  },
+  {
+    "name": "UCC咖啡[指定系列]",
+    "unit": "600ml",
+    "salePrice": 13.5,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 16.9,
+    "discountPercent": 20
+  },
+  {
+    "name": "INNOCOCO 100%椰子水",
+    "unit": "1L",
+    "salePrice": 16.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 21.9,
+    "discountPercent": 23
+  },
+  {
+    "name": "熊本食品乳酪飲[指定系列]",
+    "unit": "1.5L",
+    "salePrice": 14.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 18.9,
+    "discountPercent": 21
+  },
+  {
+    "name": "Kagome野菜生活100混合果汁[指定系列]",
+    "unit": "720ml",
+    "salePrice": 22.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 28.9,
+    "discountPercent": 21
+  },
+  {
+    "name": "Kirin午後紅茶[指定系列]",
+    "unit": "500ml",
+    "salePrice": 8.5,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "Kirin午後紅茶[指定系列]",
+    "unit": "1.5L",
+    "salePrice": 19.9,
+    "currency": "MOP",
+    "page": "sunsco-05",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "維他新鮮茶[指定系列]",
+    "unit": "480ml",
+    "salePrice": 9.0,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 11.5,
+    "discountPercent": 22
+  },
+  {
+    "name": "CP香炸雞槌／雞球／雞塊[指定系列]",
+    "unit": "230g",
+    "salePrice": 27.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 38.9,
+    "discountPercent": 28
+  },
+  {
+    "name": "丹麥無激素雞中翼",
+    "unit": "2LB",
+    "salePrice": 55.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 68.9,
+    "discountPercent": 19
+  },
+  {
+    "name": "Seafresh比目魚柳",
+    "unit": "300-400g",
+    "salePrice": 47.5,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "Seafresh三文魚扒",
+    "unit": "300-400g",
+    "salePrice": 51.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "愛爾蘭無激素草飼牛肋條",
+    "unit": "454g",
+    "salePrice": 48.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 74.9,
+    "discountPercent": 35
+  },
+  {
+    "name": "海大炒麵[指定系列]",
+    "unit": "220-250g",
+    "salePrice": 18.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 25.5,
+    "discountPercent": 26
+  },
+  {
+    "name": "思念上湯小雲吞[指定系列]",
+    "unit": "50隻",
+    "salePrice": 24.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 33.9,
+    "discountPercent": 27
+  },
+  {
+    "name": "蔥阿伯家鄉味餡餅[指定系列]",
+    "unit": "450g",
+    "salePrice": 45.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 54.9,
+    "discountPercent": 16
+  },
+  {
+    "name": "熊井急凍烏冬讚岐[指定系列]",
+    "unit": "230g",
+    "salePrice": 34.5,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "熊井急凍烏冬稻庭[指定系列]",
+    "unit": "230g",
+    "salePrice": 37.5,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "熊井竹輪卷",
+    "unit": "5條",
+    "salePrice": 10.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "熊井芝士魚棒",
+    "unit": "5條",
+    "salePrice": 17.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "韓國正宗泡菜原味[指定系列]",
+    "unit": "400g",
+    "salePrice": 22.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "韓國正宗泡菜辣味[指定系列]",
+    "unit": "400g",
+    "salePrice": 23.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "維他山水豆腐[指定系列]",
+    "unit": "350g",
+    "salePrice": 6.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 9.9,
+    "discountPercent": 30
+  },
+  {
+    "name": "西班牙芝士[指定系列]",
+    "unit": "110-125g",
+    "salePrice": 31.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 39.9,
+    "discountPercent": 20
+  },
+  {
+    "name": "芝司樂芝士[指定系列]",
+    "unit": "500g",
+    "salePrice": 55.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 66.9,
+    "discountPercent": 16
+  },
+  {
+    "name": "燕塘鮮奶布丁[指定系列]",
+    "unit": "100g",
+    "salePrice": 4.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 6.5,
+    "discountPercent": 25
+  },
+  {
+    "name": "CP明治乳酪飲品[指定系列]",
+    "unit": "135-140g",
+    "salePrice": 6.5,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 8.5,
+    "discountPercent": 24
+  },
+  {
+    "name": "卡士007益生菌乳酪[指定系列]",
+    "unit": "969g-1kg",
+    "salePrice": 29.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 41.9,
+    "discountPercent": 29
+  },
+  {
+    "name": "維他牛奶飲品[指定系列]",
+    "unit": "236ml",
+    "salePrice": 5.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "維他牛奶飲品[指定系列]",
+    "unit": "946ml",
+    "salePrice": 20.9,
+    "currency": "MOP",
+    "page": "sunsco-06",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "Häagen-Dazs雪糕／雪條[指定系列]",
+    "unit": "迷你杯／單支（2件均價；2件50）",
+    "salePrice": 25.0,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "森永牛乳栗子紅豆威化雪糕",
+    "unit": "120g",
+    "salePrice": 12.5,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 15.5,
+    "discountPercent": 19
+  },
+  {
+    "name": "井村屋雪糕[指定系列]",
+    "unit": "單支",
+    "salePrice": 13.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 18.5,
+    "discountPercent": 25
+  },
+  {
+    "name": "固力果Papico雪條青提",
+    "unit": "2×80ml",
+    "salePrice": 17.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 19.9,
+    "discountPercent": 10
+  },
+  {
+    "name": "大山牛乳最中雪糕[指定系列]",
+    "unit": "單支",
+    "salePrice": 15.5,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 17.9,
+    "discountPercent": 13
+  },
+  {
+    "name": "森永雪糕條家庭裝[指定系列]",
+    "unit": "家庭裝",
+    "salePrice": 32.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 43.9,
+    "discountPercent": 25
+  },
+  {
+    "name": "SEIKA明治煉奶雪條家庭裝[指定系列]",
+    "unit": "家庭裝",
+    "salePrice": 33.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 39.9,
+    "discountPercent": 15
+  },
+  {
+    "name": "林一二雪糕家庭裝",
+    "unit": "家庭裝（2件均價；2件45）",
+    "salePrice": 22.5,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 29.0,
+    "discountPercent": 22
+  },
+  {
+    "name": "井村屋菠蘿雪／抹茶紅豆麻糬雪家庭裝",
+    "unit": "家庭裝（2件均價；2件59）",
+    "salePrice": 29.5,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 39.0,
+    "discountPercent": 24
+  },
+  {
+    "name": "KitKat／Oreo雪糕[指定系列]",
+    "unit": "多支裝",
+    "salePrice": 36.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 50.0,
+    "discountPercent": 26
+  },
+  {
+    "name": "雀巢甜筒Drumstick[指定系列]",
+    "unit": "多支裝",
+    "salePrice": 37.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 69.0,
+    "discountPercent": 45
+  },
+  {
+    "name": "雀巢豪華紅豆／綠豆雪條",
+    "unit": "多支裝",
+    "salePrice": 38.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 55.0,
+    "discountPercent": 29
+  },
+  {
+    "name": "雀巢家庭裝雪糕[指定系列]",
+    "unit": "1L",
+    "salePrice": 37.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 54.9,
+    "discountPercent": 31
+  },
+  {
+    "name": "Dreyer's雪糕[指定系列]",
+    "unit": "750ml",
+    "salePrice": 41.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 69.0,
+    "discountPercent": 39
+  },
+  {
+    "name": "Dreyer's Twisted Cone[指定系列]",
+    "unit": "多支裝",
+    "salePrice": 41.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 69.0,
+    "discountPercent": 39
+  },
+  {
+    "name": "Dreyer's雪糕條[指定系列]",
+    "unit": "多支裝",
+    "salePrice": 41.9,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "originalPrice": 69.0,
+    "discountPercent": 39
+  },
+  {
+    "name": "Dreyer's雪糕杯",
+    "unit": "杯",
+    "salePrice": 28.0,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "Dreyer's雪糕杯套裝",
+    "unit": "盒／套",
+    "salePrice": 78.0,
+    "currency": "MOP",
+    "page": "sunsco-07",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "路易十三干邑",
+    "unit": "70cl",
+    "salePrice": 21500.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "軒尼詩百樂廷干邑",
+    "unit": "70cl",
+    "salePrice": 7599.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "軒尼詩XO干邑",
+    "unit": "70cl",
+    "salePrice": 1250.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "軒尼詩XO干邑",
+    "unit": "1L",
+    "salePrice": 1799.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "軒尼詩VSOP干邑",
+    "unit": "70cl",
+    "salePrice": 399.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "軒尼詩VSOP干邑",
+    "unit": "1L",
+    "salePrice": 559.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "軒尼詩干邑James",
+    "unit": "1L",
+    "salePrice": 990.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "馬爹利XO干邑",
+    "unit": "70cl",
+    "salePrice": 1350.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "馬爹利XO干邑",
+    "unit": "1L",
+    "salePrice": 1880.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "馬爹利藍帶干邑",
+    "unit": "70cl",
+    "salePrice": 1128.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "馬爹利藍帶干邑",
+    "unit": "1L",
+    "salePrice": 1635.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "馬爹利名仕干邑",
+    "unit": "70cl",
+    "salePrice": 495.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "馬爹利名仕干邑",
+    "unit": "1L",
+    "salePrice": 699.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "馬爹利VSOP干邑",
+    "unit": "70cl",
+    "salePrice": 369.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "馬爹利VSOP干邑",
+    "unit": "1L",
+    "salePrice": 485.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "人頭馬VSOP干邑",
+    "unit": "70cl",
+    "salePrice": 249.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "人頭馬VSOP干邑",
+    "unit": "1L",
+    "salePrice": 339.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "人頭馬XO干邑",
+    "unit": "70cl",
+    "salePrice": 1030.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "人頭馬XO干邑",
+    "unit": "1L",
+    "salePrice": 1150.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "卡慕XO干邑",
+    "unit": "1L",
+    "salePrice": 749.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "拿破崙Courvoisier VSOP干邑",
+    "unit": "75cl",
+    "salePrice": 189.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "麥卡倫12年雙桶威士忌",
+    "unit": "70cl",
+    "salePrice": 569.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "note": "指定系列送$50現金券"
+  },
+  {
+    "name": "麥卡倫12年雪梨桶威士忌",
+    "unit": "70cl",
+    "salePrice": 769.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "note": "指定系列送$50現金券"
+  },
+  {
+    "name": "麥卡倫15年雙桶威士忌",
+    "unit": "70cl",
+    "salePrice": 1280.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "note": "指定系列送$50現金券"
+  },
+  {
+    "name": "麥卡倫盈鑽Quest威士忌",
+    "unit": "70cl",
+    "salePrice": 1299.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30",
+    "note": "指定系列送$50現金券"
+  },
+  {
+    "name": "藍牌威士忌Johnnie Walker Blue Label",
+    "unit": "70cl（送20cl迷你）",
+    "salePrice": 999.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "藍牌威士忌Johnnie Walker Blue Label",
+    "unit": "1L（送20cl迷你）",
+    "salePrice": 1250.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  },
+  {
+    "name": "黑牌威士忌Johnnie Walker Black Label",
+    "unit": "1L",
+    "salePrice": 199.0,
+    "currency": "MOP",
+    "page": "sunsco-08",
+    "promoSlot": "2026-11-01 至 2026-11-30"
+  }
+]
