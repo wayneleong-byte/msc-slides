@@ -17,7 +17,7 @@ python3 -m http.server 18081 --bind 127.0.0.1
 
 ## 範圍
 
-**做**：超市搜尋／分店價／清單、街市、優惠情報（主線 `data/promo-leaflet` leaflet＋OCR；舊 `data/promo` 折扣唔再主展示／唔載入 UI）、專項物價（`data/special`；價表可入清單）、主頁磚。  
+**做**：超市搜尋／分店價／清單、街市、優惠情報（hybrid：`data/promo-leaflet` leaflet＋OCR；五店 Tmart／利豐／福倡／南華美式／宏基仍載 `data/promo` 折扣；其餘 leaflet 店唔用舊折扣主展示）、專項物價（`data/special`；價表可入清單）、主頁磚。  
 **唔做**：條碼／拍照、地圖／路線、燃油／石油氣、龍虎榜／價差（官方常 500）、商業變現。
 
 ## 更新資料

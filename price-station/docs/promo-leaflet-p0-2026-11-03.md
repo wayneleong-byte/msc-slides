@@ -10,7 +10,7 @@
 
 ## UI
 - `promo.html`：揀店 → 縮圖翻頁 → 點主圖 lightbox；來源連官網；OCR「加入清單」
-- 舊 `data/promo` 折扣價表收喺 details「已停用主展示」
+- 舊 `data/promo`：五店（Tmart／利豐／福倡／南華美式／宏基）hybrid 仍作折扣主展示；leaflet 店唔用舊折扣主展示（t515）
 
 ## 限制
 - 價錢 OCR 弱，唔造價

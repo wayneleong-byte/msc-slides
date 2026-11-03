@@ -11,7 +11,7 @@
     <div class="inner">
       <div>
         <h1>優惠情報站</h1>
-        <p>超市 leaflet 海報（官網鏡像 · OCR 品名可入清單）</p>
+        <p>leaflet 海報＋消委會／DSEDT 折扣（hybrid）</p>
       </div>
     </div>
   </header>
@@ -26,24 +26,32 @@
   <main class="wrap">
     <p class="meta-line" id="promo-meta">載入中…</p>
     <div class="notice info" id="policy-note">
-      <strong>主資料＝官網／社交 leaflet 海報</strong>（標明檔期／月份＋來源連結）。OCR 品名可入清單；價錢 OCR 弱時<strong>唔造價</strong>，以圖為準。
-      消委會／DSEDT 舊折扣價表（多見 2026-10-01）<strong>已非主資料、唔預設載入</strong>。
-      暫未有 leaflet 嘅店（如 Tmart／利豐／福倡／南華美式／宏基等）會列於下方「待補來源」，唔回退顯示舊折扣表。
+      <strong>Hybrid 展示</strong>：有官網／社交 leaflet 嘅店以<strong>海報＋檔期＋來源</strong>為主（不限 11 月；OCR 品名可入清單，價錢 OCR 弱時唔造價）。
+      暫難找 leaflet 嘅五店（Tmart／利豐／福倡／南華美式貨場／宏基）<strong>保留消委會／DSEDT 折扣價表</strong>（可標資料日；常見 2026-10）。
+      Leaflet 店<strong>唔</strong>用舊折扣作主展示。
     </div>
 
     <div class="card">
       <h2>有海報嘅超市（leaflet 主展示）</h2>
       <p class="meta-line">點店名睇海報／檔期／官網連結；圖可翻頁同放大。</p>
-      <div class="chip-row" id="store-chips"></div>
-      <p class="empty" id="store-empty" hidden>暫無 leaflet 店資料。請確認 <code>data/promo-leaflet/index.json</code>。</p>
+      <div class="chip-row" id="leaflet-chips"></div>
+      <p class="empty" id="leaflet-empty" hidden>暫無 leaflet 店資料。請確認 <code>data/promo-leaflet/index.json</code>。</p>
+    </div>
+
+    <div class="card">
+      <h2>消委會／官方折扣資料 <span class="badge muted">五店暫無 leaflet</span></h2>
+      <p class="meta-line">Tmart、利豐、福倡、南華美式貨場、宏基 · 載入 <code>data/promo</code> 折扣價（非海報主線）。</p>
+      <div class="chip-row" id="discount-chips"></div>
+      <p class="empty" id="discount-empty" hidden>未有折扣店資料（缺 <code>data/promo/index.json</code>）。</p>
     </div>
 
     <div class="card" id="pending-card" hidden>
       <h2>待補 leaflet／社交來源</h2>
-      <p class="meta-line" id="pending-meta">其餘超市需官網或 FB／IG 海報後先納入；唔用消委會舊折扣頂替。</p>
+      <p class="meta-line">其餘超市有公開入口後會納入海報主線；目前唔用舊折扣頂替。</p>
       <ul class="list" id="pending-list"></ul>
     </div>
 
+    <!-- Leaflet viewer -->
     <div class="card" id="viewer-card" hidden>
       <div class="leaflet-toolbar">
         <h2 id="viewer-title" style="margin:0">海報</h2>
@@ -69,7 +77,16 @@
       <div id="ocr-body"></div>
     </div>
 
-    <p class="meta-line" id="legacy-footnote" style="opacity:.75">舊消委會折扣鏡像（<code>data/promo/</code>，常見資料日 2026-10-01）已停用主展示，本頁唔載入該價表。更新以 leaflet 檔期為準。</p>
+    <!-- Discount panels -->
+    <div class="card" id="gt-card" hidden>
+      <h2>揀品類 <span class="badge">消委會／官方折扣資料</span></h2>
+      <div class="chip-row" id="gt-chips"></div>
+    </div>
+    <div class="card" id="price-card" hidden>
+      <h2 id="price-title">優惠價</h2>
+      <p class="meta-line" id="price-meta"></p>
+      <div id="price-body"></div>
+    </div>
   </main>
 
   <div class="lightbox" id="lightbox" hidden>
@@ -90,26 +107,78 @@
   <footer class="site-footer" id="site-footer"></footer>
   <script src="app.js"></script>
   <script>
+    const DS_IMG = 'https://consumer-api03.dsedt.gov.mo/app/supermarket/images/';
+    /** 暫難找 leaflet：保留消委會／DSEDT 折扣 */
+    const DISCOUNT_SCODES = new Set(['0124', '0108', '0110', '0122', '0107']);
+    const DISCOUNT_LABEL = {
+      '0124': 'Tmart',
+      '0108': '利豐',
+      '0110': '福倡',
+      '0122': '南華美式貨場',
+      '0107': '宏基'
+    };
+
     let leafletIndex = null;
-    let selectedStore = null;
+    let promoIndex = { stores: [], goodTypes: [] };
+    let selectedLeaflet = null;
     let pageIdx = 0;
-    /* legacy DSEDT discount UI removed from main; data/promo kept on disk only */
+    let selectedDiscount = null;
+    let selectedGt = null;
+    let storeActive = {};
+    let mode = null; // 'leaflet' | 'discount'
 
     function assetUrl(rel) {
       const root = (leafletIndex && leafletIndex.assetRoot) || 'data/promo-leaflet/2026-11-03/';
       return root.replace(/\/?$/, '/') + String(rel || '').replace(/^\//, '');
     }
 
-    function renderStoreChips() {
-      const box = document.getElementById('store-chips');
-      const empty = document.getElementById('store-empty');
+    function logoUrl(logo) {
+      if (!logo) return '';
+      const s = String(logo);
+      if (/^https?:\/\//i.test(s)) return s;
+      if (s.startsWith('/')) return 'https://consumer-api03.dsedt.gov.mo' + s;
+      return DS_IMG + s.replace(/^\//, '');
+    }
+
+    function storeDisplayName(st) {
+      if (!st) return '';
+      const forced = DISCOUNT_LABEL[st.scode];
+      if (forced) return forced;
+      const cn = st.name_cn || st.name_zh || st.mark || '';
+      if (cn && /[\u4e00-\u9fff]/.test(String(cn))) return String(cn);
+      const logo = st.logo ? String(st.logo) : '';
+      if (logo && /[\u4e00-\u9fff]/.test(logo) && !/\.(png|jpe?g|webp|gif|svg)$/i.test(logo)) return logo;
+      return st.name || st.groupName || st.scode || '';
+    }
+
+    function gtImg(gt) {
+      const img = (gt && gt.image) ? String(gt.image) : ((gt && gt.code) ? gt.code.toLowerCase() + '.png' : '');
+      if (!img) return '';
+      if (/^https?:\/\//i.test(img)) return img;
+      return DS_IMG + 'ds_good/' + img.replace(/^.*\//, '');
+    }
+
+    function hideLeafletPanels() {
+      document.getElementById('viewer-card').hidden = true;
+      document.getElementById('ocr-card').hidden = true;
+      closeLightbox();
+    }
+
+    function hideDiscountPanels() {
+      document.getElementById('gt-card').hidden = true;
+      document.getElementById('price-card').hidden = true;
+    }
+
+    function renderLeafletChips() {
+      const box = document.getElementById('leaflet-chips');
+      const empty = document.getElementById('leaflet-empty');
       box.innerHTML = '';
       const stores = (leafletIndex && leafletIndex.stores) || [];
       empty.hidden = stores.length > 0;
       stores.forEach((st) => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'store-chip' + (selectedStore && selectedStore.id === st.id ? ' active' : '');
+        btn.className = 'store-chip' + (mode === 'leaflet' && selectedLeaflet && selectedLeaflet.id === st.id ? ' active' : '');
         const n = (st.pages || []).length;
         const ocrN = (st.ocrItems || []).length;
         const win = st.promoWindow || '';
@@ -123,9 +192,14 @@
     }
 
     function selectLeafletStore(st) {
-      selectedStore = st;
+      mode = 'leaflet';
+      selectedLeaflet = st;
+      selectedDiscount = null;
+      selectedGt = null;
       pageIdx = 0;
-      renderStoreChips();
+      hideDiscountPanels();
+      renderLeafletChips();
+      renderDiscountChips();
       document.getElementById('viewer-card').hidden = false;
       document.getElementById('viewer-title').textContent = (st.name_cn || st.id) + ' · 海報';
       const src = document.getElementById('source-link');
@@ -155,7 +229,7 @@
     function renderThumbs() {
       const box = document.getElementById('thumbs');
       box.innerHTML = '';
-      (selectedStore.pages || []).forEach((pg, i) => {
+      (selectedLeaflet.pages || []).forEach((pg, i) => {
         const b = document.createElement('button');
         b.type = 'button';
         b.className = 'leaflet-thumb' + (i === pageIdx ? ' active' : '');
@@ -170,32 +244,32 @@
     }
 
     function showPage(i) {
-      const pages = (selectedStore && selectedStore.pages) || [];
+      const pages = (selectedLeaflet && selectedLeaflet.pages) || [];
       if (!pages.length) return;
       pageIdx = (i + pages.length) % pages.length;
       const pg = pages[pageIdx];
       const url = assetUrl(pg.file);
       const img = document.getElementById('main-img');
       img.src = url;
-      img.alt = (selectedStore.name_cn || '') + ' ' + (pg.label || '');
+      img.alt = (selectedLeaflet.name_cn || '') + ' ' + (pg.label || '');
       document.getElementById('page-indicator').textContent = (pageIdx + 1) + ' / ' + pages.length;
       renderThumbs();
       const lb = document.getElementById('lightbox');
       if (!lb.hidden) {
         document.getElementById('lb-img').src = url;
         document.getElementById('lb-label').textContent =
-          (selectedStore.name_cn || '') + ' · ' + (pg.label || (pageIdx + 1));
+          (selectedLeaflet.name_cn || '') + ' · ' + (pg.label || (pageIdx + 1));
       }
     }
 
     function openLightbox() {
-      if (!selectedStore) return;
-      const pages = selectedStore.pages || [];
+      if (!selectedLeaflet) return;
+      const pages = selectedLeaflet.pages || [];
       if (!pages.length) return;
       const pg = pages[pageIdx];
       document.getElementById('lb-img').src = assetUrl(pg.file);
       document.getElementById('lb-label').textContent =
-        (selectedStore.name_cn || '') + ' · ' + (pg.label || (pageIdx + 1));
+        (selectedLeaflet.name_cn || '') + ' · ' + (pg.label || (pageIdx + 1));
       document.getElementById('lightbox').hidden = false;
       document.body.style.overflow = 'hidden';
     }
@@ -209,9 +283,9 @@
       const card = document.getElementById('ocr-card');
       const body = document.getElementById('ocr-body');
       const meta = document.getElementById('ocr-meta');
-      const items = (selectedStore && selectedStore.ocrItems) || [];
+      const items = (selectedLeaflet && selectedLeaflet.ocrItems) || [];
       card.hidden = false;
-      meta.textContent = selectedStore.ocrNote || (leafletIndex && leafletIndex.ocrNote) || '';
+      meta.textContent = selectedLeaflet.ocrNote || (leafletIndex && leafletIndex.ocrNote) || '';
       if (!items.length) {
         body.innerHTML = '<p class="empty">此店暫無可入清單嘅 OCR 品名（仍可翻頁睇海報）。</p>';
         return;
@@ -232,8 +306,8 @@
         btn.addEventListener('click', () => {
           const it = items[Number(btn.getAttribute('data-ocr-idx'))];
           if (!it) return;
-          const storeName = selectedStore.name_cn || selectedStore.mark || selectedStore.id;
-          const id = 'leaflet:' + selectedStore.id + ':' +
+          const storeName = selectedLeaflet.name_cn || selectedLeaflet.mark || selectedLeaflet.id;
+          const id = 'leaflet:' + selectedLeaflet.id + ':' +
             encodeURIComponent(String(it.sku || it.name || Math.random()).slice(0, 80));
           MPS.addToCart({
             id: id,
@@ -248,7 +322,7 @@
             preferredStore: storeName,
             preferredPrice: null,
             source: 'leaflet-ocr',
-            leafletStoreId: selectedStore.id,
+            leafletStoreId: selectedLeaflet.id,
             leafletPage: it.page || ''
           });
           alert('已加入清單（' + storeName + ' · 價 — · 請對照海報）');
@@ -256,7 +330,193 @@
       });
     }
 
-    /* legacy discount UI removed */
+    function discountStoresFromIndex() {
+      return (promoIndex.stores || []).filter((st) => DISCOUNT_SCODES.has(String(st.scode)));
+    }
+
+    function renderDiscountChips() {
+      const box = document.getElementById('discount-chips');
+      const empty = document.getElementById('discount-empty');
+      box.innerHTML = '';
+      const stores = discountStoresFromIndex();
+      empty.hidden = stores.length > 0;
+      // stable order as DISCOUNT_LABEL keys
+      const order = ['0124', '0108', '0110', '0122', '0107'];
+      stores.sort((a, b) => order.indexOf(a.scode) - order.indexOf(b.scode));
+      stores.forEach((st) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'store-chip' + (mode === 'discount' && selectedDiscount && selectedDiscount.scode === st.scode ? ' active' : '');
+        btn.setAttribute('data-scode', st.scode);
+        const logo = logoUrl(st.logo);
+        const sync = st.syncDate ? String(st.syncDate).slice(0, 10) : '';
+        btn.innerHTML =
+          (logo ? '<img class="store-logo" src="' + MPS.escapeHtml(logo) + '" alt="" onerror="this.style.display=\'none\'" />' : '') +
+          '<span>' + MPS.escapeHtml(storeDisplayName(st)) + '</span>' +
+          '<span class="badge muted">折扣</span>' +
+          (sync ? '<span class="badge">' + MPS.escapeHtml(sync) + '</span>' : '');
+        btn.addEventListener('click', () => selectDiscountStore(st));
+        box.appendChild(btn);
+      });
+    }
+
+    async function loadStoreActive(scode) {
+      try {
+        const j = await MPS.loadJSON('data/promo/stores/' + encodeURIComponent(scode) + '.json');
+        const codes = [];
+        const raw = j.raw || j;
+        const list = Array.isArray(raw) ? raw
+          : (Array.isArray(raw.data) ? raw.data
+            : (raw.data && typeof raw.data === 'object' ? Object.keys(raw.data).filter((k) => {
+                const v = raw.data[k];
+                return v === 1 || v === '1' || v === true || v === 'Y';
+              }) : []));
+        list.forEach((row) => {
+          if (typeof row === 'string') { codes.push(row.toUpperCase()); return; }
+          if (!row || typeof row !== 'object') return;
+          let c = row.gtcode || row.code || row.gt_code || row.value || row._id || row.id;
+          if (c != null) codes.push(String(c).toUpperCase());
+        });
+        storeActive[scode] = codes.length ? codes : (promoIndex.goodTypes || []).map((g) => g.code);
+      } catch (_) {
+        storeActive[scode] = (promoIndex.goodTypes || []).map((g) => g.code);
+      }
+    }
+
+    async function selectDiscountStore(st) {
+      mode = 'discount';
+      selectedDiscount = st;
+      selectedLeaflet = null;
+      selectedGt = null;
+      hideLeafletPanels();
+      renderLeafletChips();
+      renderDiscountChips();
+      document.getElementById('price-card').hidden = true;
+      await loadStoreActive(st.scode);
+      renderGoodTypes();
+      document.getElementById('gt-card').hidden = false;
+    }
+
+    function renderGoodTypes() {
+      const box = document.getElementById('gt-chips');
+      box.innerHTML = '';
+      const allowed = new Set(storeActive[selectedDiscount.scode] || []);
+      (promoIndex.goodTypes || []).forEach((gt) => {
+        if (allowed.size && !allowed.has(String(gt.code).toUpperCase()) && !allowed.has(gt.code)) return;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'gt-chip' + (selectedGt && selectedGt.code === gt.code ? ' active' : '');
+        const img = gtImg(gt);
+        btn.innerHTML =
+          (img ? '<img src="' + MPS.escapeHtml(img) + '" alt="" onerror="this.style.display=\'none\'" />' : '') +
+          '<span>' + MPS.escapeHtml(gt.name || gt.code) + '</span>';
+        btn.addEventListener('click', () => selectGt(gt));
+        box.appendChild(btn);
+      });
+      if (!box.children.length) {
+        box.innerHTML = '<p class="empty">此店暫無品類資料</p>';
+      }
+    }
+
+    async function selectGt(gt) {
+      selectedGt = gt;
+      renderGoodTypes();
+      const card = document.getElementById('price-card');
+      const body = document.getElementById('price-body');
+      const title = document.getElementById('price-title');
+      const metaEl = document.getElementById('price-meta');
+      card.hidden = false;
+      const storeName = storeDisplayName(selectedDiscount);
+      title.textContent = storeName + ' · ' + (gt.name || gt.code);
+      body.innerHTML = '<p class="empty">載入優惠價…</p>';
+      metaEl.textContent = '';
+      const path = 'data/promo/prices/' + encodeURIComponent(selectedDiscount.scode) + '_' + encodeURIComponent(gt.code) + '.json';
+      try {
+        const data = await MPS.loadJSON(path);
+        const items = data.items || [];
+        let sync = '';
+        items.forEach((it) => { if (!sync && it.sync_date) sync = it.sync_date; });
+        metaEl.innerHTML =
+          '<span class="badge">消委會／官方折扣資料</span> · ' +
+          MPS.wrapUpdateHtml('同步', sync || data.mirroredAt || '') +
+          ' · ' + items.length + ' 項' +
+          (data.stub ? ' · <span class="badge muted">stub</span>' : '');
+        if (!items.length) {
+          body.innerHTML = '<p class="empty">此品類暫無優惠價資料</p>';
+          return;
+        }
+        let html = '<div style="overflow:auto;max-height:520px"><table class="store-table"><thead><tr>' +
+          '<th>品名</th><th>原價</th><th>優惠價</th><th>同步</th><th></th></tr></thead><tbody>';
+        items.forEach((it, idx) => {
+          const disc = it.discount == null || it.discount === '' ? null : Number(it.discount);
+          const discLabel = it.discount == null || it.discount === '' ? '—' : String(it.discount);
+          const priceLabel = it.price == null || it.price === '' ? '—' : String(it.price);
+          html += '<tr><td>' + MPS.escapeHtml(it.name || '—') + '</td>' +
+            '<td>' + MPS.escapeHtml(priceLabel) + '</td>' +
+            '<td class="price">' + MPS.escapeHtml(discLabel) + '</td>' +
+            '<td>' + MPS.wrapUpdateHtml('', it.sync_date || '') + '</td>' +
+            '<td><button type="button" data-disc-idx="' + idx + '">加入清單</button></td></tr>';
+        });
+        html += '</tbody></table></div>';
+        body.innerHTML = html;
+        body.querySelectorAll('button[data-disc-idx]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const it = items[Number(btn.getAttribute('data-disc-idx'))];
+            if (!it) return;
+            const disc = it.discount == null || it.discount === '' || Number.isNaN(Number(it.discount))
+              ? null : Number(it.discount);
+            const rawId = (it.raw && (it.raw.id || it.raw._id)) || it.barcode || it.name || Math.random();
+            const id = 'promo:' + selectedDiscount.scode + ':' + encodeURIComponent(String(rawId).slice(0, 80));
+            MPS.addToCart({
+              id: id,
+              kind: 'promo-discount',
+              name: it.name || '未名品',
+              quantity: '',
+              code: it.barcode || '',
+              updateDate: it.sync_date || data.mirroredAt || '',
+              stores: [],
+              bestPrice: disc,
+              bestStore: storeName,
+              preferredStore: storeName,
+              preferredPrice: disc,
+              source: 'dsedt-discount',
+              scode: selectedDiscount.scode,
+              gtcode: gt.code
+            });
+            alert('已加入清單（' + storeName + ' · 優惠價 ' + (disc != null ? disc : '—') + '）');
+          });
+        });
+      } catch (e) {
+        body.innerHTML = '<p class="empty">未有價檔 <code>' + MPS.escapeHtml(path) + '</code>。</p>';
+        metaEl.textContent = String(e && e.message ? e.message : e);
+      }
+    }
+
+    function renderPending() {
+      const card = document.getElementById('pending-card');
+      const list = document.getElementById('pending-list');
+      if (!card || !list) return;
+      const leafletIds = new Set(((leafletIndex && leafletIndex.stores) || []).map((s) => s.scode).filter(Boolean));
+      const leafletMarks = new Set(((leafletIndex && leafletIndex.stores) || []).map((s) => (s.name_cn || s.mark || '').trim()));
+      const pending = (promoIndex.stores || []).filter((st) => {
+        if (DISCOUNT_SCODES.has(String(st.scode))) return false;
+        if (leafletIds.has(st.scode)) return false;
+        const dn = storeDisplayName(st);
+        if (leafletMarks.has(dn) || leafletMarks.has(st.name_cn) || leafletMarks.has(st.mark)) return false;
+        // 泰豐已有 leaflet；來來唔喺 promo index
+        return true;
+      });
+      if (!pending.length) {
+        card.hidden = true;
+        return;
+      }
+      card.hidden = false;
+      list.innerHTML = pending.map((st) =>
+        '<li><div><div class="title">' + MPS.escapeHtml(storeDisplayName(st)) +
+        ' <span class="badge muted">' + MPS.escapeHtml(st.scode || '') + '</span></div>' +
+        '<div class="qty">待官網／社交 leaflet；暫唔以舊折扣作主展示</div></div></li>'
+      ).join('');
+    }
 
     document.getElementById('btn-prev').addEventListener('click', () => showPage(pageIdx - 1));
     document.getElementById('btn-next').addEventListener('click', () => showPage(pageIdx + 1));
@@ -269,56 +529,49 @@
     document.addEventListener('keydown', (e) => {
       const lbOpen = !document.getElementById('lightbox').hidden;
       if (e.key === 'Escape' && lbOpen) closeLightbox();
-      if (!selectedStore) return;
+      if (mode !== 'leaflet' || !selectedLeaflet) return;
       if (e.key === 'ArrowLeft') showPage(pageIdx - 1);
       if (e.key === 'ArrowRight') showPage(pageIdx + 1);
     });
 
-    const PENDING_STORES = [
-      { name: 'Tmart', note: '暫未納入 leaflet；待 IG／官網海報' },
-      { name: '利豐', note: '官網疑 lander／壞站；暫剔自動取圖' },
-      { name: '福倡', note: '待社媒／官網 leaflet' },
-      { name: '南華美式貨場', note: '待社媒／官網 leaflet' },
-      { name: '宏基', note: 'FB 更新慢；P1 手動落圖' },
-      { name: '新苗／新花城／南光Mart／FB 優惠群', note: 'P1 社媒來源（見來源表）' }
-    ];
-
-    function renderPending() {
-      const card = document.getElementById('pending-card');
-      const list = document.getElementById('pending-list');
-      if (!card || !list) return;
-      card.hidden = false;
-      list.innerHTML = PENDING_STORES.map((p) =>
-        '<li><div><div class="title">' + MPS.escapeHtml(p.name) + '</div>' +
-        '<div class="qty">' + MPS.escapeHtml(p.note) + '</div></div></li>'
-      ).join('');
-    }
-
     Promise.all([
       MPS.loadMeta(),
-      MPS.loadJSON('data/promo-leaflet/index.json').catch(() => null)
-    ]).then(([meta, leaf]) => {
+      MPS.loadJSON('data/promo-leaflet/index.json').catch(() => null),
+      MPS.loadJSON('data/promo/index.json').catch(() => null)
+    ]).then(([meta, leaf, promo]) => {
       leafletIndex = leaf;
-      if (!leaf) {
-        document.getElementById('promo-meta').textContent = '未有 data/promo-leaflet/index.json';
-        document.getElementById('store-empty').hidden = false;
-      } else {
+      if (promo) promoIndex = promo;
+
+      const bits = [];
+      if (leaf) {
         const stores = leaf.stores || [];
         const pages = stores.reduce((n, s) => n + ((s.pages || []).length), 0);
-        const ocrN = stores.reduce((n, s) => n + ((s.ocrItems || []).length), 0);
-        const windows = stores.map((s) => s.promoWindow).filter(Boolean);
-        document.getElementById('promo-meta').innerHTML =
-          MPS.wrapUpdateHtml('leaflet 鏡像', leaf.mirroredAt || '') +
-          ' · ' + stores.length + ' 店 · ' + pages + ' 頁圖 · OCR 品名 ' + ocrN +
-          (windows.length ? ' · 檔期 ' + MPS.escapeHtml(windows.join('／')) : '') +
-          ' · <span class="badge ok">主展示＝海報</span>';
-        renderStoreChips();
-        if (stores[0]) selectLeafletStore(stores[0]);
+        bits.push(MPS.wrapUpdateHtml('leaflet', leaf.mirroredAt || '') +
+          ' · ' + stores.length + ' 店 · ' + pages + ' 頁');
+      } else {
+        bits.push('leaflet：未有 index');
       }
+      if (promo) {
+        const nDisc = discountStoresFromIndex().length;
+        bits.push(MPS.wrapUpdateHtml('折扣鏡像', promo.mirroredAt || '') +
+          ' · 保留 ' + nDisc + ' 店折扣');
+      } else {
+        bits.push('折扣：未有 data/promo/index.json');
+      }
+      bits.push('<span class="badge ok">hybrid</span>');
+      document.getElementById('promo-meta').innerHTML = bits.join(' · ');
+
+      renderLeafletChips();
+      renderDiscountChips();
       renderPending();
+
+      const leafStores = (leaf && leaf.stores) || [];
+      if (leafStores[0]) selectLeafletStore(leafStores[0]);
+
       const extras = [];
       if (leaf) extras.push(MPS.wrapUpdateHtml('leaflet', leaf.mirroredAt || ''));
-      extras.push('舊折扣表：已停用主展示（唔載入 data/promo 價檔）');
+      if (promo) extras.push(MPS.wrapUpdateHtml('折扣五店', promo.mirroredAt || ''));
+      extras.push('leaflet 店唔用舊折扣主展示；五店保留消委會／DSEDT 折扣');
       MPS.fillFooter(meta, extras);
     });
   </script>

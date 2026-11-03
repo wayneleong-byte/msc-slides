@@ -181,9 +181,11 @@
         }
 
         const leaflet = it.kind === 'promo-leaflet' || String(it.id || '').indexOf('leaflet:') === 0;
+        const promoDisc = it.kind === 'promo-discount' || String(it.id || '').indexOf('promo:') === 0;
         const special = it.kind === 'special' || String(it.id || '').indexOf('special:') === 0;
         let kindBadge = '<span class="kind-badge supermarket">超市</span>';
         if (leaflet) kindBadge = '<span class="kind-badge promo-leaflet">優惠海報</span>';
+        else if (promoDisc) kindBadge = '<span class="kind-badge promo-discount">官方折扣</span>';
         else if (special) kindBadge = '<span class="kind-badge special">專項</span>';
         let selectRow = storeSelectHtml(it);
         if (leaflet) {
