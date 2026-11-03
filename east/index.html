@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>東方超環 EAST｜全超导托卡马克教學頁｜澳門科學館</title>
-<meta name="description" content="澳門科學館教學頁：互動認識 EAST（東方超環）全超导托卡马克六大主机部件。" />
+<title>東方超環 EAST｜全超導托卡馬克教學頁｜澳門科學館</title>
+<meta name="description" content="澳門科學館教學頁：互動認識 EAST（東方超環）全超導托卡馬克六大主機部件。" />
 <style>
 :root {
   --bg: #0b1220;
@@ -206,6 +206,7 @@ footer li { margin: .25rem 0; }
 @media (max-width: 900px) {
   .fact-strip { grid-template-columns: repeat(2, 1fr); }
   .concepts { grid-template-columns: 1fr; }
+  .photo-grid { grid-template-columns: repeat(2, 1fr); }
   .lab {
     grid-template-columns: 1fr;
     min-height: unset;
@@ -220,11 +221,155 @@ footer li { margin: .25rem 0; }
 }
 @media (max-width: 560px) {
   .fact-strip { grid-template-columns: 1fr 1fr; }
+  .photo-grid { grid-template-columns: 1fr; }
+  .lightbox-close { position: static; transform: none; align-self: flex-end; }
   .hero { padding-top: 2rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .photo-card button.thumb img { transition: none; }
 }
+
+/* Photo compare */
+.photo-compare {
+  margin: 0 auto 2.2rem;
+}
+.photo-compare > h2 {
+  margin: 0 0 .45rem;
+  font-size: 1.25rem;
+}
+.photo-compare .lead {
+  margin: 0 0 1rem;
+  color: #c7d6ea;
+  font-size: .95rem;
+  max-width: 48rem;
+}
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .85rem;
+}
+.photo-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+}
+.photo-card button.thumb {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: #0a101b;
+  cursor: zoom-in;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.photo-card button.thumb:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.photo-card button.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .25s ease;
+}
+.photo-card button.thumb:hover img {
+  transform: scale(1.03);
+}
+.photo-card .body {
+  padding: .75rem .9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  flex: 1;
+}
+.photo-card .label {
+  display: inline-block;
+  align-self: flex-start;
+  padding: .12rem .5rem;
+  border-radius: 6px;
+  font-size: .72rem;
+  letter-spacing: .02em;
+  background: rgba(61,184,255,.14);
+  color: var(--accent);
+  border: 1px solid rgba(61,184,255,.35);
+}
+.photo-card .cap {
+  margin: 0;
+  font-size: .9rem;
+  color: #d5e1f2;
+}
+.photo-card .credit {
+  margin: 0;
+  font-size: .75rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.photo-card .credit a { word-break: break-all; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  background: rgba(4, 8, 16, .88);
+  backdrop-filter: blur(4px);
+}
+.lightbox.open { display: flex; }
+.lightbox-inner {
+  position: relative;
+  max-width: min(1100px, 96vw);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+}
+.lightbox-inner img {
+  max-width: 100%;
+  max-height: min(78vh, 900px);
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0a101b;
+  box-shadow: var(--shadow);
+}
+.lightbox-meta {
+  color: #cdd9ea;
+  font-size: .88rem;
+  text-align: center;
+}
+.lightbox-close {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.2rem;
+  transform: translateY(-100%);
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  color: var(--text);
+  border-radius: 999px;
+  padding: .35rem .85rem;
+  font: inherit;
+  font-size: .85rem;
+  cursor: pointer;
+}
+.lightbox-close:hover, .lightbox-close:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+}
+
 </style>
 </head>
 <body>
@@ -232,50 +377,50 @@ footer li { margin: .25rem 0; }
   <div class="wrap">
     <span class="badge">澳門科學館 · 人造太陽主題 · Round 1 教學頁</span>
     <h1>東方超環 EAST</h1>
-    <p class="sub">全超导托卡马克實驗裝置：用可旋轉、可點選的 3D 模型，由外到內認識六大主机部件——它是研究「磁場笼子」裡高溫電漿的實驗機器，不是發電廠。</p>
+    <p class="sub">全超導托卡馬克實驗裝置：用可旋轉、可點選的 3D 模型，由外到內認識六大主機部件——它是研究「磁場籠子」裡高溫等離子體的實驗機器，不是發電廠。</p>
     <div class="meta-row">
-      <span>地點：安徽省合肥市 · 中國科學院等离子体物理研究所（ASIPP）</span>
+      <span>地點：安徽省合肥市 · 中國科學院等離子體物理研究所（ASIPP）</span>
       <span>對象：中學生／公眾／教師</span>
       <span>語言：繁體中文</span>
     </div>
     <div class="fact-strip" aria-label="關鍵事實">
-      <div class="fact"><b>約 11 m</b><span>主机高度（官方）</span></div>
-      <div class="fact"><b>約 8 m</b><span>主机直徑（官方）</span></div>
-      <div class="fact"><b>約 400 t</b><span>主机重量（官方）</span></div>
-      <div class="fact"><b>2006 起</b><span>工程調試／獲等离子体</span></div>
+      <div class="fact"><b>約 11 m</b><span>主機高度（官方）</span></div>
+      <div class="fact"><b>約 8 m</b><span>主機直徑（官方）</span></div>
+      <div class="fact"><b>約 400 t</b><span>主機重量（官方）</span></div>
+      <div class="fact"><b>2006 起</b><span>工程調試／獲等離子體</span></div>
     </div>
   </div>
 </header>
 
 <section class="wrap principle" aria-labelledby="principle-title">
   <h2 id="principle-title">原理一句</h2>
-  <p>托卡馬克用強大的<strong>環向與極向磁場</strong>，把極熱的電漿（離子化氣體）約束在<strong>甜甜圈形</strong>的真空室內，讓原子核有機會發生聚變反應。EAST 用來研究「穩定、長時間」的約束與加熱——<strong>實驗裝置，不是發電廠</strong>。「人造小太陽」是通俗比喻：原理同太陽核聚變放能，但 EAST 仍不能向電網送電。</p>
+  <p>托卡馬克用強大的<strong>環向與極向磁場</strong>，把極熱的等離子體（離子化氣體）約束在<strong>甜甜圈形</strong>的真空室內，讓原子核有機會發生聚變反應。EAST 用來研究「穩定、長時間」的約束與加熱——<strong>實驗裝置，不是發電廠</strong>。「人造小太陽」是通俗比喻：原理同太陽核聚變放能，但 EAST 仍不能向電網送電。</p>
   <p class="note">設計表述：高功率加熱下溫度可超過一億度；脈衝目標約 1000 秒量級。具體實驗紀錄須標年份與來源（見下方成就卡與頁腳）。</p>
 </section>
 
 <section class="wrap" aria-labelledby="achieve-title" style="margin-bottom:1.2rem">
   <div class="card" style="border-color:rgba(124,240,194,.35)">
     <h3 id="achieve-title">近年成就一句（附來源）</h3>
-    <p><strong>2025 年 1 月 20 日</strong>，EAST 實現超過一億度、<strong>1066 秒</strong>穩態長脈衝高約束模（H-mode）電漿運行（官方報道）。來源：ASIPP 新聞、中科院英文報道（見頁腳）。</p>
+    <p><strong>2025 年 1 月 20 日</strong>，EAST 實現超過一億度、<strong>1066 秒</strong>穩態長脈衝高約束模（H-mode）等離子體運行（官方報道）。來源：ASIPP 新聞、中科院英文報道（見頁腳）。</p>
   </div>
 </section>
 
 <section class="wrap lab" aria-label="3D 互動教學">
   <div class="viewport-card">
     <div class="viewport-head">
-      <h2>3D 互動：由外到內的洋葱層</h2>
+      <h2>3D 互動：由外到內的洋蔥層</h2>
       <div class="toolbar" role="toolbar" aria-label="顯示模式">
         <button type="button" class="btn active" data-mode="all" id="btnAll">全部層</button>
-        <button type="button" class="btn" data-mode="magnets" id="btnMag">只看磁体</button>
+        <button type="button" class="btn" data-mode="magnets" id="btnMag">只看磁體</button>
         <button type="button" class="btn" data-mode="vacuum" id="btnVac">只看真空</button>
         <button type="button" class="btn" data-mode="cryoFade" id="btnCryo">半透明杜瓦</button>
         <button type="button" class="btn ghost" id="btnReset">一鍵復位</button>
       </div>
     </div>
     <div class="comp-list" id="compList" role="listbox" aria-label="組件鍵盤列表"></div>
-    <canvas id="c3d" tabindex="0" aria-label="EAST 托卡马克三維模型，可旋轉縮放並點選組件"></canvas>
+    <canvas id="c3d" tabindex="0" aria-label="EAST 托卡馬克三維模型，可旋轉縮放並點選組件"></canvas>
     <div class="hint">
-      滑鼠拖曳旋轉 · 滾輪縮放 · 觸控單指旋轉／雙指縮放 · 點選零件看側欄。層次：杜瓦 → 外冷屏 → TF＋PF／CS → 內冷屏 → 真空室 → 偏濾器／電漿；底座為支撐。
+      滑鼠拖曳旋轉 · 滾輪縮放 · 觸控單指旋轉／雙指縮放 · 點選零件看側欄。層次：杜瓦 → 外冷屏 → TF＋PF／CS → 內冷屏 → 真空室 → 偏濾器／等離子體；底座為支撐。
       <strong>本頁不做會打亂層次的 explode。</strong>
     </div>
   </div>
@@ -288,24 +433,115 @@ footer li { margin: .25rem 0; }
     <div class="side-body" id="sideBody">
       <div class="empty-side">
         <p>點選 3D 模型或上方標籤，查看「是什麼／做什麼／與人造太陽的關係」。</p>
-        <p>六大主机部件：①超高真空室 ②纵场线圈 ③极向场线圈（含中心螺管）④内外冷屏 ⑤外真空杜瓦 ⑥支撑系统。另含偏濾器與輔助加熱／診斷標記。</p>
+        <p>六大主機部件：①超高真空室 ②縱場線圈 ③極向場線圈（含中心螺管）④內外冷屏 ⑤外真空杜瓦 ⑥支撐系統。另含偏濾器與輔助加熱／診斷標記。</p>
       </div>
     </div>
   </aside>
 </section>
 
+<section class="wrap photo-compare" aria-labelledby="photo-compare-title">
+  <h2 id="photo-compare-title">真實照片對比</h2>
+  <p class="lead">上方 3D＝教學示意（非工程 CAD）；以下為真實／論文圖，方便對照。</p>
+  <div class="photo-grid">
+    <article class="photo-card">
+      <button type="button" class="thumb" data-lightbox
+        data-src="assets/photos/east-hall-panorama.jpg"
+        data-alt="EAST 裝置大廳全景"
+        data-caption="大廳全景｜裝置大廳整體氣氛，對照上方 3D 外殼尺度感"
+        aria-label="放大查看：大廳全景">
+        <img src="assets/photos/east-hall-panorama.jpg" alt="EAST 裝置大廳全景" loading="lazy" width="640" height="480" />
+      </button>
+      <div class="body">
+        <span class="label">大廳全景</span>
+        <p class="cap">裝置大廳整體氣氛，對照上方 3D 外殼尺度感。</p>
+        <p class="credit">教學說明｜版權歸原機構：中國科學院合肥物質科學研究院／科學島</p>
+      </div>
+    </article>
+    <article class="photo-card">
+      <button type="button" class="thumb" data-lightbox
+        data-src="assets/photos/east-exterior-cas.jpg"
+        data-alt="EAST 裝置外觀"
+        data-caption="裝置外觀｜真實主機外殼與安裝環境"
+        aria-label="放大查看：裝置外觀">
+        <img src="assets/photos/east-exterior-cas.jpg" alt="EAST 裝置外觀" loading="lazy" width="640" height="480" />
+      </button>
+      <div class="body">
+        <span class="label">裝置外觀</span>
+        <p class="cap">真實主機外殼與安裝環境，對照 3D「外真空杜瓦」層。</p>
+        <p class="credit">教學說明｜版權歸原機構：中科院合肥研究院等離子體所供圖／人民日報轉載</p>
+      </div>
+    </article>
+    <article class="photo-card">
+      <button type="button" class="thumb" data-lightbox
+        data-src="assets/photos/east-geometry-3d.jpg"
+        data-alt="EAST 幾何剖面與半機 3D"
+        data-caption="幾何剖面｜論文圖：等離子體幾何與半機 3D"
+        aria-label="放大查看：幾何剖面">
+        <img src="assets/photos/east-geometry-3d.jpg" alt="EAST 幾何剖面與半機 3D" loading="lazy" width="640" height="480" />
+      </button>
+      <div class="body">
+        <span class="label">幾何剖面</span>
+        <p class="cap">論文圖：等離子體幾何與半機 3D，對照互動模型的剖面邏輯。</p>
+        <p class="credit">CC BY 4.0 · Chen et al., Sci. Rep. 6:32440 (2016) Fig.1</p>
+      </div>
+    </article>
+    <article class="photo-card">
+      <button type="button" class="thumb" data-lightbox
+        data-src="assets/photos/east-sketch.png"
+        data-alt="EAST 裝置線稿示意"
+        data-caption="線稿｜托卡馬克主機部件示意線圖"
+        aria-label="放大查看：線稿">
+        <img src="assets/photos/east-sketch.png" alt="EAST 裝置線稿示意" loading="lazy" width="640" height="480" />
+      </button>
+      <div class="body">
+        <span class="label">線稿</span>
+        <p class="cap">托卡馬克主機部件示意線圖，方便對名六大主機部件。</p>
+        <p class="credit">CC BY 3.0 · Nuclear Fusion 54:103002 (2014) Fig.1</p>
+      </div>
+    </article>
+    <article class="photo-card">
+      <button type="button" class="thumb" data-lightbox
+        data-src="assets/photos/east-vacuum-vessel.jpg"
+        data-alt="EAST 真空室內景與材料分區"
+        data-caption="真空室內景｜第一壁／材料分區實景"
+        aria-label="放大查看：真空室內景">
+        <img src="assets/photos/east-vacuum-vessel.jpg" alt="EAST 真空室內景與材料分區" loading="lazy" width="640" height="480" />
+      </button>
+      <div class="body">
+        <span class="label">真空室內景</span>
+        <p class="cap">第一壁／材料分區實景，對照 3D「超高真空室」內側。</p>
+        <p class="credit">CC BY 3.0 · Nuclear Fusion 57:056021 (2017) Fig.1</p>
+      </div>
+    </article>
+    <article class="photo-card">
+      <button type="button" class="thumb" data-lightbox
+        data-src="assets/photos/east-divertor-cas.jpg"
+        data-alt="EAST Corner Slot 偏濾器示意與模組"
+        data-caption="偏濾器｜Corner Slot 偏濾器示意與模組"
+        aria-label="放大查看：偏濾器">
+        <img src="assets/photos/east-divertor-cas.jpg" alt="EAST Corner Slot 偏濾器示意與模組" loading="lazy" width="640" height="480" />
+      </button>
+      <div class="body">
+        <span class="label">偏濾器</span>
+        <p class="cap">Corner Slot 偏濾器示意與模組，對照「點解要偏濾器」。</p>
+        <p class="credit">教學說明｜版權歸原機構：CAS／ASIPP · Image by JIA Guozhang</p>
+      </div>
+    </article>
+  </div>
+</section>
+
 <section class="wrap concepts" aria-label="三個點解">
   <article class="card">
-    <h3>點解要超导？</h3>
-    <p>电阻近零 → 可長時間維持强磁場、能耗可控；先決條件是超低温（线圈约 −269℃／≈4.5 K，NbTi）。類比：超導像「幾乎不發熱的電線」，才能撐起強大磁場笼子。</p>
+    <h3>點解要超導？</h3>
+    <p>電阻近零 → 可長時間維持強磁場、能耗可控；先決條件是超低溫（線圈約 −269℃／≈4.5 K，NbTi）。類比：超導像「幾乎不發熱的電線」，才能撐起強大磁場籠子。</p>
   </article>
   <article class="card">
     <h3>點解要超高真空？</h3>
-    <p>減少雜質與碰撞干擾，給電漿乾淨環境；也配合杜瓦／冷屏做熱隔離。真空首先是實驗環境，不是「因為真空所以變熱」。</p>
+    <p>減少雜質與碰撞干擾，給等離子體乾淨環境；也配合杜瓦／冷屏做熱隔離。真空首先是實驗環境，不是「因為真空所以變熱」。</p>
   </article>
   <article class="card">
     <h3>點解要偏濾器？</h3>
-    <p>把電漿邊緣的熱與雜質引走，保護第一壁，服務長脈衝／稳态實驗。它不是發電渦輪，也不是亂噴火的爐算。</p>
+    <p>把等離子體邊緣的熱與雜質引走，保護第一壁，服務長脈衝／穩態實驗。它不是發電渦輪，也不是亂噴火的爐算。</p>
   </article>
 </section>
 
@@ -315,17 +551,17 @@ footer li { margin: .25rem 0; }
     <p>1. EAST（東方超環）主要是什麼？</p>
     <div class="options">
       <button type="button" class="opt" data-i="0">已經向電網送電的商用核聚變電廠</button>
-      <button type="button" class="opt" data-i="1">磁約束核聚變實驗托卡马克（全超导）</button>
+      <button type="button" class="opt" data-i="1">磁約束核聚變實驗托卡馬克（全超導）</button>
       <button type="button" class="opt" data-i="2">裂變核電廠反應爐</button>
     </div>
     <div class="feedback" aria-live="polite"></div>
   </div>
   <div class="q" data-answer="2">
-    <p>2. 產生環向強磁場、把電漿「箍住」的主力是？</p>
+    <p>2. 產生環向強磁場、把等離子體「箍住」的主力是？</p>
     <div class="options">
       <button type="button" class="opt" data-i="0">單一圓形螺線管</button>
       <button type="button" class="opt" data-i="1">偏濾器靶板</button>
-      <button type="button" class="opt" data-i="2">16 個 D 形超导纵场（TF）线圈</button>
+      <button type="button" class="opt" data-i="2">16 個 D 形超導縱場（TF）線圈</button>
     </div>
     <div class="feedback" aria-live="polite"></div>
   </div>
@@ -334,7 +570,7 @@ footer li { margin: .25rem 0; }
     <div class="options">
       <button type="button" class="opt" data-i="0">外真空杜瓦</button>
       <button type="button" class="opt" data-i="1">超高真空室</button>
-      <button type="button" class="opt" data-i="2">等离子体示意體</button>
+      <button type="button" class="opt" data-i="2">等離子體示意體</button>
     </div>
     <div class="feedback" aria-live="polite"></div>
   </div>
@@ -343,7 +579,7 @@ footer li { margin: .25rem 0; }
     <div class="options">
       <button type="button" class="opt" data-i="0">EAST 已等同太陽、可替代化石能源</button>
       <button type="button" class="opt" data-i="1">通俗比喻：聚變原理相似；EAST 仍是實驗裝置</button>
-      <button type="button" class="opt" data-i="2">装置會像太陽一樣核爆炸</button>
+      <button type="button" class="opt" data-i="2">裝置會像太陽一樣核爆炸</button>
     </div>
     <div class="feedback" aria-live="polite"></div>
   </div>
@@ -361,9 +597,9 @@ footer li { margin: .25rem 0; }
 <footer>
   <div class="wrap">
     <h2>來源與取用說明</h2>
-    <p class="disclaimer">頁內 3D 為程序幾何教學示意，非工程級 CAD；未嵌入新聞／機構照片。數字以 ASIPP／中科院公開介紹為準。取用日期：2026-11-03（Asia/Macau）。</p>
+    <p class="disclaimer">頁內 3D 為程式幾何教學示意，非工程級 CAD；已嵌入真實／論文圖作對比（見「真實照片對比」）。Commons 圖依 CC 署名；機構／新聞圖僅供教學說明，版權歸原機構（頁內每圖已列署名；完整表見 deliverables/east-tokamak-edu-2026-11-03/photos/ATTRIBUTION.md）。數字以 ASIPP／中科院公開介紹為準。取用日期：2026-11-03（Asia/Macau）。</p>
     <ul>
-      <li>ASIPP EAST 大科学工程簡介：<a href="http://www.ipp.cas.cn/dakexuegongcheng/east/" target="_blank" rel="noopener">http://www.ipp.cas.cn/dakexuegongcheng/east/</a></li>
+      <li>ASIPP EAST 大科學工程簡介：<a href="http://www.ipp.cas.cn/dakexuegongcheng/east/" target="_blank" rel="noopener">http://www.ipp.cas.cn/dakexuegongcheng/east/</a></li>
       <li>ASIPP 科普構造文（人造小太陽比喻／部件）：<a href="https://ipp.cas.cn/kxcb/kpzs/hjb/EAST/201210/t20121004_342072.html" target="_blank" rel="noopener">https://ipp.cas.cn/kxcb/kpzs/hjb/EAST/201210/t20121004_342072.html</a></li>
       <li>CAS LSSF EAST：<a href="https://lssf.cas.cn/sszs/zyyj/eastcd/" target="_blank" rel="noopener">https://lssf.cas.cn/sszs/zyyj/eastcd/</a></li>
       <li>EAST 官方站簡介：<a href="http://east.ipp.ac.cn/index/article/info/id/52.html" target="_blank" rel="noopener">http://east.ipp.ac.cn/index/article/info/id/52.html</a></li>
@@ -390,57 +626,57 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const COMPONENTS = {
   cryostat: {
     name: '外真空杜瓦',
-    host: '⑤ 六大主机',
+    host: '⑤ 六大主機',
     what: '最外層的「保溫瓶＋真空罩」圓桶殼體（頂蓋／環體／基座），為內部提供真空環境、隔斷熱交換並承受載荷。',
-    does: '保護裏面超冷超导磁体，隔開室溫空氣，是整機最外的結構邊界。',
-    sun: '沒有可靠的外杜瓦，超导磁体無法維持接近絕對零度，也就撐不起「磁場笼子」去關住高溫電漿。'
+    does: '保護裡面超冷超導磁體，隔開室溫空氣，是整機最外的結構邊界。',
+    sun: '沒有可靠的外杜瓦，超導磁體無法維持接近絕對零度，也就撐不起「磁場籠子」去關住高溫等離子體。'
   },
   thermal_outer: {
     name: '外冷屏',
-    host: '④ 六大主机（内外冷屏）',
-    what: '夾在外杜瓦與超导磁体之間的熱輻射屏障（約 80 K 量級）。',
-    does: '減少熱輻射打到 −269℃ 磁体，像擋熱的「遮陽擋」。',
-    sun: '冷屏守護超低温，讓全超导磁场能長時間工作——這是 EAST「全超导」路線的關鍵一環。'
+    host: '④ 六大主機（內外冷屏）',
+    what: '夾在外杜瓦與超導磁體之間的熱輻射屏障（約 80 K 量級）。',
+    does: '減少熱輻射打到 −269℃ 磁體，像擋熱的「遮陽擋」。',
+    sun: '冷屏守護超低溫，讓全超導磁場能長時間工作——這是 EAST「全超導」路線的關鍵一環。'
   },
   tf_coils: {
-    name: '超导纵场 TF×16（D形）',
-    host: '② 六大主机',
-    what: '16 個大型 D 形 NbTi 超导线圈，环向均布，產生等离子体中心 BT ≈ 3.5 T 的環向磁場。',
-    does: '像「輪胎骨架」把電漿箍在甜甜圈軌道上，是約束的主力磁場。',
-    sun: '沒有強而穩的环向场，超熱電漿就無法被關在真空室裡——談不上「人造小太陽」實驗。'
+    name: '超導縱場 TF×16（D形）',
+    host: '② 六大主機',
+    what: '16 個大型 D 形 NbTi 超導線圈，環向均布，產生等離子體中心 BT ≈ 3.5 T 的環向磁場。',
+    does: '像「輪胎骨架」把等離子體箍在甜甜圈軌道上，是約束的主力磁場。',
+    sun: '沒有強而穩的環向場，超熱等離子體就無法被關在真空室裡——談不上「人造小太陽」實驗。'
   },
   pf_coils: {
-    name: '超导极向场（PF）',
-    host: '③ 六大主机',
-    what: '位於環上下／外側的超导极向场线圈（教學頁不糾結 12／14 計數爭議，跟官方功能敘事）。',
-    does: '塑造電漿截面形狀、協助控制位置與平衡。',
-    sun: '极向场讓電漿截面更可控，配合长脉冲稳态運行研究。'
+    name: '超導極向場（PF）',
+    host: '③ 六大主機',
+    what: '位於環上下／外側的超導極向場線圈（教學頁不糾結 12／14 計數爭議，跟官方功能敘事）。',
+    does: '塑造等離子體截面形狀、協助控制位置與平衡。',
+    sun: '極向場讓等離子體截面更可控，配合長脈衝穩態運行研究。'
   },
   cs: {
     name: '中心螺線管（CS）',
-    host: '③ 六大主机（极向场敘事內）',
-    what: '裝置中軸的超导线圈組，同屬 NbTi 超导系统。',
-    does: '感應與驅動／維持电漿電流，是啟動與維持電流的重要部分。',
-    sun: '有了電漿電流與成形磁场，托卡馬克才能進入可研究的約束狀態。'
+    host: '③ 六大主機（極向場敘事內）',
+    what: '裝置中軸的超導線圈組，同屬 NbTi 超導系統。',
+    does: '感應與驅動／維持等離子體電流，是啟動與維持電流的重要部分。',
+    sun: '有了等離子體電流與成形磁場，托卡馬克才能進入可研究的約束狀態。'
   },
   thermal_inner: {
     name: '內冷屏',
-    host: '④ 六大主机（内外冷屏）',
-    what: '夾在磁体與真空室之間的熱屏障。',
-    does: '保護超冷磁体，並與外冷屏一起構成内外冷屏系統。',
-    sun: '内外冷屏分工擋熱，支撐「芯部上亿度 ↔ 线圈 −269℃」的极限溫差環境。'
+    host: '④ 六大主機（內外冷屏）',
+    what: '夾在磁體與真空室之間的熱屏障。',
+    does: '保護超冷磁體，並與外冷屏一起構成內外冷屏系統。',
+    sun: '內外冷屏分工擋熱，支撐「芯部上億度 ↔ 線圈 −269℃」的極限溫差環境。'
   },
   vacuum_vessel: {
     name: '超高真空室',
-    host: '① 六大主机',
-    what: '电漿真正「住」的超乾淨房間；16 段 D 形截面扇形焊接語意；約有多個窗口供抽氣／診斷／加熱。',
+    host: '① 六大主機',
+    what: '等離子體真正「住」的超乾淨房間；16 段 D 形截面扇形焊接語意；約有多個窗口供抽氣／診斷／加熱。',
     does: '提供超高真空環境，減少空氣分子干擾，並承載第一壁與窗口。',
-    sun: '磁場笼子關住的超熱電漿就在這裡——實驗對象的家。'
+    sun: '磁場籠子關住的超熱等離子體就在這裡——實驗對象的家。'
   },
   supports: {
-    name: '支撑系统',
-    host: '⑥ 六大主机',
-    what: '托住約幾百噸主机的腳與骨架（主机重約 400 t）。',
+    name: '支撐系統',
+    host: '⑥ 六大主機',
+    what: '托住約幾百噸主機的腳與骨架（主機重約 400 t）。',
     does: '承受重力與電磁力，同杜瓦基座一起把整機穩穩立住。',
     sun: '沒有可靠支撐，就無法安全運行這台「人造小太陽」研究裝置。'
   },
@@ -448,36 +684,36 @@ const COMPONENTS = {
     name: '偏濾器',
     host: '真空室內 PFC（可選＋）',
     what: '真空室上下的靶板區，把邊界熱與雜質導走（材料曾升級，科普一句即可）。',
-    does: '排熱排雜，保護第一壁，服務長脈衝／稳态實驗。',
+    does: '排熱排雜，保護第一壁，服務長脈衝／穩態實驗。',
     sun: '要跑到千秒量級脈衝，偏濾器是延長穩定運行的關鍵「排氣排熱口」。'
   },
   plasma: {
-    name: '等离子体示意',
-    host: '示意（非主机结构件）',
-    what: '被磁場約束成环的超高溫電離氣體——聚變研究的實驗對象（半透明示意，非實心火球）。',
-    does: '在真空室內沿甜甜圈軌道被关住，接受加热与诊断观测。',
-    sun: '「人造小太陽」比喻指向的就是這團受控电漿；記得：EAST 仍是實驗裝置。'
+    name: '等離子體示意',
+    host: '示意（非主機結構件）',
+    what: '被磁場約束成環的超高溫電離氣體——聚變研究的實驗對象（半透明示意，非實心火球）。',
+    does: '在真空室內沿甜甜圈軌道被關住，接受加熱與診斷觀測。',
+    sun: '「人造小太陽」比喻指向的就是這團受控等離子體；記得：EAST 仍是實驗裝置。'
   },
   heating: {
     name: '輔助加熱標記',
     host: '外圍系統簡化標記（非六大）',
-    what: '窗口上的加熱／驅動入口示意（低杂波、中性束、离子／电子回旋等——名稱跟公開介紹）。',
-    does: '把电漿加熱到近億度量級並協助延長脈衝。',
+    what: '窗口上的加熱／驅動入口示意（低雜波、中性束、離子／電子迴旋等——名稱跟公開介紹）。',
+    does: '把等離子體加熱到近億度量級並協助延長脈衝。',
     sun: '單靠歐姆加熱不夠；輔助加熱是邁向高溫長脈衝的必要手段。'
   },
   diagnostics: {
     name: '診斷系統標記',
     host: '外圍系統簡化標記（非六大）',
     what: '窗口上的量測入口示意（雷射、微波、光譜等；例如湯姆遜散射等公開診斷）。',
-    does: '觀察溫度、密度等，讓科學家知道电漿狀態。',
-    sun: '沒有診斷，就無法驗證「磁場笼子」是否真的關好了高溫电漿。'
+    does: '觀察溫度、密度等，讓科學家知道等離子體狀態。',
+    sun: '沒有診斷，就無法驗證「磁場籠子」是否真的關好了高溫等離子體。'
   }
 };
 
 const QUIZ_EXPLAIN = [
-  '正確。EAST 是全超导托卡马克實驗裝置，不是商用電廠，也不是裂變堆。',
-  '正確。16×D 形 TF 產生环向强磁場（BT≈3.5 T）。',
-  '正確。洋葱層最外是外真空杜瓦。',
+  '正確。EAST 是全超導托卡馬克實驗裝置，不是商用電廠，也不是裂變堆。',
+  '正確。16×D 形 TF 產生環向強磁場（BT≈3.5 T）。',
+  '正確。洋蔥層最外是外真空杜瓦。',
   '正確。比喻有邊界：實驗≠電廠。',
   '正確。2025-01-20 官方報道超過一億度、1066 秒 H-mode。'
 ];
@@ -1011,5 +1247,49 @@ window.addEventListener('keydown', (e) => {
   }
 });
 </script>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="照片放大" hidden>
+  <div class="lightbox-inner">
+    <button type="button" class="lightbox-close" id="lightboxClose">關閉（Esc）</button>
+    <img id="lightboxImg" alt="" />
+    <p class="lightbox-meta" id="lightboxMeta"></p>
+  </div>
+</div>
+<script>
+(function () {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const meta = document.getElementById('lightboxMeta');
+  const closeBtn = document.getElementById('lightboxClose');
+  let lastFocus = null;
+
+  function openLb(btn) {
+    lastFocus = btn;
+    img.src = btn.getAttribute('data-src');
+    img.alt = btn.getAttribute('data-alt') || '';
+    meta.textContent = btn.getAttribute('data-caption') || '';
+    lb.hidden = false;
+    lb.classList.add('open');
+    closeBtn.focus();
+  }
+  function closeLb() {
+    lb.classList.remove('open');
+    lb.hidden = true;
+    img.removeAttribute('src');
+    if (lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll('[data-lightbox]').forEach(function (btn) {
+    btn.addEventListener('click', function () { openLb(btn); });
+  });
+  closeBtn.addEventListener('click', closeLb);
+  lb.addEventListener('click', function (e) {
+    if (e.target === lb) closeLb();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && lb.classList.contains('open')) closeLb();
+  });
+})();
+</script>
+
 </body>
 </html>
