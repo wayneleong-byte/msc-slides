@@ -1,11 +1,11 @@
 {
-  "mirroredAt": "2026-11-03T12:14:47+08:00",
+  "mirroredAt": "2026-11-03T12:20:59+08:00",
   "timezone": "Asia/Macau",
   "period": "2026-11-03",
   "assetRoot": "data/promo-leaflet/2026-11-03/",
   "sourcePolicy": "official-website-leaflet + OCR; consumer-council discount API not primary",
   "ocrEngine": "tesseract 5 chi_tra+eng",
-  "ocrNote": "全頁 tesseract chi_tra+eng（來來 DM1–8、泰豐 6、新苗 8）。價錢美術字→null；品名經 OCR＋圖面核對過濾，可入清單；圖為準。",
+  "ocrNote": "全頁 tesseract chi_tra+eng（來來 DM1–8、泰豐 6、新苗 8、新花城 8）。價錢美術字→null；品名經 OCR＋圖面核對過濾，可入清單；圖為準。",
   "stores": [
     {
       "id": "royal",
@@ -1315,6 +1315,753 @@
         }
       ],
       "ocrNote": "全頁 OCR（tesseract chi_tra+eng）＋圖面核對；ocrItems=41；價全 null；圖為準。raw: ocr/sanmiu-01…08.txt"
+    },
+    {
+      "id": "sunsco",
+      "scode": "0103",
+      "name_cn": "新花城",
+      "name_en": "Sunsco Supermarket",
+      "mark": "新花城",
+      "sourceUrl": "https://www.facebook.com/sunscogroup",
+      "sourceType": "facebook",
+      "promoWindow": "消費賞 2026-11-01 09:00–11-15；11月精選 2026-11-01–11-30",
+      "pages": [
+        {
+          "file": "sunsco/sunsco-01.jpg",
+          "label": "海報1"
+        },
+        {
+          "file": "sunsco/sunsco-02.jpg",
+          "label": "海報2"
+        },
+        {
+          "file": "sunsco/sunsco-03.jpg",
+          "label": "海報3"
+        },
+        {
+          "file": "sunsco/sunsco-04.jpg",
+          "label": "海報4"
+        },
+        {
+          "file": "sunsco/sunsco-05.jpg",
+          "label": "海報5"
+        },
+        {
+          "file": "sunsco/sunsco-06.jpg",
+          "label": "海報6"
+        },
+        {
+          "file": "sunsco/sunsco-07.jpg",
+          "label": "海報7"
+        },
+        {
+          "file": "sunsco/sunsco-08.jpg",
+          "label": "海報8"
+        }
+      ],
+      "ocrItems": [
+        {
+          "name": "新鮮豬肉／冰鮮及經解凍肉類／冰鮮海產／新鮮蔬果（週三新鮮換購）",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "會員單筆滿$228指定贈品（芝麻素／朱古力／橡皮糖等）",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "一／二／三立減券／即派即用券（四至日滿$100）",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報1"
+        },
+        {
+          "name": "小老闆紫菜／Calbee薯片[指定系列]",
+          "price": null,
+          "unit": "28g&55g",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "辛拉麵杯麵[指定系列]",
+          "price": null,
+          "unit": "杯",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "Pascual豆奶／燕麥奶／杏仁奶／牛奶",
+          "price": null,
+          "unit": "1L",
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "Vaseline潤膚露[指定系列]贈品裝",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報2"
+        },
+        {
+          "name": "Yano波蘭無激素雞中翼",
+          "price": null,
+          "unit": "500g",
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "Peppito蘇打餅乾",
+          "price": null,
+          "unit": "405g",
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "海倫仙度絲洗護髮乳[指定系列]",
+          "price": null,
+          "unit": "680g",
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "唯潔雅壓花卷紙[指定系列]",
+          "price": null,
+          "unit": "10卷",
+          "sku": null,
+          "page": "海報3"
+        },
+        {
+          "name": "Chiikawa朱古力塗層蛋黃小饅頭",
+          "price": null,
+          "unit": "35g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "湖池屋薯粟米條／薯條[指定系列]",
+          "price": null,
+          "unit": "70-73g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "童星天下一品闊條麵[指定系列]",
+          "price": null,
+          "unit": "60g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Calbee卡樂B薯片[指定系列]",
+          "price": null,
+          "unit": "53-65g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Calbee Jagabee薯條[指定系列]",
+          "price": null,
+          "unit": "5包裝",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "YBC夾心脆棒[指定系列]",
+          "price": null,
+          "unit": "2包裝",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Lotte Toppo朱古力夾心棒[指定系列]",
+          "price": null,
+          "unit": "2包裝",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "固力果百力滋家庭裝[指定系列]",
+          "price": null,
+          "unit": "144g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "三立大滋酥乾條家庭裝",
+          "price": null,
+          "unit": "144g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Meiji朱古力欣欣杯[指定系列]",
+          "price": null,
+          "unit": "48g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Bourbon帆船迷你朱古力餅[指定系列]",
+          "price": null,
+          "unit": "55-59g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Lotte朱古力夾心千層酥餅[指定系列]",
+          "price": null,
+          "unit": "69-73g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Bourbon造型朱古力餅[指定系列]",
+          "price": null,
+          "unit": "66g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Dasses朱古力味夾心薄燒[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "森永製菓曲奇[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Bourbon朱古力塗層一口蛋糕",
+          "price": null,
+          "unit": "100g",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "固力果Bitte流心朱古力餅[指定系列]",
+          "price": null,
+          "unit": "6件",
+          "sku": null,
+          "page": "海報4"
+        },
+        {
+          "name": "Pokka Sapporo檸檬飲[指定系列]",
+          "price": null,
+          "unit": "155-900ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Capri Sun果汁[指定系列]",
+          "price": null,
+          "unit": "200ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Cantabile罐裝飲品[指定系列]",
+          "price": null,
+          "unit": "230ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Lotte咖啡[指定系列]",
+          "price": null,
+          "unit": "230ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Vtalk汽水[指定系列]",
+          "price": null,
+          "unit": "350ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Pororo果汁飲料[指定系列]",
+          "price": null,
+          "unit": "235ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "森永IN果凍飲[指定系列]",
+          "price": null,
+          "unit": "150-180g",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Kagome野菜生活100混合果汁[指定系列]",
+          "price": null,
+          "unit": "200ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Kirin麒麟混合果汁[指定系列]",
+          "price": null,
+          "unit": "330ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Sangaria Chu-Hi Time Strong[指定系列]",
+          "price": null,
+          "unit": "500ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Suntory -196°C果酒[指定系列]",
+          "price": null,
+          "unit": "500ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Sangaria牛奶飲品[指定系列]",
+          "price": null,
+          "unit": "420ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Suntory伊右衛門茶[指定系列]",
+          "price": null,
+          "unit": "600ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "AGF Blendy冰美式[指定系列]",
+          "price": null,
+          "unit": "950ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "UCC咖啡[指定系列]",
+          "price": null,
+          "unit": "600ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "INNOCOCO 100%椰子水",
+          "price": null,
+          "unit": "1L",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "熊津優格飲料[指定系列]",
+          "price": null,
+          "unit": "1.5L",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Kagome野菜生活100混合果汁大支[指定系列]",
+          "price": null,
+          "unit": "720ml",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "Kirin午後紅茶[指定系列]",
+          "price": null,
+          "unit": "500ml/1.5L",
+          "sku": null,
+          "page": "海報5"
+        },
+        {
+          "name": "維他新鮮茶[指定系列]",
+          "price": null,
+          "unit": "480ml",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "CP香炸雞桃／雞球／雞塊[指定系列]",
+          "price": null,
+          "unit": "230g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "丹麥無激素雞中翼",
+          "price": null,
+          "unit": "2LB",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "Seafesh比目魚柳／三文魚扒",
+          "price": null,
+          "unit": "300g/400g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "愛爾蘭無激素草飼牛肋條",
+          "price": null,
+          "unit": "454g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "海大炒麵[指定系列]",
+          "price": null,
+          "unit": "220-250g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "思念上湯小雲吞[指定系列]",
+          "price": null,
+          "unit": "50粒",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "蔥阿伯家鄉味餡餅[指定系列]",
+          "price": null,
+          "unit": "450g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "熊井急凍烏冬[指定系列]",
+          "price": null,
+          "unit": "230g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "熊井竹輪卷／芝士魚棒",
+          "price": null,
+          "unit": "5件",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "韓國正宗泡菜[指定系列]",
+          "price": null,
+          "unit": "400g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "維他山水豆腐[指定系列]",
+          "price": null,
+          "unit": "350g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "西班牙芝士[指定系列]",
+          "price": null,
+          "unit": "110-125g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "芝司樂芝士",
+          "price": null,
+          "unit": "500g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "燕塘鮮奶布丁[指定系列]",
+          "price": null,
+          "unit": "100g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "CP明治乳酪飲品[指定系列]",
+          "price": null,
+          "unit": "135-140g",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "卡士007益生菌乳酪[指定系列]",
+          "price": null,
+          "unit": "969g-1kg",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "維他牛奶飲品[指定系列]",
+          "price": null,
+          "unit": "236ml/946ml",
+          "sku": null,
+          "page": "海報6"
+        },
+        {
+          "name": "Häagen-Dazs雪糕／雪條[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "森永栗子紅豆夾心雪派",
+          "price": null,
+          "unit": "120g",
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "井村屋雪糕[指定系列]",
+          "price": null,
+          "unit": "單支",
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "固力果Papico青提雪條",
+          "price": null,
+          "unit": "2×80ml",
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "大山乳業夾心雪糕[指定系列]",
+          "price": null,
+          "unit": "單支",
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "森永雪糕條家庭裝[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "明治煉乳雪糕條家庭裝[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "井村屋／森永雪糕家庭裝",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "井村屋菠蘿／抹茶紅豆雪米糍",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "雀巢KitKat／Oreo雪糕多件裝[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "雀巢Drumstick甜筒多件裝[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "雀巢紅豆／綠豆豆乳雪糕多件裝",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "雀巢家庭裝雪糕[指定系列]",
+          "price": null,
+          "unit": "1L",
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "Dreyer's雪糕[指定系列]",
+          "price": null,
+          "unit": "750ml",
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "Dreyer's扭紋甜筒多件裝[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "Dreyer's雪糕條多件裝[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "Dreyer's D-Collection杯裝／盒裝[指定系列]",
+          "price": null,
+          "unit": null,
+          "sku": null,
+          "page": "海報7"
+        },
+        {
+          "name": "路易十三干邑",
+          "price": null,
+          "unit": "70cl",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "軒尼詩百樂廷干邑",
+          "price": null,
+          "unit": "70cl",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "軒尼詩XO干邑",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "軒尼詩VSOP干邑",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "軒尼詩James干邑",
+          "price": null,
+          "unit": "1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "馬爹利XO干邑",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "馬爹利藍帶干邑",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "馬爹利名仕干邑",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "馬爹利VSOP干邑",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "人頭馬VSOP干邑",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "人頭馬XO干邑",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "卡慕XO干邑",
+          "price": null,
+          "unit": "1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "拿破崙VSOP干邑",
+          "price": null,
+          "unit": "75cl",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "麥卡倫12年雙桶／雪莉桶威士忌",
+          "price": null,
+          "unit": "70cl",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "麥卡倫15年雙桶威士忌",
+          "price": null,
+          "unit": "70cl",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "麥卡倫盈鑽威士忌",
+          "price": null,
+          "unit": "70cl",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "Johnnie Walker藍牌威士忌",
+          "price": null,
+          "unit": "70cl/1L",
+          "sku": null,
+          "page": "海報8"
+        },
+        {
+          "name": "Johnnie Walker黑牌威士忌",
+          "price": null,
+          "unit": "1L",
+          "sku": null,
+          "page": "海報8"
+        }
+      ],
+      "ocrNote": "tesseract chi_tra+eng 全頁＋圖面核對；價錢美術字→null；品名可入清單；圖為準。海報1為消費券海報，只錄類別／活動。"
     }
   ]
 }
