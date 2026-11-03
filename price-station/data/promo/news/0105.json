@@ -1,0 +1,20 @@
+{
+  "scode": "0105",
+  "name_cn": "百佳",
+  "status": "no_stable_entry",
+  "sourceUrl": null,
+  "entryUrlsTried": [
+    "https://www.pns.hk/",
+    "https://www.pns.hk/zh-hk/promotions",
+    "https://www.pns.hk/zh-hk/offers",
+    "https://www.parkshop.com/"
+  ],
+  "mirroredAt": "2026-11-03T10:25:37+08:00",
+  "items": [],
+  "notes": [
+    "筆電探測：pns.hk /promotions、/offers 回 404；主站為香港電商 SPA／MoneyBack App 導向",
+    "未找到澳門百佳公開、穩定、免登入嘅「最新優惠海報／消息」列表 API 或靜態頁",
+    "FB／App 需登入或不穩定，按 brief 跳過硬登",
+    "結論：暫無穩定公開入口可鏡像"
+  ]
+}

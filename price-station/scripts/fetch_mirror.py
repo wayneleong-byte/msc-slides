@@ -847,7 +847,7 @@ def _flatten_special_name(name: Any) -> Tuple[str, Optional[Dict[str, Any]]]:
 
 
 def _links_from_special_blob(blob: Any) -> List[Dict[str, Any]]:
-    """由 category name 物件或 get_category_pdf data 抽 PDF／nss URL（唔下載檔）。"""
+    """由 category name 物件或 get_category_pdf data 抽 PDF／nss URL。"""
     links: List[Dict[str, Any]] = []
     seen = set()
     report_base = "http://api03.consumer.gov.mo/export/sp/report/"
@@ -942,12 +942,292 @@ def parse_special_categories(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
     return out
 
 
+def _nss_url_from_links(links: List[Dict[str, Any]]) -> Optional[str]:
+    for lk in links or []:
+        u = (lk or {}).get("url") or ""
+        if not isinstance(u, str):
+            continue
+        if "/app/nss/" in u:
+            # ensure lang=cn
+            if "lang=" not in u:
+                u = u + ("&" if "?" in u else "?") + "lang=cn"
+            elif "lang=" in u and "lang=cn" not in u and re.search(r"lang=(?:&|$)", u):
+                u = u.replace("lang=", "lang=cn")
+            return u
+    return None
+
+
+def _region_label(entity: Dict[str, Any], freg_map: Dict[str, str]) -> str:
+    tags = entity.get("tag_groups") or []
+    for t in tags:
+        if isinstance(t, str) and t in freg_map:
+            return freg_map[t]
+    for t in tags:
+        if isinstance(t, str) and t.startswith("freg_"):
+            return t
+    return ""
+
+
+def _normalize_price_rows(
+    item: Dict[str, Any],
+    rows: List[Dict[str, Any]],
+    freg_map: Dict[str, str],
+) -> List[Dict[str, Any]]:
+    out: List[Dict[str, Any]] = []
+    item_oid = item.get("oid")
+    item_name = item.get("name_cn") or item.get("name") or ""
+    qty = item.get("quantity_cn") or item.get("quantity") or ""
+    for r in rows or []:
+        if not isinstance(r, dict):
+            continue
+        ent = r.get("entity") if isinstance(r.get("entity"), dict) else {}
+        price = r.get("price")
+        out.append({
+            "itemOid": item_oid,
+            "itemName": item_name,
+            "quantity": qty,
+            "price": str(price) if price is not None else "",
+            "flag": r.get("flag") or "",
+            "storeOid": ent.get("oid") or r.get("sid") or r.get("osid"),
+            "storeName": ent.get("name_cn") or ent.get("name") or "",
+            "address": ent.get("address_cn") or ent.get("address") or "",
+            "region": _region_label(ent, freg_map),
+            "phone": ent.get("phone") or "",
+        })
+    return out
+
+
+def fetch_nss_price_table(
+    nss_url: str,
+    sleep: float = 0.6,
+) -> Dict[str, Any]:
+    """從 nss 頁 pageProps + /app/nss/api/ss/price_by_item 組表格式價。
+
+    Schema（回傳 dict）：
+      mode: \"table\"
+      nss: {url, page, ss_cat, did, sdate}
+      items: [{oid, name_cn, quantity_cn, minPrice, priceCount}]
+      prices: [{itemOid, itemName, quantity, price, storeName, address, region, flag}]
+      types / regions: 原始輔助清單（可空）
+    """
+    html = http_get(nss_url).decode("utf-8", errors="replace")
+    pp = page_props_from_html(html)
+    items_raw = [x for x in (pp.get("ds_items") or []) if isinstance(x, dict)]
+    types_raw = [x for x in (pp.get("ds_types") or []) if isinstance(x, dict)]
+    fregs = pp.get("ds_fregs") or pp.get("ds_regions") or []
+    freg_map: Dict[str, str] = {}
+    for f in fregs:
+        if not isinstance(f, dict):
+            continue
+        code = f.get("name") or (f"freg_{f.get('code')}" if f.get("code") is not None else None)
+        label = f.get("desp_cn") or f.get("desp") or f.get("mark") or ""
+        if code:
+            freg_map[str(code)] = str(label)
+            # also map freg_N from code
+            if f.get("code") is not None:
+                freg_map[f"freg_{f.get('code')}"] = str(label)
+
+    sdate_obj = pp.get("sdate") if isinstance(pp.get("sdate"), dict) else None
+    did = sdate_obj.get("oid") if sdate_obj else None
+    sdate = ""
+    if sdate_obj:
+        sdate = str(sdate_obj.get("date") or "")[:10]
+
+    ss_cat = pp.get("ss_cat_tag") or pp.get("cat") or ""
+    if not ss_cat and isinstance(pp.get("ss_cat"), dict):
+        ss_cat = pp["ss_cat"].get("name") or pp["ss_cat"].get("code") or ""
+
+    page_name = "unknown"
+    if "/main_typecat_cosa" in nss_url:
+        page_name = "main_typecat_cosa"
+    elif "/main_typecat_baby" in nss_url:
+        page_name = "main_typecat_baby"
+    elif "/main_typecat" in nss_url:
+        page_name = "main_typecat"
+    elif "/main_type" in nss_url:
+        page_name = "main_type"
+
+    prices: List[Dict[str, Any]] = []
+    items_out: List[Dict[str, Any]] = []
+    for it in items_raw:
+        oid = it.get("oid")
+        if oid is None:
+            continue
+        qs = {"item": str(oid)}
+        if did is not None:
+            qs["did"] = str(did)
+        api = f"{BASE}/app/nss/api/ss/price_by_item?{urlencode(qs)}"
+        try:
+            payload = http_get_json(api)
+            rows = payload.get("data") if isinstance(payload, dict) else None
+            if not isinstance(rows, list):
+                rows = []
+        except Exception as e:
+            log_fail(f"nss price_by_item item={oid}: {e}")
+            rows = []
+        norm = _normalize_price_rows(it, rows, freg_map)
+        prices.extend(norm)
+        nums = []
+        for n in norm:
+            try:
+                nums.append(float(n["price"]))
+            except (TypeError, ValueError):
+                pass
+        items_out.append({
+            "oid": oid,
+            "name_cn": it.get("name_cn") or it.get("name") or "",
+            "name_en": it.get("name_en") or "",
+            "quantity_cn": it.get("quantity_cn") or "",
+            "minPrice": f"{min(nums):g}" if nums else "",
+            "maxPrice": f"{max(nums):g}" if nums else "",
+            "priceCount": len(norm),
+        })
+        time.sleep(sleep)
+
+    # Optional brand/type low-price summary (baby / typecat)
+    type_summaries: List[Dict[str, Any]] = []
+    if types_raw and ss_cat:
+        for t in types_raw:
+            tname = t.get("name")
+            if not tname:
+                continue
+            qs = {"cat": str(ss_cat), "type": str(tname)}
+            if did is not None:
+                qs["did"] = str(did)
+            # baby uses low_price_by_type; chicken main_type uses price_by_type
+            for endpoint in ("low_price_by_type", "price_by_type"):
+                api = f"{BASE}/app/nss/api/ss/{endpoint}?{urlencode(qs)}"
+                try:
+                    payload = http_get_json(api)
+                    data = payload.get("data") if isinstance(payload, dict) else None
+                    if isinstance(data, list) and data:
+                        type_summaries.append({
+                            "endpoint": endpoint,
+                            "type": tname,
+                            "typeLabel": t.get("desp_cn") or t.get("mark") or tname,
+                            "rows": data[:80],  # keep raw sample; UI mainly uses prices[]
+                            "count": len(data),
+                        })
+                        break
+                except Exception as e:
+                    log_fail(f"nss {endpoint} type={tname}: {e}")
+            time.sleep(max(0.2, sleep * 0.5))
+
+    mode = "table" if prices or items_out else "none"
+    return {
+        "mode": mode,
+        "nss": {
+            "url": nss_url,
+            "page": page_name,
+            "ss_cat": ss_cat,
+            "did": did,
+            "sdate": sdate,
+        },
+        "items": items_out,
+        "prices": prices,
+        "types": [
+            {
+                "code": t.get("code"),
+                "name": t.get("name"),
+                "label": t.get("desp_cn") or t.get("mark") or "",
+            }
+            for t in types_raw
+        ],
+        "regions": [
+            {
+                "code": f.get("code"),
+                "name": f.get("name"),
+                "label": f.get("desp_cn") or f.get("desp") or f.get("mark") or "",
+            }
+            for f in fregs if isinstance(f, dict)
+        ],
+        "typeSummaries": [
+            {"type": ts["type"], "typeLabel": ts["typeLabel"], "endpoint": ts["endpoint"], "count": ts["count"]}
+            for ts in type_summaries
+        ],
+        "priceCount": len(prices),
+        "itemCount": len(items_out),
+    }
+
+
+def _is_pdf_link(lk: Dict[str, Any]) -> bool:
+    url = (lk or {}).get("url") or ""
+    typ = str((lk or {}).get("type") or "")
+    if not isinstance(url, str) or not url:
+        return False
+    if re.search(r"\.pdf($|\?)", url, re.I):
+        return True
+    if typ in ("pdf", "report", "report_en", "report_pt") or "report" in typ:
+        return True
+    return False
+
+
+def download_special_pdfs(
+    coid: Any,
+    links: List[Dict[str, Any]],
+    pdf_dir: Path,
+) -> List[Dict[str, Any]]:
+    """下載 PDF 到 data/special/pdfs/；失敗記 httpStatus／error，唔假造。"""
+    pdf_dir.mkdir(parents=True, exist_ok=True)
+    out: List[Dict[str, Any]] = []
+    seen = set()
+    for lk in links or []:
+        if not _is_pdf_link(lk):
+            continue
+        url = lk["url"]
+        if url in seen:
+            continue
+        seen.add(url)
+        typ = str(lk.get("type") or "pdf")
+        # local filename
+        leaf = url.rstrip("/").split("/")[-1].split("?")[0] or f"{coid}-{typ}.pdf"
+        if not leaf.lower().endswith(".pdf"):
+            leaf = f"{coid}-{typ}.pdf"
+        safe = re.sub(r"[^A-Za-z0-9._-]+", "_", leaf)
+        local_name = f"{coid}-{typ}-{safe}"
+        if not local_name.lower().endswith(".pdf"):
+            local_name += ".pdf"
+        dest = pdf_dir / local_name
+        rel = f"data/special/pdfs/{local_name}"
+        entry: Dict[str, Any] = {
+            "name": lk.get("name") or typ,
+            "type": typ,
+            "url": url,
+            "localPath": None,
+            "httpStatus": None,
+        }
+        try:
+            raw = http_get(url, timeout=120)
+            # basic PDF magic
+            if not (raw.startswith(b"%PDF") or len(raw) > 1000):
+                entry["httpStatus"] = 200
+                entry["error"] = "response not PDF magic / too small"
+                entry["bytes"] = len(raw)
+            else:
+                dest.write_bytes(raw)
+                entry["localPath"] = rel
+                entry["httpStatus"] = 200
+                entry["bytes"] = len(raw)
+                print(f"wrote {rel} ({len(raw)} bytes)")
+        except HTTPError as e:
+            entry["httpStatus"] = e.code
+            entry["error"] = f"HTTP {e.code}"
+            log_fail(f"special pdf coid={coid} {url}: HTTP {e.code}")
+        except Exception as e:
+            entry["error"] = str(e)
+            log_fail(f"special pdf coid={coid} {url}: {e}")
+        out.append(entry)
+    return out
+
+
 def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
-    """專項物價：special/main categories → get_category_pdf（只記 URL／metadata）。"""
+    """專項物價：special/main → get_category_pdf →（B）nss 價表／（A）本地下載 PDF。"""
     special_dir = DATA / "special"
     detail_dir = special_dir / "detail"
+    pdf_dir = special_dir / "pdfs"
     special_dir.mkdir(parents=True, exist_ok=True)
     detail_dir.mkdir(parents=True, exist_ok=True)
+    pdf_dir.mkdir(parents=True, exist_ok=True)
 
     html = http_get(f"{BASE}/app/special/main?lang=cn").decode("utf-8", errors="replace")
     pp = page_props_from_html(html)
@@ -958,10 +1238,14 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
         "stub": False,
         "source": "special/main pageProps.categories",
         "categories": categories,
+        "schemaNote": (
+            "detail/{coid}.json：mode=table|pdf|none；"
+            "table 用 items[]+prices[]（來源 nss price_by_item）；"
+            "pdf 用 pdfs[].localPath 同源 embed"
+        ),
     }
     write_json(special_dir / "categories.json", cats_out)
 
-    # compat top-level special_categories.json (old publish_category shape)
     compat = {
         "mirroredAt": now_iso(),
         "source": "derived from special/main categories",
@@ -977,36 +1261,38 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
     write_json(DATA / "special_categories.json", compat)
 
     ok = 0
+    mode_counts = {"table": 0, "pdf": 0, "none": 0}
     for i, cat in enumerate(categories):
         coid = cat["coid"]
         date = cat.get("date") or ""
         print(f"[special {i+1}/{len(categories)}] coid={coid} {cat.get('name')} date={date}")
         qs = urlencode({"coid": str(coid), "date": str(date)})
         url = f"{BASE}/app/special/api/sp/get_category_pdf?{qs}"
-        # seed links from category nameObj (SSR already has PDF／nss URLs)
         links: List[Dict[str, Any]] = list(cat.get("links") or [])
         seen_urls = {lk.get("url") for lk in links if isinstance(lk, dict)}
         sdate = date
         raw_payload: Any = None
+        notes: List[str] = []
+        table_blob: Optional[Dict[str, Any]] = None
+        pdfs: List[Dict[str, Any]] = []
+        mode = "none"
+
         try:
             raw_bytes = http_get(url)
-            # try JSON first
             try:
                 raw_payload = json.loads(raw_bytes.decode("utf-8"))
             except (UnicodeDecodeError, json.JSONDecodeError):
-                # PDF binary — do not store; only record request URL
                 raw_payload = None
                 if url not in seen_urls:
                     links.append({
                         "type": "pdf",
                         "url": url,
                         "name": "PDF",
-                        "note": "response was non-JSON (likely PDF); not downloaded",
+                        "note": "response was non-JSON (likely PDF)",
                     })
                     seen_urls.add(url)
             if isinstance(raw_payload, dict):
                 data_obj = raw_payload.get("data")
-                # real shape: {success, data: {link, report, category, sdate}, error}
                 if isinstance(data_obj, dict):
                     for lk in _links_from_special_blob(data_obj):
                         if lk["url"] not in seen_urls:
@@ -1022,58 +1308,87 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
                         if lk["url"] not in seen_urls:
                             links.append(lk)
                             seen_urls.add(lk["url"])
-                    data_list = _as_list(raw_payload)
-                    for row in data_list:
-                        if not isinstance(row, dict):
-                            continue
-                        for lk in _links_from_special_blob(row):
-                            if lk["url"] not in seen_urls:
-                                links.append(lk)
-                                seen_urls.add(lk["url"])
-                    sd = raw_payload.get("sdate") or raw_payload.get("date")
-                    if isinstance(sd, dict):
-                        sdate = sd.get("date") or sd.get("sdate") or sdate
-                    elif sd:
-                        sdate = str(sd)
-            detail = {
-                "coid": coid,
-                "name": cat.get("name_cn") or cat.get("name"),
-                "name_cn": cat.get("name_cn") or cat.get("name"),
-                "name_zh": cat.get("name_zh") or cat.get("name_cn") or cat.get("name"),
-                "date": date,
-                "sdate": sdate,
-                "links": links,
-                "mirroredAt": now_iso(),
-                "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
-                "apiUrl": url,
-                "rawKeys": list(raw_payload.keys()) if isinstance(raw_payload, dict) else [],
-                "rawSuccess": (raw_payload.get("success") if isinstance(raw_payload, dict) else None),
-            }
-            if cat.get("nameObj"):
-                detail["nameObj"] = cat["nameObj"]
-            write_json(detail_dir / f"{coid}.json", detail)
-            ok += 1
+                    if raw_payload.get("success") == -1 or data_obj is None:
+                        notes.append("get_category_pdf success=-1／無 data")
         except Exception as e:
-            log_fail(f"special detail {coid}: {e}")
-            write_json(detail_dir / f"{coid}.json", {
-                "coid": coid,
-                "name": cat.get("name_cn") or cat.get("name"),
-                "name_cn": cat.get("name_cn") or cat.get("name"),
-                "date": date,
-                "sdate": sdate,
-                "links": links,
-                "error": str(e),
-                "mirroredAt": now_iso(),
-                "apiUrl": url,
-            })
+            log_fail(f"special get_category_pdf {coid}: {e}")
+            notes.append(f"get_category_pdf error: {e}")
+
+        # --- B: nss tabular prices ---
+        nss_url = _nss_url_from_links(links)
+        if nss_url:
+            try:
+                print(f"  nss table ← {nss_url}")
+                table_blob = fetch_nss_price_table(nss_url, sleep=sleep)
+                if table_blob.get("priceCount"):
+                    mode = "table"
+                    if table_blob.get("nss", {}).get("sdate"):
+                        sdate = table_blob["nss"]["sdate"] or sdate
+                else:
+                    notes.append("nss 頁有開但 price_by_item 無列")
+            except Exception as e:
+                log_fail(f"special nss table {coid}: {e}")
+                notes.append(f"nss table error: {e}")
+                traceback.print_exc()
+
+        # --- A: download PDFs (even if table succeeded, keep local copies when available) ---
+        pdfs = download_special_pdfs(coid, links, pdf_dir)
+        local_pdfs = [p for p in pdfs if p.get("localPath")]
+        if mode != "table":
+            if local_pdfs:
+                mode = "pdf"
+            elif pdfs:
+                notes.append("PDF 連結存在但下載失敗（多數官方 export 404）")
+            elif not nss_url:
+                notes.append("無 nss 連結、無 PDF 連結")
+
+        mode_counts[mode] = mode_counts.get(mode, 0) + 1
+
+        detail: Dict[str, Any] = {
+            "coid": coid,
+            "name": cat.get("name_cn") or cat.get("name"),
+            "name_cn": cat.get("name_cn") or cat.get("name"),
+            "name_zh": cat.get("name_zh") or cat.get("name_cn") or cat.get("name"),
+            "date": date,
+            "sdate": sdate,
+            "spe_type": cat.get("spe_type"),
+            "mode": mode,
+            "links": links,
+            "pdfs": pdfs,
+            "mirroredAt": now_iso(),
+            "source": (
+                "nss price_by_item + get_category_pdf"
+                if mode == "table"
+                else ("local PDF" if mode == "pdf" else "get_category_pdf metadata only")
+            ),
+            "apiUrl": url,
+            "rawKeys": list(raw_payload.keys()) if isinstance(raw_payload, dict) else [],
+            "rawSuccess": (raw_payload.get("success") if isinstance(raw_payload, dict) else None),
+            "notes": notes,
+        }
+        if cat.get("nameObj"):
+            detail["nameObj"] = cat["nameObj"]
+        if table_blob:
+            detail["nss"] = table_blob.get("nss")
+            detail["items"] = table_blob.get("items") or []
+            detail["prices"] = table_blob.get("prices") or []
+            detail["types"] = table_blob.get("types") or []
+            detail["regions"] = table_blob.get("regions") or []
+            detail["typeSummaries"] = table_blob.get("typeSummaries") or []
+            detail["priceCount"] = table_blob.get("priceCount") or 0
+            detail["itemCount"] = table_blob.get("itemCount") or 0
+
+        write_json(detail_dir / f"{coid}.json", detail)
+        ok += 1
         time.sleep(sleep)
 
     update_meta(
         special=f"{ok}/{len(categories)} 分類",
         specialCategories=len(categories),
         specialDetailsOk=ok,
+        specialModes=mode_counts,
     )
-    print(f"special done: categories={len(categories)} ok={ok}")
+    print(f"special done: categories={len(categories)} ok={ok} modes={mode_counts}")
     return cats_out
 
 

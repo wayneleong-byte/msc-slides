@@ -139,6 +139,72 @@
       return out;
     }
 
+    function renderPriceTable(d) {
+      const items = d.items || [];
+      const prices = d.prices || [];
+      let html = '';
+      if (items.length) {
+        html += '<h3 style="margin:12px 0 8px;font-size:1rem;">品項一覽（最低／最高）</h3>';
+        html += '<div style="overflow:auto"><table class="store-table"><thead><tr>' +
+          '<th>品名</th><th>規格</th><th>最低</th><th>最高</th><th>報價數</th></tr></thead><tbody>';
+        items.forEach((it) => {
+          html += '<tr><td>' + MPS.escapeHtml(it.name_cn || '') + '</td>' +
+            '<td>' + MPS.escapeHtml(it.quantity_cn || '') + '</td>' +
+            '<td>' + MPS.escapeHtml(it.minPrice || '—') + '</td>' +
+            '<td>' + MPS.escapeHtml(it.maxPrice || '—') + '</td>' +
+            '<td>' + MPS.escapeHtml(String(it.priceCount != null ? it.priceCount : '')) + '</td></tr>';
+        });
+        html += '</tbody></table></div>';
+      }
+      if (prices.length) {
+        html += '<h3 style="margin:16px 0 8px;font-size:1rem;">分店價目（' + prices.length + ' 筆）</h3>';
+        html += '<p class="meta-line">來源：官方 nss <code>price_by_item</code> 鏡像；點欄位可瀏覽全部。</p>';
+        html += '<div style="overflow:auto;max-height:480px"><table class="store-table" id="special-price-table"><thead><tr>' +
+          '<th>品名</th><th>價格</th><th>店舖</th><th>堂區／區</th><th>地址</th></tr></thead><tbody>';
+        // show all rows; browser can scroll
+        prices.forEach((p) => {
+          html += '<tr><td>' + MPS.escapeHtml((p.itemName || '') + (p.quantity ? ' ' + p.quantity : '')) + '</td>' +
+            '<td><strong>' + MPS.escapeHtml(p.price || '') + '</strong>' +
+            (p.flag ? ' <span class="badge">' + MPS.escapeHtml(p.flag) + '</span>' : '') + '</td>' +
+            '<td>' + MPS.escapeHtml(p.storeName || '') + '</td>' +
+            '<td>' + MPS.escapeHtml(p.region || '') + '</td>' +
+            '<td>' + MPS.escapeHtml(p.address || '') + '</td></tr>';
+        });
+        html += '</tbody></table></div>';
+      }
+      if (!items.length && !prices.length) {
+        html += '<p class="empty">未有表格式價目。</p>';
+      }
+      return html;
+    }
+
+    function renderLocalPdfs(d) {
+      const pdfs = (d.pdfs || []).filter((p) => p && p.localPath);
+      if (!pdfs.length) return '';
+      let html = '<h3 style="margin:16px 0 8px;font-size:1rem;">本站 PDF</h3>';
+      pdfs.forEach((p) => {
+        const src = p.localPath;
+        html += '<p class="meta-line">' + MPS.escapeHtml(p.name || 'PDF') +
+          ' · <a href="' + MPS.escapeHtml(src) + '">下載／開啟</a></p>';
+        html += '<iframe class="special-pdf-frame" title="' + MPS.escapeHtml(p.name || 'PDF') +
+          '" src="' + MPS.escapeHtml(src) + '#view=FitH" loading="lazy"></iframe>';
+      });
+      return html;
+    }
+
+    function renderFailedPdfs(d) {
+      const failed = (d.pdfs || []).filter((p) => p && !p.localPath);
+      if (!failed.length) return '';
+      let html = '<p class="meta-line">官方 PDF 連結未能下載：</p><ul class="list">';
+      failed.forEach((p) => {
+        html += '<li><div><div class="title">' + MPS.escapeHtml(p.name || p.type || 'PDF') + '</div>' +
+          '<div class="qty">' + MPS.escapeHtml((p.error || ('HTTP ' + (p.httpStatus || '?'))) + ' · ' + (p.url || '')) +
+          '</div></div></li>';
+      });
+      html += '</ul>';
+      return html;
+    }
+
     async function openDetail(cat) {
       const card = document.getElementById('detail-card');
       const body = document.getElementById('detail-body');
@@ -153,44 +219,56 @@
         const d = await MPS.loadJSON(path);
         const detailName = pickCatName(d) || d.name_cn || cat.name;
         title.textContent = detailName;
+        const mode = d.mode || '';
         metaEl.innerHTML =
           MPS.wrapUpdateHtml('分類日期', d.date || cat.date || '') +
           (d.sdate ? ' · ' + MPS.wrapUpdateHtml('sdate', d.sdate) : '') +
+          (mode ? ' · <span class="badge">' + MPS.escapeHtml(mode) + '</span>' : '') +
+          (d.priceCount != null ? ' · ' + d.priceCount + ' 筆價' : '') +
           (d.stub ? ' · <span class="badge muted">stub</span>' : '');
-        const nameObj = (d.name && typeof d.name === 'object') ? d.name
-          : (d.nameObj || cat.nameObj || null);
-        const links = mergeLinks(d.links, cat.links, linksFromNameObj(nameObj));
-        if (!links.length) {
-          body.innerHTML = '<p class="empty">此分類暫無公開 PDF／nss 報告連結（官方 get_category_pdf 亦無 data）。</p>';
-          body.innerHTML += '<p class="meta-line">可到官方專項頁查看：' +
-            '<a href="https://consumer-api03.dsedt.gov.mo/app/special/main?lang=cn" target="_blank" rel="noopener">special/main</a></p>';
-          if (d.apiUrl) {
-            body.innerHTML += '<p class="meta-line">鏡像 API：<a href="' + MPS.escapeHtml(d.apiUrl) + '" target="_blank" rel="noopener">' +
-              MPS.escapeHtml(d.apiUrl) + '</a></p>';
+
+        let html = '';
+        if (mode === 'table' || (d.prices && d.prices.length) || (d.items && d.items.length)) {
+          html += renderPriceTable(d);
+          html += renderLocalPdfs(d);
+        } else if (mode === 'pdf' || (d.pdfs || []).some((p) => p && p.localPath)) {
+          html += renderLocalPdfs(d);
+          html += renderFailedPdfs(d);
+        } else {
+          // fallback: show notes + failed pdfs + no external jump preference
+          const notes = d.notes || [];
+          if (notes.length) {
+            html += '<p class="empty">' + MPS.escapeHtml(notes.join('；')) + '</p>';
+          } else {
+            html += '<p class="empty">此分類暫無表格式價目，亦無已下載嘅本站 PDF。</p>';
           }
-          return;
+          html += renderFailedPdfs(d);
+          const nameObj = (d.name && typeof d.name === 'object') ? d.name
+            : (d.nameObj || cat.nameObj || null);
+          const links = mergeLinks(d.links, cat.links, linksFromNameObj(nameObj)).filter((lk) => {
+            const u = (lk && lk.url) || '';
+            // keep nss as same-tab optional reference without forcing blank
+            return u && !/\.pdf($|\?)/i.test(u);
+          });
+          if (links.length) {
+            html += '<p class="meta-line">參考（同源優先；以下為官方 nss／頁面）：</p><ul class="list">';
+            links.forEach((lk) => {
+              html += '<li><div><div class="title">' + MPS.escapeHtml(lk.name || lk.type || '連結') + '</div>' +
+                '<div class="qty">' + MPS.escapeHtml(lk.url || '') + '</div></div>' +
+                '<a class="btn secondary" href="' + MPS.escapeHtml(lk.url) + '">開啟</a></li>';
+            });
+            html += '</ul>';
+          }
         }
-        let html = '<ul class="list">';
-        links.forEach((lk) => {
-          const url = lk.url || '';
-          const isPdf = /\.pdf($|\?)/i.test(url) || (lk.type || '').indexOf('report') >= 0 || (lk.type || '') === 'pdf';
-          html += '<li><div><div class="title">' + MPS.escapeHtml(lk.name || lk.type || (isPdf ? 'PDF 報告' : '官方連結')) + '</div>' +
-            '<div class="qty">' + MPS.escapeHtml(lk.note || (isPdf ? '官方 PDF（本站只記 URL，唔下載）' : '官方頁面／nss')) + '</div></div>' +
-            (url ? '<a class="btn secondary" href="' + MPS.escapeHtml(url) + '" target="_blank" rel="noopener">' +
-              (isPdf ? '開 PDF' : '開啟') + '</a>' : '') +
-            '</li>';
-        });
-        html += '</ul>';
         body.innerHTML = html;
       } catch (e) {
-        // 明細檔唔齊時，仍用分類自帶 links
         const links = mergeLinks(cat.links, linksFromNameObj(cat.nameObj));
         if (links.length) {
           let html = '<ul class="list">';
           links.forEach((lk) => {
             const url = lk.url || '';
             html += '<li><div><div class="title">' + MPS.escapeHtml(lk.name || lk.type || '連結') + '</div></div>' +
-              (url ? '<a class="btn secondary" href="' + MPS.escapeHtml(url) + '" target="_blank" rel="noopener">開啟</a>' : '') +
+              (url ? '<a class="btn secondary" href="' + MPS.escapeHtml(url) + '">開啟</a>' : '') +
               '</li>';
           });
           html += '</ul>';

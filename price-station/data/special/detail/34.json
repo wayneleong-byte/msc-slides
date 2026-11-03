@@ -5,6 +5,8 @@
   "name_zh": "新鮮豬肉(公斤)",
   "date": "2026-10-27",
   "sdate": "2026-10-27",
+  "spe_type": "2",
+  "mode": "none",
   "links": [
     {
       "type": "link",
@@ -22,8 +24,34 @@
       "name": "Relatório PT"
     }
   ],
-  "mirroredAt": "2026-11-03T09:18:58+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "pdfs": [
+    {
+      "name": "中文報告／頁面",
+      "type": "link",
+      "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987055414.pdf",
+      "localPath": null,
+      "httpStatus": null,
+      "error": "404 Client Error: Not Found for url: https://api03.consumer.gov.mo/export/sp/report/F_1656987055414.pdf"
+    },
+    {
+      "name": "English report",
+      "type": "link_en",
+      "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987067066.pdf",
+      "localPath": null,
+      "httpStatus": null,
+      "error": "404 Client Error: Not Found for url: https://api03.consumer.gov.mo/export/sp/report/F_1656987067066.pdf"
+    },
+    {
+      "name": "Relatório PT",
+      "type": "link_pt",
+      "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987080627.pdf",
+      "localPath": null,
+      "httpStatus": null,
+      "error": "404 Client Error: Not Found for url: https://api03.consumer.gov.mo/export/sp/report/F_1656987080627.pdf"
+    }
+  ],
+  "mirroredAt": "2026-11-03T10:26:00+08:00",
+  "source": "get_category_pdf metadata only",
   "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=34&date=2026-10-27",
   "rawKeys": [
     "success",
@@ -31,6 +59,9 @@
     "error"
   ],
   "rawSuccess": 1,
+  "notes": [
+    "PDF 連結存在但下載失敗（多數官方 export 404）"
+  ],
   "nameObj": {
     "id": 50,
     "oid": 34,

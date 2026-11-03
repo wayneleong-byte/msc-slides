@@ -37,6 +37,12 @@
       <p class="meta-line" id="price-meta"></p>
       <div id="price-body"></div>
     </div>
+    <div class="card" id="news-card">
+      <h2>最新消息 <span class="badge muted">試探</span></h2>
+      <p class="meta-line" id="news-meta">載入中…</p>
+      <div id="news-body"></div>
+      <p class="empty" id="news-hint">超市官方「最新消息／海報」多數非長期公開頁；有樣本先顯示，無則列原因。主優惠價仍係上方品類價表。</p>
+    </div>
   </main>
   <footer class="site-footer" id="site-footer"></footer>
   <script src="app.js"></script>
@@ -187,7 +193,65 @@
       }
     }
 
-    Promise.all([MPS.loadMeta(), MPS.loadJSON('data/promo/index.json').catch(() => null)])
+
+    function statusLabel(st) {
+      const map = {
+        ok: '可讀',
+        empty: '入口空',
+        no_stable_entry: '無穩定入口',
+        login_required: '需登入',
+        broken_assets: '有列表但圖壞／過時'
+      };
+      return map[st] || st || '—';
+    }
+
+    async function loadPromoNews() {
+      const metaEl = document.getElementById('news-meta');
+      const body = document.getElementById('news-body');
+      try {
+        const idx = await MPS.loadJSON('data/promo/news/index.json');
+        metaEl.innerHTML = MPS.wrapUpdateHtml('試探鏡像', idx.mirroredAt || '') +
+          ' · ' + ((idx.stores || []).length) + ' 店樣本';
+        const stores = idx.stores || [];
+        if (!stores.length) {
+          body.innerHTML = '<p class="empty">未有 news 樣本。</p>';
+          return;
+        }
+        let html = '<ul class="list">';
+        for (const st of stores) {
+          let detail = null;
+          try {
+            detail = await MPS.loadJSON(st.file || ('data/promo/news/' + st.scode + '.json'));
+          } catch (_) {}
+          const items = (detail && detail.items) || [];
+          html += '<li><div><div class="title">' + MPS.escapeHtml(st.name_cn || st.scode) +
+            ' <span class="badge">' + MPS.escapeHtml(statusLabel(st.status || (detail && detail.status))) + '</span></div>';
+          if (detail && detail.notes && detail.notes.length) {
+            html += '<div class="qty">' + MPS.escapeHtml(detail.notes[0]) + '</div>';
+          } else if (st.status === 'no_stable_entry') {
+            html += '<div class="qty">未找到免登入、穩定公開嘅海報／消息列表</div>';
+          }
+          if (items.length) {
+            html += '<div class="qty" style="margin-top:6px">';
+            items.slice(0, 3).forEach((it) => {
+              html += '· ' + MPS.escapeHtml(it.title || ('#' + (it.id || ''))) +
+                (it.publishedAt ? '（' + MPS.escapeHtml(it.publishedAt) + '）' : '') +
+                (it.imageStatus && it.imageStatus !== 'ok' ? ' · 圖：' + MPS.escapeHtml(it.imageStatus) : '') +
+                '<br/>';
+            });
+            html += '</div>';
+          }
+          html += '</div></li>';
+        }
+        html += '</ul>';
+        body.innerHTML = html;
+      } catch (e) {
+        metaEl.textContent = '未有 data/promo/news/index.json';
+        body.innerHTML = '<p class="empty">試探檔未就緒。見 <code>docs/promo-news-probe.md</code>。</p>';
+      }
+    }
+
+        Promise.all([MPS.loadMeta(), MPS.loadJSON('data/promo/index.json').catch(() => null)])
       .then(([meta, idx]) => {
         if (!idx) {
           document.getElementById('promo-meta').textContent = '未有 data/promo/index.json';
@@ -202,6 +266,7 @@
         bits.push((idx.stores || []).length + ' 店');
         document.getElementById('promo-meta').innerHTML = bits.join(' · ');
         renderStores();
+        loadPromoNews();
         MPS.fillFooter(meta, [MPS.wrapUpdateHtml('優惠鏡像', idx.mirroredAt || '')]);
       });
   </script>

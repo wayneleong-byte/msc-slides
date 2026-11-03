@@ -5,6 +5,8 @@
   "name_zh": "冰鮮雞",
   "date": "2026-10-12",
   "sdate": "2026-10-12",
+  "spe_type": "3",
+  "mode": "table",
   "links": [
     {
       "type": "link",
@@ -12,8 +14,9 @@
       "name": "中文報告／頁面"
     }
   ],
-  "mirroredAt": "2026-11-03T09:19:09+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "pdfs": [],
+  "mirroredAt": "2026-11-03T10:26:16+08:00",
+  "source": "nss price_by_item + get_category_pdf",
   "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=38&date=2026-10-12",
   "rawKeys": [
     "success",
@@ -21,6 +24,7 @@
     "error"
   ],
   "rawSuccess": 1,
+  "notes": [],
   "nameObj": {
     "id": 44,
     "oid": 38,
@@ -43,5 +47,524 @@
     "updated_at": "2026-10-08 15:55:37",
     "published_at": null,
     "_id": 44
-  }
+  },
+  "nss": {
+    "url": "https://consumer-api03.dsedt.gov.mo/app/nss/main_type?pftype=api03_v01&plt=app&cat=ss_cat_0038&lang=cn",
+    "page": "main_type",
+    "ss_cat": "ss_cat_0038",
+    "did": null,
+    "sdate": ""
+  },
+  "items": [
+    {
+      "oid": 813,
+      "name_cn": "正雞清遠雞",
+      "name_en": "Jeng Premium Chicken - Qingyuan chicken",
+      "quantity_cn": "1隻",
+      "minPrice": "59",
+      "maxPrice": "70",
+      "priceCount": 14
+    },
+    {
+      "oid": 814,
+      "name_cn": "粵維先麻黃老母雞",
+      "name_en": "Yue Wei Xian-\"Mahuang\" old hen",
+      "quantity_cn": "1隻",
+      "minPrice": "65",
+      "maxPrice": "78",
+      "priceCount": 10
+    },
+    {
+      "oid": 815,
+      "name_cn": "維先桂花雞",
+      "name_en": "Wei Xian - osmanthus frangranced chicken",
+      "quantity_cn": "1隻",
+      "minPrice": "88",
+      "maxPrice": "90",
+      "priceCount": 3
+    }
+  ],
+  "prices": [
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "65.0",
+      "flag": "",
+      "storeOid": 535,
+      "storeName": "泰豐超級市場 (貨倉街店)",
+      "address": "澳門下環貨倉街群安大廈地下",
+      "region": "望德風順大堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "69.9",
+      "flag": "",
+      "storeOid": 538,
+      "storeName": "來來超級市場 (民安新村店）",
+      "address": "澳門黑沙環祐漢市場街326-330號民安新村地下",
+      "region": "花地瑪堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "69.9",
+      "flag": "",
+      "storeOid": 525,
+      "storeName": "高瑪生活百貨 (氹仔柯維納馬路店)",
+      "address": "澳門氹仔柯維納馬路200-212號樂駿盈軒地下",
+      "region": "路氹區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "69.9",
+      "flag": "",
+      "storeOid": 522,
+      "storeName": "來來超級市場 (石排灣店）",
+      "address": "澳門路環業興二街12-36號業興大廈地下A座",
+      "region": "路氹區",
+      "phone": "28765438"
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "69.9",
+      "flag": "",
+      "storeOid": 521,
+      "storeName": "來來超級市場 (氹仔金利達店）",
+      "address": "澳門氹仔佛山街104-184號金利達花園地下R,S,T 及U舖",
+      "region": "路氹區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "59.0",
+      "flag": "",
+      "storeOid": 534,
+      "storeName": "新花城超級市場 (打鐵斜巷店)",
+      "address": "澳門三層樓上街1-1A號華龍大廈地下A舖",
+      "region": "望德風順大堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "65.0",
+      "flag": "",
+      "storeOid": 529,
+      "storeName": "泰豐超級市場 (氹仔南京街店)",
+      "address": "澳門氹仔南京街204-208號威翠花園地下K舖",
+      "region": "路氹區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "59.0",
+      "flag": "",
+      "storeOid": 537,
+      "storeName": "新花城超級市場 (信託花園店)",
+      "address": "澳門永安街34-38號信託花園地下AU-AT座",
+      "region": "花地瑪堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "59.0",
+      "flag": "",
+      "storeOid": 526,
+      "storeName": "新花城超級市場 (氹仔海怡花園店)",
+      "address": "澳門氹仔拉哥斯街55-63號海怡花園地下A,B,C舖",
+      "region": "路氹區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "65.0",
+      "flag": "",
+      "storeOid": 523,
+      "storeName": "百佳超級市場 (氹仔花城店)",
+      "address": "澳門氹仔埃武拉街40地段花城南業中心地下",
+      "region": "路氹區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "59.8",
+      "flag": "",
+      "storeOid": 539,
+      "storeName": "成昌超級市場 (圓台街店)",
+      "address": "澳門圓台街晉海（商業）地下H鋪",
+      "region": "花地瑪堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "59.0",
+      "flag": "",
+      "storeOid": 592,
+      "storeName": "新花城超級市場 (高士德店)",
+      "address": "澳門高地烏街27-A號金鑾閣地下及閣樓A座",
+      "region": "花王堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "70.0",
+      "flag": "",
+      "storeOid": 549,
+      "storeName": "大順行凍肉食品有限公司 (金海豪園店)",
+      "address": "澳門道咩卑利士街13B號",
+      "region": "花王堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 813,
+      "itemName": "正雞清遠雞",
+      "quantity": "1隻",
+      "price": "60.0",
+      "flag": "",
+      "storeOid": 551,
+      "storeName": "錢媽媽生鮮蔬果超級市場 (羅白沙街店)",
+      "address": "澳門羅白沙街43號地下",
+      "region": "花王堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "78.0",
+      "flag": "",
+      "storeOid": 522,
+      "storeName": "來來超級市場 (石排灣店）",
+      "address": "澳門路環業興二街12-36號業興大廈地下A座",
+      "region": "路氹區",
+      "phone": "28765438"
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "69.8",
+      "flag": "",
+      "storeOid": 539,
+      "storeName": "成昌超級市場 (圓台街店)",
+      "address": "澳門圓台街晉海（商業）地下H鋪",
+      "region": "花地瑪堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "75.0",
+      "flag": "",
+      "storeOid": 523,
+      "storeName": "百佳超級市場 (氹仔花城店)",
+      "address": "澳門氹仔埃武拉街40地段花城南業中心地下",
+      "region": "路氹區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "75.0",
+      "flag": "",
+      "storeOid": 535,
+      "storeName": "泰豐超級市場 (貨倉街店)",
+      "address": "澳門下環貨倉街群安大廈地下",
+      "region": "望德風順大堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "65.0",
+      "flag": "",
+      "storeOid": 551,
+      "storeName": "錢媽媽生鮮蔬果超級市場 (羅白沙街店)",
+      "address": "澳門羅白沙街43號地下",
+      "region": "花王堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "78.0",
+      "flag": "",
+      "storeOid": 534,
+      "storeName": "新花城超級市場 (打鐵斜巷店)",
+      "address": "澳門三層樓上街1-1A號華龍大廈地下A舖",
+      "region": "望德風順大堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "75.0",
+      "flag": "",
+      "storeOid": 526,
+      "storeName": "新花城超級市場 (氹仔海怡花園店)",
+      "address": "澳門氹仔拉哥斯街55-63號海怡花園地下A,B,C舖",
+      "region": "路氹區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "75.0",
+      "flag": "",
+      "storeOid": 537,
+      "storeName": "新花城超級市場 (信託花園店)",
+      "address": "澳門永安街34-38號信託花園地下AU-AT座",
+      "region": "花地瑪堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "75.0",
+      "flag": "",
+      "storeOid": 592,
+      "storeName": "新花城超級市場 (高士德店)",
+      "address": "澳門高地烏街27-A號金鑾閣地下及閣樓A座",
+      "region": "花王堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 814,
+      "itemName": "粵維先麻黃老母雞",
+      "quantity": "1隻",
+      "price": "70.0",
+      "flag": "",
+      "storeOid": 549,
+      "storeName": "大順行凍肉食品有限公司 (金海豪園店)",
+      "address": "澳門道咩卑利士街13B號",
+      "region": "花王堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 815,
+      "itemName": "維先桂花雞",
+      "quantity": "1隻",
+      "price": "90.0",
+      "flag": "",
+      "storeOid": 523,
+      "storeName": "百佳超級市場 (氹仔花城店)",
+      "address": "澳門氹仔埃武拉街40地段花城南業中心地下",
+      "region": "路氹區",
+      "phone": ""
+    },
+    {
+      "itemOid": 815,
+      "itemName": "維先桂花雞",
+      "quantity": "1隻",
+      "price": "88.0",
+      "flag": "",
+      "storeOid": 539,
+      "storeName": "成昌超級市場 (圓台街店)",
+      "address": "澳門圓台街晉海（商業）地下H鋪",
+      "region": "花地瑪堂區",
+      "phone": ""
+    },
+    {
+      "itemOid": 815,
+      "itemName": "維先桂花雞",
+      "quantity": "1隻",
+      "price": "90.0",
+      "flag": "",
+      "storeOid": 529,
+      "storeName": "泰豐超級市場 (氹仔南京街店)",
+      "address": "澳門氹仔南京街204-208號威翠花園地下K舖",
+      "region": "路氹區",
+      "phone": ""
+    }
+  ],
+  "types": [
+    {
+      "code": "0004",
+      "name": "ss_type_0004",
+      "label": "清遠雞"
+    },
+    {
+      "code": "0002",
+      "name": "ss_type_0002",
+      "label": "鬍鬚雞"
+    },
+    {
+      "code": "0007",
+      "name": "ss_type_0007",
+      "label": "老雞"
+    },
+    {
+      "code": "0008",
+      "name": "ss_type_0008",
+      "label": "文昌雞"
+    },
+    {
+      "code": "0001",
+      "name": "ss_type_0001",
+      "label": "土麻雞"
+    },
+    {
+      "code": "0009",
+      "name": "ss_type_0009",
+      "label": "走地雞"
+    },
+    {
+      "code": "0003",
+      "name": "ss_type_0003",
+      "label": "三黃雞"
+    },
+    {
+      "code": "0006",
+      "name": "ss_type_0006",
+      "label": "龍崗雞"
+    },
+    {
+      "code": "0005",
+      "name": "ss_type_0005",
+      "label": "桂花雞"
+    }
+  ],
+  "regions": [
+    {
+      "code": "6",
+      "name": "freg_6",
+      "label": "區6"
+    },
+    {
+      "code": "5",
+      "name": "freg_5",
+      "label": "路氹區"
+    },
+    {
+      "code": "3",
+      "name": "freg_3",
+      "label": "望德、風順堂區、大堂區"
+    },
+    {
+      "code": "2",
+      "name": "freg_2",
+      "label": "花王堂區"
+    },
+    {
+      "code": "1",
+      "name": "freg_1",
+      "label": "花地瑪堂區"
+    },
+    {
+      "code": "0101",
+      "name": "ss_rg_0101",
+      "label": "花王堂區"
+    },
+    {
+      "code": "0103",
+      "name": "ss_rg_0103",
+      "label": "望德風順大堂區"
+    },
+    {
+      "code": "0104",
+      "name": "ss_rg_0104",
+      "label": "路氹區"
+    },
+    {
+      "code": "0102",
+      "name": "ss_rg_0102",
+      "label": "花地瑪堂區"
+    },
+    {
+      "code": null,
+      "name": "ss_rg_0000",
+      "label": "全澳"
+    }
+  ],
+  "typeSummaries": [
+    {
+      "type": "ss_type_0004",
+      "typeLabel": "清遠雞",
+      "endpoint": "low_price_by_type",
+      "count": 4
+    },
+    {
+      "type": "ss_type_0002",
+      "typeLabel": "鬍鬚雞",
+      "endpoint": "low_price_by_type",
+      "count": 3
+    },
+    {
+      "type": "ss_type_0007",
+      "typeLabel": "老雞",
+      "endpoint": "low_price_by_type",
+      "count": 2
+    },
+    {
+      "type": "ss_type_0008",
+      "typeLabel": "文昌雞",
+      "endpoint": "low_price_by_type",
+      "count": 1
+    },
+    {
+      "type": "ss_type_0001",
+      "typeLabel": "土麻雞",
+      "endpoint": "low_price_by_type",
+      "count": 2
+    },
+    {
+      "type": "ss_type_0009",
+      "typeLabel": "走地雞",
+      "endpoint": "low_price_by_type",
+      "count": 2
+    },
+    {
+      "type": "ss_type_0003",
+      "typeLabel": "三黃雞",
+      "endpoint": "low_price_by_type",
+      "count": 2
+    },
+    {
+      "type": "ss_type_0006",
+      "typeLabel": "龍崗雞",
+      "endpoint": "low_price_by_type",
+      "count": 1
+    },
+    {
+      "type": "ss_type_0005",
+      "typeLabel": "桂花雞",
+      "endpoint": "low_price_by_type",
+      "count": 1
+    }
+  ],
+  "priceCount": 27,
+  "itemCount": 3
 }

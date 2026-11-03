@@ -5,9 +5,12 @@
   "name_zh": "嬰兒奶粉",
   "date": "2026-10-16",
   "sdate": "2026-10-16",
+  "spe_type": "0",
+  "mode": "none",
   "links": [],
-  "mirroredAt": "2026-11-03T09:19:03+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "pdfs": [],
+  "mirroredAt": "2026-11-03T10:26:09+08:00",
+  "source": "get_category_pdf metadata only",
   "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=16&date=2026-10-16",
   "rawKeys": [
     "success",
@@ -15,6 +18,10 @@
     "error"
   ],
   "rawSuccess": -1,
+  "notes": [
+    "get_category_pdf success=-1／無 data",
+    "無 nss 連結、無 PDF 連結"
+  ],
   "nameObj": {
     "id": 42,
     "oid": 16,
