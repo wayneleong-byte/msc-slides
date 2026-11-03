@@ -19,7 +19,8 @@
       "trophic": "producer",
       "blurb_l1": "闊葉喬木，靠陽光製造養分，是林冠層重要生產者。",
       "blurb_l2": "落葉季節改變光與落葉輸入；堅果亦是松鼠等的資源。",
-      "image": "assets/temperate_forest/oak.png"
+      "image": "assets/temperate_forest/oak.png",
+      "avatar": "assets/temperate_forest/avatars/oak.png"
     },
     {
       "id": "pine",
@@ -28,7 +29,8 @@
       "trophic": "producer",
       "blurb_l1": "常綠針葉喬木，全年可進行光合作用。",
       "blurb_l2": "與櫟等競爭光與空間；針葉落葉較慢分解。",
-      "image": "assets/temperate_forest/pine.png"
+      "image": "assets/temperate_forest/pine.png",
+      "avatar": "assets/temperate_forest/avatars/pine.png"
     },
     {
       "id": "birch",
@@ -37,7 +39,8 @@
       "trophic": "producer",
       "blurb_l1": "較耐貧瘠的先驅闊葉樹，常出現在林緣或干擾後。",
       "blurb_l2": "生長快、壽命相對短；可示範演替早期喬木。",
-      "image": "assets/temperate_forest/birch.png"
+      "image": "assets/temperate_forest/birch.png",
+      "avatar": "assets/temperate_forest/avatars/birch.png"
     },
     {
       "id": "understory_herb",
@@ -46,7 +49,8 @@
       "trophic": "producer",
       "blurb_l1": "林下較矮的草本與漿果植物，利用透射光。",
       "blurb_l2": "為兔、鹿等提供嫩葉與果實；光競爭受喬木季節落葉影響。",
-      "image": "assets/temperate_forest/understory_herb.png"
+      "image": "assets/temperate_forest/understory_herb.png",
+      "avatar": "assets/temperate_forest/avatars/understory_herb.png"
     },
     {
       "id": "deer",
@@ -55,7 +59,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "以嫩枝、葉與部分果實為食的大型草食動物。",
       "blurb_l2": "與兔爭用林下植物；體型大，較少被中型捕食者獵殺成體。",
-      "image": "assets/temperate_forest/deer.png"
+      "image": "assets/temperate_forest/deer.png",
+      "avatar": "assets/temperate_forest/avatars/deer.png"
     },
     {
       "id": "hare",
@@ -64,7 +69,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "吃草本與嫩枝的中小型草食動物。",
       "blurb_l2": "繁殖快；是狐與貓頭鷹的重要獵物。",
-      "image": "assets/temperate_forest/hare.png"
+      "image": "assets/temperate_forest/hare.png",
+      "avatar": "assets/temperate_forest/avatars/hare.png"
     },
     {
       "id": "squirrel",
@@ -73,7 +79,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "取食堅果、種子與部分嫩芽的樹棲哺乳類。",
       "blurb_l2": "埋藏堅果可助植物散布（偏利／互利邊界，教學上可作散布示意）。",
-      "image": "assets/temperate_forest/squirrel.png"
+      "image": "assets/temperate_forest/squirrel.png",
+      "avatar": "assets/temperate_forest/avatars/squirrel.png"
     },
     {
       "id": "woodpecker",
@@ -82,7 +89,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "啄食樹幹中昆蟲與幼蟲的鳥類。",
       "blurb_l2": "依賴枯立木與樹皮縫隙；亦可取部分種子。",
-      "image": "assets/temperate_forest/woodpecker.png"
+      "image": "assets/temperate_forest/woodpecker.png",
+      "avatar": "assets/temperate_forest/avatars/woodpecker.png"
     },
     {
       "id": "fox",
@@ -91,7 +99,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "捕食兔、齧齒類等的中型肉食動物。",
       "blurb_l2": "與貓頭鷹在獵物上可有競爭；亦偶取腐食。",
-      "image": "assets/temperate_forest/fox.png"
+      "image": "assets/temperate_forest/fox.png",
+      "avatar": "assets/temperate_forest/avatars/fox.png"
     },
     {
       "id": "owl",
@@ -100,7 +109,8 @@
       "trophic": "apex_consumer",
       "blurb_l1": "夜間捕食小型哺乳動物的猛禽（教學近頂級）。",
       "blurb_l2": "以聽覺與靜音飛行捕獵；成體少有天敵。",
-      "image": "assets/temperate_forest/owl.png"
+      "image": "assets/temperate_forest/owl.png",
+      "avatar": "assets/temperate_forest/avatars/owl.png"
     },
     {
       "id": "bark_beetle",
@@ -109,7 +119,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "在樹皮下取食韌皮部的小型昆蟲。",
       "blurb_l2": "可削弱樹木；是啄木鳥的獵物，亦可示範寄生／致病相關簡化。",
-      "image": "assets/temperate_forest/bark_beetle.png"
+      "image": "assets/temperate_forest/bark_beetle.png",
+      "avatar": "assets/temperate_forest/avatars/bark_beetle.png"
     },
     {
       "id": "earthworm",
@@ -118,7 +129,8 @@
       "trophic": "decomposer",
       "blurb_l1": "在土壤中吞食有機碎屑並改善土壤結構。",
       "blurb_l2": "加速落葉分解與養分循環，是溫帶林碎屑鏈代表。",
-      "image": "assets/temperate_forest/earthworm.png"
+      "image": "assets/temperate_forest/earthworm.png",
+      "avatar": "assets/temperate_forest/avatars/earthworm.png"
     },
     {
       "id": "forest_fungi",
@@ -127,7 +139,8 @@
       "trophic": "decomposer",
       "blurb_l1": "分解落葉、枯木，亦有菌根共生類型。",
       "blurb_l2": "腐生者回饋養分；部分與樹根互利（菌根）示意。",
-      "image": "assets/temperate_forest/forest_fungi.png"
+      "image": "assets/temperate_forest/forest_fungi.png",
+      "avatar": "assets/temperate_forest/avatars/forest_fungi.png"
     }
   ],
   "edges": [

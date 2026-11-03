@@ -19,7 +19,8 @@
       "trophic": "producer",
       "blurb_l1": "懸浮於水中的微型藻類，是開敞水域能量入口。",
       "blurb_l2": "產量受光與營養鹽限制；水華為教學警示而非本網模擬重點。",
-      "image": "assets/freshwater_lake/phytoplankton.png"
+      "image": "assets/freshwater_lake/phytoplankton.png",
+      "avatar": "assets/freshwater_lake/avatars/phytoplankton.png"
     },
     {
       "id": "aquatic_plant",
@@ -28,7 +29,8 @@
       "trophic": "producer",
       "blurb_l1": "紮根於淺水帶的大型水生植物。",
       "blurb_l2": "提供棲息結構與碎屑；與浮游植物競爭營養鹽與光。",
-      "image": "assets/freshwater_lake/aquatic_plant.png"
+      "image": "assets/freshwater_lake/aquatic_plant.png",
+      "avatar": "assets/freshwater_lake/avatars/aquatic_plant.png"
     },
     {
       "id": "zooplankton",
@@ -37,7 +39,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "濾食浮游植物的小型浮游動物。",
       "blurb_l2": "連接近水面初級生產與魚類；晝夜垂直遷移可提但不強制。",
-      "image": "assets/freshwater_lake/zooplankton.png"
+      "image": "assets/freshwater_lake/zooplankton.png",
+      "avatar": "assets/freshwater_lake/avatars/zooplankton.png"
     },
     {
       "id": "benthic_invert",
@@ -46,7 +49,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "湖底取食碎屑與藻類的無脊椎動物（如搖蚊幼蟲示意）。",
       "blurb_l2": "碎屑鏈與底棲食物網的關鍵；受溶氧影響大。",
-      "image": "assets/freshwater_lake/benthic_invert.png"
+      "image": "assets/freshwater_lake/benthic_invert.png",
+      "avatar": "assets/freshwater_lake/avatars/benthic_invert.png"
     },
     {
       "id": "snail_lake",
@@ -55,7 +59,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "刮食附生藻與取食部分水草／碎屑的螺類。",
       "blurb_l2": "淺水帶常見；可被魚與水鳥取食。",
-      "image": "assets/freshwater_lake/snail_lake.png"
+      "image": "assets/freshwater_lake/snail_lake.png",
+      "avatar": "assets/freshwater_lake/avatars/snail_lake.png"
     },
     {
       "id": "omnivore_fish",
@@ -64,7 +69,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "既吃浮游動物、底棲生物，也取植物碎屑的魚類。",
       "blurb_l2": "能量途徑廣；與肉食魚競爭避難空間與部分獵物。",
-      "image": "assets/freshwater_lake/omnivore_fish.png"
+      "image": "assets/freshwater_lake/omnivore_fish.png",
+      "avatar": "assets/freshwater_lake/avatars/omnivore_fish.png"
     },
     {
       "id": "piscivore_fish",
@@ -73,7 +79,8 @@
       "trophic": "apex_consumer",
       "blurb_l1": "以其他魚類為主食的掠食魚（教學近頂級）。",
       "blurb_l2": "控制雜食魚密度的示意；成體少水生天敵。",
-      "image": "assets/freshwater_lake/piscivore_fish.png"
+      "image": "assets/freshwater_lake/piscivore_fish.png",
+      "avatar": "assets/freshwater_lake/avatars/piscivore_fish.png"
     },
     {
       "id": "waterbird",
@@ -82,7 +89,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "在淺水取食魚、無脊椎或水草的鳥類。",
       "blurb_l2": "連結水陸界面；種類食性差異大，本節點為教學概括。",
-      "image": "assets/freshwater_lake/waterbird.png"
+      "image": "assets/freshwater_lake/waterbird.png",
+      "avatar": "assets/freshwater_lake/avatars/waterbird.png"
     },
     {
       "id": "amphipod",
@@ -91,7 +99,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "取食碎屑與附生藻的小型甲殼類。",
       "blurb_l2": "底棲碎屑鏈一員；是雜食魚的常見獵物。",
-      "image": "assets/freshwater_lake/amphipod.png"
+      "image": "assets/freshwater_lake/amphipod.png",
+      "avatar": "assets/freshwater_lake/avatars/amphipod.png"
     },
     {
       "id": "lake_fungi",
@@ -100,7 +109,8 @@
       "trophic": "decomposer",
       "blurb_l1": "分解沉水植物殘體與有機碎屑的微生物示意。",
       "blurb_l2": "封閉／半封閉水域養分再生的關鍵；缺氧時分解途徑改變（不展開）。",
-      "image": "assets/freshwater_lake/lake_fungi.png"
+      "image": "assets/freshwater_lake/lake_fungi.png",
+      "avatar": "assets/freshwater_lake/avatars/lake_fungi.png"
     },
     {
       "id": "fish_parasite",
@@ -109,7 +119,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "依附魚體取食組織或體液的寄生生物示意。",
       "blurb_l2": "典型寄生：受益且通常不立即殺死宿主；教學與捕食區分。",
-      "image": "assets/freshwater_lake/fish_parasite.png"
+      "image": "assets/freshwater_lake/fish_parasite.png",
+      "avatar": "assets/freshwater_lake/avatars/fish_parasite.png"
     }
   ],
   "edges": [

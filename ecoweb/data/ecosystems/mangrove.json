@@ -19,7 +19,8 @@
       "trophic": "producer",
       "blurb_l1": "具支柱根的木本植物，能耐鹽並固岸。",
       "blurb_l2": "落葉與根系碎屑是碎屑鏈主入口；支柱根提供微生境。",
-      "image": "assets/mangrove/red_mangrove.png"
+      "image": "assets/mangrove/red_mangrove.png",
+      "avatar": "assets/mangrove/avatars/red_mangrove.png"
     },
     {
       "id": "mangrove_algae",
@@ -28,7 +29,8 @@
       "trophic": "producer",
       "blurb_l1": "附著在根與泥表的藻類，進行光合作用。",
       "blurb_l2": "潮間帶光強與暴露時間影響產量；補充活體初級生產。",
-      "image": "assets/mangrove/mangrove_algae.png"
+      "image": "assets/mangrove/mangrove_algae.png",
+      "avatar": "assets/mangrove/avatars/mangrove_algae.png"
     },
     {
       "id": "fiddler_crab",
@@ -37,7 +39,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "在泥灘取食有機碎屑與藻類的蟹類。",
       "blurb_l2": "挖穴改變沉積物；雄蟹巨螯用於展示（行為示意）。",
-      "image": "assets/mangrove/fiddler_crab.png"
+      "image": "assets/mangrove/fiddler_crab.png",
+      "avatar": "assets/mangrove/avatars/fiddler_crab.png"
     },
     {
       "id": "mudskipper",
@@ -46,7 +49,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "可離水活動的魚類，取食藻類、小型無脊椎與碎屑。",
       "blurb_l2": "示範潮間帶兩棲式生活；與蟹等爭用岸緣資源。",
-      "image": "assets/mangrove/mudskipper.png"
+      "image": "assets/mangrove/mudskipper.png",
+      "avatar": "assets/mangrove/avatars/mudskipper.png"
     },
     {
       "id": "shrimp",
@@ -55,7 +59,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "取食碎屑、藻類與小型有機物的甲殼類。",
       "blurb_l2": "幼體常依賴紅樹林育幼場；是魚與鳥的獵物。",
-      "image": "assets/mangrove/shrimp.png"
+      "image": "assets/mangrove/shrimp.png",
+      "avatar": "assets/mangrove/avatars/shrimp.png"
     },
     {
       "id": "snail",
@@ -64,7 +69,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "刮食藻類與碎屑的腹足類。",
       "blurb_l2": "在根表與泥面移動；連結附生藻與碎屑鏈。",
-      "image": "assets/mangrove/snail.png"
+      "image": "assets/mangrove/snail.png",
+      "avatar": "assets/mangrove/avatars/snail.png"
     },
     {
       "id": "mangrove_fish",
@@ -73,7 +79,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "在紅樹林水道活動的雜食／肉食性魚類。",
       "blurb_l2": "捕食蝦、蟹幼體與小型無脊椎；亦取部分碎屑。",
-      "image": "assets/mangrove/mangrove_fish.png"
+      "image": "assets/mangrove/mangrove_fish.png",
+      "avatar": "assets/mangrove/avatars/mangrove_fish.png"
     },
     {
       "id": "egret",
@@ -82,7 +89,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "涉水捕食魚、蝦、蟹的長腳涉禽。",
       "blurb_l2": "利用退潮淺灘；與翠鳥在獵物上可有時空分工。",
-      "image": "assets/mangrove/egret.png"
+      "image": "assets/mangrove/egret.png",
+      "avatar": "assets/mangrove/avatars/egret.png"
     },
     {
       "id": "kingfisher",
@@ -91,7 +99,8 @@
       "trophic": "apex_consumer",
       "blurb_l1": "俯衝捕魚的翠鳥類（教學近頂級）。",
       "blurb_l2": "依賴清澈水面與棲枝；成鳥少天敵。",
-      "image": "assets/mangrove/kingfisher.png"
+      "image": "assets/mangrove/kingfisher.png",
+      "avatar": "assets/mangrove/avatars/kingfisher.png"
     },
     {
       "id": "barnacle",
@@ -100,7 +109,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "固著在支柱根上濾食浮游有機物的甲殼類。",
       "blurb_l2": "對紅樹大致偏利：藤壺得固著基，樹木通常影響有限（＋／0）。",
-      "image": "assets/mangrove/barnacle.png"
+      "image": "assets/mangrove/barnacle.png",
+      "avatar": "assets/mangrove/avatars/barnacle.png"
     },
     {
       "id": "mangrove_fungi",
@@ -109,7 +119,8 @@
       "trophic": "decomposer",
       "blurb_l1": "分解落葉與木質碎屑的真菌與細菌群落示意。",
       "blurb_l2": "碎屑鏈核心：把難分解的落葉轉化為可被蟹、螺等利用的碎屑。",
-      "image": "assets/mangrove/mangrove_fungi.png"
+      "image": "assets/mangrove/mangrove_fungi.png",
+      "avatar": "assets/mangrove/avatars/mangrove_fungi.png"
     },
     {
       "id": "polychaete",
@@ -118,7 +129,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "在淤泥中取食有機碎屑的蠕蟲類。",
       "blurb_l2": "紅樹林底泥碎屑鏈的重要環節；可被魚、蟹捕食。",
-      "image": "assets/mangrove/polychaete.png"
+      "image": "assets/mangrove/polychaete.png",
+      "avatar": "assets/mangrove/avatars/polychaete.png"
     }
   ],
   "edges": [
