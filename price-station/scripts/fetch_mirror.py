@@ -1220,8 +1220,191 @@ def download_special_pdfs(
     return out
 
 
+
+def _spe_type_str(cat: Dict[str, Any]) -> str:
+    spe = cat.get("spe_type")
+    if spe is None and isinstance(cat.get("nameObj"), dict):
+        spe = cat["nameObj"].get("spe_type")
+    return str(spe).strip() if spe is not None and str(spe).strip() != "" else ""
+
+
+def _normalize_itemlist_item(it: Dict[str, Any]) -> Dict[str, Any]:
+    """itemlist 品項 → 同 nss items[] 相近欄位，兼保留 official lowest_*。"""
+    store = it.get("lowest_price_store") if isinstance(it.get("lowest_price_store"), dict) else None
+    lowest = it.get("lowest_price")
+    min_price = ""
+    if lowest is not None and lowest != "":
+        try:
+            min_price = f"{float(lowest):g}"
+        except (TypeError, ValueError):
+            min_price = str(lowest)
+    out: Dict[str, Any] = {
+        "oid": it.get("oid") if it.get("oid") is not None else it.get("_id") or it.get("id"),
+        "name_cn": (it.get("name_cn") or it.get("name") or "").strip(),
+        "name_en": (it.get("name_en") or "").strip(),
+        "quantity_cn": (it.get("quantity_cn") or "").strip(),
+        "minPrice": min_price,
+        "maxPrice": "",
+        "priceCount": it.get("price_count") if it.get("price_count") is not None else 0,
+        "lowest_price": lowest,
+        "price_count": it.get("price_count"),
+        "rank": it.get("rank"),
+        "image": it.get("image"),
+    }
+    if store:
+        out["lowest_price_store"] = {
+            "oid": store.get("oid") or store.get("_id") or store.get("id"),
+            "name_cn": store.get("name_cn") or store.get("name") or "",
+            "address_cn": store.get("address_cn") or store.get("address") or "",
+            "phone": store.get("phone") or "",
+            "shop_group": store.get("shop_group"),
+        }
+    return out
+
+
+def _normalize_storelist_rows(
+    item: Dict[str, Any],
+    stores: List[Any],
+) -> List[Dict[str, Any]]:
+    """storelist stores[] → 同 nss prices[] 相近列。"""
+    out: List[Dict[str, Any]] = []
+    item_oid = item.get("oid")
+    item_name = item.get("name_cn") or ""
+    qty = item.get("quantity_cn") or ""
+    for row in stores:
+        if not isinstance(row, dict):
+            continue
+        st = row.get("store") if isinstance(row.get("store"), dict) else {}
+        price = row.get("price")
+        price_s = ""
+        if price is not None and price != "":
+            try:
+                price_s = f"{float(price):g}"
+            except (TypeError, ValueError):
+                price_s = str(price)
+        out.append({
+            "itemOid": item_oid,
+            "itemName": item_name,
+            "quantity": qty,
+            "price": price_s,
+            "flag": "",
+            "storeOid": st.get("oid") or st.get("_id") or st.get("id"),
+            "storeName": st.get("name_cn") or st.get("name") or "",
+            "address": st.get("address_cn") or st.get("address") or "",
+            "region": "",
+            "phone": st.get("phone") or "",
+            "priceDate": row.get("price_date") or "",
+            "lastPrice": row.get("last_price"),
+            "lastPriceDate": row.get("last_price_date"),
+        })
+    return out
+
+
+def fetch_special_itemlist(
+    coid: Any,
+    sleep: float = 0.6,
+    storelist_limit: Optional[int] = None,
+) -> Dict[str, Any]:
+    """spe_type 0／2：special/itemlist（必做）＋可選 storelist。
+
+    storelist_limit:
+      None → 每品都拉 storelist
+      0    → 唔拉 storelist（只留 lowest）
+      N>0  → 只拉前 N 品
+    """
+    qs = urlencode({"lang": "cn", "cid": str(coid)})
+    url = f"{BASE}/app/special/itemlist?{qs}"
+    html = http_get(url).decode("utf-8", errors="replace")
+    pp = page_props_from_html(html)
+    if pp.get("error"):
+        raise RuntimeError(f"itemlist error for cid={coid}: {pp.get('error')}")
+    raw_items = [x for x in (pp.get("items") or []) if isinstance(x, dict)]
+    category = pp.get("category") if isinstance(pp.get("category"), dict) else {}
+    items_out = [_normalize_itemlist_item(it) for it in raw_items]
+
+    prices: List[Dict[str, Any]] = []
+    storelist_fetched = 0
+    storelist_skipped = 0
+    if storelist_limit == 0:
+        storelist_skipped = len(items_out)
+    else:
+        limit = len(items_out) if storelist_limit is None else max(0, int(storelist_limit))
+        for idx, it in enumerate(items_out):
+            if idx >= limit:
+                storelist_skipped += 1
+                continue
+            oid = it.get("oid")
+            if oid is None:
+                storelist_skipped += 1
+                continue
+            sqs = urlencode({"item": str(oid), "lang": "cn", "cat": str(coid)})
+            surl = f"{BASE}/app/special/storelist?{sqs}"
+            try:
+                spp = page_props_from_html(
+                    http_get(surl).decode("utf-8", errors="replace")
+                )
+                stores = spp.get("stores") if isinstance(spp, dict) else None
+                if not isinstance(stores, list):
+                    stores = []
+                rows = _normalize_storelist_rows(it, stores)
+                prices.extend(rows)
+                # fill maxPrice from storelist
+                nums: List[float] = []
+                for r in rows:
+                    try:
+                        nums.append(float(r["price"]))
+                    except (TypeError, ValueError, KeyError):
+                        pass
+                if nums:
+                    it["maxPrice"] = f"{max(nums):g}"
+                    if not it.get("minPrice"):
+                        it["minPrice"] = f"{min(nums):g}"
+                    # keep priceCount honest if API said 0 but we have rows
+                    if not it.get("priceCount"):
+                        it["priceCount"] = len(rows)
+                pub = spp.get("publish_date") if isinstance(spp, dict) else None
+                if pub and not it.get("_publish_date"):
+                    it["_publish_date"] = str(pub)[:10]
+                storelist_fetched += 1
+            except Exception as e:
+                log_fail(f"special storelist coid={coid} item={oid}: {e}")
+            time.sleep(sleep)
+
+    # publish_date: prefer storelist, else blank（itemlist pageProps 無統一 sdate）
+    sdate = ""
+    for it in items_out:
+        if it.get("_publish_date"):
+            sdate = it["_publish_date"]
+            break
+    for it in items_out:
+        it.pop("_publish_date", None)
+
+    mode = "itemlist" if items_out else "none"
+    return {
+        "mode": mode,
+        "itemlist": {
+            "url": url,
+            "cid": coid,
+            "categoryOid": category.get("oid"),
+            "spe_type": category.get("spe_type"),
+            "storelistFetched": storelist_fetched,
+            "storelistSkipped": storelist_skipped,
+        },
+        "items": items_out,
+        "prices": prices,
+        "priceCount": len(prices),
+        "itemCount": len(items_out),
+        "sdate": sdate,
+        "category": {
+            "oid": category.get("oid"),
+            "name_cn": category.get("name_cn") or category.get("name") or "",
+            "spe_type": category.get("spe_type"),
+        },
+    }
+
+
 def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
-    """專項物價：special/main → get_category_pdf →（B）nss 價表／（A）本地下載 PDF。"""
+    """專項物價：special/main → get_category_pdf →（B）nss／（itemlist spe0/2）／（A）PDF。"""
     special_dir = DATA / "special"
     detail_dir = special_dir / "detail"
     pdf_dir = special_dir / "pdfs"
@@ -1239,9 +1422,9 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
         "source": "special/main pageProps.categories",
         "categories": categories,
         "schemaNote": (
-            "detail/{coid}.json：mode=table|pdf|none；"
-            "table 用 items[]+prices[]（來源 nss price_by_item）；"
-            "pdf 用 pdfs[].localPath 同源 embed"
+            "detail/{coid}.json：mode=table|itemlist|pdf|none；"
+            "table＝nss price_by_item；itemlist＝special/itemlist(+storelist)；"
+            "pdf 用 pdfs[].localPath 同源 embed；PDF 404 唔阻表"
         ),
     }
     write_json(special_dir / "categories.json", cats_out)
@@ -1261,7 +1444,7 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
     write_json(DATA / "special_categories.json", compat)
 
     ok = 0
-    mode_counts = {"table": 0, "pdf": 0, "none": 0}
+    mode_counts = {"table": 0, "itemlist": 0, "pdf": 0, "none": 0}
     for i, cat in enumerate(categories):
         coid = cat["coid"]
         date = cat.get("date") or ""
@@ -1314,35 +1497,69 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
             log_fail(f"special get_category_pdf {coid}: {e}")
             notes.append(f"get_category_pdf error: {e}")
 
-        # --- B: nss tabular prices ---
+        # --- B: nss tabular prices (spe_type 3) ---
         nss_url = _nss_url_from_links(links)
-        if nss_url:
+        spe = _spe_type_str(cat)
+        itemlist_blob: Optional[Dict[str, Any]] = None
+        if nss_url or spe == "3":
+            if nss_url:
+                try:
+                    print(f"  nss table ← {nss_url}")
+                    table_blob = fetch_nss_price_table(nss_url, sleep=sleep)
+                    if table_blob.get("priceCount") or table_blob.get("itemCount"):
+                        mode = "table"
+                        if table_blob.get("nss", {}).get("sdate"):
+                            sdate = table_blob["nss"]["sdate"] or sdate
+                    else:
+                        notes.append("nss 頁有開但 price_by_item 無列")
+                except Exception as e:
+                    log_fail(f"special nss table {coid}: {e}")
+                    notes.append(f"nss table error: {e}")
+                    traceback.print_exc()
+            elif spe == "3":
+                notes.append("spe_type=3 但無 nss 連結")
+
+        # --- itemlist：spe_type 0／2（或缺表時兜底）---
+        if mode == "none" and spe in ("0", "2"):
             try:
-                print(f"  nss table ← {nss_url}")
-                table_blob = fetch_nss_price_table(nss_url, sleep=sleep)
-                if table_blob.get("priceCount"):
-                    mode = "table"
-                    if table_blob.get("nss", {}).get("sdate"):
-                        sdate = table_blob["nss"]["sdate"] or sdate
+                print(f"  itemlist ← cid={coid} spe_type={spe}")
+                itemlist_blob = fetch_special_itemlist(
+                    coid, sleep=sleep, storelist_limit=None
+                )
+                if itemlist_blob.get("itemCount"):
+                    mode = "itemlist"
+                    if itemlist_blob.get("sdate"):
+                        sdate = itemlist_blob["sdate"] or sdate
                 else:
-                    notes.append("nss 頁有開但 price_by_item 無列")
+                    notes.append("itemlist 頁有開但 items 空")
             except Exception as e:
-                log_fail(f"special nss table {coid}: {e}")
-                notes.append(f"nss table error: {e}")
+                log_fail(f"special itemlist {coid}: {e}")
+                notes.append(f"itemlist error: {e}")
                 traceback.print_exc()
 
-        # --- A: download PDFs (even if table succeeded, keep local copies when available) ---
+        # --- A: download PDFs（404 唔阻已有 table／itemlist）---
         pdfs = download_special_pdfs(coid, links, pdf_dir)
         local_pdfs = [p for p in pdfs if p.get("localPath")]
-        if mode != "table":
+        if mode not in ("table", "itemlist"):
             if local_pdfs:
                 mode = "pdf"
             elif pdfs:
                 notes.append("PDF 連結存在但下載失敗（多數官方 export 404）")
-            elif not nss_url:
-                notes.append("無 nss 連結、無 PDF 連結")
+            elif not nss_url and spe not in ("0", "2"):
+                notes.append("無 nss／itemlist／PDF 可用來源")
+            elif spe in ("0", "2") and mode == "none":
+                notes.append("spe_type 0／2 但 itemlist 失敗，亦無 PDF")
 
         mode_counts[mode] = mode_counts.get(mode, 0) + 1
+
+        if mode == "table":
+            source = "nss price_by_item + get_category_pdf"
+        elif mode == "itemlist":
+            source = "special/itemlist + storelist + get_category_pdf"
+        elif mode == "pdf":
+            source = "local PDF"
+        else:
+            source = "get_category_pdf metadata only"
 
         detail: Dict[str, Any] = {
             "coid": coid,
@@ -1356,11 +1573,7 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
             "links": links,
             "pdfs": pdfs,
             "mirroredAt": now_iso(),
-            "source": (
-                "nss price_by_item + get_category_pdf"
-                if mode == "table"
-                else ("local PDF" if mode == "pdf" else "get_category_pdf metadata only")
-            ),
+            "source": source,
             "apiUrl": url,
             "rawKeys": list(raw_payload.keys()) if isinstance(raw_payload, dict) else [],
             "rawSuccess": (raw_payload.get("success") if isinstance(raw_payload, dict) else None),
@@ -1377,6 +1590,14 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
             detail["typeSummaries"] = table_blob.get("typeSummaries") or []
             detail["priceCount"] = table_blob.get("priceCount") or 0
             detail["itemCount"] = table_blob.get("itemCount") or 0
+        if itemlist_blob:
+            detail["itemlist"] = itemlist_blob.get("itemlist")
+            detail["items"] = itemlist_blob.get("items") or []
+            detail["prices"] = itemlist_blob.get("prices") or []
+            detail["priceCount"] = itemlist_blob.get("priceCount") or 0
+            detail["itemCount"] = itemlist_blob.get("itemCount") or 0
+            if itemlist_blob.get("category"):
+                detail["itemlistCategory"] = itemlist_blob["category"]
 
         write_json(detail_dir / f"{coid}.json", detail)
         ok += 1

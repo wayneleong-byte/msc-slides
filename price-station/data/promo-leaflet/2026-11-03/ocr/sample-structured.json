@@ -1,0 +1,118 @@
+{
+  "generated_at": "2026-11-03T11:25:00+08:00",
+  "timezone": "Asia/Macau",
+  "ocr_engine": "tesseract 5 chi_tra+eng",
+  "note": "P0 trial: product names/units/SKUs partially recoverable from Royal DM; sale prices are stylized graphics and mostly NOT OCR'd. Taifung tf-01 is store-directory/category banner, not a price grid.",
+  "samples": [
+    {
+      "store": "royal",
+      "image": "royal/DM1.jpg",
+      "promo_window_ocr": "2026年11月2日至12月2日",
+      "items": [
+        {
+          "name": "泰國頂上香米",
+          "price": null,
+          "unit": "8+1kg",
+          "sku": "124469/224608/237684",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "熊貓牌鮮味蠔油",
+          "price": null,
+          "unit": "255g",
+          "sku": "6427/38188",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "全蛋麵(排裝/袋裝)",
+          "price": null,
+          "unit": "454g",
+          "sku": "9195/234555",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "燕麥片(即食/快熟)",
+          "price": null,
+          "unit": "800g",
+          "sku": "3626/3624",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "梳打餅(芝麻/奶鹽/香蔥)",
+          "price": null,
+          "unit": "100g",
+          "sku": "14225/14230/14233",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "蝦片(蒜味/蟹味/黑胡椒味)",
+          "price": null,
+          "unit": "82g",
+          "sku": "204183/204184/238897",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "梳打味雜錦汽水",
+          "price": null,
+          "unit": "75g-111g",
+          "sku": "73868/223150/218688",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "檸檬茶(指定款)/維他蘋果綠茶",
+          "price": null,
+          "unit": "250mlx6",
+          "sku": "12181/224211/93479/230610/237256/12189",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "啤酒",
+          "price": null,
+          "unit": "500mlx4",
+          "sku": "168206/1246",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "里奧哈紅酒",
+          "price": null,
+          "unit": "750ml",
+          "sku": "237447",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "拔蘭地",
+          "price": null,
+          "unit": "1L",
+          "sku": "38109",
+          "source_ocr": "chi_tra+eng"
+        },
+        {
+          "name": "全亮白竹碳深潔牙膏",
+          "price": null,
+          "unit": "140g",
+          "sku": "155245",
+          "source_ocr": "chi_tra+eng"
+        }
+      ],
+      "raw_excerpt": "超級市場 ROYAL\nSUPERMARKET\n\n買李錦記蠔油系列產品\n\n大\n\n壽桃牌\n\nROLLER 2 sea     熊貓牌鮮味蠔油                  全蛋麵(排裝/袋裝)                   燕麥片(即食/快熟)\n8+1kg               品健康油酸濃        255g            =       -        454g                                  800g\n#124469/224608/237684     花生食油 200ml            #6427/38188             at 珍珠米 1 kg     #9195/234555                                           #3626/3624\n\nGARLIC\nSHRIMP\n\n維\n\nFINUTE              糖(維他命/護齒/            他         人\n\n梳打餅(芝麻/奶鹽/香闌)              蝦片(款味/蟹味/黑胡椒味)          梳打味雜錦汽水)                       檸檬茶(指定款) 維他蘋果綠茶250mltx6\n100g                                        82g                                         75g-111g                                 250mIx6\n#14225/14230/14233                                     #204183/204184/238897                  "
+    },
+    {
+      "store": "taifung",
+      "image": "taifung/tf-01-3d343825ddc0b341788865125564879f-800x600.jpg",
+      "items": [],
+      "phones_ocr": [
+        "2831 0133",
+        "2893 0312",
+        "2883 9199",
+        "2852 5008",
+        "2882 8250",
+        "2881 1551",
+        "2843 7196",
+        "2842 5359",
+        "2885 0161"
+      ],
+      "category_hint_ocr": "茶飲‧果汁‧運動飲料",
+      "raw_excerpt": "a            aed          2        ST    .     a         =\nire ee\nADE AR       + 生國 ie\nla Te) ae\n\ny      fe: t     紅          oh 33\n\n吃 Ta     a. VARY ag.          . AE\n\na) Bl eg 8. 茶飲‧果汁‧運動飲料\n\n區一                      os           >.\n%        :     =           a         es      _\n“J      oi ot 講 aD  清爽每一刻\n中     二\n—st           : A                 ERIS\n\n泰豐超級市場各分店地址及電話:\n\n澳門鏡湖馬路79-81地下                      澳門下環貨倉街30號群安大廈地下K座\n\n電話 / Tel: 2831 0133                                        電話 / Tel: 2893 0312\n\n澳門外港友誼大馬路回力地下A1店                澳門亞利鴉架街3C-3D號輝芯導地下A座\n\n電話 / Tel: 2883 9199                                         電話 / Tel: 2852 5008\n\nPTR F Bw ew IE 183-207 53            莎仔南京街204-208號威翠花園地下K座\n\n電話 / Tel: 2882 8250                                        電話 / Tel: 2881 1551\n\nAPIO ER 71-7A ABABA"
+    }
+  ]
+}

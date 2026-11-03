@@ -1,5 +1,5 @@
 {
-  "mirroredAt": "2026-11-03T10:26:17+08:00",
+  "mirroredAt": "2026-11-03T11:28:45+08:00",
   "timezone": "Asia/Macau",
   "sourceNote": "澳門特別行政區政府／消費者委員會「澳門物價情報站」公開資料（Open Data／公開 API 鏡像）；本站非官方；資料僅供參考。",
   "coverage": {
@@ -8,8 +8,9 @@
     "specialDetailsOk": 8,
     "specialModes": {
       "table": 3,
+      "itemlist": 5,
       "pdf": 0,
-      "none": 5
+      "none": 0
     }
   }
 }

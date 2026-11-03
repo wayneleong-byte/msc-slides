@@ -1,5 +1,5 @@
 {
-  "mirroredAt": "2026-11-03T10:25:55+08:00",
+  "mirroredAt": "2026-11-03T11:26:42+08:00",
   "stub": false,
   "source": "special/main pageProps.categories",
   "categories": [
@@ -318,5 +318,5 @@
       }
     }
   ],
-  "schemaNote": "detail/{coid}.json：mode=table|pdf|none；table 用 items[]+prices[]（來源 nss price_by_item）；pdf 用 pdfs[].localPath 同源 embed"
+  "schemaNote": "detail/{coid}.json：mode=table|itemlist|pdf|none；table＝nss price_by_item；itemlist＝special/itemlist(+storelist)；pdf 用 pdfs[].localPath 同源 embed；PDF 404 唔阻表"
 }

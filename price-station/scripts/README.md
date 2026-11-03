@@ -21,7 +21,7 @@
 | `--market-veg` | `data/market/detail_veg.json`、`catalog.json` |
 | `--all-search-items` | 對索引內每品逐一拉分店價 |
 | **`--promo --sleep 0.6`** | `data/promo/index.json`、`meta.json`、`stores/{scode}.json`、`prices/{scode}_{gtcode}.json` |
-| **`--special --sleep 0.6`** | `data/special/categories.json`、`detail/{coid}.json`；相容更新頂層 `data/special_categories.json`（PDF 只記 URL） |
+| **`--special --sleep 0.6`** | `data/special/categories.json`、`detail/{coid}.json`（spe_type3＝nss `table`；0／2＝`itemlist`+storelist；PDF 404 唔阻）；相容 `data/special_categories.json` |
 | **`--full --sleep 0.6`** | 超市＋街市 **＋ promo ＋ special**；`meta.coverage=full`；失敗寫 `data/logs/` |
 
 ## 喺 Windows（LAPTOP-7JUE4FNQ）點跑
