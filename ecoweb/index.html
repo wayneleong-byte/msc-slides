@@ -14,6 +14,8 @@
         <p class="disclaimer-inline" id="disclaimerBanner">教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。</p>
       </div>
       <div class="top-actions">
+        <button type="button" id="btnTitle" class="btn ghost">標題／簡介</button>
+        <button type="button" id="btnLoadDemo" class="btn ghost">載入示範網</button>
         <button type="button" id="btnGlossary" class="btn ghost">名詞表</button>
         <button type="button" id="btnQuiz" class="btn primary">通識自評</button>
       </div>
@@ -52,9 +54,21 @@
             <g id="edgesLayer"></g>
             <g id="nodesLayer"></g>
           </svg>
+          <aside class="net-stats" id="netStats" aria-label="網況">
+            <h3>網況</h3>
+            <dl>
+              <div><dt>網內物種</dt><dd id="statSpecies">0</dd></div>
+              <div><dt>目前篩選下連線</dt><dd id="statEdgesVisible">0</dd></div>
+              <div><dt>網內總連線</dt><dd id="statEdgesTotal">0</dd></div>
+              <div><dt>生產者</dt><dd id="statProducers">0</dd></div>
+            </dl>
+          </aside>
           <div id="idleOverlay" class="idle-overlay" hidden>
+            <div class="idle-veil" aria-hidden="true"></div>
             <div class="idle-frost">
-              <p>點一下繼續</p>
+              <div class="idle-glow" aria-hidden="true"></div>
+              <p class="idle-title">輕觸繼續</p>
+              <p class="idle-sub">點一下喚醒畫面 · 底下食物網輪廓仍在</p>
             </div>
           </div>
         </div>
@@ -76,18 +90,31 @@
 
         <section class="card lab-card">
           <div class="lab-head">
-            <h2>實驗室｜自選物種</h2>
+            <h2>實驗室｜物種庫</h2>
             <div class="lab-actions">
-              <button type="button" id="btnSelectAll" class="btn tiny">全選</button>
+              <button type="button" id="btnSelectAll" class="btn tiny">全選入網</button>
               <button type="button" id="btnClearLab" class="btn tiny">清空</button>
-              <button type="button" id="btnResetLab" class="btn tiny">重設</button>
+              <button type="button" id="btnResetLab" class="btn tiny">重設（空網）</button>
             </div>
           </div>
+          <p class="lab-hint">將物種拖入左方草地。亦可點一下加入。</p>
           <p id="labWarn" class="lab-warn" hidden>警告：目前少於 2 個生產者，子網能量入口偏弱（仍可探索）。</p>
           <div id="labList" class="lab-list"></div>
         </section>
       </aside>
     </main>
+  </div>
+
+  <!-- 標題／簡介磨砂層 -->
+  <div id="titleLayer" class="title-layer" hidden>
+    <div class="title-panel" role="dialog" aria-labelledby="titleLayerHeading">
+      <p class="title-kicker">課堂互動 · 熱帶稀樹草原</p>
+      <h2 id="titleLayerHeading">生態網｜熱帶稀樹草原</h2>
+      <p class="title-blurb">把物種拖入草地，觀察能量與互動如何串成食物網。可篩選關係、查看詳情，並用通識自評檢視理解。</p>
+      <p class="title-disclaimer">教學簡化：物種與連線為課堂可見模型，刻意控層級與數量，唔等於真實完整生態系。</p>
+      <button type="button" id="btnStartExplore" class="btn primary title-start">開始探索</button>
+      <p class="title-tip muted tiny">亦可點擊本層空白處開始</p>
+    </div>
   </div>
 
   <!-- 名詞表 -->
@@ -113,6 +140,8 @@
       <div id="quizBody"></div>
     </div>
   </div>
+
+  <div id="dragGhost" class="drag-ghost" hidden></div>
 
   <script src="app.js"></script>
 </body>

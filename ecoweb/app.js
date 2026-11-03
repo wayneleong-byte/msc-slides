@@ -39,8 +39,10 @@
     selectedNodeId: null,
     selectedEdgeKey: null,
     drag: null,
+    labDrag: null,
     idleTimer: null,
     idleOn: false,
+    titleOpen: true,
     quiz: null,
   };
 
@@ -73,13 +75,14 @@
       $("#disclaimerBanner").textContent =
         eco.disclaimer_zh || "教學簡化：物種與連線為課堂可見模型，唔等於真實完整生態。";
       $("#glossaryDisclaimer").textContent = glossary.disclaimer_zh || "";
-      initSelection(true);
+      // R3：預設空網
+      initSelection(false);
       layoutInitial();
       buildStaticUi();
       renderAll();
       $("#mainLayout").hidden = false;
       bindGlobal();
-      bumpIdle();
+      showTitleLayer(true);
     } catch (err) {
       console.error(err);
       showError(`資料載入失敗：${err.message || err}。請用本機 HTTP 伺服器開啟（見 README）。`);
@@ -87,9 +90,7 @@
   }
 
   function initSelection(full) {
-    state.selectedIds = new Set(
-      full ? state.eco.species.map((s) => s.id) : state.selectedIds
-    );
+    state.selectedIds = new Set(full ? state.eco.species.map((s) => s.id) : []);
   }
 
   function speciesById(id) {
@@ -142,6 +143,32 @@
         state.positions.set(s.id, { x: x + jitter * 0.2, y: y + jitter });
       });
     }
+  }
+
+  function ensurePosition(id, prefer) {
+    if (state.positions.has(id) && !prefer) return state.positions.get(id);
+    if (prefer) {
+      state.positions.set(id, prefer);
+      return prefer;
+    }
+    const svg = $("#webSvg");
+    const vb = svg.viewBox.baseVal;
+    const w = vb.width || 900;
+    const h = vb.height || 560;
+    const s = speciesById(id);
+    const bands = {
+      producer: 0.18,
+      primary_consumer: 0.36,
+      secondary_consumer: 0.55,
+      apex_consumer: 0.74,
+      decomposer: 0.88,
+    };
+    const y = (bands[s?.trophic] || 0.5) * h;
+    const existing = [...state.selectedIds].filter((x) => x !== id);
+    const x = ((existing.length % 5) + 1) / 6 * w + ((existing.length % 3) - 1) * 12;
+    const pos = { x: clamp(x, NODE_R + 8, w - NODE_R - 8), y: clamp(y, NODE_R + 8, h - NODE_R - 8) };
+    state.positions.set(id, pos);
+    return pos;
   }
 
   function buildStaticUi() {
@@ -211,36 +238,33 @@
     const list = $("#labList");
     list.innerHTML = "";
     for (const s of state.eco.species) {
-      const label = document.createElement("label");
-      label.className = "lab-item";
-      const checked = state.selectedIds.has(s.id);
+      const row = document.createElement("div");
+      row.className = "lab-item" + (state.selectedIds.has(s.id) ? " in-net" : "");
+      row.dataset.id = s.id;
+      row.setAttribute("draggable", "false");
       const color = TROPHIC[s.trophic]?.color || "#888";
-      label.innerHTML = `
-        <input type="checkbox" data-id="${s.id}" ${checked ? "checked" : ""} />
+      const inNet = state.selectedIds.has(s.id);
+      row.innerHTML = `
         <span class="troph-pip" style="background:${color}"></span>
-        <span>${s.name_zh}</span>
+        <span class="lab-name">${escapeHtml(s.name_zh)}</span>
+        ${inNet ? '<span class="lab-badge">已在網</span>' : '<button type="button" class="lab-alt" data-add="' + s.id + '">或點一下加入</button>'}
       `;
-      list.appendChild(label);
+      row.addEventListener("pointerdown", onLabPointerDown);
+      list.appendChild(row);
     }
-    list.onchange = (ev) => {
-      const input = ev.target;
-      if (input.type !== "checkbox") return;
-      if (input.checked) state.selectedIds.add(input.dataset.id);
-      else state.selectedIds.delete(input.dataset.id);
-      updateLabWarn();
-      renderGraph();
-      if (state.selectedNodeId && !state.selectedIds.has(state.selectedNodeId)) {
-        state.selectedNodeId = null;
-        renderDetail();
-      }
-      bumpIdle();
+    list.onclick = (ev) => {
+      const addBtn = ev.target.closest("[data-add]");
+      if (!addBtn) return;
+      ev.stopPropagation();
+      addSpeciesToNet(addBtn.dataset.add);
     };
     updateLabWarn();
   }
 
   function updateLabWarn() {
     const warn = $("#labWarn");
-    warn.hidden = producerCount() >= 2;
+    const n = state.selectedIds.size;
+    warn.hidden = n === 0 || producerCount() >= 2;
   }
 
   function edgeKey(e) {
@@ -251,6 +275,22 @@
     renderLab();
     renderGraph();
     renderDetail();
+    updateStats();
+  }
+
+  function updateStats() {
+    const speciesN = state.selectedIds.size;
+    const visEdges = visibleEdges().length;
+    const totalEdges = allEdgesAmongSelected().length;
+    const prod = producerCount();
+    const set = (id, v) => {
+      const el = $(id);
+      if (el) el.textContent = String(v);
+    };
+    set("#statSpecies", speciesN);
+    set("#statEdgesVisible", visEdges);
+    set("#statEdgesTotal", totalEdges);
+    set("#statProducers", prod);
   }
 
   function renderGraph() {
@@ -265,7 +305,20 @@
     edgesG.innerHTML = "";
     nodesG.innerHTML = "";
 
-    const visIds = state.selectedIds;
+    // empty hint
+    let hint = wrap.querySelector(".empty-net-hint");
+    if (state.selectedIds.size === 0) {
+      if (!hint) {
+        hint = document.createElement("div");
+        hint.className = "empty-net-hint";
+        hint.innerHTML = "<p>將右側物種拖入草地開始組網</p>";
+        wrap.appendChild(hint);
+      }
+      hint.hidden = false;
+    } else if (hint) {
+      hint.hidden = true;
+    }
+
     const edges = visibleEdges();
     const species = visibleSpecies();
 
@@ -273,105 +326,15 @@
       const a = state.positions.get(e.from);
       const b = state.positions.get(e.to);
       if (!a || !b) continue;
-      const meta = RELATION[e.relation] || RELATION.predation;
-      const { x1, y1, x2, y2 } = shorten(a.x, a.y, b.x, b.y, NODE_R + 2, NODE_R + 2);
-      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      const midX = (x1 + x2) / 2;
-      const midY = (y1 + y2) / 2;
-      const dx = x2 - x1;
-      const dy = y2 - y1;
-      const len = Math.hypot(dx, dy) || 1;
-      const ox = (-dy / len) * 12;
-      const oy = (dx / len) * 12;
-      const cx = midX + ox * 0.35;
-      const cy = midY + oy * 0.35;
-      path.setAttribute("d", `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
-      path.setAttribute("class", "edge-path");
-      path.setAttribute("stroke", cssColor(meta.color));
-      path.dataset.key = edgeKey(e);
-      if (meta.dashed) {
-        path.setAttribute("stroke-dasharray", "5 4");
-        path.removeAttribute("marker-end");
-      } else if (meta.marker) {
-        path.setAttribute("marker-end", meta.marker);
-      }
-      if (state.selectedEdgeKey === edgeKey(e)) path.classList.add("selected");
-      path.addEventListener("click", (ev) => {
-        ev.stopPropagation();
-        state.selectedEdgeKey = edgeKey(e);
-        state.selectedNodeId = null;
-        renderGraph();
-        renderDetail();
-        bumpIdle();
-      });
-      edgesG.appendChild(path);
-
-      if (e.relation === "competition" || meta.sym) {
-        const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        label.setAttribute("class", "edge-label");
-        label.setAttribute("x", cx);
-        label.setAttribute("y", cy - 4);
-        label.setAttribute("text-anchor", "middle");
-        label.textContent = e.relation === "competition" ? "競爭" : meta.sym || meta.zh;
-        edgesG.appendChild(label);
-      }
+      appendEdge(edgesG, e, a, b);
     }
 
     for (const s of species) {
-      const pos = state.positions.get(s.id) || { x: w / 2, y: h / 2 };
-      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.setAttribute("class", "node-g" + (state.selectedNodeId === s.id ? " selected" : ""));
-      g.dataset.id = s.id;
-      g.setAttribute("transform", `translate(${pos.x},${pos.y})`);
-
-      const troph = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      troph.setAttribute("class", "node-troph");
-      troph.setAttribute("r", NODE_R + 4);
-      troph.setAttribute("fill", cssColor(TROPHIC[s.trophic]?.color || "#888"));
-      troph.setAttribute("opacity", "0.35");
-      g.appendChild(troph);
-
-      const body = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      body.setAttribute("class", "node-body");
-      body.setAttribute("r", NODE_R);
-      g.appendChild(body);
-
-      // geometric placeholder (images may 404)
-      const ph = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-      ph.setAttribute("class", "node-placeholder");
-      ph.setAttribute("x", -16);
-      ph.setAttribute("y", -18);
-      ph.setAttribute("width", 32);
-      ph.setAttribute("height", 20);
-      ph.setAttribute("rx", 4);
-      g.appendChild(ph);
-
-      const initial = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      initial.setAttribute("class", "node-placeholder-text");
-      initial.setAttribute("y", -4);
-      initial.textContent = (s.name_zh || "?").slice(0, 2);
-      g.appendChild(initial);
-
-      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      label.setAttribute("class", "node-label");
-      label.setAttribute("y", 22);
-      label.textContent = shortName(s.name_zh);
-      g.appendChild(label);
-
-      g.addEventListener("pointerdown", onNodeDown);
-      g.addEventListener("click", (ev) => {
-        if (state.drag && state.drag.moved) return;
-        ev.stopPropagation();
-        state.selectedNodeId = s.id;
-        state.selectedEdgeKey = null;
-        renderGraph();
-        renderDetail();
-        bumpIdle();
-      });
+      const pos = state.positions.get(s.id) || ensurePosition(s.id);
+      const g = buildNodeEl(s, pos);
       nodesG.appendChild(g);
     }
 
-    // dim non-adjacent when a node selected
     if (state.selectedNodeId) {
       const neigh = new Set([state.selectedNodeId]);
       for (const e of allEdgesAmongSelected()) {
@@ -388,6 +351,133 @@
         if (f !== state.selectedNodeId && t !== state.selectedNodeId) p.classList.add("dim");
       });
     }
+
+    updateStats();
+  }
+
+  function appendEdge(edgesG, e, a, b) {
+    const meta = RELATION[e.relation] || RELATION.predation;
+    const { x1, y1, x2, y2 } = shorten(a.x, a.y, b.x, b.y, NODE_R + 2, NODE_R + 2);
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const midX = (x1 + x2) / 2;
+    const midY = (y1 + y2) / 2;
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const len = Math.hypot(dx, dy) || 1;
+    const ox = (-dy / len) * 12;
+    const oy = (dx / len) * 12;
+    const cx = midX + ox * 0.35;
+    const cy = midY + oy * 0.35;
+    path.setAttribute("d", `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+    path.setAttribute("class", "edge-path");
+    path.setAttribute("stroke", cssColor(meta.color));
+    path.dataset.key = edgeKey(e);
+    path.dataset.from = e.from;
+    path.dataset.to = e.to;
+    path.dataset.relation = e.relation;
+    if (meta.dashed) {
+      path.setAttribute("stroke-dasharray", "5 4");
+      path.removeAttribute("marker-end");
+    } else if (meta.marker) {
+      path.setAttribute("marker-end", meta.marker);
+    }
+    if (state.selectedEdgeKey === edgeKey(e)) path.classList.add("selected");
+    path.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      state.selectedEdgeKey = edgeKey(e);
+      state.selectedNodeId = null;
+      renderGraph();
+      renderDetail();
+      bumpIdle();
+    });
+    edgesG.appendChild(path);
+
+    if (e.relation === "competition" || meta.sym) {
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "edge-label");
+      label.setAttribute("x", cx);
+      label.setAttribute("y", cy - 4);
+      label.setAttribute("text-anchor", "middle");
+      label.dataset.from = e.from;
+      label.dataset.to = e.to;
+      label.dataset.relation = e.relation;
+      label.textContent = e.relation === "competition" ? "競爭" : meta.sym || meta.zh;
+      edgesG.appendChild(label);
+    }
+  }
+
+  function buildNodeEl(s, pos) {
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("class", "node-g" + (state.selectedNodeId === s.id ? " selected" : ""));
+    g.dataset.id = s.id;
+    g.setAttribute("transform", `translate(${pos.x},${pos.y})`);
+
+    const troph = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    troph.setAttribute("class", "node-troph");
+    troph.setAttribute("r", NODE_R + 4);
+    troph.setAttribute("fill", cssColor(TROPHIC[s.trophic]?.color || "#888"));
+    troph.setAttribute("opacity", "0.35");
+    g.appendChild(troph);
+
+    const body = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    body.setAttribute("class", "node-body");
+    body.setAttribute("r", NODE_R);
+    g.appendChild(body);
+
+    const ph = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    ph.setAttribute("class", "node-placeholder");
+    ph.setAttribute("x", -16);
+    ph.setAttribute("y", -18);
+    ph.setAttribute("width", 32);
+    ph.setAttribute("height", 20);
+    ph.setAttribute("rx", 4);
+    g.appendChild(ph);
+
+    const initial = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    initial.setAttribute("class", "node-placeholder-text");
+    initial.setAttribute("y", -4);
+    initial.textContent = (s.name_zh || "?").slice(0, 2);
+    g.appendChild(initial);
+
+    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    label.setAttribute("class", "node-label");
+    label.setAttribute("y", 22);
+    label.textContent = shortName(s.name_zh);
+    g.appendChild(label);
+
+    g.addEventListener("pointerdown", onNodeDown);
+    g.addEventListener("dblclick", (ev) => {
+      ev.stopPropagation();
+      removeSpeciesFromNet(s.id);
+    });
+    g.addEventListener("click", (ev) => {
+      if (state.drag && state.drag.moved) return;
+      ev.stopPropagation();
+      state.selectedNodeId = s.id;
+      state.selectedEdgeKey = null;
+      renderGraph();
+      renderDetail();
+      bumpIdle();
+    });
+    return g;
+  }
+
+  /** During drag: update node transform + redraw edges only (no full rebuild). */
+  function updateEdgesLive() {
+    const edgesG = $("#edgesLayer");
+    edgesG.innerHTML = "";
+    for (const e of visibleEdges()) {
+      const a = state.positions.get(e.from);
+      const b = state.positions.get(e.to);
+      if (!a || !b) continue;
+      appendEdge(edgesG, e, a, b);
+    }
+    if (state.selectedNodeId) {
+      $$(".edge-path", edgesG).forEach((p) => {
+        const [f, t] = p.dataset.key.split("|");
+        if (f !== state.selectedNodeId && t !== state.selectedNodeId) p.classList.add("dim");
+      });
+    }
   }
 
   function shortName(name) {
@@ -396,7 +486,6 @@
   }
 
   function cssColor(v) {
-    // resolve CSS vars for SVG attributes that don't inherit custom props well in markers
     if (!v) return "#ccc";
     if (v.startsWith("var(")) {
       const name = v.slice(4, -1).trim();
@@ -420,6 +509,7 @@
   }
 
   function onNodeDown(ev) {
+    if (state.titleOpen) return;
     const g = ev.currentTarget;
     const id = g.dataset.id;
     const pos = state.positions.get(id);
@@ -433,6 +523,7 @@
       startX: pos.x,
       startY: pos.y,
       moved: false,
+      el: g,
     };
     g.classList.add("dragging");
     bumpIdle();
@@ -453,18 +544,42 @@
     const x = clamp(state.drag.startX + dx, NODE_R, vb.width - NODE_R);
     const y = clamp(state.drag.startY + dy, NODE_R, vb.height - NODE_R);
     state.positions.set(state.drag.id, { x, y });
-    renderGraph();
+    if (state.drag.el) {
+      state.drag.el.setAttribute("transform", `translate(${x},${y})`);
+    }
+    updateEdgesLive();
     bumpIdle();
   }
 
   function onNodeUp(ev) {
     const g = ev.currentTarget;
-    g.releasePointerCapture(ev.pointerId);
+    try {
+      g.releasePointerCapture(ev.pointerId);
+    } catch (_) { /* ignore */ }
     g.classList.remove("dragging");
     g.removeEventListener("pointermove", onNodeMove);
     g.removeEventListener("pointerup", onNodeUp);
     g.removeEventListener("pointercancel", onNodeUp);
-    // keep drag.moved flag briefly for click suppressor
+
+    // drag off canvas → remove
+    if (state.drag && state.drag.moved) {
+      const wrap = $("#canvasWrap").getBoundingClientRect();
+      const out =
+        ev.clientX < wrap.left - 24 ||
+        ev.clientX > wrap.right + 24 ||
+        ev.clientY < wrap.top - 24 ||
+        ev.clientY > wrap.bottom + 24;
+      if (out) {
+        const id = state.drag.id;
+        setTimeout(() => {
+          state.drag = null;
+          removeSpeciesFromNet(id);
+        }, 0);
+        bumpIdle();
+        return;
+      }
+    }
+
     setTimeout(() => {
       if (state.drag) state.drag = null;
     }, 0);
@@ -483,6 +598,127 @@
 
   function clamp(v, lo, hi) {
     return Math.max(lo, Math.min(hi, v));
+  }
+
+  /* —— Lab drag into canvas —— */
+  function onLabPointerDown(ev) {
+    if (state.titleOpen) return;
+    if (ev.target.closest("[data-add]")) return;
+    const row = ev.currentTarget;
+    const id = row.dataset.id;
+    if (!id) return;
+    ev.preventDefault();
+    row.setPointerCapture(ev.pointerId);
+    state.labDrag = {
+      id,
+      pointerId: ev.pointerId,
+      moved: false,
+      startX: ev.clientX,
+      startY: ev.clientY,
+      row,
+    };
+    row.classList.add("dragging-src");
+    const ghost = $("#dragGhost");
+    const s = speciesById(id);
+    ghost.textContent = s ? s.name_zh : id;
+    ghost.hidden = false;
+    ghost.style.left = ev.clientX + "px";
+    ghost.style.top = ev.clientY + "px";
+
+    const onMove = (e) => {
+      if (!state.labDrag || state.labDrag.pointerId !== e.pointerId) return;
+      if (Math.hypot(e.clientX - state.labDrag.startX, e.clientY - state.labDrag.startY) > 4) {
+        state.labDrag.moved = true;
+      }
+      ghost.style.left = e.clientX + "px";
+      ghost.style.top = e.clientY + "px";
+      const wrap = $("#canvasWrap").getBoundingClientRect();
+      const over =
+        e.clientX >= wrap.left &&
+        e.clientX <= wrap.right &&
+        e.clientY >= wrap.top &&
+        e.clientY <= wrap.bottom;
+      $("#canvasWrap").classList.toggle("drop-hover", over);
+    };
+    const onUp = (e) => {
+      row.releasePointerCapture(e.pointerId);
+      row.classList.remove("dragging-src");
+      row.removeEventListener("pointermove", onMove);
+      row.removeEventListener("pointerup", onUp);
+      row.removeEventListener("pointercancel", onUp);
+      ghost.hidden = true;
+      $("#canvasWrap").classList.remove("drop-hover");
+      const wrap = $("#canvasWrap").getBoundingClientRect();
+      const over =
+        e.clientX >= wrap.left &&
+        e.clientX <= wrap.right &&
+        e.clientY >= wrap.top &&
+        e.clientY <= wrap.bottom;
+      const idDrop = state.labDrag?.id;
+      const moved = state.labDrag?.moved;
+      state.labDrag = null;
+      if (over && idDrop) {
+        const svg = $("#webSvg");
+        const pt = clientToSvg(svg, e.clientX, e.clientY);
+        const vb = svg.viewBox.baseVal;
+        const pos = {
+          x: clamp(pt.x, NODE_R, vb.width - NODE_R),
+          y: clamp(pt.y, NODE_R, vb.height - NODE_R),
+        };
+        addSpeciesToNet(idDrop, pos);
+      } else if (!moved && idDrop && !state.selectedIds.has(idDrop)) {
+        // treat short click on row (not alt button) as add
+        addSpeciesToNet(idDrop);
+      }
+      bumpIdle();
+    };
+    row.addEventListener("pointermove", onMove);
+    row.addEventListener("pointerup", onUp);
+    row.addEventListener("pointercancel", onUp);
+  }
+
+  function addSpeciesToNet(id, preferPos) {
+    const wasEmpty = state.selectedIds.size === 0;
+    state.selectedIds.add(id);
+    ensurePosition(id, preferPos || null);
+    if (wasEmpty && !preferPos) {
+      // keep band layout for first few if no drop point
+      ensurePosition(id);
+    }
+    state.selectedNodeId = id;
+    state.selectedEdgeKey = null;
+    renderAll();
+    bumpIdle();
+  }
+
+  function removeSpeciesFromNet(id) {
+    state.selectedIds.delete(id);
+    if (state.selectedNodeId === id) state.selectedNodeId = null;
+    state.selectedEdgeKey = null;
+    renderAll();
+    bumpIdle();
+  }
+
+  function loadDemoNet() {
+    initSelection(true);
+    layoutInitial();
+    state.selectedNodeId = null;
+    state.selectedEdgeKey = null;
+    renderAll();
+    bumpIdle();
+  }
+
+  function resetEmptyNet() {
+    state.selectedIds.clear();
+    state.selectedNodeId = null;
+    state.selectedEdgeKey = null;
+    state.filterRelation = "all";
+    $$("#relationFilters .chip").forEach((c) =>
+      c.classList.toggle("active", c.dataset.rel === "all")
+    );
+    layoutInitial();
+    renderAll();
+    bumpIdle();
   }
 
   function renderDetail() {
@@ -505,6 +741,10 @@
         <div class="detail-l2" id="detailL2" hidden>
           <strong>進階</strong>　${escapeHtml(s.blurb_l2 || "")}
         </div>
+        <div class="detail-actions">
+          <button type="button" class="btn tiny danger-ghost" id="btnRemoveFromNet">移出實驗室網</button>
+          <span class="muted tiny">（亦可雙擊節點，或拖出畫布外）</span>
+        </div>
       `;
       $("#btnExpandL2").onclick = () => {
         const box = $("#detailL2");
@@ -513,6 +753,7 @@
         $("#btnExpandL2").textContent = open ? "收合進階說明" : "展開進階說明";
         bumpIdle();
       };
+      $("#btnRemoveFromNet").onclick = () => removeSpeciesFromNet(s.id);
       body.querySelectorAll("[data-glossary]").forEach((btn) => {
         btn.onclick = () => openGlossary(btn.dataset.glossary);
       });
@@ -547,7 +788,7 @@
       return;
     }
 
-    body.innerHTML = `<p class="muted">點選畫布上的物種或連線。</p>`;
+    body.innerHTML = `<p class="muted">點選畫布上的物種或連線。將右側物種拖入草地組網。</p>`;
   }
 
   function escapeHtml(str) {
@@ -558,9 +799,38 @@
       .replace(/"/g, "&quot;");
   }
 
+  /* —— Title layer —— */
+  function showTitleLayer(immediate) {
+    hideIdle();
+    clearTimeout(state.idleTimer);
+    state.titleOpen = true;
+    const layer = $("#titleLayer");
+    layer.classList.remove("hiding");
+    layer.hidden = false;
+    if (immediate) layer.style.opacity = "";
+  }
+
+  function hideTitleLayer() {
+    const layer = $("#titleLayer");
+    if (layer.hidden) return;
+    layer.classList.add("hiding");
+    const done = () => {
+      layer.hidden = true;
+      layer.classList.remove("hiding");
+      state.titleOpen = false;
+      bumpIdle();
+    };
+    layer.addEventListener("animationend", done, { once: true });
+    // fallback
+    setTimeout(() => {
+      if (!layer.hidden && layer.classList.contains("hiding")) done();
+    }, 320);
+  }
+
   function bindGlobal() {
     $("#btnSelectAll").onclick = () => {
       initSelection(true);
+      layoutInitial();
       renderAll();
       bumpIdle();
     };
@@ -571,18 +841,19 @@
       renderAll();
       bumpIdle();
     };
-    $("#btnResetLab").onclick = () => {
-      initSelection(true);
-      layoutInitial();
-      state.selectedNodeId = null;
-      state.selectedEdgeKey = null;
-      state.filterRelation = "all";
-      $$("#relationFilters .chip").forEach((c) =>
-        c.classList.toggle("active", c.dataset.rel === "all")
-      );
-      renderAll();
-      bumpIdle();
+    $("#btnResetLab").onclick = () => resetEmptyNet();
+    $("#btnLoadDemo").onclick = () => loadDemoNet();
+
+    $("#btnTitle").onclick = () => showTitleLayer();
+    $("#btnStartExplore").onclick = (ev) => {
+      ev.stopPropagation();
+      hideTitleLayer();
     };
+    $("#titleLayer").addEventListener("click", (ev) => {
+      if (ev.target === $("#titleLayer")) hideTitleLayer();
+    });
+    // prevent panel clicks from closing unless it's the start button
+    $(".title-panel").addEventListener("click", (ev) => ev.stopPropagation());
 
     $("#btnGlossary").onclick = () => openGlossary();
     $("#btnCloseGlossary").onclick = () => closeGlossary();
@@ -605,7 +876,6 @@
     };
 
     window.addEventListener("resize", () => {
-      // keep positions proportionally if needed; just re-render
       renderGraph();
     });
 
@@ -613,7 +883,7 @@
       document.addEventListener(
         evt,
         () => {
-          if (!state.idleOn) bumpIdle();
+          if (!state.idleOn && !state.titleOpen) bumpIdle();
         },
         { passive: true }
       );
@@ -621,12 +891,18 @@
   }
 
   function bumpIdle() {
-    if (state.idleOn) return;
+    if (state.idleOn || state.titleOpen) return;
+    if (!$("#quizModal").hidden || !$("#glossaryModal").hidden) {
+      clearTimeout(state.idleTimer);
+      state.idleTimer = setTimeout(showIdle, IDLE_MS);
+      return;
+    }
     clearTimeout(state.idleTimer);
     state.idleTimer = setTimeout(showIdle, IDLE_MS);
   }
 
   function showIdle() {
+    if (state.titleOpen) return;
     if ($("#quizModal").hidden === false || $("#glossaryModal").hidden === false) {
       bumpIdle();
       return;
@@ -645,7 +921,7 @@
     $("#glossaryModal").hidden = false;
     $("#glossarySearch").value = "";
     renderGlossaryList("", focusId);
-    bumpIdle();
+    clearTimeout(state.idleTimer);
   }
 
   function closeGlossary() {
@@ -693,6 +969,7 @@
 
   function startQuiz() {
     hideIdle();
+    clearTimeout(state.idleTimer);
     const questions = state.quizBank.questions || [];
     const l1 = shuffle(questions.filter((q) => q.level === "L1"));
     const l2 = shuffle(questions.filter((q) => q.level === "L2"));
@@ -702,7 +979,6 @@
       ...l1.slice(0, Math.min(half, l1.length)),
       ...l2.slice(0, Math.min(take - Math.min(half, l1.length), l2.length)),
     ]).slice(0, take);
-    // top up if needed
     if (picked.length < take) {
       const rest = shuffle(questions.filter((q) => !picked.includes(q)));
       picked.push(...rest.slice(0, take - picked.length));
