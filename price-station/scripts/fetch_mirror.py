@@ -522,10 +522,28 @@ def parse_ds_good_types(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
     return [by[c["code"]] for c in DEFAULT_GOOD_TYPES if c["code"] in by] or list(by.values())
 
 
+def _looks_like_image_ref(val: Any) -> bool:
+    if not val or not isinstance(val, str):
+        return False
+    s = val.strip()
+    if not s:
+        return False
+    if re.search(r"\.(png|jpe?g|webp|gif|svg)(\?|$)", s, re.I):
+        return True
+    # bare stem used as image key (e.g. c002 / sanmiu_logo)
+    if re.search(r"[\u4e00-\u9fff]", s):
+        return False
+    return bool(re.match(r"^[A-Za-z0-9_./-]+$", s)) and ("/" in s or "_" in s or s.lower().endswith(("logo", "img")))
+
+
 def parse_ds_stores(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """從 ds/main pageProps 抽超市組／scode／logo／syncDate。"""
+    """從 ds/main pageProps 抽超市組／scode／中文名（mark）／logo／syncDate。
+
+    實際欄位：pageProps.ds_supermarket_groups[] = {code, name(英), mark(中), value_1_cn?}
+    """
     candidates: List[Any] = []
     for key in (
+        "ds_supermarket_groups", "dsSupermarketGroups",
         "supermarkets", "stores", "storeList", "ds_stores", "dsStores",
         "groups", "supermarket_list", "supermarketList", "sp_list", "list",
     ):
@@ -540,7 +558,8 @@ def parse_ds_stores(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
                 continue
             keys0 = set(v[0].keys())
             if keys0 & {"scode", "s_code", "storeCode", "code"} and keys0 & {
-                "name", "name_cn", "sname", "storeName", "supermarket_name", "label", "title"
+                "name", "name_cn", "sname", "storeName", "supermarket_name",
+                "label", "title", "mark",
             }:
                 candidates = v
                 print(f"ds stores heuristic pageProps.{k} n={len(v)}")
@@ -565,18 +584,37 @@ def parse_ds_stores(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
                 row.get("date") or row.get("sync_date") or row.get("sdate") or ""
             )
 
+    # optional enrich from supermarket item mirrors (group_id → group_name_cn)
+    group_cn_map: Dict[str, str] = {}
+    items_dir = DATA / "items"
+    if items_dir.is_dir():
+        for ip in items_dir.glob("*.json"):
+            try:
+                payload = json.loads(ip.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            for g in payload.get("groups") or []:
+                if not isinstance(g, dict):
+                    continue
+                gid = str(g.get("group_id") or g.get("group_code") or "")
+                cn = g.get("group_name_cn") or g.get("group_name") or ""
+                if gid and cn and re.search(r"[\u4e00-\u9fff]", str(cn)):
+                    group_cn_map.setdefault(gid, str(cn))
+
     out: List[Dict[str, Any]] = []
     for s in candidates:
         if not isinstance(s, dict):
             continue
-        # nested supermarket under group
         nested = []
         if isinstance(s.get("supermarkets"), list):
             nested = s["supermarkets"]
         elif isinstance(s.get("stores"), list):
             nested = s["stores"]
         rows = nested if nested else [s]
-        group_name = s.get("group_name_cn") or s.get("group_name") or s.get("name_cn") or s.get("name") or ""
+        group_name = (
+            s.get("group_name_cn") or s.get("mark") or s.get("group_name")
+            or s.get("name_cn") or s.get("name") or ""
+        )
         for row in rows:
             if not isinstance(row, dict):
                 continue
@@ -587,27 +625,43 @@ def parse_ds_stores(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
             if scode is None:
                 continue
             scode = str(scode)
-            name = (
-                row.get("name_cn") or row.get("name") or row.get("sname")
-                or row.get("storeName") or row.get("supermarket_name")
-                or row.get("label") or row.get("title") or group_name or scode
+            name_en = (
+                row.get("name") or row.get("sname") or row.get("storeName")
+                or row.get("supermarket_name") or row.get("label")
+                or row.get("title") or ""
             )
-            logo = (
+            name_cn = (
+                row.get("mark") or row.get("name_cn") or row.get("name_zh")
+                or row.get("group_name_cn") or group_cn_map.get(scode)
+                or ""
+            )
+            # value_1_cn on groups is sometimes a Chinese label, not a logo path
+            v1 = row.get("value_1_cn")
+            if not name_cn and isinstance(v1, str) and re.search(r"[\u4e00-\u9fff]", v1):
+                name_cn = v1
+            if not name_cn:
+                name_cn = group_name if re.search(r"[\u4e00-\u9fff]", str(group_name or "")) else ""
+            display = name_cn or name_en or group_name or scode
+            logo_cand = (
                 row.get("logo") or row.get("image") or row.get("img")
-                or row.get("value_1_cn") or row.get("icon") or ""
+                or row.get("icon") or ""
             )
+            if not logo_cand and _looks_like_image_ref(v1):
+                logo_cand = v1
             sync = (
                 row.get("sync_date") or row.get("syncDate") or row.get("ds_sp_sync_date")
                 or row.get("date") or sync_map.get(scode) or ""
             )
             out.append({
                 "scode": scode,
-                "name": name,
-                "logo": logo,
+                "name": name_en or display,  # keep API English when present
+                "name_cn": name_cn or display,
+                "name_zh": name_cn or display,
+                "mark": row.get("mark") or name_cn or "",
+                "logo": logo_cand or "",
                 "syncDate": str(sync) if sync else "",
-                "groupName": group_name or "",
+                "groupName": group_name or name_cn or name_en or "",
             })
-    # dedupe by scode
     seen = {}
     for s in out:
         seen[s["scode"]] = s
@@ -678,6 +732,8 @@ def fetch_promo(sleep: float = 0.6) -> Dict[str, Any]:
             write_json(stores_dir / f"{scode}.json", {
                 "scode": scode,
                 "name": st.get("name"),
+                "name_cn": st.get("name_cn") or st.get("mark") or st.get("name"),
+                "name_zh": st.get("name_zh") or st.get("name_cn") or st.get("name"),
                 "mirroredAt": now_iso(),
                 "raw": active_payload,
             })
@@ -740,7 +796,8 @@ def fetch_promo(sleep: float = 0.6) -> Dict[str, Any]:
                 out = {
                     "scode": scode,
                     "gtcode": gtcode,
-                    "storeName": st.get("name"),
+                    "storeName": st.get("name_cn") or st.get("name"),
+                    "storeNameEn": st.get("name"),
                     "mirroredAt": now_iso(),
                     "itemCount": len(items),
                     "items": items,
@@ -776,6 +833,63 @@ def fetch_promo(sleep: float = 0.6) -> Dict[str, Any]:
     return meta
 
 
+def _flatten_special_name(name: Any) -> Tuple[str, Optional[Dict[str, Any]]]:
+    """categories[].name 實際係物件 {name_cn, name_en, link, report, …}。"""
+    if isinstance(name, dict):
+        label = (
+            name.get("name_cn") or name.get("name") or name.get("name_zh")
+            or name.get("name_en") or ""
+        )
+        return str(label) if label else "", name
+    if name is None:
+        return "", None
+    return str(name), None
+
+
+def _links_from_special_blob(blob: Any) -> List[Dict[str, Any]]:
+    """由 category name 物件或 get_category_pdf data 抽 PDF／nss URL（唔下載檔）。"""
+    links: List[Dict[str, Any]] = []
+    seen = set()
+    report_base = "http://api03.consumer.gov.mo/export/sp/report/"
+
+    def add(url: Any, typ: str, label: str = "") -> None:
+        if not url or not isinstance(url, str):
+            return
+        u = url.strip()
+        if not u or u in seen:
+            return
+        seen.add(u)
+        if not u.startswith("http") and u.lower().endswith(".pdf"):
+            u = report_base + u.lstrip("/")
+        elif u.startswith("/") and not u.startswith("//"):
+            u = BASE + u
+        links.append({"type": typ, "url": u, "name": label or typ})
+
+    if not isinstance(blob, dict):
+        return links
+    add(blob.get("link"), "link", "中文報告／頁面")
+    add(blob.get("link_en"), "link_en", "English report")
+    add(blob.get("link_pt"), "link_pt", "Relatório PT")
+    add(blob.get("pdf"), "pdf", "PDF")
+    add(blob.get("url"), "url", "連結")
+    add(blob.get("nss"), "nss", "nss")
+    add(blob.get("nss_link"), "nss_link", "nss")
+    for key, label in (
+        ("report", "中文 PDF"),
+        ("report_en", "English PDF"),
+        ("report_pt", "PDF PT"),
+    ):
+        r = blob.get(key)
+        if isinstance(r, str) and r.strip():
+            u = r if r.startswith("http") else report_base + r.lstrip("/")
+            add(u, key, label)
+    cat = blob.get("category")
+    if isinstance(cat, dict):
+        for lk in _links_from_special_blob(cat):
+            add(lk["url"], lk.get("type") or "link", lk.get("name") or "")
+    return links
+
+
 def parse_special_categories(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
     raw = None
     for key in ("categories", "cats", "categoryList", "specialCategories"):
@@ -792,10 +906,13 @@ def parse_special_categories(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
         coid = c.get("coid") or c.get("id") or c.get("oid") or c.get("category")
         if coid is None:
             continue
-        name = (
-            c.get("name") or c.get("cateogry") or c.get("category")
-            or c.get("name_cn") or c.get("cname") or c.get("title") or str(coid)
+        name_label, name_obj = _flatten_special_name(
+            c.get("name") if c.get("name") is not None else (
+                c.get("cateogry") or c.get("category") or c.get("name_cn") or c.get("cname") or c.get("title")
+            )
         )
+        if not name_label:
+            name_label = str(coid)
         date = c.get("date") or c.get("sdate") or c.get("updateDate") or ""
         if isinstance(date, dict):
             date = date.get("date") or date.get("sdate") or ""
@@ -803,14 +920,25 @@ def parse_special_categories(pp: Dict[str, Any]) -> List[Dict[str, Any]]:
             c.get("imageUrl") or c.get("image") or c.get("img")
             or f"{BASE}/app/special/images/cat/{coid}.png"
         )
-        out.append({
+        spe = c.get("spe_type") or c.get("speType") or c.get("type")
+        if spe is None and name_obj:
+            spe = name_obj.get("spe_type")
+        links = _links_from_special_blob(name_obj) if name_obj else []
+        row = {
             "id": coid,
             "coid": coid,
-            "name": name,
+            "name": name_label,
+            "name_cn": name_label,
+            "name_zh": name_label,
+            "name_en": (name_obj or {}).get("name_en") if name_obj else "",
             "date": str(date) if date else "",
-            "spe_type": c.get("spe_type") or c.get("speType") or c.get("type"),
+            "spe_type": spe,
             "imageUrl": image_url,
-        })
+            "links": links,
+        }
+        if name_obj:
+            row["nameObj"] = name_obj
+        out.append(row)
     return out
 
 
@@ -855,54 +983,63 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
         print(f"[special {i+1}/{len(categories)}] coid={coid} {cat.get('name')} date={date}")
         qs = urlencode({"coid": str(coid), "date": str(date)})
         url = f"{BASE}/app/special/api/sp/get_category_pdf?{qs}"
-        links: List[Dict[str, Any]] = []
+        # seed links from category nameObj (SSR already has PDF／nss URLs)
+        links: List[Dict[str, Any]] = list(cat.get("links") or [])
+        seen_urls = {lk.get("url") for lk in links if isinstance(lk, dict)}
         sdate = date
         raw_payload: Any = None
         try:
             raw_bytes = http_get(url)
-            ctype_guess = ""
             # try JSON first
             try:
                 raw_payload = json.loads(raw_bytes.decode("utf-8"))
             except (UnicodeDecodeError, json.JSONDecodeError):
                 # PDF binary — do not store; only record request URL
                 raw_payload = None
-                links.append({
-                    "type": "pdf",
-                    "url": url,
-                    "note": "response was non-JSON (likely PDF); not downloaded",
-                })
+                if url not in seen_urls:
+                    links.append({
+                        "type": "pdf",
+                        "url": url,
+                        "name": "PDF",
+                        "note": "response was non-JSON (likely PDF); not downloaded",
+                    })
+                    seen_urls.add(url)
             if isinstance(raw_payload, dict):
-                # collect link fields
-                for key in ("link", "pdf", "url", "href", "nss", "nss_link"):
-                    v = raw_payload.get(key)
-                    if isinstance(v, str) and v:
-                        links.append({"type": key, "url": v if v.startswith("http") else (
-                            v if v.startswith("/") else f"{BASE}/{v.lstrip('/')}"
-                        )})
-                    elif isinstance(v, dict):
-                        u = v.get("link") or v.get("url") or v.get("href")
-                        if u:
-                            links.append({"type": key, "url": u})
-                data_list = _as_list(raw_payload)
-                for row in data_list:
-                    if not isinstance(row, dict):
-                        continue
-                    u = row.get("link") or row.get("url") or row.get("pdf") or row.get("href")
-                    if u:
-                        links.append({
-                            "type": row.get("type") or "link",
-                            "url": u,
-                            "name": row.get("name") or row.get("title") or "",
-                        })
-                sd = raw_payload.get("sdate") or raw_payload.get("date")
-                if isinstance(sd, dict):
-                    sdate = sd.get("date") or sd.get("sdate") or sdate
-                elif sd:
-                    sdate = str(sd)
+                data_obj = raw_payload.get("data")
+                # real shape: {success, data: {link, report, category, sdate}, error}
+                if isinstance(data_obj, dict):
+                    for lk in _links_from_special_blob(data_obj):
+                        if lk["url"] not in seen_urls:
+                            links.append(lk)
+                            seen_urls.add(lk["url"])
+                    sd = data_obj.get("sdate") or data_obj.get("date")
+                    if isinstance(sd, dict):
+                        sdate = sd.get("date") or sd.get("sdate") or sdate
+                    elif sd:
+                        sdate = str(sd)
+                else:
+                    for lk in _links_from_special_blob(raw_payload):
+                        if lk["url"] not in seen_urls:
+                            links.append(lk)
+                            seen_urls.add(lk["url"])
+                    data_list = _as_list(raw_payload)
+                    for row in data_list:
+                        if not isinstance(row, dict):
+                            continue
+                        for lk in _links_from_special_blob(row):
+                            if lk["url"] not in seen_urls:
+                                links.append(lk)
+                                seen_urls.add(lk["url"])
+                    sd = raw_payload.get("sdate") or raw_payload.get("date")
+                    if isinstance(sd, dict):
+                        sdate = sd.get("date") or sd.get("sdate") or sdate
+                    elif sd:
+                        sdate = str(sd)
             detail = {
                 "coid": coid,
-                "name": cat.get("name"),
+                "name": cat.get("name_cn") or cat.get("name"),
+                "name_cn": cat.get("name_cn") or cat.get("name"),
+                "name_zh": cat.get("name_zh") or cat.get("name_cn") or cat.get("name"),
                 "date": date,
                 "sdate": sdate,
                 "links": links,
@@ -910,17 +1047,21 @@ def fetch_special(sleep: float = 0.6) -> Dict[str, Any]:
                 "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
                 "apiUrl": url,
                 "rawKeys": list(raw_payload.keys()) if isinstance(raw_payload, dict) else [],
+                "rawSuccess": (raw_payload.get("success") if isinstance(raw_payload, dict) else None),
             }
+            if cat.get("nameObj"):
+                detail["nameObj"] = cat["nameObj"]
             write_json(detail_dir / f"{coid}.json", detail)
             ok += 1
         except Exception as e:
             log_fail(f"special detail {coid}: {e}")
             write_json(detail_dir / f"{coid}.json", {
                 "coid": coid,
-                "name": cat.get("name"),
+                "name": cat.get("name_cn") or cat.get("name"),
+                "name_cn": cat.get("name_cn") or cat.get("name"),
                 "date": date,
                 "sdate": sdate,
-                "links": [],
+                "links": links,
                 "error": str(e),
                 "mirroredAt": now_iso(),
                 "apiUrl": url,

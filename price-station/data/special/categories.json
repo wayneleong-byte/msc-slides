@@ -1,12 +1,26 @@
 {
-  "mirroredAt": "2026-11-03T01:23:22+08:00",
+  "mirroredAt": "2026-11-03T09:18:52+08:00",
   "stub": false,
   "source": "special/main pageProps.categories",
   "categories": [
     {
       "id": 40,
       "coid": 40,
-      "name": {
+      "name": "麵包",
+      "name_cn": "麵包",
+      "name_zh": "麵包",
+      "name_en": "Bakery",
+      "date": "2026-10-29",
+      "spe_type": "3",
+      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/40.png",
+      "links": [
+        {
+          "type": "link",
+          "url": "https://consumer-api03.dsedt.gov.mo/app/nss/main_typecat_cosa?lang=",
+          "name": "中文報告／頁面"
+        }
+      ],
+      "nameObj": {
         "id": 46,
         "oid": 40,
         "did": null,
@@ -28,15 +42,36 @@
         "updated_at": "2026-09-22 15:20:44",
         "published_at": null,
         "_id": 46
-      },
-      "date": "2026-10-29",
-      "spe_type": null,
-      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/40.png"
+      }
     },
     {
       "id": 34,
       "coid": 34,
-      "name": {
+      "name": "新鮮豬肉(公斤)",
+      "name_cn": "新鮮豬肉(公斤)",
+      "name_zh": "新鮮豬肉(公斤)",
+      "name_en": "Pork(kg)",
+      "date": "2026-10-27",
+      "spe_type": "2",
+      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/34.png",
+      "links": [
+        {
+          "type": "link",
+          "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987055414.pdf",
+          "name": "中文報告／頁面"
+        },
+        {
+          "type": "link_en",
+          "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987067066.pdf",
+          "name": "English report"
+        },
+        {
+          "type": "link_pt",
+          "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987080627.pdf",
+          "name": "Relatório PT"
+        }
+      ],
+      "nameObj": {
         "id": 50,
         "oid": 34,
         "did": null,
@@ -58,15 +93,26 @@
         "updated_at": "2022-01-04 11:11:17",
         "published_at": "2022-07-12 00:00:00",
         "_id": 50
-      },
-      "date": "2026-10-27",
-      "spe_type": null,
-      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/34.png"
+      }
     },
     {
       "id": 45,
       "coid": 45,
-      "name": {
+      "name": "嬰兒尿片",
+      "name_cn": "嬰兒尿片",
+      "name_zh": "嬰兒尿片",
+      "name_en": "Baby diapers",
+      "date": "2026-10-26",
+      "spe_type": "3",
+      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/45.png",
+      "links": [
+        {
+          "type": "link",
+          "url": "https://consumer-api03.dsedt.gov.mo/app/nss/main_typecat_baby?pftype=api03_v01&plt=app&cat=ss_cat_0045&lang=",
+          "name": "中文報告／頁面"
+        }
+      ],
+      "nameObj": {
         "id": 68,
         "oid": 45,
         "did": null,
@@ -88,15 +134,20 @@
         "updated_at": "2012-07-02 16:46:47",
         "published_at": null,
         "_id": 68
-      },
-      "date": "2026-10-26",
-      "spe_type": null,
-      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/45.png"
+      }
     },
     {
       "id": 9,
       "coid": 9,
-      "name": {
+      "name": "非處方成藥",
+      "name_cn": "非處方成藥",
+      "name_zh": "非處方成藥",
+      "name_en": "Over-the-counter drug",
+      "date": "2026-10-16",
+      "spe_type": "0",
+      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/9.png",
+      "links": [],
+      "nameObj": {
         "id": 55,
         "oid": 9,
         "did": null,
@@ -118,15 +169,20 @@
         "updated_at": "2016-01-11 12:55:48",
         "published_at": null,
         "_id": 55
-      },
-      "date": "2026-10-16",
-      "spe_type": null,
-      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/9.png"
+      }
     },
     {
       "id": 16,
       "coid": 16,
-      "name": {
+      "name": "嬰兒奶粉",
+      "name_cn": "嬰兒奶粉",
+      "name_zh": "嬰兒奶粉",
+      "name_en": "Infant formula",
+      "date": "2026-10-16",
+      "spe_type": "0",
+      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/16.png",
+      "links": [],
+      "nameObj": {
         "id": 42,
         "oid": 16,
         "did": null,
@@ -148,15 +204,20 @@
         "updated_at": "2016-01-11 12:55:48",
         "published_at": null,
         "_id": 42
-      },
-      "date": "2026-10-16",
-      "spe_type": null,
-      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/16.png"
+      }
     },
     {
       "id": 31,
       "coid": 31,
-      "name": {
+      "name": "個人護理用品",
+      "name_cn": "個人護理用品",
+      "name_zh": "個人護理用品",
+      "name_en": "Personal care products",
+      "date": "2026-10-16",
+      "spe_type": "0",
+      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/31.png",
+      "links": [],
+      "nameObj": {
         "id": 60,
         "oid": 31,
         "did": null,
@@ -178,15 +239,26 @@
         "updated_at": "2021-01-12 16:30:04",
         "published_at": null,
         "_id": 60
-      },
-      "date": "2026-10-16",
-      "spe_type": null,
-      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/31.png"
+      }
     },
     {
       "id": 38,
       "coid": 38,
-      "name": {
+      "name": "冰鮮雞",
+      "name_cn": "冰鮮雞",
+      "name_zh": "冰鮮雞",
+      "name_en": "Chilled chicken",
+      "date": "2026-10-12",
+      "spe_type": "3",
+      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/38.png",
+      "links": [
+        {
+          "type": "link",
+          "url": "https://consumer-api03.dsedt.gov.mo/app/nss/main_type?pftype=api03_v01&plt=app&cat=ss_cat_0038&lang=",
+          "name": "中文報告／頁面"
+        }
+      ],
+      "nameObj": {
         "id": 44,
         "oid": 38,
         "did": null,
@@ -208,15 +280,20 @@
         "updated_at": "2026-10-08 15:55:37",
         "published_at": null,
         "_id": 44
-      },
-      "date": "2026-10-12",
-      "spe_type": null,
-      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/38.png"
+      }
     },
     {
       "id": 35,
       "coid": 35,
-      "name": {
+      "name": "冰鮮豬肉(公斤)",
+      "name_cn": "冰鮮豬肉(公斤)",
+      "name_zh": "冰鮮豬肉(公斤)",
+      "name_en": "Chilled pork(KG)",
+      "date": "2026-10-06",
+      "spe_type": "2",
+      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/35.png",
+      "links": [],
+      "nameObj": {
         "id": 53,
         "oid": 35,
         "did": null,
@@ -238,10 +315,7 @@
         "updated_at": "2022-05-20 10:16:32",
         "published_at": null,
         "_id": 53
-      },
-      "date": "2026-10-06",
-      "spe_type": null,
-      "imageUrl": "https://consumer-api03.dsedt.gov.mo/app/special/images/cat/35.png"
+      }
     }
   ]
 }

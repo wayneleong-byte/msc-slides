@@ -40,26 +40,71 @@
     const CAT_IMG = 'https://consumer-api03.dsedt.gov.mo/app/special/images/cat/';
     let categories = [];
 
+    function pickCatName(c) {
+      if (!c) return '';
+      const n = c.name;
+      if (n && typeof n === 'object') {
+        return n.name_cn || n.name || n.name_zh || n.name_en || '';
+      }
+      if (typeof n === 'string' && n && n !== '[object Object]') return n;
+      if (c.name_cn) return c.name_cn;
+      if (c.name_zh) return c.name_zh;
+      const cat = c.cateogry || c.category;
+      if (cat && typeof cat === 'object') return cat.name_cn || cat.name || '';
+      if (typeof cat === 'string') return cat;
+      return '';
+    }
+
+    function linksFromNameObj(n) {
+      const links = [];
+      const seen = new Set();
+      const REPORT_BASE = 'http://api03.consumer.gov.mo/export/sp/report/';
+      function add(url, type, name) {
+        if (!url || typeof url !== 'string') return;
+        url = url.trim();
+        if (!url || seen.has(url)) return;
+        seen.add(url);
+        links.push({ type: type || 'link', url: url, name: name || type || '連結' });
+      }
+      if (!n || typeof n !== 'object') return links;
+      add(n.link, 'link', '中文報告／頁面');
+      add(n.link_en, 'link_en', 'English report');
+      add(n.link_pt, 'link_pt', 'Relatório PT');
+      [['report', '中文 PDF'], ['report_en', 'English PDF'], ['report_pt', 'PDF PT']].forEach(([k, label]) => {
+        const r = n[k];
+        if (!r || typeof r !== 'string' || !r.trim()) return;
+        const u = /^https?:\/\//i.test(r) ? r : REPORT_BASE + r.replace(/^\//, '');
+        add(u, k, label);
+      });
+      return links;
+    }
+
     function normalizeCats(payload) {
       if (!payload) return [];
-      if (Array.isArray(payload.categories)) {
-        return payload.categories.map((c) => ({
-          coid: c.coid != null ? c.coid : c.id,
-          name: c.name || c.cateogry || c.category || String(c.coid || c.id),
+      const rows = Array.isArray(payload.categories) ? payload.categories
+        : (Array.isArray(payload.data) ? payload.data : []);
+      return rows.map((c) => {
+        const coid = c.coid != null ? c.coid : (c.id != null ? c.id : c.oid);
+        const nameObj = (c.name && typeof c.name === 'object') ? c.name
+          : ((c.cateogry && typeof c.cateogry === 'object') ? c.cateogry
+            : ((c.category && typeof c.category === 'object') ? c.category
+              : (c.nameObj || null)));
+        const name = pickCatName(c) || String(coid != null ? coid : '');
+        const imageUrl = c.imageUrl || c.image || (CAT_IMG + coid + '.png');
+        const links = [].concat(c.links || [], linksFromNameObj(nameObj));
+        return {
+          coid: coid,
+          name: name,
+          name_cn: c.name_cn || name,
           date: c.date || '',
-          imageUrl: c.imageUrl || (CAT_IMG + (c.coid != null ? c.coid : c.id) + '.png'),
-        }));
-      }
-      if (Array.isArray(payload.data)) {
-        return payload.data.map((c) => ({
-          coid: c.id != null ? c.id : c.coid,
-          name: c.cateogry || c.name || String(c.id),
-          date: c.date || '',
-          imageUrl: CAT_IMG + (c.id != null ? c.id : c.coid) + '.png',
-        }));
-      }
-      return [];
+          imageUrl: imageUrl,
+          spe_type: c.spe_type || (nameObj && nameObj.spe_type) || null,
+          links: links,
+          nameObj: nameObj,
+        };
+      });
     }
+
 
     function renderCats() {
       const box = document.getElementById('cat-tiles');
@@ -79,27 +124,48 @@
       });
     }
 
+    function mergeLinks() {
+      const seen = new Set();
+      const out = [];
+      for (let i = 0; i < arguments.length; i++) {
+        const arr = arguments[i] || [];
+        arr.forEach((lk) => {
+          if (!lk || !lk.url) return;
+          if (seen.has(lk.url)) return;
+          seen.add(lk.url);
+          out.push(lk);
+        });
+      }
+      return out;
+    }
+
     async function openDetail(cat) {
       const card = document.getElementById('detail-card');
       const body = document.getElementById('detail-body');
       const title = document.getElementById('detail-title');
       const metaEl = document.getElementById('detail-meta');
       card.hidden = false;
-      title.textContent = cat.name;
+      title.textContent = cat.name_cn || cat.name;
       body.innerHTML = '<p class="empty">載入明細…</p>';
       metaEl.innerHTML = MPS.wrapUpdateHtml('分類日期', cat.date || '');
       const path = 'data/special/detail/' + encodeURIComponent(String(cat.coid)) + '.json';
       try {
         const d = await MPS.loadJSON(path);
+        const detailName = pickCatName(d) || d.name_cn || cat.name;
+        title.textContent = detailName;
         metaEl.innerHTML =
           MPS.wrapUpdateHtml('分類日期', d.date || cat.date || '') +
           (d.sdate ? ' · ' + MPS.wrapUpdateHtml('sdate', d.sdate) : '') +
           (d.stub ? ' · <span class="badge muted">stub</span>' : '');
-        const links = d.links || [];
+        const nameObj = (d.name && typeof d.name === 'object') ? d.name
+          : (d.nameObj || cat.nameObj || null);
+        const links = mergeLinks(d.links, cat.links, linksFromNameObj(nameObj));
         if (!links.length) {
-          body.innerHTML = '<p class="empty">暫無報告連結（PDF／nss）。Windows 跑 <code>--special</code> 後會寫入 URL（唔下載大檔）。</p>';
+          body.innerHTML = '<p class="empty">此分類暫無公開 PDF／nss 報告連結（官方 get_category_pdf 亦無 data）。</p>';
+          body.innerHTML += '<p class="meta-line">可到官方專項頁查看：' +
+            '<a href="https://consumer-api03.dsedt.gov.mo/app/special/main?lang=cn" target="_blank" rel="noopener">special/main</a></p>';
           if (d.apiUrl) {
-            body.innerHTML += '<p class="meta-line">API：<a href="' + MPS.escapeHtml(d.apiUrl) + '" target="_blank" rel="noopener">' +
+            body.innerHTML += '<p class="meta-line">鏡像 API：<a href="' + MPS.escapeHtml(d.apiUrl) + '" target="_blank" rel="noopener">' +
               MPS.escapeHtml(d.apiUrl) + '</a></p>';
           }
           return;
@@ -107,15 +173,31 @@
         let html = '<ul class="list">';
         links.forEach((lk) => {
           const url = lk.url || '';
-          html += '<li><div><div class="title">' + MPS.escapeHtml(lk.name || lk.type || '連結') + '</div>' +
-            '<div class="qty">' + MPS.escapeHtml(lk.note || '') + '</div></div>' +
-            (url ? '<a class="btn secondary" href="' + MPS.escapeHtml(url) + '" target="_blank" rel="noopener">開啟</a>' : '') +
+          const isPdf = /\.pdf($|\?)/i.test(url) || (lk.type || '').indexOf('report') >= 0 || (lk.type || '') === 'pdf';
+          html += '<li><div><div class="title">' + MPS.escapeHtml(lk.name || lk.type || (isPdf ? 'PDF 報告' : '官方連結')) + '</div>' +
+            '<div class="qty">' + MPS.escapeHtml(lk.note || (isPdf ? '官方 PDF（本站只記 URL，唔下載）' : '官方頁面／nss')) + '</div></div>' +
+            (url ? '<a class="btn secondary" href="' + MPS.escapeHtml(url) + '" target="_blank" rel="noopener">' +
+              (isPdf ? '開 PDF' : '開啟') + '</a>' : '') +
             '</li>';
         });
         html += '</ul>';
         body.innerHTML = html;
       } catch (e) {
-        body.innerHTML = '<p class="empty">未有明細檔 <code>' + MPS.escapeHtml(path) + '</code></p>';
+        // 明細檔唔齊時，仍用分類自帶 links
+        const links = mergeLinks(cat.links, linksFromNameObj(cat.nameObj));
+        if (links.length) {
+          let html = '<ul class="list">';
+          links.forEach((lk) => {
+            const url = lk.url || '';
+            html += '<li><div><div class="title">' + MPS.escapeHtml(lk.name || lk.type || '連結') + '</div></div>' +
+              (url ? '<a class="btn secondary" href="' + MPS.escapeHtml(url) + '" target="_blank" rel="noopener">開啟</a>' : '') +
+              '</li>';
+          });
+          html += '</ul>';
+          body.innerHTML = html;
+        } else {
+          body.innerHTML = '<p class="empty">未有明細檔 <code>' + MPS.escapeHtml(path) + '</code></p>';
+        }
       }
       try { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (_) {}
     }

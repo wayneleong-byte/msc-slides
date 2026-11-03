@@ -1,6 +1,27 @@
 {
   "coid": 45,
-  "name": {
+  "name": "嬰兒尿片",
+  "name_cn": "嬰兒尿片",
+  "name_zh": "嬰兒尿片",
+  "date": "2026-10-26",
+  "sdate": "2026-10-26",
+  "links": [
+    {
+      "type": "link",
+      "url": "https://consumer-api03.dsedt.gov.mo/app/nss/main_typecat_baby?pftype=api03_v01&plt=app&cat=ss_cat_0045&lang=",
+      "name": "中文報告／頁面"
+    }
+  ],
+  "mirroredAt": "2026-11-03T09:19:00+08:00",
+  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=45&date=2026-10-26",
+  "rawKeys": [
+    "success",
+    "data",
+    "error"
+  ],
+  "rawSuccess": 1,
+  "nameObj": {
     "id": 68,
     "oid": 45,
     "did": null,
@@ -22,16 +43,5 @@
     "updated_at": "2012-07-02 16:46:47",
     "published_at": null,
     "_id": 68
-  },
-  "date": "2026-10-26",
-  "sdate": "2026-10-26",
-  "links": [],
-  "mirroredAt": "2026-11-03T01:23:23+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
-  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=45&date=2026-10-26",
-  "rawKeys": [
-    "success",
-    "data",
-    "error"
-  ]
+  }
 }

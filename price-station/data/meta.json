@@ -1,5 +1,5 @@
 {
-  "mirroredAt": "2026-11-03T01:23:27+08:00",
+  "mirroredAt": "2026-11-03T09:19:11+08:00",
   "timezone": "Asia/Macau",
   "sourceNote": "澳門特別行政區政府／消費者委員會「澳門物價情報站」公開資料（Open Data／公開 API 鏡像）；本站非官方；資料僅供參考。",
   "coverage": {
@@ -19,7 +19,7 @@
     "elapsedSec": 545.9,
     "failures": 0,
     "promo": "full 10/10 店",
-    "special": "full 8 分類",
+    "special": "8/8 分類",
     "promoStores": 10,
     "promoPriceFiles": 70,
     "specialCategories": 8,

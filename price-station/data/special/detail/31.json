@@ -1,6 +1,21 @@
 {
   "coid": 31,
-  "name": {
+  "name": "個人護理用品",
+  "name_cn": "個人護理用品",
+  "name_zh": "個人護理用品",
+  "date": "2026-10-16",
+  "sdate": "2026-10-16",
+  "links": [],
+  "mirroredAt": "2026-11-03T09:19:07+08:00",
+  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=31&date=2026-10-16",
+  "rawKeys": [
+    "success",
+    "data",
+    "error"
+  ],
+  "rawSuccess": -1,
+  "nameObj": {
     "id": 60,
     "oid": 31,
     "did": null,
@@ -22,16 +37,5 @@
     "updated_at": "2021-01-12 16:30:04",
     "published_at": null,
     "_id": 60
-  },
-  "date": "2026-10-16",
-  "sdate": "2026-10-16",
-  "links": [],
-  "mirroredAt": "2026-11-03T01:23:25+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
-  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=31&date=2026-10-16",
-  "rawKeys": [
-    "success",
-    "data",
-    "error"
-  ]
+  }
 }

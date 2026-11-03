@@ -1,6 +1,27 @@
 {
   "coid": 38,
-  "name": {
+  "name": "冰鮮雞",
+  "name_cn": "冰鮮雞",
+  "name_zh": "冰鮮雞",
+  "date": "2026-10-12",
+  "sdate": "2026-10-12",
+  "links": [
+    {
+      "type": "link",
+      "url": "https://consumer-api03.dsedt.gov.mo/app/nss/main_type?pftype=api03_v01&plt=app&cat=ss_cat_0038&lang=",
+      "name": "中文報告／頁面"
+    }
+  ],
+  "mirroredAt": "2026-11-03T09:19:09+08:00",
+  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=38&date=2026-10-12",
+  "rawKeys": [
+    "success",
+    "data",
+    "error"
+  ],
+  "rawSuccess": 1,
+  "nameObj": {
     "id": 44,
     "oid": 38,
     "did": null,
@@ -22,16 +43,5 @@
     "updated_at": "2026-10-08 15:55:37",
     "published_at": null,
     "_id": 44
-  },
-  "date": "2026-10-12",
-  "sdate": "2026-10-12",
-  "links": [],
-  "mirroredAt": "2026-11-03T01:23:26+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
-  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=38&date=2026-10-12",
-  "rawKeys": [
-    "success",
-    "data",
-    "error"
-  ]
+  }
 }

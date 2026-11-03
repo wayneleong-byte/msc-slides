@@ -1,6 +1,27 @@
 {
   "coid": 40,
-  "name": {
+  "name": "麵包",
+  "name_cn": "麵包",
+  "name_zh": "麵包",
+  "date": "2026-10-29",
+  "sdate": "2026-10-29",
+  "links": [
+    {
+      "type": "link",
+      "url": "https://consumer-api03.dsedt.gov.mo/app/nss/main_typecat_cosa?lang=",
+      "name": "中文報告／頁面"
+    }
+  ],
+  "mirroredAt": "2026-11-03T09:18:54+08:00",
+  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=40&date=2026-10-29",
+  "rawKeys": [
+    "success",
+    "data",
+    "error"
+  ],
+  "rawSuccess": 1,
+  "nameObj": {
     "id": 46,
     "oid": 40,
     "did": null,
@@ -22,16 +43,5 @@
     "updated_at": "2026-09-22 15:20:44",
     "published_at": null,
     "_id": 46
-  },
-  "date": "2026-10-29",
-  "sdate": "2026-10-29",
-  "links": [],
-  "mirroredAt": "2026-11-03T01:23:22+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
-  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=40&date=2026-10-29",
-  "rawKeys": [
-    "success",
-    "data",
-    "error"
-  ]
+  }
 }

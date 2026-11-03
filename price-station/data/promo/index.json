@@ -8,70 +8,100 @@
       "name": "Tmart",
       "logo": "",
       "syncDate": "2026-10-14T00:00:00.000Z",
-      "groupName": "Tmart"
+      "groupName": "Tmart",
+      "name_cn": "Tmart",
+      "name_zh": "Tmart",
+      "mark": "Tmart"
     },
     {
       "scode": "0121",
       "name": "NK MART",
       "logo": "",
       "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "NK MART"
+      "groupName": "南光 Mart",
+      "name_cn": "南光 Mart",
+      "name_zh": "南光 Mart",
+      "mark": "南光 Mart"
     },
     {
       "scode": "0103",
       "name": "Sunsco",
       "logo": "",
       "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "Sunsco"
+      "groupName": "新花城",
+      "name_cn": "新花城",
+      "name_zh": "新花城",
+      "mark": "新花城"
     },
     {
       "scode": "0108",
       "name": "Lee Fong",
       "logo": "",
       "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "Lee Fong"
+      "groupName": "利豐",
+      "name_cn": "利豐",
+      "name_zh": "利豐",
+      "mark": "利豐"
     },
     {
       "scode": "0104",
       "name": "Tai Fung",
       "logo": "",
       "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "Tai Fung"
+      "groupName": "泰豐",
+      "name_cn": "泰豐",
+      "name_zh": "泰豐",
+      "mark": "泰豐"
     },
     {
       "scode": "0107",
       "name": "Vang Kei",
       "logo": "",
       "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "Vang Kei"
+      "groupName": "宏基",
+      "name_cn": "宏基",
+      "name_zh": "宏基",
+      "mark": "宏基"
     },
     {
       "scode": "0110",
       "name": "Fok Cheong",
       "logo": "",
       "syncDate": "2026-10-21T00:00:00.000Z",
-      "groupName": "Fok Cheong"
+      "groupName": "福倡",
+      "name_cn": "福倡",
+      "name_zh": "福倡",
+      "mark": "福倡"
     },
     {
       "scode": "0105",
       "name": "ParknShop",
       "logo": "",
       "syncDate": "2026-10-01T00:00:00.000Z",
-      "groupName": "ParknShop"
+      "groupName": "百佳",
+      "name_cn": "百佳",
+      "name_zh": "百佳",
+      "mark": "百佳"
     },
     {
       "scode": "0122",
       "name": "Nanhua american Goods yarel",
-      "logo": "南華美式貨場",
+      "logo": "",
       "syncDate": "2026-10-04T00:00:00.000Z",
-      "groupName": "Nanhua american Goods yarel"
+      "groupName": "南華美式貨場",
+      "name_cn": "南華美式貨場",
+      "name_zh": "南華美式貨場",
+      "mark": "南華美式貨場"
     },
     {
       "scode": "0102",
       "name": "San Miu",
       "logo": "",
       "syncDate": "2026-09-07T00:00:00.000Z",
-      "groupName": "San Miu"
+      "groupName": "新苗",
+      "name_cn": "新苗",
+      "name_zh": "新苗",
+      "mark": "新苗"
     }
   ],
   "goodTypes": [

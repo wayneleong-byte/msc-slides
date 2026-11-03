@@ -1,6 +1,37 @@
 {
   "coid": 34,
-  "name": {
+  "name": "新鮮豬肉(公斤)",
+  "name_cn": "新鮮豬肉(公斤)",
+  "name_zh": "新鮮豬肉(公斤)",
+  "date": "2026-10-27",
+  "sdate": "2026-10-27",
+  "links": [
+    {
+      "type": "link",
+      "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987055414.pdf",
+      "name": "中文報告／頁面"
+    },
+    {
+      "type": "link_en",
+      "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987067066.pdf",
+      "name": "English report"
+    },
+    {
+      "type": "link_pt",
+      "url": "http://api03.consumer.gov.mo/export/sp/report/F_1656987080627.pdf",
+      "name": "Relatório PT"
+    }
+  ],
+  "mirroredAt": "2026-11-03T09:18:58+08:00",
+  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=34&date=2026-10-27",
+  "rawKeys": [
+    "success",
+    "data",
+    "error"
+  ],
+  "rawSuccess": 1,
+  "nameObj": {
     "id": 50,
     "oid": 34,
     "did": null,
@@ -22,16 +53,5 @@
     "updated_at": "2022-01-04 11:11:17",
     "published_at": "2022-07-12 00:00:00",
     "_id": 50
-  },
-  "date": "2026-10-27",
-  "sdate": "2026-10-27",
-  "links": [],
-  "mirroredAt": "2026-11-03T01:23:22+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
-  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=34&date=2026-10-27",
-  "rawKeys": [
-    "success",
-    "data",
-    "error"
-  ]
+  }
 }

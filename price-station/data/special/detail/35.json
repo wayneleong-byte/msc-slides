@@ -1,6 +1,21 @@
 {
   "coid": 35,
-  "name": {
+  "name": "冰鮮豬肉(公斤)",
+  "name_cn": "冰鮮豬肉(公斤)",
+  "name_zh": "冰鮮豬肉(公斤)",
+  "date": "2026-10-06",
+  "sdate": "2026-10-06",
+  "links": [],
+  "mirroredAt": "2026-11-03T09:19:11+08:00",
+  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
+  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=35&date=2026-10-06",
+  "rawKeys": [
+    "success",
+    "data",
+    "error"
+  ],
+  "rawSuccess": -1,
+  "nameObj": {
     "id": 53,
     "oid": 35,
     "did": null,
@@ -22,16 +37,5 @@
     "updated_at": "2022-05-20 10:16:32",
     "published_at": null,
     "_id": 53
-  },
-  "date": "2026-10-06",
-  "sdate": "2026-10-06",
-  "links": [],
-  "mirroredAt": "2026-11-03T01:23:26+08:00",
-  "source": "get_category_pdf (URL/metadata only; PDF not downloaded)",
-  "apiUrl": "https://consumer-api03.dsedt.gov.mo/app/special/api/sp/get_category_pdf?coid=35&date=2026-10-06",
-  "rawKeys": [
-    "success",
-    "data",
-    "error"
-  ]
+  }
 }

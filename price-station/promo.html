@@ -55,6 +55,17 @@
       return DS_IMG + s.replace(/^\//, '');
     }
 
+
+    function storeDisplayName(st) {
+      if (!st) return '';
+      const cn = st.name_cn || st.name_zh || st.mark || '';
+      if (cn && /[\u4e00-\u9fff]/.test(String(cn))) return String(cn);
+      // logo 誤塞中文名時退回
+      const logo = st.logo ? String(st.logo) : '';
+      if (logo && /[\u4e00-\u9fff]/.test(logo) && !/\.(png|jpe?g|webp|gif|svg)$/i.test(logo)) return logo;
+      return st.name || st.groupName || st.scode || '';
+    }
+
     function gtImg(gt) {
       const img = (gt && gt.image) ? String(gt.image) : ((gt && gt.code) ? gt.code.toLowerCase() + '.png' : '');
       if (!img) return '';
@@ -76,7 +87,7 @@
         const logo = logoUrl(st.logo);
         btn.innerHTML =
           (logo ? '<img class="store-logo" src="' + MPS.escapeHtml(logo) + '" alt="" onerror="this.style.display=\'none\'" />' : '') +
-          '<span>' + MPS.escapeHtml(st.name || st.scode) + '</span>';
+          '<span>' + MPS.escapeHtml(storeDisplayName(st)) + '</span>';
         btn.addEventListener('click', () => selectStore(st));
         box.appendChild(btn);
       });
@@ -144,7 +155,7 @@
       const title = document.getElementById('price-title');
       const metaEl = document.getElementById('price-meta');
       card.hidden = false;
-      title.textContent = (selectedStore.name || selectedStore.scode) + ' · ' + (gt.name || gt.code);
+      title.textContent = storeDisplayName(selectedStore) + ' · ' + (gt.name || gt.code);
       body.innerHTML = '<p class="empty">載入優惠價…</p>';
       metaEl.textContent = '';
       const path = 'data/promo/prices/' + encodeURIComponent(selectedStore.scode) + '_' + encodeURIComponent(gt.code) + '.json';
