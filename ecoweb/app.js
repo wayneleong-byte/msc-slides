@@ -821,20 +821,40 @@
     photoWrap.setAttribute("clip-path", `url(#${clipId})`);
 
     if (s.image) {
-      const img = document.createElementNS("http://www.w3.org/2000/svg", "image");
-      img.setAttribute("class", "node-photo");
-      img.setAttributeNS("http://www.w3.org/1999/xlink", "href", s.image);
-      img.setAttribute("href", s.image);
-      img.setAttribute("x", String(-rNode));
-      img.setAttribute("y", String(-rNode));
-      img.setAttribute("width", String(rNode * 2));
-      img.setAttribute("height", String(rNode * 2));
-      img.setAttribute("preserveAspectRatio", "xMidYMid slice");
-      img.addEventListener("error", () => {
-        img.remove();
-        addNodePlaceholder(photoWrap, s, rNode);
+      // Prefer HTML <img> in foreignObject — iOS Safari often fails SVG <image href="…webp/png">
+      const fo = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
+      fo.setAttribute("class", "node-photo-fo");
+      fo.setAttribute("x", String(-rNode));
+      fo.setAttribute("y", String(-rNode));
+      fo.setAttribute("width", String(rNode * 2));
+      fo.setAttribute("height", String(rNode * 2));
+      const htmlImg = document.createElement("img");
+      htmlImg.className = "node-photo-html";
+      htmlImg.src = s.image;
+      htmlImg.alt = "";
+      htmlImg.loading = "lazy";
+      htmlImg.draggable = false;
+      htmlImg.style.cssText = `width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;pointer-events:none;`;
+      htmlImg.addEventListener("error", () => {
+        fo.remove();
+        // Fallback: SVG <image> (some desktop browsers)
+        const svgImg = document.createElementNS("http://www.w3.org/2000/svg", "image");
+        svgImg.setAttribute("class", "node-photo");
+        svgImg.setAttributeNS("http://www.w3.org/1999/xlink", "href", s.image);
+        svgImg.setAttribute("href", s.image);
+        svgImg.setAttribute("x", String(-rNode));
+        svgImg.setAttribute("y", String(-rNode));
+        svgImg.setAttribute("width", String(rNode * 2));
+        svgImg.setAttribute("height", String(rNode * 2));
+        svgImg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+        svgImg.addEventListener("error", () => {
+          svgImg.remove();
+          addNodePlaceholder(photoWrap, s, rNode);
+        });
+        photoWrap.appendChild(svgImg);
       });
-      photoWrap.appendChild(img);
+      fo.appendChild(htmlImg);
+      photoWrap.appendChild(fo);
     } else {
       addNodePlaceholder(photoWrap, s, rNode);
     }
