@@ -280,8 +280,9 @@
       row.setAttribute("draggable", "false");
       const color = TROPHIC[s.trophic]?.color || "#888";
       const inNet = state.selectedIds.has(s.id);
-      const thumb = s.image
-        ? `<img class="lab-thumb" src="${escapeHtml(s.image)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'troph-pip',style:'background:${color}'}))" />`
+      const thumbSrc = s.avatar || s.image;
+      const thumb = thumbSrc
+        ? `<img class="lab-thumb" src="${escapeHtml(thumbSrc)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'troph-pip',style:'background:${color}'}))" />`
         : `<span class="troph-pip" style="background:${color}"></span>`;
       row.innerHTML = `
         ${thumb}
@@ -820,7 +821,8 @@
     photoWrap.setAttribute("class", "node-photo-wrap");
     photoWrap.setAttribute("clip-path", `url(#${clipId})`);
 
-    if (s.image) {
+    const nodeImg = s.avatar || s.image;
+    if (nodeImg) {
       // Prefer HTML <img> in foreignObject — iOS Safari often fails SVG <image href="…webp/png">
       const fo = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject");
       fo.setAttribute("class", "node-photo-fo");
@@ -830,7 +832,7 @@
       fo.setAttribute("height", String(rNode * 2));
       const htmlImg = document.createElement("img");
       htmlImg.className = "node-photo-html";
-      htmlImg.src = s.image;
+      htmlImg.src = nodeImg;
       htmlImg.alt = "";
       htmlImg.loading = "lazy";
       htmlImg.draggable = false;
@@ -840,8 +842,8 @@
         // Fallback: SVG <image> (some desktop browsers)
         const svgImg = document.createElementNS("http://www.w3.org/2000/svg", "image");
         svgImg.setAttribute("class", "node-photo");
-        svgImg.setAttributeNS("http://www.w3.org/1999/xlink", "href", s.image);
-        svgImg.setAttribute("href", s.image);
+        svgImg.setAttributeNS("http://www.w3.org/1999/xlink", "href", nodeImg);
+        svgImg.setAttribute("href", nodeImg);
         svgImg.setAttribute("x", String(-rNode));
         svgImg.setAttribute("y", String(-rNode));
         svgImg.setAttribute("width", String(rNode * 2));

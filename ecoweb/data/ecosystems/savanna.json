@@ -19,7 +19,8 @@
       "trophic": "producer",
       "blurb_l1": "靠陽光自己製造養分的植物，是草原能量的入口。",
       "blurb_l2": "干濕季生長節奏影響草食動物遷徙與競爭強度；教學上代表一群草本生產者。",
-      "image": "assets/savanna/grass.png"
+      "image": "assets/savanna/grass.png",
+      "avatar": "assets/savanna/avatars/grass.png"
     },
     {
       "id": "acacia",
@@ -28,7 +29,8 @@
       "trophic": "producer",
       "blurb_l1": "稀樹草原上常見的樹木，葉子與嫩枝可供大型草食動物取食。",
       "blurb_l2": "喬木層與草本層分層取食，可示範長頸鹿與低矮草食者的生態位差異。",
-      "image": "assets/savanna/acacia.png"
+      "image": "assets/savanna/acacia.png",
+      "avatar": "assets/savanna/avatars/acacia.png"
     },
     {
       "id": "zebra",
@@ -37,7 +39,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "主要吃草的草食動物，常成群活動。",
       "blurb_l2": "與瞪羚等爭用牧草，屬資源競爭；亦是獅、鬣狗等的重要獵物。",
-      "image": "assets/savanna/zebra.png"
+      "image": "assets/savanna/zebra.png",
+      "avatar": "assets/savanna/avatars/zebra.png"
     },
     {
       "id": "thomson_gazelle",
@@ -46,7 +49,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "體型較小的草食羚羊，動作敏捷。",
       "blurb_l2": "常選較嫩牧草；與斑馬競爭重疊，亦是獵豹等追逐型捕食者的典型獵物。",
-      "image": "assets/savanna/thomson_gazelle.png"
+      "image": "assets/savanna/thomson_gazelle.png",
+      "avatar": "assets/savanna/avatars/thomson_gazelle.png"
     },
     {
       "id": "giraffe",
@@ -55,7 +59,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "專吃較高樹枝樹葉的大型草食動物。",
       "blurb_l2": "取食高度與斑馬／瞪羚分開，減少直接爭草；可示範清潔共生（牛椋鳥）。",
-      "image": "assets/savanna/giraffe.png"
+      "image": "assets/savanna/giraffe.png",
+      "avatar": "assets/savanna/avatars/giraffe.png"
     },
     {
       "id": "termite",
@@ -64,7 +69,8 @@
       "trophic": "primary_consumer",
       "blurb_l1": "吃植物材料與枯枝落葉的小型消費者，常築丘。",
       "blurb_l2": "連結活體植物與碎屑；其巢丘亦改變局部土壤結構（非生物環境示意）。",
-      "image": "assets/savanna/termite.png"
+      "image": "assets/savanna/termite.png",
+      "avatar": "assets/savanna/avatars/termite.png"
     },
     {
       "id": "cheetah",
@@ -73,7 +79,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "靠速度追捕中小型草食動物的肉食者。",
       "blurb_l2": "與獅、鬣狗在獵物與時空上可有競爭；教學上代表次級消費者。",
-      "image": "assets/savanna/cheetah.png"
+      "image": "assets/savanna/cheetah.png",
+      "avatar": "assets/savanna/avatars/cheetah.png"
     },
     {
       "id": "spotted_hyena",
@@ -82,7 +89,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "既會狩獵也會取食屍體的肉食者。",
       "blurb_l2": "與獅爭奪獵物與屍體，是示範「競爭＋腐食」的好例子。",
-      "image": "assets/savanna/spotted_hyena.png"
+      "image": "assets/savanna/spotted_hyena.png",
+      "avatar": "assets/savanna/avatars/spotted_hyena.png"
     },
     {
       "id": "lion",
@@ -91,7 +99,8 @@
       "trophic": "apex_consumer",
       "blurb_l1": "草原上少有天敵的大型捕食者（教學近頂級）。",
       "blurb_l2": "獵殺大型草食動物；屍體殘餘可被兀鷲等利用，構成偏利或碎屑途徑示意。",
-      "image": "assets/savanna/lion.png"
+      "image": "assets/savanna/lion.png",
+      "avatar": "assets/savanna/avatars/lion.png"
     },
     {
       "id": "white_backed_vulture",
@@ -100,7 +109,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "主要以動物屍體為食的大型鳥類。",
       "blurb_l2": "屬碎屑／腐食途徑；有時因大型捕食者留下的屍體而受益（偏利示意）。",
-      "image": "assets/savanna/white_backed_vulture.png"
+      "image": "assets/savanna/white_backed_vulture.png",
+      "avatar": "assets/savanna/avatars/white_backed_vulture.png"
     },
     {
       "id": "red_billed_oxpecker",
@@ -109,7 +119,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "停在大型哺乳動物身上啄食壁蝨等的小鳥。",
       "blurb_l2": "與長頸鹿等常示為互利：鳥得食物，獸減少寄生負擔（真實關係可更複雜，教學簡化）。",
-      "image": "assets/savanna/red_billed_oxpecker.png"
+      "image": "assets/savanna/red_billed_oxpecker.png",
+      "avatar": "assets/savanna/avatars/red_billed_oxpecker.png"
     },
     {
       "id": "tick",
@@ -118,7 +129,8 @@
       "trophic": "secondary_consumer",
       "blurb_l1": "依附在哺乳動物身上吸食血液的小型節肢動物。",
       "blurb_l2": "典型寄生：壁蝨受益、宿主受害；可被牛椋鳥取食。",
-      "image": "assets/savanna/tick.png"
+      "image": "assets/savanna/tick.png",
+      "avatar": "assets/savanna/avatars/tick.png"
     },
     {
       "id": "dung_beetle",
@@ -127,7 +139,8 @@
       "trophic": "decomposer",
       "blurb_l1": "以動物糞便為食並搬運糞球的甲蟲。",
       "blurb_l2": "加速養分回到土壤，是稀樹草原碎屑鏈的教學代表。",
-      "image": "assets/savanna/dung_beetle.png"
+      "image": "assets/savanna/dung_beetle.png",
+      "avatar": "assets/savanna/avatars/dung_beetle.png"
     },
     {
       "id": "saprophyte_fungi",
@@ -136,7 +149,8 @@
       "trophic": "decomposer",
       "blurb_l1": "分解枯枝、屍體與殘渣，使養分可再被植物利用。",
       "blurb_l2": "代表細菌／真菌分解者群落；本 app 用單一節點示意，非單一物種標本。",
-      "image": "assets/savanna/saprophyte_fungi.png"
+      "image": "assets/savanna/saprophyte_fungi.png",
+      "avatar": "assets/savanna/avatars/saprophyte_fungi.png"
     }
   ],
   "edges": [
