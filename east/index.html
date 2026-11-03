@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>東方超環 EAST｜全超导托卡马克教學頁｜澳門科學館</title>
+<meta name="description" content="澳門科學館教學頁：互動認識 EAST（東方超環）全超导托卡马克六大主机部件。" />
+<style>
+:root {
+  --bg: #0b1220;
+  --bg2: #121a2b;
+  --panel: #162033;
+  --panel2: #1c2a42;
+  --text: #e8eef8;
+  --muted: #9aadb8;
+  --accent: #3db8ff;
+  --accent2: #7cf0c2;
+  --warn: #ffb454;
+  --danger: #ff6b7a;
+  --ok: #4ade80;
+  --border: rgba(255,255,255,.12);
+  --shadow: 0 10px 40px rgba(0,0,0,.35);
+  --radius: 14px;
+  --font: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: radial-gradient(1200px 600px at 20% -10%, #1a3a5c 0%, transparent 55%),
+              radial-gradient(900px 500px at 90% 10%, #163048 0%, transparent 50%),
+              var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+a { color: var(--accent); }
+img { max-width: 100%; }
+.wrap { width: min(1120px, 92vw); margin: 0 auto; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+
+/* Hero */
+.hero {
+  padding: 3.2rem 0 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.badge {
+  display: inline-flex; gap: .45rem; align-items: center;
+  padding: .28rem .7rem; border-radius: 999px;
+  background: rgba(61,184,255,.12); color: var(--accent);
+  font-size: .85rem; border: 1px solid rgba(61,184,255,.35);
+}
+.hero h1 {
+  margin: .9rem 0 .35rem; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: .02em;
+}
+.hero .sub {
+  font-size: clamp(1rem, 2.2vw, 1.2rem); color: #c7d6ea; max-width: 46rem;
+}
+.meta-row {
+  display: flex; flex-wrap: wrap; gap: .6rem 1.2rem;
+  margin-top: 1.1rem; color: var(--muted); font-size: .92rem;
+}
+.fact-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem;
+  margin-top: 1.6rem;
+}
+.fact {
+  background: rgba(255,255,255,.04); border: 1px solid var(--border);
+  border-radius: 12px; padding: .85rem 1rem;
+}
+.fact b { display: block; font-size: 1.15rem; color: var(--accent2); }
+.fact span { font-size: .85rem; color: var(--muted); }
+
+/* Principle */
+.principle {
+  margin: 1.6rem auto; padding: 1.15rem 1.25rem;
+  background: linear-gradient(135deg, rgba(61,184,255,.12), rgba(124,240,194,.08));
+  border: 1px solid rgba(61,184,255,.28); border-radius: var(--radius);
+}
+.principle h2 { margin: 0 0 .45rem; font-size: 1.05rem; color: var(--accent); }
+.principle p { margin: 0; }
+.note {
+  margin-top: .7rem; font-size: .9rem; color: var(--warn);
+}
+
+/* Interactive layout */
+.lab {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, .9fr);
+  gap: 1rem;
+  margin: 1.4rem auto 2rem;
+  min-height: 620px;
+}
+.viewport-card, .side-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.viewport-head, .side-head {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: .6rem; flex-wrap: wrap;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,0,0,.18);
+}
+.viewport-head h2, .side-head h2 { margin: 0; font-size: 1.05rem; }
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: .4rem;
+}
+.btn {
+  appearance: none; border: 1px solid var(--border); background: var(--panel2);
+  color: var(--text); border-radius: 999px; padding: .38rem .75rem;
+  font: inherit; font-size: .82rem; cursor: pointer;
+}
+.btn:hover, .btn:focus-visible { border-color: var(--accent); outline: none; }
+.btn.active {
+  background: rgba(61,184,255,.2); border-color: var(--accent); color: #dff3ff;
+}
+.btn.ghost { background: transparent; }
+#c3d {
+  width: 100%; height: min(62vh, 560px); display: block; touch-action: none;
+  background: radial-gradient(circle at 40% 30%, #1b2d48, #0a101b 70%);
+}
+.hint {
+  padding: .55rem 1rem .85rem; font-size: .82rem; color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+.comp-list {
+  display: flex; flex-wrap: wrap; gap: .35rem; padding: .65rem 1rem .2rem;
+}
+.comp-chip {
+  border: 1px solid var(--border); background: transparent; color: var(--text);
+  border-radius: 999px; padding: .28rem .65rem; font: inherit; font-size: .78rem; cursor: pointer;
+}
+.comp-chip:hover, .comp-chip:focus-visible { border-color: var(--accent); outline: none; }
+.comp-chip.active { background: rgba(124,240,194,.18); border-color: var(--accent2); }
+
+.side-body { padding: 1rem; }
+.side-body h3 { margin: 0 0 .35rem; font-size: 1.25rem; }
+.tag {
+  display: inline-block; margin-bottom: .7rem;
+  padding: .15rem .5rem; border-radius: 6px; font-size: .75rem;
+  background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid var(--border);
+}
+.kv { margin: .65rem 0; }
+.kv strong { display: block; color: var(--accent2); font-size: .9rem; margin-bottom: .15rem; }
+.kv p { margin: 0; color: #d5e1f2; font-size: .95rem; }
+.empty-side { color: var(--muted); }
+
+/* Concepts */
+.concepts {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem;
+  margin: 0 auto 2rem;
+}
+.card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+.card h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+.card p { margin: 0; color: #cdd9ea; font-size: .92rem; }
+
+/* Quiz */
+.quiz {
+  margin: 0 auto 2.2rem; padding: 1.2rem;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.quiz h2 { margin: 0 0 .8rem; }
+.q { margin-bottom: 1.1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.q:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+.q p { margin: 0 0 .55rem; font-weight: 600; }
+.options { display: grid; gap: .4rem; }
+.opt {
+  text-align: left; width: 100%;
+  border: 1px solid var(--border); background: var(--panel2); color: var(--text);
+  border-radius: 10px; padding: .55rem .75rem; font: inherit; cursor: pointer;
+}
+.opt:hover { border-color: var(--accent); }
+.opt.correct { border-color: var(--ok); background: rgba(74,222,128,.12); }
+.opt.wrong { border-color: var(--danger); background: rgba(255,107,122,.1); }
+.feedback { margin-top: .45rem; font-size: .88rem; min-height: 1.2em; }
+.feedback.ok { color: var(--ok); }
+.feedback.bad { color: var(--danger); }
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.6rem 0 2.4rem; color: var(--muted); font-size: .88rem;
+}
+footer h2 { color: var(--text); font-size: 1rem; margin: 0 0 .6rem; }
+footer ul { padding-left: 1.1rem; margin: .4rem 0 1rem; }
+footer li { margin: .25rem 0; }
+.disclaimer {
+  background: rgba(255,180,84,.08); border: 1px solid rgba(255,180,84,.25);
+  border-radius: 10px; padding: .7rem .9rem; color: #ffd9a8;
+}
+
+/* Drawer for narrow */
+.drawer-toggle {
+  display: none; width: calc(100% - 2rem); margin: .6rem 1rem;
+}
+@media (max-width: 900px) {
+  .fact-strip { grid-template-columns: repeat(2, 1fr); }
+  .concepts { grid-template-columns: 1fr; }
+  .lab {
+    grid-template-columns: 1fr;
+    min-height: unset;
+  }
+  .side-card {
+    position: sticky; bottom: 0; z-index: 20;
+    max-height: 42vh; overflow: auto;
+    border-radius: 16px 16px 0 0;
+  }
+  .drawer-toggle { display: inline-flex; justify-content: center; }
+  #c3d { height: min(55vh, 480px); }
+}
+@media (max-width: 560px) {
+  .fact-strip { grid-template-columns: 1fr 1fr; }
+  .hero { padding-top: 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">澳門科學館 · 人造太陽主題 · Round 1 教學頁</span>
+    <h1>東方超環 EAST</h1>
+    <p class="sub">全超导托卡马克實驗裝置：用可旋轉、可點選的 3D 模型，由外到內認識六大主机部件——它是研究「磁場笼子」裡高溫電漿的實驗機器，不是發電廠。</p>
+    <div class="meta-row">
+      <span>地點：安徽省合肥市 · 中國科學院等离子体物理研究所（ASIPP）</span>
+      <span>對象：中學生／公眾／教師</span>
+      <span>語言：繁體中文</span>
+    </div>
+    <div class="fact-strip" aria-label="關鍵事實">
+      <div class="fact"><b>約 11 m</b><span>主机高度（官方）</span></div>
+      <div class="fact"><b>約 8 m</b><span>主机直徑（官方）</span></div>
+      <div class="fact"><b>約 400 t</b><span>主机重量（官方）</span></div>
+      <div class="fact"><b>2006 起</b><span>工程調試／獲等离子体</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="wrap principle" aria-labelledby="principle-title">
+  <h2 id="principle-title">原理一句</h2>
+  <p>托卡馬克用強大的<strong>環向與極向磁場</strong>，把極熱的電漿（離子化氣體）約束在<strong>甜甜圈形</strong>的真空室內，讓原子核有機會發生聚變反應。EAST 用來研究「穩定、長時間」的約束與加熱——<strong>實驗裝置，不是發電廠</strong>。「人造小太陽」是通俗比喻：原理同太陽核聚變放能，但 EAST 仍不能向電網送電。</p>
+  <p class="note">設計表述：高功率加熱下溫度可超過一億度；脈衝目標約 1000 秒量級。具體實驗紀錄須標年份與來源（見下方成就卡與頁腳）。</p>
+</section>
+
+<section class="wrap" aria-labelledby="achieve-title" style="margin-bottom:1.2rem">
+  <div class="card" style="border-color:rgba(124,240,194,.35)">
+    <h3 id="achieve-title">近年成就一句（附來源）</h3>
+    <p><strong>2025 年 1 月 20 日</strong>，EAST 實現超過一億度、<strong>1066 秒</strong>穩態長脈衝高約束模（H-mode）電漿運行（官方報道）。來源：ASIPP 新聞、中科院英文報道（見頁腳）。</p>
+  </div>
+</section>
+
+<section class="wrap lab" aria-label="3D 互動教學">
+  <div class="viewport-card">
+    <div class="viewport-head">
+      <h2>3D 互動：由外到內的洋葱層</h2>
+      <div class="toolbar" role="toolbar" aria-label="顯示模式">
+        <button type="button" class="btn active" data-mode="all" id="btnAll">全部層</button>
+        <button type="button" class="btn" data-mode="magnets" id="btnMag">只看磁体</button>
+        <button type="button" class="btn" data-mode="vacuum" id="btnVac">只看真空</button>
+        <button type="button" class="btn" data-mode="cryoFade" id="btnCryo">半透明杜瓦</button>
+        <button type="button" class="btn ghost" id="btnReset">一鍵復位</button>
+      </div>
+    </div>
+    <div class="comp-list" id="compList" role="listbox" aria-label="組件鍵盤列表"></div>
+    <canvas id="c3d" tabindex="0" aria-label="EAST 托卡马克三維模型，可旋轉縮放並點選組件"></canvas>
+    <div class="hint">
+      滑鼠拖曳旋轉 · 滾輪縮放 · 觸控單指旋轉／雙指縮放 · 點選零件看側欄。層次：杜瓦 → 外冷屏 → TF＋PF／CS → 內冷屏 → 真空室 → 偏濾器／電漿；底座為支撐。
+      <strong>本頁不做會打亂層次的 explode。</strong>
+    </div>
+  </div>
+
+  <aside class="side-card" id="sideCard">
+    <div class="side-head">
+      <h2>組件解釋</h2>
+      <button type="button" class="btn ghost drawer-toggle" id="drawerToggle">展開／收合說明</button>
+    </div>
+    <div class="side-body" id="sideBody">
+      <div class="empty-side">
+        <p>點選 3D 模型或上方標籤，查看「是什麼／做什麼／與人造太陽的關係」。</p>
+        <p>六大主机部件：①超高真空室 ②纵场线圈 ③极向场线圈（含中心螺管）④内外冷屏 ⑤外真空杜瓦 ⑥支撑系统。另含偏濾器與輔助加熱／診斷標記。</p>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<section class="wrap concepts" aria-label="三個點解">
+  <article class="card">
+    <h3>點解要超导？</h3>
+    <p>电阻近零 → 可長時間維持强磁場、能耗可控；先決條件是超低温（线圈约 −269℃／≈4.5 K，NbTi）。類比：超導像「幾乎不發熱的電線」，才能撐起強大磁場笼子。</p>
+  </article>
+  <article class="card">
+    <h3>點解要超高真空？</h3>
+    <p>減少雜質與碰撞干擾，給電漿乾淨環境；也配合杜瓦／冷屏做熱隔離。真空首先是實驗環境，不是「因為真空所以變熱」。</p>
+  </article>
+  <article class="card">
+    <h3>點解要偏濾器？</h3>
+    <p>把電漿邊緣的熱與雜質引走，保護第一壁，服務長脈衝／稳态實驗。它不是發電渦輪，也不是亂噴火的爐算。</p>
+  </article>
+</section>
+
+<section class="wrap quiz" aria-labelledby="quiz-title">
+  <h2 id="quiz-title">小測驗（即時回饋）</h2>
+  <div class="q" data-answer="1">
+    <p>1. EAST（東方超環）主要是什麼？</p>
+    <div class="options">
+      <button type="button" class="opt" data-i="0">已經向電網送電的商用核聚變電廠</button>
+      <button type="button" class="opt" data-i="1">磁約束核聚變實驗托卡马克（全超导）</button>
+      <button type="button" class="opt" data-i="2">裂變核電廠反應爐</button>
+    </div>
+    <div class="feedback" aria-live="polite"></div>
+  </div>
+  <div class="q" data-answer="2">
+    <p>2. 產生環向強磁場、把電漿「箍住」的主力是？</p>
+    <div class="options">
+      <button type="button" class="opt" data-i="0">單一圓形螺線管</button>
+      <button type="button" class="opt" data-i="1">偏濾器靶板</button>
+      <button type="button" class="opt" data-i="2">16 個 D 形超导纵场（TF）线圈</button>
+    </div>
+    <div class="feedback" aria-live="polite"></div>
+  </div>
+  <div class="q" data-answer="0">
+    <p>3. 由外到內，下列哪一層最靠近室溫外側？</p>
+    <div class="options">
+      <button type="button" class="opt" data-i="0">外真空杜瓦</button>
+      <button type="button" class="opt" data-i="1">超高真空室</button>
+      <button type="button" class="opt" data-i="2">等离子体示意體</button>
+    </div>
+    <div class="feedback" aria-live="polite"></div>
+  </div>
+  <div class="q" data-answer="1">
+    <p>4. 「人造小太陽」在本頁應理解為？</p>
+    <div class="options">
+      <button type="button" class="opt" data-i="0">EAST 已等同太陽、可替代化石能源</button>
+      <button type="button" class="opt" data-i="1">通俗比喻：聚變原理相似；EAST 仍是實驗裝置</button>
+      <button type="button" class="opt" data-i="2">装置會像太陽一樣核爆炸</button>
+    </div>
+    <div class="feedback" aria-live="polite"></div>
+  </div>
+  <div class="q" data-answer="2">
+    <p>5. 2025-01-20 官方報道的長脈衝成績是？</p>
+    <div class="options">
+      <button type="button" class="opt" data-i="0">未標來源的「永久世界紀錄」口號</button>
+      <button type="button" class="opt" data-i="1">約 100 秒、未達一億度</button>
+      <button type="button" class="opt" data-i="2">超過一億度、1066 秒 H-mode（附官方來源）</button>
+    </div>
+    <div class="feedback" aria-live="polite"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <h2>來源與取用說明</h2>
+    <p class="disclaimer">頁內 3D 為程序幾何教學示意，非工程級 CAD；未嵌入新聞／機構照片。數字以 ASIPP／中科院公開介紹為準。取用日期：2026-11-03（Asia/Macau）。</p>
+    <ul>
+      <li>ASIPP EAST 大科学工程簡介：<a href="http://www.ipp.cas.cn/dakexuegongcheng/east/" target="_blank" rel="noopener">http://www.ipp.cas.cn/dakexuegongcheng/east/</a></li>
+      <li>ASIPP 科普構造文（人造小太陽比喻／部件）：<a href="https://ipp.cas.cn/kxcb/kpzs/hjb/EAST/201210/t20121004_342072.html" target="_blank" rel="noopener">https://ipp.cas.cn/kxcb/kpzs/hjb/EAST/201210/t20121004_342072.html</a></li>
+      <li>CAS LSSF EAST：<a href="https://lssf.cas.cn/sszs/zyyj/eastcd/" target="_blank" rel="noopener">https://lssf.cas.cn/sszs/zyyj/eastcd/</a></li>
+      <li>EAST 官方站簡介：<a href="http://east.ipp.ac.cn/index/article/info/id/52.html" target="_blank" rel="noopener">http://east.ipp.ac.cn/index/article/info/id/52.html</a></li>
+      <li>1066 秒新聞（ASIPP，2025-01）：<a href="https://ipp.cas.cn/xwdt/ttxw/202501/t20250120_410191.html" target="_blank" rel="noopener">https://ipp.cas.cn/xwdt/ttxw/202501/t20250120_410191.html</a></li>
+      <li>中科院英文報道（2025-01-21）：<a href="https://english.cas.cn/head/202501/t20250121_899060.shtml" target="_blank" rel="noopener">https://english.cas.cn/head/202501/t20250121_899060.shtml</a></li>
+      <li>開放綜述（校對用）：Hu et al., AAPPS Bulletin 2023，DOI <a href="https://doi.org/10.1007/s43673-023-00080-9" target="_blank" rel="noopener">10.1007/s43673-023-00080-9</a></li>
+    </ul>
+    <p>製作：澳門科學館 EAST 教學頁 Round 1 · 對齊講座受眾 · 本地預覽，未部署 GitHub Pages。</p>
+  </div>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const COMPONENTS = {
+  cryostat: {
+    name: '外真空杜瓦',
+    host: '⑤ 六大主机',
+    what: '最外層的「保溫瓶＋真空罩」圓桶殼體（頂蓋／環體／基座），為內部提供真空環境、隔斷熱交換並承受載荷。',
+    does: '保護裏面超冷超导磁体，隔開室溫空氣，是整機最外的結構邊界。',
+    sun: '沒有可靠的外杜瓦，超导磁体無法維持接近絕對零度，也就撐不起「磁場笼子」去關住高溫電漿。'
+  },
+  thermal_outer: {
+    name: '外冷屏',
+    host: '④ 六大主机（内外冷屏）',
+    what: '夾在外杜瓦與超导磁体之間的熱輻射屏障（約 80 K 量級）。',
+    does: '減少熱輻射打到 −269℃ 磁体，像擋熱的「遮陽擋」。',
+    sun: '冷屏守護超低温，讓全超导磁场能長時間工作——這是 EAST「全超导」路線的關鍵一環。'
+  },
+  tf_coils: {
+    name: '超导纵场 TF×16（D形）',
+    host: '② 六大主机',
+    what: '16 個大型 D 形 NbTi 超导线圈，环向均布，產生等离子体中心 BT ≈ 3.5 T 的環向磁場。',
+    does: '像「輪胎骨架」把電漿箍在甜甜圈軌道上，是約束的主力磁場。',
+    sun: '沒有強而穩的环向场，超熱電漿就無法被關在真空室裡——談不上「人造小太陽」實驗。'
+  },
+  pf_coils: {
+    name: '超导极向场（PF）',
+    host: '③ 六大主机',
+    what: '位於環上下／外側的超导极向场线圈（教學頁不糾結 12／14 計數爭議，跟官方功能敘事）。',
+    does: '塑造電漿截面形狀、協助控制位置與平衡。',
+    sun: '极向场讓電漿截面更可控，配合长脉冲稳态運行研究。'
+  },
+  cs: {
+    name: '中心螺線管（CS）',
+    host: '③ 六大主机（极向场敘事內）',
+    what: '裝置中軸的超导线圈組，同屬 NbTi 超导系统。',
+    does: '感應與驅動／維持电漿電流，是啟動與維持電流的重要部分。',
+    sun: '有了電漿電流與成形磁场，托卡馬克才能進入可研究的約束狀態。'
+  },
+  thermal_inner: {
+    name: '內冷屏',
+    host: '④ 六大主机（内外冷屏）',
+    what: '夾在磁体與真空室之間的熱屏障。',
+    does: '保護超冷磁体，並與外冷屏一起構成内外冷屏系統。',
+    sun: '内外冷屏分工擋熱，支撐「芯部上亿度 ↔ 线圈 −269℃」的极限溫差環境。'
+  },
+  vacuum_vessel: {
+    name: '超高真空室',
+    host: '① 六大主机',
+    what: '电漿真正「住」的超乾淨房間；16 段 D 形截面扇形焊接語意；約有多個窗口供抽氣／診斷／加熱。',
+    does: '提供超高真空環境，減少空氣分子干擾，並承載第一壁與窗口。',
+    sun: '磁場笼子關住的超熱電漿就在這裡——實驗對象的家。'
+  },
+  supports: {
+    name: '支撑系统',
+    host: '⑥ 六大主机',
+    what: '托住約幾百噸主机的腳與骨架（主机重約 400 t）。',
+    does: '承受重力與電磁力，同杜瓦基座一起把整機穩穩立住。',
+    sun: '沒有可靠支撐，就無法安全運行這台「人造小太陽」研究裝置。'
+  },
+  divertor: {
+    name: '偏濾器',
+    host: '真空室內 PFC（可選＋）',
+    what: '真空室上下的靶板區，把邊界熱與雜質導走（材料曾升級，科普一句即可）。',
+    does: '排熱排雜，保護第一壁，服務長脈衝／稳态實驗。',
+    sun: '要跑到千秒量級脈衝，偏濾器是延長穩定運行的關鍵「排氣排熱口」。'
+  },
+  plasma: {
+    name: '等离子体示意',
+    host: '示意（非主机结构件）',
+    what: '被磁場約束成环的超高溫電離氣體——聚變研究的實驗對象（半透明示意，非實心火球）。',
+    does: '在真空室內沿甜甜圈軌道被关住，接受加热与诊断观测。',
+    sun: '「人造小太陽」比喻指向的就是這團受控电漿；記得：EAST 仍是實驗裝置。'
+  },
+  heating: {
+    name: '輔助加熱標記',
+    host: '外圍系統簡化標記（非六大）',
+    what: '窗口上的加熱／驅動入口示意（低杂波、中性束、离子／电子回旋等——名稱跟公開介紹）。',
+    does: '把电漿加熱到近億度量級並協助延長脈衝。',
+    sun: '單靠歐姆加熱不夠；輔助加熱是邁向高溫長脈衝的必要手段。'
+  },
+  diagnostics: {
+    name: '診斷系統標記',
+    host: '外圍系統簡化標記（非六大）',
+    what: '窗口上的量測入口示意（雷射、微波、光譜等；例如湯姆遜散射等公開診斷）。',
+    does: '觀察溫度、密度等，讓科學家知道电漿狀態。',
+    sun: '沒有診斷，就無法驗證「磁場笼子」是否真的關好了高溫电漿。'
+  }
+};
+
+const QUIZ_EXPLAIN = [
+  '正確。EAST 是全超导托卡马克實驗裝置，不是商用電廠，也不是裂變堆。',
+  '正確。16×D 形 TF 產生环向强磁場（BT≈3.5 T）。',
+  '正確。洋葱層最外是外真空杜瓦。',
+  '正確。比喻有邊界：實驗≠電廠。',
+  '正確。2025-01-20 官方報道超過一億度、1066 秒 H-mode。'
+];
+
+// —— Quiz ——
+document.querySelectorAll('.q').forEach((q, qi) => {
+  const ans = Number(q.dataset.answer);
+  const fb = q.querySelector('.feedback');
+  q.querySelectorAll('.opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (q.dataset.locked) return;
+      q.dataset.locked = '1';
+      const i = Number(btn.dataset.i);
+      q.querySelectorAll('.opt').forEach(b => {
+        const bi = Number(b.dataset.i);
+        if (bi === ans) b.classList.add('correct');
+        if (bi === i && i !== ans) b.classList.add('wrong');
+      });
+      if (i === ans) {
+        fb.className = 'feedback ok';
+        fb.textContent = QUIZ_EXPLAIN[qi];
+      } else {
+        fb.className = 'feedback bad';
+        fb.textContent = '再想想。' + QUIZ_EXPLAIN[qi];
+      }
+    });
+  });
+});
+
+// —— Three.js scene ——
+const canvas = document.getElementById('c3d');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+camera.position.set(9.5, 5.2, 10.5);
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.minDistance = 5;
+controls.maxDistance = 28;
+controls.target.set(0, 0.4, 0);
+
+scene.add(new THREE.AmbientLight(0x9eb6d4, 0.55));
+const key = new THREE.DirectionalLight(0xffffff, 1.05);
+key.position.set(6, 10, 4);
+scene.add(key);
+const fill = new THREE.DirectionalLight(0x6ec8ff, 0.35);
+fill.position.set(-8, 2, -4);
+scene.add(fill);
+const rim = new THREE.PointLight(0xff9a5c, 0.35, 40);
+rim.position.set(0, -2, 6);
+scene.add(rim);
+
+const root = new THREE.Group();
+scene.add(root);
+
+const pickables = [];
+const groups = {};
+let selectedId = null;
+const highlightMats = new Map();
+
+function makeMat(color, opts = {}) {
+  return new THREE.MeshPhysicalMaterial({
+    color,
+    metalness: opts.metalness ?? 0.35,
+    roughness: opts.roughness ?? 0.45,
+    transparent: !!opts.transparent,
+    opacity: opts.opacity ?? 1,
+    side: opts.side ?? THREE.FrontSide,
+    depthWrite: opts.depthWrite ?? !opts.transparent,
+    emissive: opts.emissive ? new THREE.Color(opts.emissive) : new THREE.Color(0x000000),
+    emissiveIntensity: opts.emissiveIntensity ?? 0,
+    transmission: opts.transmission ?? 0,
+    thickness: opts.thickness ?? 0
+  });
+}
+
+function addPick(mesh, id) {
+  mesh.userData.compId = id;
+  pickables.push(mesh);
+  if (!groups[id]) groups[id] = [];
+  groups[id].push(mesh);
+}
+
+/** D-shaped profile in local XY (then extruded along local Z for coil cross-section, rotated into place) */
+function createDShape(scale = 1) {
+  const s = new THREE.Shape();
+  const R = 1.55 * scale;
+  const r = 0.95 * scale;
+  // Outer D: straight inner leg + curved outer
+  s.moveTo(-r, -R * 0.92);
+  s.lineTo(-r, R * 0.92);
+  s.absarc(0.15 * scale, 0, R, Math.PI * 0.42, -Math.PI * 0.42, true);
+  s.lineTo(-r, -R * 0.92);
+  // Hole for D tube
+  const hole = new THREE.Path();
+  const Ri = R - 0.22 * scale;
+  const ri = r + 0.18 * scale;
+  hole.moveTo(-ri + 0.08 * scale, -Ri * 0.85);
+  hole.lineTo(-ri + 0.08 * scale, Ri * 0.85);
+  hole.absarc(0.15 * scale, 0, Ri - 0.05 * scale, Math.PI * 0.4, -Math.PI * 0.4, true);
+  hole.lineTo(-ri + 0.08 * scale, -Ri * 0.85);
+  s.holes.push(hole);
+  return s;
+}
+
+function buildTokamak() {
+  // Scale: visual teaching model ~ diameter units ~ 8 relative
+  const Rmaj = 2.35;
+
+  // 6 supports at base
+  const supportMat = makeMat(0x6b7280, { metalness: 0.6, roughness: 0.35 });
+  const supportGroup = new THREE.Group();
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2;
+    const leg = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.12, 0.18, 1.6, 12),
+      supportMat.clone()
+    );
+    leg.position.set(Math.cos(a) * 2.9, -2.05, Math.sin(a) * 2.9);
+    addPick(leg, 'supports');
+    supportGroup.add(leg);
+  }
+  const base = new THREE.Mesh(
+    new THREE.TorusGeometry(2.9, 0.14, 10, 48),
+    supportMat.clone()
+  );
+  base.rotation.x = Math.PI / 2;
+  base.position.y = -2.75;
+  addPick(base, 'supports');
+  supportGroup.add(base);
+  root.add(supportGroup);
+
+  // Cryostat (outermost) — translucent barrel
+  const cryoMat = makeMat(0x8ec5ff, {
+    transparent: true, opacity: 0.22, metalness: 0.1, roughness: 0.25,
+    side: THREE.DoubleSide, depthWrite: false
+  });
+  const cryo = new THREE.Group();
+  const cryoBody = new THREE.Mesh(
+    new THREE.CylinderGeometry(4.15, 4.15, 5.6, 64, 1, true),
+    cryoMat
+  );
+  cryoBody.position.y = 0.1;
+  addPick(cryoBody, 'cryostat');
+  const cryoTop = new THREE.Mesh(
+    new THREE.CircleGeometry(4.15, 64),
+    cryoMat.clone()
+  );
+  cryoTop.rotation.x = -Math.PI / 2;
+  cryoTop.position.y = 2.9;
+  addPick(cryoTop, 'cryostat');
+  const cryoBot = new THREE.Mesh(
+    new THREE.CircleGeometry(4.15, 64),
+    cryoMat.clone()
+  );
+  cryoBot.rotation.x = Math.PI / 2;
+  cryoBot.position.y = -2.7;
+  addPick(cryoBot, 'cryostat');
+  cryo.add(cryoBody, cryoTop, cryoBot);
+  root.add(cryo);
+
+  // Outer thermal shield
+  const otsMat = makeMat(0xc4b5fd, {
+    transparent: true, opacity: 0.28, metalness: 0.2, roughness: 0.4,
+    side: THREE.DoubleSide, depthWrite: false
+  });
+  const ots = new THREE.Mesh(
+    new THREE.CylinderGeometry(3.75, 3.75, 5.0, 48, 1, true),
+    otsMat
+  );
+  ots.position.y = 0.05;
+  addPick(ots, 'thermal_outer');
+  root.add(ots);
+
+  // TF coils ×16 D-shaped, toroidally arrayed
+  const tfMat = makeMat(0x3b82f6, { metalness: 0.55, roughness: 0.32, emissive: 0x1e3a8a, emissiveIntensity: 0.15 });
+  const tfGroup = new THREE.Group();
+  const dShape = createDShape(1);
+  const tfGeom = new THREE.ExtrudeGeometry(dShape, {
+    depth: 0.28, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.02, bevelSegments: 2, curveSegments: 24
+  });
+  tfGeom.translate(0, 0, -0.14);
+  tfGeom.rotateY(Math.PI / 2);
+  for (let i = 0; i < 16; i++) {
+    const ang = (i / 16) * Math.PI * 2;
+    const coil = new THREE.Mesh(tfGeom, tfMat.clone());
+    coil.position.set(Math.cos(ang) * Rmaj, 0, Math.sin(ang) * Rmaj);
+    coil.rotation.y = -ang;
+    // Slight scale to teaching proportions
+    coil.scale.set(1.05, 1.05, 1.05);
+    addPick(coil, 'tf_coils');
+    tfGroup.add(coil);
+  }
+  root.add(tfGroup);
+
+  // PF coils — rings above/below
+  const pfMat = makeMat(0x22d3ee, { metalness: 0.5, roughness: 0.35, emissive: 0x0e7490, emissiveIntensity: 0.12 });
+  const pfGroup = new THREE.Group();
+  const pfSpecs = [
+    { y: 2.05, r: 2.0, tube: 0.11 },
+    { y: 1.55, r: 2.85, tube: 0.1 },
+    { y: -1.55, r: 2.85, tube: 0.1 },
+    { y: -2.05, r: 2.0, tube: 0.11 },
+    { y: 0.85, r: 3.25, tube: 0.09 },
+    { y: -0.85, r: 3.25, tube: 0.09 }
+  ];
+  pfSpecs.forEach(s => {
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(s.r, s.tube, 12, 64),
+      pfMat.clone()
+    );
+    ring.rotation.x = Math.PI / 2;
+    ring.position.y = s.y;
+    addPick(ring, 'pf_coils');
+    pfGroup.add(ring);
+  });
+  root.add(pfGroup);
+
+  // Center solenoid
+  const csMat = makeMat(0xf59e0b, { metalness: 0.45, roughness: 0.4, emissive: 0x92400e, emissiveIntensity: 0.18 });
+  const cs = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.55, 0.55, 3.4, 32),
+    csMat
+  );
+  cs.position.y = 0;
+  addPick(cs, 'cs');
+  // banding
+  for (let i = 0; i < 5; i++) {
+    const band = new THREE.Mesh(
+      new THREE.TorusGeometry(0.56, 0.035, 8, 32),
+      csMat.clone()
+    );
+    band.rotation.x = Math.PI / 2;
+    band.position.y = -1.2 + i * 0.6;
+    addPick(band, 'cs');
+    root.add(band);
+  }
+  root.add(cs);
+
+  // Inner thermal shield
+  const itsMat = makeMat(0xa78bfa, {
+    transparent: true, opacity: 0.26, metalness: 0.15, roughness: 0.45,
+    side: THREE.DoubleSide, depthWrite: false
+  });
+  // approximate as torus shell between TF and vessel
+  const its = new THREE.Mesh(
+    new THREE.TorusGeometry(Rmaj, 1.05, 20, 64),
+    itsMat
+  );
+  its.rotation.x = Math.PI / 2;
+  addPick(its, 'thermal_inner');
+  root.add(its);
+
+  // Vacuum vessel — D-ish torus (use torus as teaching approx of D-section VV)
+  const vvMat = makeMat(0xe2e8f0, {
+    transparent: true, opacity: 0.45, metalness: 0.3, roughness: 0.35,
+    side: THREE.DoubleSide, depthWrite: false
+  });
+  const vv = new THREE.Mesh(
+    new THREE.TorusGeometry(Rmaj, 0.78, 24, 72),
+    vvMat
+  );
+  vv.rotation.x = Math.PI / 2;
+  addPick(vv, 'vacuum_vessel');
+  root.add(vv);
+
+  // Divertor wedges (upper & lower, 8 each)
+  const divMat = makeMat(0xf43f5e, { metalness: 0.4, roughness: 0.45, emissive: 0x881337, emissiveIntensity: 0.2 });
+  const divGroup = new THREE.Group();
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2 + 0.2;
+    for (const ySign of [1, -1]) {
+      const wedge = new THREE.Mesh(
+        new THREE.BoxGeometry(0.55, 0.12, 0.35),
+        divMat.clone()
+      );
+      const rr = Rmaj + 0.15;
+      wedge.position.set(Math.cos(a) * rr, ySign * 0.72, Math.sin(a) * rr);
+      wedge.lookAt(0, ySign * 0.72, 0);
+      wedge.rotateX(ySign * 0.35);
+      addPick(wedge, 'divertor');
+      divGroup.add(wedge);
+    }
+  }
+  root.add(divGroup);
+
+  // Plasma translucent torus
+  const plasmaMat = makeMat(0xff7a59, {
+    transparent: true, opacity: 0.32, metalness: 0, roughness: 0.2,
+    emissive: 0xff5533, emissiveIntensity: 0.55, depthWrite: false,
+    side: THREE.DoubleSide
+  });
+  const plasma = new THREE.Mesh(
+    new THREE.TorusGeometry(Rmaj, 0.42, 24, 80),
+    plasmaMat
+  );
+  plasma.rotation.x = Math.PI / 2;
+  addPick(plasma, 'plasma');
+  root.add(plasma);
+
+  // Heating / diagnostics port markers on vessel
+  const heatMat = makeMat(0x4ade80, { emissive: 0x166534, emissiveIntensity: 0.4, metalness: 0.3, roughness: 0.4 });
+  const diagMat = makeMat(0x60a5fa, { emissive: 0x1e40af, emissiveIntensity: 0.4, metalness: 0.3, roughness: 0.4 });
+  for (let i = 0; i < 4; i++) {
+    const a = (i / 4) * Math.PI * 2 + 0.4;
+    const port = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.55, 12), heatMat.clone());
+    port.position.set(Math.cos(a) * (Rmaj + 0.95), 0.15, Math.sin(a) * (Rmaj + 0.95));
+    port.lookAt(0, 0.15, 0);
+    port.rotateX(Math.PI / 2);
+    addPick(port, 'heating');
+    root.add(port);
+  }
+  for (let i = 0; i < 4; i++) {
+    const a = (i / 4) * Math.PI * 2 + 0.4 + Math.PI / 4;
+    const port = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 12), diagMat.clone());
+    port.position.set(Math.cos(a) * (Rmaj + 0.88), -0.2, Math.sin(a) * (Rmaj + 0.88));
+    addPick(port, 'diagnostics');
+    root.add(port);
+  }
+
+  // Soft ground disc
+  const ground = new THREE.Mesh(
+    new THREE.CircleGeometry(6.5, 64),
+    new THREE.MeshBasicMaterial({ color: 0x0a1422, transparent: true, opacity: 0.65 })
+  );
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -2.9;
+  root.add(ground);
+}
+
+buildTokamak();
+
+// Component chip list (keyboard accessible)
+const chipOrder = [
+  'cryostat', 'thermal_outer', 'tf_coils', 'pf_coils', 'cs',
+  'thermal_inner', 'vacuum_vessel', 'divertor', 'plasma', 'supports',
+  'heating', 'diagnostics'
+];
+const listEl = document.getElementById('compList');
+chipOrder.forEach(id => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'comp-chip';
+  b.dataset.id = id;
+  b.setAttribute('role', 'option');
+  b.textContent = COMPONENTS[id].name;
+  b.addEventListener('click', () => selectComponent(id));
+  listEl.appendChild(b);
+});
+
+const sideBody = document.getElementById('sideBody');
+function selectComponent(id) {
+  selectedId = id;
+  // reset emissive
+  pickables.forEach(m => {
+    if (m.material && m.material.emissive) {
+      const base = highlightMats.get(m);
+      if (base) {
+        m.material.emissive.setHex(base.e);
+        m.material.emissiveIntensity = base.i;
+      }
+    }
+  });
+  const meshes = groups[id] || [];
+  meshes.forEach(m => {
+    if (!highlightMats.has(m) && m.material && m.material.emissive) {
+      highlightMats.set(m, { e: m.material.emissive.getHex(), i: m.material.emissiveIntensity });
+    }
+    if (m.material && m.material.emissive) {
+      m.material.emissive.setHex(0xffffff);
+      m.material.emissiveIntensity = 0.55;
+    }
+  });
+  document.querySelectorAll('.comp-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.id === id);
+  });
+  const info = COMPONENTS[id];
+  sideBody.innerHTML = `
+    <span class="tag">${info.host}</span>
+    <h3>${info.name}</h3>
+    <div class="kv"><strong>是什麼</strong><p>${info.what}</p></div>
+    <div class="kv"><strong>做什麼</strong><p>${info.does}</p></div>
+    <div class="kv"><strong>與人造太陽的關係</strong><p>${info.sun}</p></div>
+  `;
+}
+
+// Raycaster
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+function onPointer(event) {
+  const rect = canvas.getBoundingClientRect();
+  const clientX = event.clientX ?? (event.touches && event.touches[0]?.clientX);
+  const clientY = event.clientY ?? (event.touches && event.touches[0]?.clientY);
+  if (clientX == null) return;
+  pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+  pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  const hits = raycaster.intersectObjects(pickables, false);
+  if (hits.length) {
+    const id = hits[0].object.userData.compId;
+    if (id) selectComponent(id);
+  }
+}
+canvas.addEventListener('pointerup', (e) => {
+  if (e.detail === 0) return;
+  // ignore if dragged a lot — simple click
+  onPointer(e);
+});
+
+// Display modes — fade / cutaway toggles only (NO explode)
+const defaultOpacity = new Map();
+pickables.forEach(m => {
+  if (m.material) defaultOpacity.set(m, m.material.opacity ?? 1);
+});
+
+function setVisible(ids, visible) {
+  ids.forEach(id => {
+    (groups[id] || []).forEach(m => { m.visible = visible; });
+  });
+}
+function setOpacity(ids, opacity) {
+  ids.forEach(id => {
+    (groups[id] || []).forEach(m => {
+      if (!m.material) return;
+      m.material.transparent = opacity < 0.99;
+      m.material.opacity = opacity;
+      m.material.depthWrite = opacity > 0.9;
+      m.visible = opacity > 0.02;
+    });
+  });
+}
+
+const ALL_IDS = Object.keys(groups);
+const MAGNET_IDS = ['tf_coils', 'pf_coils', 'cs'];
+const VACUUM_IDS = ['vacuum_vessel', 'divertor', 'plasma', 'heating', 'diagnostics'];
+const STRUCTURE = ['cryostat', 'thermal_outer', 'thermal_inner', 'supports'];
+
+function applyMode(mode) {
+  document.querySelectorAll('.toolbar .btn[data-mode]').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  // restore defaults first
+  ALL_IDS.forEach(id => {
+    (groups[id] || []).forEach(m => {
+      m.visible = true;
+      if (m.material && defaultOpacity.has(m)) {
+        const o = defaultOpacity.get(m);
+        m.material.opacity = o;
+        m.material.transparent = o < 0.99;
+        m.material.depthWrite = o > 0.9;
+      }
+    });
+  });
+  if (mode === 'magnets') {
+    STRUCTURE.concat(VACUUM_IDS).forEach(id => setOpacity([id], 0.06));
+    setOpacity(MAGNET_IDS, 1);
+    (groups.tf_coils || []).forEach(m => { m.material.transparent = false; m.material.opacity = 1; m.material.depthWrite = true; });
+  } else if (mode === 'vacuum') {
+    STRUCTURE.concat(MAGNET_IDS).forEach(id => setOpacity([id], 0.05));
+    setOpacity(['vacuum_vessel'], 0.7);
+    setOpacity(['divertor', 'plasma', 'heating', 'diagnostics'], 0.95);
+  } else if (mode === 'cryoFade') {
+    setOpacity(['cryostat'], 0.08);
+    setOpacity(['thermal_outer'], 0.12);
+  }
+}
+
+document.querySelectorAll('.toolbar .btn[data-mode]').forEach(btn => {
+  btn.addEventListener('click', () => applyMode(btn.dataset.mode));
+});
+
+const cam0 = camera.position.clone();
+const tgt0 = controls.target.clone();
+document.getElementById('btnReset').addEventListener('click', () => {
+  applyMode('all');
+  camera.position.copy(cam0);
+  controls.target.copy(tgt0);
+  selectedId = null;
+  pickables.forEach(m => {
+    if (m.material && m.material.emissive && highlightMats.has(m)) {
+      const base = highlightMats.get(m);
+      m.material.emissive.setHex(base.e);
+      m.material.emissiveIntensity = base.i;
+    }
+  });
+  document.querySelectorAll('.comp-chip').forEach(c => c.classList.remove('active'));
+  sideBody.innerHTML = `<div class="empty-side"><p>已復位。點選模型或標籤繼續探索。</p></div>`;
+});
+
+function resize() {
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  if (canvas.width !== w || canvas.height !== h) {
+    renderer.setSize(w, h, false);
+    camera.aspect = w / Math.max(h, 1);
+    camera.updateProjectionMatrix();
+  }
+}
+
+let autoSpin = true;
+controls.addEventListener('start', () => { autoSpin = false; });
+function animate() {
+  requestAnimationFrame(animate);
+  resize();
+  if (autoSpin) root.rotation.y += 0.0022;
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
+// Drawer toggle (narrow)
+const drawerBtn = document.getElementById('drawerToggle');
+const sideCard = document.getElementById('sideCard');
+let drawerOpen = true;
+drawerBtn.addEventListener('click', () => {
+  drawerOpen = !drawerOpen;
+  sideBody.style.display = drawerOpen ? '' : 'none';
+});
+
+// Keyboard: 1-9 quick select first chips
+window.addEventListener('keydown', (e) => {
+  if (e.target.matches('input,textarea,button')) return;
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= 9) {
+    const id = chipOrder[n - 1];
+    if (id) selectComponent(id);
+  }
+});
+</script>
+</body>
+</html>
