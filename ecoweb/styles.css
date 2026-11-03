@@ -277,50 +277,149 @@ button { cursor: pointer; }
   font-weight: 600;
 }
 
-/* R3 — 網況統計卡（左下） */
-.net-stats {
+/* R4 — 左下種群時間曲線（主視覺）＋精簡網況 */
+.pop-panel {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
+  left: 10px;
+  bottom: 10px;
   z-index: 4;
-  min-width: 168px;
-  padding: 10px 12px;
+  width: min(360px, calc(100% - 20px));
+  padding: 10px 12px 8px;
   border-radius: 12px;
-  background: rgba(255, 248, 230, 0.88);
-  border: 1px solid rgba(106, 138, 72, 0.42);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 16px rgba(70, 50, 20, 0.14);
-  pointer-events: none;
+  background: rgba(255, 248, 230, 0.92);
+  border: 1px solid rgba(106, 138, 72, 0.45);
+  backdrop-filter: blur(9px);
+  box-shadow: 0 4px 18px rgba(70, 50, 20, 0.16);
   color: #2a2114;
+  pointer-events: auto;
 }
-.net-stats h3 {
-  margin: 0 0 6px;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
-  color: #4a3820;
-}
-.net-stats dl {
-  margin: 0;
-  display: grid;
-  gap: 3px 10px;
-}
-.net-stats dl > div {
+.pop-head {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin-bottom: 4px;
 }
-.net-stats dt {
+.pop-head h3 {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  color: #3a2c18;
+}
+.pop-note {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #7a6548;
+  margin-left: 4px;
+}
+.pop-mini-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  font-size: 0.7rem;
   color: #6a5840;
 }
-.net-stats dd {
-  margin: 0;
-  font-size: 0.92rem;
-  font-weight: 700;
+.pop-mini-stats strong {
   font-variant-numeric: tabular-nums;
   color: #1a140c;
+  font-size: 0.82rem;
+  margin-left: 2px;
+}
+.pop-empty {
+  padding: 18px 8px 14px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: #7a6548;
+  border: 1px dashed rgba(106, 138, 72, 0.35);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.35);
+}
+.pop-chart-body {
+  position: relative;
+}
+#popChart {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 168px;
+}
+.pop-axis-labels {
+  position: relative;
+  height: 0;
+  pointer-events: none;
+}
+.pop-y-label {
+  position: absolute;
+  left: 0;
+  top: -158px;
+  font-size: 0.62rem;
+  color: #6a5840;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.08em;
+}
+.pop-x-label {
+  position: absolute;
+  right: 8px;
+  bottom: 22px;
+  font-size: 0.62rem;
+  color: #6a5840;
+}
+.pop-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  max-height: 52px;
+  overflow-y: auto;
+  margin-top: 2px;
+  padding-top: 2px;
+  border-top: 1px solid rgba(106, 84, 56, 0.12);
+}
+.pop-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.62rem;
+  color: #4a3820;
+  cursor: default;
+  opacity: 0.92;
+  max-width: 100%;
+}
+.pop-legend-item:hover,
+.pop-legend-item.hl {
+  opacity: 1;
+  font-weight: 600;
+}
+.pop-legend-swatch {
+  width: 10px;
+  height: 3px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+.pop-line {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: 0.88;
+  transition: opacity 0.15s ease;
+}
+.pop-line.dim {
+  opacity: 0.18;
+}
+.pop-line.hl {
+  opacity: 1;
+  stroke-width: 2.4;
+}
+.pop-grid line {
+  stroke: rgba(90, 70, 40, 0.12);
+  stroke-width: 1;
+}
+.pop-axis-text {
+  fill: #7a6548;
+  font-size: 9px;
 }
 
 /* R3 — 待機喚醒層 */

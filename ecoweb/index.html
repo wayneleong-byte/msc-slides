@@ -54,14 +54,27 @@
             <g id="edgesLayer"></g>
             <g id="nodesLayer"></g>
           </svg>
-          <aside class="net-stats" id="netStats" aria-label="網況">
-            <h3>網況</h3>
-            <dl>
-              <div><dt>網內物種</dt><dd id="statSpecies">0</dd></div>
-              <div><dt>目前篩選下連線</dt><dd id="statEdgesVisible">0</dd></div>
-              <div><dt>網內總連線</dt><dd id="statEdgesTotal">0</dd></div>
-              <div><dt>生產者</dt><dd id="statProducers">0</dd></div>
-            </dl>
+          <aside class="pop-panel" id="popPanel" aria-label="種群變化">
+            <div class="pop-head">
+              <h3>種群變化 <span class="pop-note">教學簡化模型</span></h3>
+              <div class="pop-mini-stats" aria-label="精簡網況">
+                <span>物種 <strong id="statSpecies">0</strong></span>
+                <span>連線 <strong id="statEdgesTotal">0</strong></span>
+                <span>生產者 <strong id="statProducers">0</strong></span>
+              </div>
+            </div>
+            <div class="pop-empty" id="popEmpty">拖入物種後顯示種群曲線</div>
+            <div class="pop-chart-body" id="popChartBody" hidden>
+              <svg id="popChart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 168" role="img" aria-label="種群時間曲線">
+                <g id="popAxes"></g>
+                <g id="popLines"></g>
+              </svg>
+              <div class="pop-axis-labels">
+                <span class="pop-y-label">種群大小</span>
+                <span class="pop-x-label">時間</span>
+              </div>
+              <div class="pop-legend" id="popLegend"></div>
+            </div>
           </aside>
           <div id="idleOverlay" class="idle-overlay" hidden>
             <div class="idle-veil" aria-hidden="true"></div>

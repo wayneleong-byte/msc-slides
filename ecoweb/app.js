@@ -29,6 +29,38 @@
   const NODE_R = 34;
   const QUIZ_N = 9;
 
+  /* R4 — 教學簡化種群模型（自研；非真實預測） */
+  const SIM_STEPS = 64;
+  const SIM_DT = 0.35;
+  const SIM_HALF = 24;
+  const SIM_EAT = 0.048;
+  const SIM_CONV = 0.78;
+  const SIM_MORT = 0.055;
+  const SIM_COMP = 0.022;
+  const SIM_MUT = 0.012;
+  const SIM_COMM = 0.008;
+  const SIM_R_PROD = 0.22;
+  const SIM_DENS = 0.05;
+  const SIM_BASE_GAIN = 0.025;
+  const SIM_N_MIN = 0.5;
+  const SIM_N_MAX = 100;
+  const SIM_FEED = new Set(["predation", "herbivory", "detritivory", "parasitism"]);
+  const SIM_INIT = {
+    producer: 78,
+    primary_consumer: 42,
+    secondary_consumer: 24,
+    apex_consumer: 15,
+    decomposer: 32,
+  };
+  const SIM_K = {
+    producer: 100,
+    primary_consumer: 58,
+    secondary_consumer: 38,
+    apex_consumer: 24,
+    decomposer: 48,
+  };
+  const POP_CHART = { w: 340, h: 168, padL: 36, padR: 10, padT: 10, padB: 22 };
+
   const state = {
     eco: null,
     glossary: null,
@@ -44,6 +76,10 @@
     idleOn: false,
     titleOpen: true,
     quiz: null,
+    popSeries: null,
+    popTerminal: new Map(),
+    popAnim: null,
+    popHighlight: null,
   };
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -273,14 +309,15 @@
 
   function renderAll() {
     renderLab();
+    refreshPopulationModel();
     renderGraph();
     renderDetail();
     updateStats();
+    renderPopulationChart(true);
   }
 
   function updateStats() {
     const speciesN = state.selectedIds.size;
-    const visEdges = visibleEdges().length;
     const totalEdges = allEdgesAmongSelected().length;
     const prod = producerCount();
     const set = (id, v) => {
@@ -288,9 +325,321 @@
       if (el) el.textContent = String(v);
     };
     set("#statSpecies", speciesN);
-    set("#statEdgesVisible", visEdges);
     set("#statEdgesTotal", totalEdges);
     set("#statProducers", prod);
+  }
+
+  /* —— R4 種群模擬與曲線 —— */
+  function speciesLineColor(s) {
+    const base = cssColor(TROPHIC[s.trophic]?.color || "#888");
+    // 穩定微調：同營養級多物種用哈希微偏色相，方便區分
+    let h = 0;
+    for (let i = 0; i < s.id.length; i++) h = (h * 31 + s.id.charCodeAt(i)) >>> 0;
+    const shift = (h % 40) - 20;
+    return shiftHex(base, shift);
+  }
+
+  function shiftHex(hex, degHint) {
+    const m = /^#?([0-9a-f]{6})$/i.exec(String(hex).trim());
+    if (!m) return hex;
+    const n = parseInt(m[1], 16);
+    let r = (n >> 16) & 255;
+    let g = (n >> 8) & 255;
+    let b = n & 255;
+    r = clamp(r + (degHint % 17), 30, 220);
+    g = clamp(g + ((degHint * 3) % 13) - 6, 30, 220);
+    b = clamp(b - (degHint % 11), 20, 200);
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+  }
+
+  function refreshPopulationModel() {
+    const ids = [...state.selectedIds];
+    if (ids.length === 0) {
+      state.popSeries = null;
+      state.popTerminal = new Map();
+      return;
+    }
+    const result = simulatePopulations(ids);
+    state.popSeries = result.series;
+    state.popTerminal = result.terminal;
+  }
+
+  /**
+   * 離散時間教學模型：依食物網邊推消長。
+   * 能量邊 from→to（資源→獲能方）；競爭互相抑制；無食消費者衰減。
+   * 含承載力／阻尼，正常網趨向平衡；唔等於真實生態預測。
+   */
+  function simulatePopulations(ids) {
+    const idSet = new Set(ids);
+    const N = {};
+    const series = {};
+    for (const id of ids) {
+      const s = speciesById(id);
+      const t = s?.trophic || "primary_consumer";
+      N[id] = SIM_INIT[t] ?? 30;
+      series[id] = [N[id]];
+    }
+
+    const feedIn = {}; // resource -> [{consumer, rel}]
+    const feedOut = {}; // consumer -> [{prey, rel}]
+    const comp = {};
+    const mut = {};
+    const comm = {};
+    for (const id of ids) {
+      feedIn[id] = [];
+      feedOut[id] = [];
+      comp[id] = [];
+      mut[id] = [];
+      comm[id] = [];
+    }
+    // 模擬用全關係邊（唔受關係芯片篩選影響）
+    for (const e of state.eco.edges) {
+      if (!idSet.has(e.from) || !idSet.has(e.to)) continue;
+      if (SIM_FEED.has(e.relation)) {
+        feedIn[e.from].push({ consumer: e.to, rel: e.relation });
+        feedOut[e.to].push({ prey: e.from, rel: e.relation });
+      } else if (e.relation === "competition") {
+        comp[e.from].push(e.to);
+        comp[e.to].push(e.from);
+      } else if (e.relation === "mutualism") {
+        mut[e.from].push(e.to);
+        mut[e.to].push(e.from);
+      } else if (e.relation === "commensalism") {
+        comm[e.to].push(e.from);
+      }
+    }
+
+    for (let step = 0; step < SIM_STEPS; step++) {
+      const dN = {};
+      for (const id of ids) {
+        const s = speciesById(id);
+        const troph = s?.trophic || "primary_consumer";
+        const ni = N[id];
+        const ki = SIM_K[troph] ?? 50;
+        if (troph === "producer") {
+          const growth = SIM_R_PROD * ni * (1 - ni / ki);
+          let loss = 0;
+          for (const { consumer } of feedIn[id]) {
+            loss += (SIM_EAT * N[consumer] * ni) / (SIM_HALF + ni);
+          }
+          let boost = 0;
+          for (const j of mut[id]) {
+            boost += SIM_MUT * ni * (N[j] / (SIM_HALF + N[j]));
+          }
+          dN[id] = growth - loss + boost;
+        } else {
+          let gain = 0;
+          let foodProxy = 0;
+          let nFood = 0;
+          for (const { prey, rel } of feedOut[id]) {
+            nFood += 1;
+            const np = N[prey];
+            const rate = (SIM_EAT * ni * np) / (SIM_HALF + np);
+            let c = SIM_CONV;
+            if (rel === "parasitism") c *= 0.75;
+            if (rel === "detritivory") c *= 0.9;
+            gain += c * rate;
+            foodProxy += np / (SIM_HALF + np);
+          }
+          const foodFrac = nFood === 0 ? 0 : Math.min(1, foodProxy / nFood);
+          const mort = SIM_MORT * ni * (1.05 - 0.55 * foodFrac);
+          const dens = (SIM_DENS * ni * ni) / ki;
+          let closs = 0;
+          for (const j of comp[id]) {
+            closs += (SIM_COMP * ni * N[j]) / (SIM_HALF + N[j]);
+          }
+          let boost = 0;
+          for (const j of mut[id]) {
+            boost += SIM_MUT * ni * (N[j] / (SIM_HALF + N[j]));
+          }
+          for (const j of comm[id]) {
+            boost += SIM_COMM * ni * (N[j] / (SIM_HALF + N[j]));
+          }
+          const soft = 0.06 * ni * (1 - ni / ki) * foodFrac;
+          gain += SIM_BASE_GAIN * ni * foodFrac;
+          dN[id] = gain - mort - dens - closs + boost + soft;
+        }
+      }
+      for (const id of ids) {
+        N[id] = clamp(N[id] + SIM_DT * dN[id], SIM_N_MIN, SIM_N_MAX);
+        series[id].push(N[id]);
+      }
+    }
+
+    const terminal = new Map();
+    for (const id of ids) terminal.set(id, N[id]);
+    return { series, terminal };
+  }
+
+  function nodeRadiusFor(id) {
+    const term = state.popTerminal.get(id);
+    if (term == null) return NODE_R;
+    // 終末種群微調半徑（可讀範圍）
+    const t = (term - SIM_N_MIN) / (SIM_N_MAX - SIM_N_MIN);
+    return NODE_R * (0.82 + 0.36 * clamp(t, 0, 1));
+  }
+
+  function renderPopulationChart(animate) {
+    const empty = $("#popEmpty");
+    const body = $("#popChartBody");
+    if (!state.popSeries || state.selectedIds.size === 0) {
+      if (state.popAnim) {
+        cancelAnimationFrame(state.popAnim.raf);
+        state.popAnim = null;
+      }
+      empty.hidden = false;
+      body.hidden = true;
+      return;
+    }
+    empty.hidden = true;
+    body.hidden = false;
+
+    const ids = [...state.selectedIds];
+    const series = state.popSeries;
+    let yMax = 1;
+    for (const id of ids) {
+      for (const v of series[id]) yMax = Math.max(yMax, v);
+    }
+    yMax = Math.max(20, Math.ceil(yMax / 10) * 10);
+
+    drawPopAxes(yMax);
+    renderPopLegend(ids);
+
+    const target = {};
+    for (const id of ids) target[id] = series[id];
+
+    if (!animate) {
+      drawPopLines(ids, target, 1, yMax);
+      return;
+    }
+
+    if (state.popAnim) {
+      cancelAnimationFrame(state.popAnim.raf);
+      state.popAnim = null;
+    }
+    const t0 = performance.now();
+    const dur = 520;
+    const tick = (now) => {
+      const p = clamp((now - t0) / dur, 0, 1);
+      // ease-out：時間軸快速重播
+      const ease = 1 - Math.pow(1 - p, 2.2);
+      drawPopLines(ids, target, ease, yMax);
+      if (p < 1) {
+        state.popAnim = { raf: requestAnimationFrame(tick) };
+      } else {
+        state.popAnim = null;
+      }
+    };
+    state.popAnim = { raf: requestAnimationFrame(tick) };
+  }
+
+  function drawPopAxes(yMax) {
+    const g = $("#popAxes");
+    g.innerHTML = "";
+    const { w, h, padL, padR, padT, padB } = POP_CHART;
+    const plotW = w - padL - padR;
+    const plotH = h - padT - padB;
+
+    const grid = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    grid.setAttribute("class", "pop-grid");
+    for (let i = 0; i <= 4; i++) {
+      const y = padT + (plotH * i) / 4;
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("x1", padL);
+      line.setAttribute("x2", padL + plotW);
+      line.setAttribute("y1", y);
+      line.setAttribute("y2", y);
+      grid.appendChild(line);
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("class", "pop-axis-text");
+      label.setAttribute("x", padL - 4);
+      label.setAttribute("y", y + 3);
+      label.setAttribute("text-anchor", "end");
+      label.textContent = String(Math.round(yMax * (1 - i / 4)));
+      g.appendChild(label);
+    }
+    g.appendChild(grid);
+
+    const x0 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    x0.setAttribute("class", "pop-axis-text");
+    x0.setAttribute("x", padL);
+    x0.setAttribute("y", h - 6);
+    x0.textContent = "0";
+    g.appendChild(x0);
+    const x1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    x1.setAttribute("class", "pop-axis-text");
+    x1.setAttribute("x", padL + plotW);
+    x1.setAttribute("y", h - 6);
+    x1.setAttribute("text-anchor", "end");
+    x1.textContent = String(SIM_STEPS);
+    g.appendChild(x1);
+  }
+
+  function drawPopLines(ids, seriesMap, progress, yMax) {
+    const linesG = $("#popLines");
+    linesG.innerHTML = "";
+    const { w, h, padL, padR, padT, padB } = POP_CHART;
+    const plotW = w - padL - padR;
+    const plotH = h - padT - padB;
+    const stepsVisible = Math.max(1, Math.floor(SIM_STEPS * progress));
+
+    for (const id of ids) {
+      const arr = seriesMap[id];
+      if (!arr || arr.length < 2) continue;
+      const s = speciesById(id);
+      const color = speciesLineColor(s);
+      const endIdx = Math.min(arr.length - 1, stepsVisible);
+      let d = "";
+      for (let i = 0; i <= endIdx; i++) {
+        const x = padL + (plotW * i) / SIM_STEPS;
+        const y = padT + plotH * (1 - arr[i] / yMax);
+        d += (i === 0 ? "M" : "L") + x.toFixed(2) + " " + y.toFixed(2);
+      }
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("class", "pop-line");
+      path.setAttribute("d", d);
+      path.setAttribute("stroke", color);
+      path.dataset.id = id;
+      if (state.popHighlight) {
+        path.classList.toggle("hl", state.popHighlight === id);
+        path.classList.toggle("dim", state.popHighlight !== id);
+      }
+      linesG.appendChild(path);
+    }
+  }
+
+  function renderPopLegend(ids) {
+    const box = $("#popLegend");
+    box.innerHTML = "";
+    for (const id of ids) {
+      const s = speciesById(id);
+      if (!s) continue;
+      const item = document.createElement("span");
+      item.className = "pop-legend-item" + (state.popHighlight === id ? " hl" : "");
+      item.dataset.id = id;
+      item.title = s.name_zh;
+      const sw = document.createElement("span");
+      sw.className = "pop-legend-swatch";
+      sw.style.background = speciesLineColor(s);
+      item.appendChild(sw);
+      item.appendChild(document.createTextNode(shortName(s.name_zh)));
+      item.addEventListener("pointerenter", () => {
+        state.popHighlight = id;
+        $$("#popLines .pop-line").forEach((p) => {
+          p.classList.toggle("hl", p.dataset.id === id);
+          p.classList.toggle("dim", p.dataset.id !== id);
+        });
+        $$("#popLegend .pop-legend-item").forEach((el) =>
+          el.classList.toggle("hl", el.dataset.id === id)
+        );
+      });
+      item.addEventListener("pointerleave", () => {
+        state.popHighlight = null;
+        $$("#popLines .pop-line").forEach((p) => p.classList.remove("hl", "dim"));
+        $$("#popLegend .pop-legend-item").forEach((el) => el.classList.remove("hl"));
+      });
+      box.appendChild(item);
+    }
   }
 
   function renderGraph() {
@@ -357,7 +706,11 @@
 
   function appendEdge(edgesG, e, a, b) {
     const meta = RELATION[e.relation] || RELATION.predation;
-    const { x1, y1, x2, y2 } = shorten(a.x, a.y, b.x, b.y, NODE_R + 2, NODE_R + 2);
+    const { x1, y1, x2, y2 } = shorten(
+      a.x, a.y, b.x, b.y,
+      nodeRadiusFor(e.from) + 2,
+      nodeRadiusFor(e.to) + 2
+    );
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     const midX = (x1 + x2) / 2;
     const midY = (y1 + y2) / 2;
@@ -412,16 +765,17 @@
     g.dataset.id = s.id;
     g.setAttribute("transform", `translate(${pos.x},${pos.y})`);
 
+    const rNode = nodeRadiusFor(s.id);
     const troph = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     troph.setAttribute("class", "node-troph");
-    troph.setAttribute("r", NODE_R + 4);
+    troph.setAttribute("r", rNode + 4);
     troph.setAttribute("fill", cssColor(TROPHIC[s.trophic]?.color || "#888"));
     troph.setAttribute("opacity", "0.35");
     g.appendChild(troph);
 
     const body = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     body.setAttribute("class", "node-body");
-    body.setAttribute("r", NODE_R);
+    body.setAttribute("r", rNode);
     g.appendChild(body);
 
     const ph = document.createElementNS("http://www.w3.org/2000/svg", "rect");
