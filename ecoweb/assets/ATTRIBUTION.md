@@ -117,3 +117,34 @@
 | `grouper` | 石斑 | `assets/coral_reef/grouper.png` | portioid | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File%3APlectropomus_leopardus_322401965.jpg | 豹紋鰓棘鱸 Plectropomus leopardus（印太礁區石斑／Epinephelidae 示意） |
 | `reef_microbes` | 礁區微生物／真菌（示意） | `assets/coral_reef/reef_microbes.png` | Paz et al. 2010 (file page: Unknown author; uploaded by Epipelagic) | CC BY 4.0 | https://commons.wikimedia.org/wiki/File%3AMorphological_diversity_of_marine_fungi.jpg | 【弱示意｜需 Oscar 眼】海洋海綿分離真菌培養皿圖版（地中海 Ircinia）；非南海礁區現場微生物／細菌顯微 |
 | `fish_parasite_reef` | 魚類體表／鰓寄生蟲（示意） | `assets/coral_reef/fish_parasite_reef.png` | threeagoutdoors | CC BY 4.0 | https://commons.wikimedia.org/wiki/File%3AAnilocra_haemuli_115639126.jpg | 魚體表寄生等足類 Anilocra haemuli 示意（清潔魚取食對象） |
+
+## tropical_rainforest（12／12）— 2026-11-03 23:32 Asia/Macau
+詳見 `tropical_rainforest/ATTRIBUTION.md`。
+- `emergent_tree`: cc-by-sa-3.0 — Cayambe — https://commons.wikimedia.org/wiki/File%3AIlet_la_M%C3%A8re_Ceiba_pentandra_fromager_2013.jpg
+- `epiphyte_orchid`: cc-by-sa-2.0 — Dinesh Valke from Thane, India — https://commons.wikimedia.org/wiki/File%3A..._epiphytic_orchid_%289229532758%29.jpg
+- `understory_herb`: cc-by-sa-4.0 — Dr. Thomas Liptak — https://commons.wikimedia.org/wiki/File%3ACosta_Rica%2C_Lim%C3%B3n%2C_Veragua_Rainforest_%28Heliconia%29.jpg
+- `three_toed_sloth`: cc-by-sa-4.0 — Charles J. Sharp — https://commons.wikimedia.org/wiki/File%3ABrown-throated_sloth_%28Bradypus_variegatus%29_female.jpg
+- `scarlet_macaw`: cc-by-sa-4.0 — Charles J. Sharp — https://commons.wikimedia.org/wiki/File%3AScarlet_macaw_%28Ara_macao_cyanopterus%29_Copan.jpg
+- `hornbill`: cc-by-sa-4.0 — Malyasri Bhattacharya — https://commons.wikimedia.org/wiki/File%3AGreat_Hornbill_%28Buceros_bicornis%29.jpg
+- `leafcutter_ant`: cc-by-sa-4.0 — Pjt56 — https://commons.wikimedia.org/wiki/File%3AAtta_cephalotes-pjt.jpg
+- `orchid_pollinator`: cc-by-2.0 — Thomas Shahan — https://commons.wikimedia.org/wiki/File%3AEuglossa_-_Green_Orchid_Bee_-_Belize.jpg
+- `tree_frog`: cc-by-sa-3.0 — Christian R. Linder — https://commons.wikimedia.org/wiki/File%3AAgalychnis_callidryas.jpg
+- `jaguar`: cc-by-sa-4.0 — Giles Laurent — https://commons.wikimedia.org/wiki/File%3A009_Female_jaguar_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg
+- `rainforest_fungi`: cc-by-sa-4.0 — Amonrat Sanedee — https://commons.wikimedia.org/wiki/File%3ASmall_mushrooms_in_rainforest_habitat_at_Pa_La-U_Waterfall%2C_Thailand.jpg
+- `rainforest_parasite`: cc-by-sa-3.0 — Alan R Walker — https://commons.wikimedia.org/wiki/File%3AAmblyomma-variegatum-female-engorged.jpg
+
+## desert（12／12）— 2026-11-03 23:32 Asia/Macau
+詳見 `desert/ATTRIBUTION.md`。
+- `cactus`: cc-by-4.0 — Laurens R. Krol — https://commons.wikimedia.org/wiki/File%3A2022-06-14_USA%2C_AZ%2C_Saguaro_DSC_6133_DxO.jpg
+- `drought_shrub`: cc-by-sa-4.0 — Krzysztof Ziarnek, Kenraiz — https://commons.wikimedia.org/wiki/File%3ALarrea_tridentata_kz07.jpg
+- `ephemeral_herb`: cc-by-2.0 — Rob.Bertholf — https://commons.wikimedia.org/wiki/File%3ADesert_Wildflower_Super_Bloom_-_33356333052.jpg
+- `kangaroo_rat`: cc-by-4.0 — Danny Mccamish — https://commons.wikimedia.org/wiki/File%3ADipodomys_deserti_18359939.jpg
+- `jackrabbit`: cc-by-sa-4.0 — Chuck Homler d/b/a Focus On Wildlife — https://commons.wikimedia.org/wiki/File%3ABlack-tailed_Jack_Rabbit_%28Lepus_californicus%29.jpg
+- `darkling_beetle`: cc-by-2.0 — Judy Gallagher — https://commons.wikimedia.org/wiki/File%3ADesert_Stink_Beetle_-_Eleodes_hispilabris%2C_Great_Basin_National_Park%2C_Baker%2C_Nevada.jpg
+- `desert_lizard`: pd — Joshua Tree National Park — https://commons.wikimedia.org/wiki/File%3ADesert_iguana_%28Dipsosaurus_dorsalis%29_%2820526299159%29.jpg
+- `desert_snake`: cc-by-sa-3.0 — derivative work: Victorrocha (talk · contribs)
+Crotalus_cera — https://commons.wikimedia.org/wiki/File%3ACrotalus_cerastes_mesquite_springs_CA-2.jpg
+- `buzzard_hawk`: cc-by-sa-4.0 — Rhododendrites — https://commons.wikimedia.org/wiki/File%3ARed-tailed_hawk_%2844371%29.jpg
+- `desert_fungi`: cc-by-sa-4.0 — Alan Rockefeller — https://commons.wikimedia.org/wiki/File%3APodaxis_Baja_California.jpg
+- `desert_parasite`: cc-by-2.0 — Sam Droege — https://commons.wikimedia.org/wiki/File%3ADermacentor_variabilis%2C_U%2C_Back%2C_MD%2C_Beltsville_2013-07-08-19.15.11_ZS_PMax.jpg
+- `scorpion`: cc-by-4.0 — Jbjensen1 — https://commons.wikimedia.org/wiki/File%3AGiant_hairy_scorpion_03.jpg
