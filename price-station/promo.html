@@ -11,99 +11,276 @@
     <div class="inner">
       <div>
         <h1>優惠情報站</h1>
-        <p>超市優惠價（鏡像 · 逢每月更新）</p>
+        <p>超市 leaflet 海報（官網鏡像 · OCR 品名可入清單）</p>
       </div>
     </div>
   </header>
   <nav class="nav-bar" aria-label="主選單">
     <a href="index.html">主頁</a>
     <a href="supermarket.html">超市</a>
+    <a href="promo.html" class="active">優惠</a>
     <a href="cart.html">清單 <span class="chip" data-cart-count hidden>0</span></a>
     <a href="market.html">街市</a>
+    <a href="special.html">專項</a>
   </nav>
   <main class="wrap">
     <p class="meta-line" id="promo-meta">載入中…</p>
+    <div class="notice info" id="policy-note">
+      主展示改為<strong>官網／社交 leaflet 原圖</strong>＋可選 OCR 品名入清單。價錢 OCR 弱時<strong>唔造價</strong>，以圖為準。消委會折扣價表已降為次要／停用主展示。
+    </div>
+
     <div class="card">
-      <h2>揀超市</h2>
+      <h2>揀超市（P0）</h2>
       <div class="chip-row" id="store-chips"></div>
-      <p class="empty" id="store-empty" hidden>暫無優惠店資料。請喺可連官方 API 嘅機（如 LAPTOP-7JUE4FNQ）跑 <code>python scripts/fetch_mirror.py --promo</code> 後再部署。</p>
+      <p class="empty" id="store-empty" hidden>暫無 leaflet 店資料。請確認 <code>data/promo-leaflet/index.json</code>。</p>
     </div>
-    <div class="card" id="gt-card" hidden>
-      <h2>揀品類</h2>
-      <div class="chip-row" id="gt-chips"></div>
+
+    <div class="card" id="viewer-card" hidden>
+      <div class="leaflet-toolbar">
+        <h2 id="viewer-title" style="margin:0">海報</h2>
+        <div class="toolbar" style="margin:0">
+          <a class="btn secondary" id="source-link" href="#" target="_blank" rel="noopener noreferrer">官網來源</a>
+          <button type="button" class="secondary" id="btn-prev" aria-label="上一頁">‹ 上頁</button>
+          <span class="meta-line" id="page-indicator" style="margin:0;align-self:center"></span>
+          <button type="button" class="secondary" id="btn-next" aria-label="下一頁">下頁 ›</button>
+        </div>
+      </div>
+      <p class="meta-line" id="viewer-meta"></p>
+      <div class="leaflet-stage">
+        <button type="button" class="leaflet-main-btn" id="main-img-btn" title="點擊放大">
+          <img id="main-img" class="leaflet-main" alt="優惠海報" />
+        </button>
+      </div>
+      <div class="leaflet-thumbs" id="thumbs" role="listbox" aria-label="海報頁"></div>
     </div>
-    <div class="card" id="price-card" hidden>
-      <h2 id="price-title">優惠價</h2>
-      <p class="meta-line" id="price-meta"></p>
-      <div id="price-body"></div>
+
+    <div class="card" id="ocr-card" hidden>
+      <h2>OCR 品名 · 加入清單 <span class="badge muted">價可空</span></h2>
+      <p class="meta-line" id="ocr-meta"></p>
+      <div id="ocr-body"></div>
     </div>
-    <div class="card" id="news-card">
-      <h2>最新消息 <span class="badge muted">試探</span></h2>
-      <p class="meta-line" id="news-meta">載入中…</p>
-      <div id="news-body"></div>
-      <p class="empty" id="news-hint">超市官方「最新消息／海報」多數非長期公開頁；有樣本先顯示，無則列原因。主優惠價仍係上方品類價表。</p>
-    </div>
+
+    <details class="card" id="legacy-card">
+      <summary style="cursor:pointer;font-weight:700;font-size:1.05rem">消委會折扣價表（已停用主展示）</summary>
+      <p class="meta-line" style="margin-top:10px">以下為舊鏡像 <code>data/promo/</code> 折扣 API 資料，僅備查；產品主線改走 leaflet。</p>
+      <div class="chip-row" id="legacy-store-chips"></div>
+      <div class="chip-row" id="legacy-gt-chips" style="margin-top:8px"></div>
+      <div id="legacy-price-body" style="margin-top:10px"></div>
+      <p class="empty" id="legacy-empty" hidden>未有 <code>data/promo/index.json</code> 或已移除。</p>
+    </details>
   </main>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox-backdrop" data-close="1"></div>
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="海報大圖">
+      <div class="lightbox-bar">
+        <span id="lb-label"></span>
+        <div class="toolbar" style="margin:0">
+          <button type="button" class="secondary" id="lb-prev">‹</button>
+          <button type="button" class="secondary" id="lb-next">›</button>
+          <button type="button" class="secondary" id="lb-close" data-close="1">關閉</button>
+        </div>
+      </div>
+      <img id="lb-img" alt="優惠海報大圖" />
+    </div>
+  </div>
+
   <footer class="site-footer" id="site-footer"></footer>
   <script src="app.js"></script>
   <script>
-    const DS_IMG = 'https://consumer-api03.dsedt.gov.mo/app/supermarket/images/';
-    let index = { stores: [], goodTypes: [] };
+    let leafletIndex = null;
     let selectedStore = null;
-    let selectedGt = null;
-    let storeActive = {}; // scode -> [gtcode]
+    let pageIdx = 0;
+    let legacyIndex = null;
+    let legacyStore = null;
+    let legacyGt = null;
+    let legacyActive = {};
 
-    function logoUrl(logo) {
-      if (!logo) return '';
-      const s = String(logo);
-      if (/^https?:\/\//i.test(s)) return s;
-      if (s.startsWith('/')) return 'https://consumer-api03.dsedt.gov.mo' + s;
-      return DS_IMG + s.replace(/^\//, '');
+    function assetUrl(rel) {
+      const root = (leafletIndex && leafletIndex.assetRoot) || 'data/promo-leaflet/2026-11-03/';
+      return root.replace(/\/?$/, '/') + String(rel || '').replace(/^\//, '');
     }
 
-
-    function storeDisplayName(st) {
-      if (!st) return '';
-      const cn = st.name_cn || st.name_zh || st.mark || '';
-      if (cn && /[\u4e00-\u9fff]/.test(String(cn))) return String(cn);
-      // logo 誤塞中文名時退回
-      const logo = st.logo ? String(st.logo) : '';
-      if (logo && /[\u4e00-\u9fff]/.test(logo) && !/\.(png|jpe?g|webp|gif|svg)$/i.test(logo)) return logo;
-      return st.name || st.groupName || st.scode || '';
-    }
-
-    function gtImg(gt) {
-      const img = (gt && gt.image) ? String(gt.image) : ((gt && gt.code) ? gt.code.toLowerCase() + '.png' : '');
-      if (!img) return '';
-      if (/^https?:\/\//i.test(img)) return img;
-      return DS_IMG + 'ds_good/' + img.replace(/^.*\//, '');
-    }
-
-    function renderStores() {
+    function renderStoreChips() {
       const box = document.getElementById('store-chips');
       const empty = document.getElementById('store-empty');
       box.innerHTML = '';
-      const stores = index.stores || [];
+      const stores = (leafletIndex && leafletIndex.stores) || [];
       empty.hidden = stores.length > 0;
       stores.forEach((st) => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'store-chip' + (selectedStore && selectedStore.scode === st.scode ? ' active' : '');
-        btn.setAttribute('data-scode', st.scode);
-        const logo = logoUrl(st.logo);
-        btn.innerHTML =
-          (logo ? '<img class="store-logo" src="' + MPS.escapeHtml(logo) + '" alt="" onerror="this.style.display=\'none\'" />' : '') +
-          '<span>' + MPS.escapeHtml(storeDisplayName(st)) + '</span>';
-        btn.addEventListener('click', () => selectStore(st));
+        btn.className = 'store-chip' + (selectedStore && selectedStore.id === st.id ? ' active' : '');
+        const n = (st.pages || []).length;
+        const ocrN = (st.ocrItems || []).length;
+        btn.innerHTML = '<span>' + MPS.escapeHtml(st.name_cn || st.mark || st.id) + '</span>' +
+          '<span class="badge muted">' + n + ' 頁</span>' +
+          (ocrN ? '<span class="badge ok">OCR ' + ocrN + '</span>' : '');
+        btn.addEventListener('click', () => selectLeafletStore(st));
         box.appendChild(btn);
       });
     }
 
-    async function loadStoreActive(scode) {
+    function selectLeafletStore(st) {
+      selectedStore = st;
+      pageIdx = 0;
+      renderStoreChips();
+      document.getElementById('viewer-card').hidden = false;
+      document.getElementById('viewer-title').textContent = (st.name_cn || st.id) + ' · 海報';
+      const src = document.getElementById('source-link');
+      src.href = st.sourceUrl || '#';
+      src.hidden = !st.sourceUrl;
+      const bits = [];
+      if (st.promoWindow) bits.push('推廣期／期次：' + st.promoWindow);
+      if (st.sourceType) bits.push('渠道：' + st.sourceType);
+      bits.push((st.pages || []).length + ' 頁');
+      document.getElementById('viewer-meta').textContent = bits.join(' · ');
+      renderThumbs();
+      showPage(0);
+      renderOcr();
+    }
+
+    function renderThumbs() {
+      const box = document.getElementById('thumbs');
+      box.innerHTML = '';
+      (selectedStore.pages || []).forEach((pg, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'leaflet-thumb' + (i === pageIdx ? ' active' : '');
+        b.setAttribute('role', 'option');
+        b.setAttribute('aria-selected', i === pageIdx ? 'true' : 'false');
+        b.innerHTML = '<img src="' + MPS.escapeHtml(assetUrl(pg.file)) + '" alt="' +
+          MPS.escapeHtml(pg.label || ('頁' + (i + 1))) + '" loading="lazy" />' +
+          '<span>' + MPS.escapeHtml(pg.label || String(i + 1)) + '</span>';
+        b.addEventListener('click', () => showPage(i));
+        box.appendChild(b);
+      });
+    }
+
+    function showPage(i) {
+      const pages = (selectedStore && selectedStore.pages) || [];
+      if (!pages.length) return;
+      pageIdx = (i + pages.length) % pages.length;
+      const pg = pages[pageIdx];
+      const url = assetUrl(pg.file);
+      const img = document.getElementById('main-img');
+      img.src = url;
+      img.alt = (selectedStore.name_cn || '') + ' ' + (pg.label || '');
+      document.getElementById('page-indicator').textContent = (pageIdx + 1) + ' / ' + pages.length;
+      renderThumbs();
+      const lb = document.getElementById('lightbox');
+      if (!lb.hidden) {
+        document.getElementById('lb-img').src = url;
+        document.getElementById('lb-label').textContent =
+          (selectedStore.name_cn || '') + ' · ' + (pg.label || (pageIdx + 1));
+      }
+    }
+
+    function openLightbox() {
+      if (!selectedStore) return;
+      const pages = selectedStore.pages || [];
+      if (!pages.length) return;
+      const pg = pages[pageIdx];
+      document.getElementById('lb-img').src = assetUrl(pg.file);
+      document.getElementById('lb-label').textContent =
+        (selectedStore.name_cn || '') + ' · ' + (pg.label || (pageIdx + 1));
+      document.getElementById('lightbox').hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    function renderOcr() {
+      const card = document.getElementById('ocr-card');
+      const body = document.getElementById('ocr-body');
+      const meta = document.getElementById('ocr-meta');
+      const items = (selectedStore && selectedStore.ocrItems) || [];
+      card.hidden = false;
+      meta.textContent = selectedStore.ocrNote || (leafletIndex && leafletIndex.ocrNote) || '';
+      if (!items.length) {
+        body.innerHTML = '<p class="empty">此店暫無可入清單嘅 OCR 品名（仍可翻頁睇海報）。</p>';
+        return;
+      }
+      let html = '<ul class="list">';
+      items.forEach((it, idx) => {
+        const unit = it.unit || '';
+        const sku = it.sku || '';
+        html += '<li><div style="flex:1;min-width:160px"><div class="title">' +
+          MPS.escapeHtml(it.name || '—') + '</div><div class="qty">' +
+          MPS.escapeHtml([unit, sku ? ('貨號 ' + sku) : ''].filter(Boolean).join(' · ')) +
+          ' · <span class="badge muted">價：—（OCR 未讀）</span></div></div>' +
+          '<button type="button" data-ocr-idx="' + idx + '">加入清單</button></li>';
+      });
+      html += '</ul>';
+      body.innerHTML = html;
+      body.querySelectorAll('button[data-ocr-idx]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const it = items[Number(btn.getAttribute('data-ocr-idx'))];
+          if (!it) return;
+          const storeName = selectedStore.name_cn || selectedStore.mark || selectedStore.id;
+          const id = 'leaflet:' + selectedStore.id + ':' +
+            encodeURIComponent(String(it.sku || it.name || Math.random()).slice(0, 80));
+          MPS.addToCart({
+            id: id,
+            kind: 'promo-leaflet',
+            name: it.name || '未名品',
+            quantity: it.unit || '',
+            code: it.sku || '',
+            updateDate: (leafletIndex && leafletIndex.mirroredAt) || '',
+            stores: [],
+            bestPrice: null,
+            bestStore: null,
+            preferredStore: storeName,
+            preferredPrice: null,
+            source: 'leaflet-ocr',
+            leafletStoreId: selectedStore.id,
+            leafletPage: it.page || ''
+          });
+          alert('已加入清單（' + storeName + ' · 價 — · 請對照海報）');
+        });
+      });
+    }
+
+    /* —— legacy DSEDT discount (demoted) —— */
+    function storeDisplayName(st) {
+      if (!st) return '';
+      const cn = st.name_cn || st.name_zh || st.mark || '';
+      if (cn && /[\u4e00-\u9fff]/.test(String(cn))) return String(cn);
+      return st.name || st.groupName || st.scode || '';
+    }
+
+    function renderLegacyStores() {
+      const box = document.getElementById('legacy-store-chips');
+      const empty = document.getElementById('legacy-empty');
+      box.innerHTML = '';
+      const stores = (legacyIndex && legacyIndex.stores) || [];
+      empty.hidden = stores.length > 0;
+      if (!stores.length) return;
+      stores.forEach((st) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'store-chip' + (legacyStore && legacyStore.scode === st.scode ? ' active' : '');
+        btn.textContent = storeDisplayName(st);
+        btn.addEventListener('click', async () => {
+          legacyStore = st;
+          legacyGt = null;
+          renderLegacyStores();
+          await loadLegacyActive(st.scode);
+          renderLegacyGts();
+          document.getElementById('legacy-price-body').innerHTML = '';
+        });
+        box.appendChild(btn);
+      });
+    }
+
+    async function loadLegacyActive(scode) {
       try {
         const j = await MPS.loadJSON('data/promo/stores/' + encodeURIComponent(scode) + '.json');
-        const codes = [];
         const raw = j.raw || j;
+        const codes = [];
         const list = Array.isArray(raw) ? raw
           : (Array.isArray(raw.data) ? raw.data
             : (raw.data && typeof raw.data === 'object' ? Object.keys(raw.data).filter((k) => {
@@ -116,159 +293,101 @@
           let c = row.gtcode || row.code || row.gt_code || row.value || row.id;
           if (c != null) codes.push(String(c).toUpperCase());
         });
-        storeActive[scode] = codes.length ? codes : (index.goodTypes || []).map((g) => g.code);
+        legacyActive[scode] = codes.length ? codes : (legacyIndex.goodTypes || []).map((g) => g.code);
       } catch (_) {
-        storeActive[scode] = (index.goodTypes || []).map((g) => g.code);
+        legacyActive[scode] = (legacyIndex.goodTypes || []).map((g) => g.code);
       }
     }
 
-    async function selectStore(st) {
-      selectedStore = st;
-      selectedGt = null;
-      document.getElementById('price-card').hidden = true;
-      renderStores();
-      await loadStoreActive(st.scode);
-      renderGoodTypes();
-      document.getElementById('gt-card').hidden = false;
-    }
-
-    function renderGoodTypes() {
-      const box = document.getElementById('gt-chips');
+    function renderLegacyGts() {
+      const box = document.getElementById('legacy-gt-chips');
       box.innerHTML = '';
-      const allowed = new Set(storeActive[selectedStore.scode] || []);
-      (index.goodTypes || []).forEach((gt) => {
+      if (!legacyStore) return;
+      const allowed = new Set(legacyActive[legacyStore.scode] || []);
+      (legacyIndex.goodTypes || []).forEach((gt) => {
         if (allowed.size && !allowed.has(gt.code)) return;
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'gt-chip' + (selectedGt && selectedGt.code === gt.code ? ' active' : '');
-        const img = gtImg(gt);
-        btn.innerHTML =
-          (img ? '<img src="' + MPS.escapeHtml(img) + '" alt="" onerror="this.style.display=\'none\'" />' : '') +
-          '<span>' + MPS.escapeHtml(gt.name || gt.code) + '</span>';
-        btn.addEventListener('click', () => selectGt(gt));
+        btn.className = 'gt-chip' + (legacyGt && legacyGt.code === gt.code ? ' active' : '');
+        btn.textContent = gt.name || gt.code;
+        btn.addEventListener('click', () => loadLegacyPrices(gt));
         box.appendChild(btn);
       });
-      if (!box.children.length) {
-        box.innerHTML = '<p class="empty">此店暫無品類資料</p>';
-      }
     }
 
-    async function selectGt(gt) {
-      selectedGt = gt;
-      renderGoodTypes();
-      const card = document.getElementById('price-card');
-      const body = document.getElementById('price-body');
-      const title = document.getElementById('price-title');
-      const metaEl = document.getElementById('price-meta');
-      card.hidden = false;
-      title.textContent = storeDisplayName(selectedStore) + ' · ' + (gt.name || gt.code);
-      body.innerHTML = '<p class="empty">載入優惠價…</p>';
-      metaEl.textContent = '';
-      const path = 'data/promo/prices/' + encodeURIComponent(selectedStore.scode) + '_' + encodeURIComponent(gt.code) + '.json';
+    async function loadLegacyPrices(gt) {
+      legacyGt = gt;
+      renderLegacyGts();
+      const body = document.getElementById('legacy-price-body');
+      body.innerHTML = '<p class="empty">載入…</p>';
+      const path = 'data/promo/prices/' + encodeURIComponent(legacyStore.scode) + '_' + encodeURIComponent(gt.code) + '.json';
       try {
         const data = await MPS.loadJSON(path);
         const items = data.items || [];
-        let sync = '';
-        items.forEach((it) => { if (!sync && it.sync_date) sync = it.sync_date; });
-        metaEl.innerHTML =
-          MPS.wrapUpdateHtml('同步', sync || data.mirroredAt || '') +
-          ' · ' + items.length + ' 項' +
-          (data.stub ? ' · <span class="badge muted">stub</span>' : '');
         if (!items.length) {
-          body.innerHTML = '<p class="empty">此品類暫無優惠價資料</p>';
+          body.innerHTML = '<p class="empty">此品類暫無折扣價</p>';
           return;
         }
-        let html = '<table class="store-table"><thead><tr><th>品名</th><th>原價</th><th>優惠價</th><th>同步</th></tr></thead><tbody>';
+        let html = '<table class="store-table"><thead><tr><th>品名</th><th>原價</th><th>優惠價</th></tr></thead><tbody>';
         items.forEach((it) => {
           html += '<tr><td>' + MPS.escapeHtml(it.name || '—') + '</td>' +
             '<td>' + MPS.escapeHtml(it.price == null || it.price === '' ? '—' : String(it.price)) + '</td>' +
-            '<td class="price">' + MPS.escapeHtml(it.discount == null || it.discount === '' ? '—' : String(it.discount)) + '</td>' +
-            '<td>' + MPS.wrapUpdateHtml('', it.sync_date || '') + '</td></tr>';
+            '<td class="price">' + MPS.escapeHtml(it.discount == null || it.discount === '' ? '—' : String(it.discount)) + '</td></tr>';
         });
         html += '</tbody></table>';
         body.innerHTML = html;
       } catch (e) {
-        body.innerHTML = '<p class="empty">未有價檔 <code>' + MPS.escapeHtml(path) + '</code>。請喺 Windows 筆電跑 <code>--promo</code> 後再部署。</p>';
-        metaEl.textContent = String(e && e.message ? e.message : e);
+        body.innerHTML = '<p class="empty">未有價檔</p>';
       }
     }
 
+    document.getElementById('btn-prev').addEventListener('click', () => showPage(pageIdx - 1));
+    document.getElementById('btn-next').addEventListener('click', () => showPage(pageIdx + 1));
+    document.getElementById('main-img-btn').addEventListener('click', openLightbox);
+    document.getElementById('lb-prev').addEventListener('click', () => showPage(pageIdx - 1));
+    document.getElementById('lb-next').addEventListener('click', () => showPage(pageIdx + 1));
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target && e.target.getAttribute('data-close')) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      const lbOpen = !document.getElementById('lightbox').hidden;
+      if (e.key === 'Escape' && lbOpen) closeLightbox();
+      if (!selectedStore) return;
+      if (e.key === 'ArrowLeft') showPage(pageIdx - 1);
+      if (e.key === 'ArrowRight') showPage(pageIdx + 1);
+    });
 
-    function statusLabel(st) {
-      const map = {
-        ok: '可讀',
-        empty: '入口空',
-        no_stable_entry: '無穩定入口',
-        login_required: '需登入',
-        broken_assets: '有列表但圖壞／過時'
-      };
-      return map[st] || st || '—';
-    }
-
-    async function loadPromoNews() {
-      const metaEl = document.getElementById('news-meta');
-      const body = document.getElementById('news-body');
-      try {
-        const idx = await MPS.loadJSON('data/promo/news/index.json');
-        metaEl.innerHTML = MPS.wrapUpdateHtml('試探鏡像', idx.mirroredAt || '') +
-          ' · ' + ((idx.stores || []).length) + ' 店樣本';
-        const stores = idx.stores || [];
-        if (!stores.length) {
-          body.innerHTML = '<p class="empty">未有 news 樣本。</p>';
-          return;
-        }
-        let html = '<ul class="list">';
-        for (const st of stores) {
-          let detail = null;
-          try {
-            detail = await MPS.loadJSON(st.file || ('data/promo/news/' + st.scode + '.json'));
-          } catch (_) {}
-          const items = (detail && detail.items) || [];
-          html += '<li><div><div class="title">' + MPS.escapeHtml(st.name_cn || st.scode) +
-            ' <span class="badge">' + MPS.escapeHtml(statusLabel(st.status || (detail && detail.status))) + '</span></div>';
-          if (detail && detail.notes && detail.notes.length) {
-            html += '<div class="qty">' + MPS.escapeHtml(detail.notes[0]) + '</div>';
-          } else if (st.status === 'no_stable_entry') {
-            html += '<div class="qty">未找到免登入、穩定公開嘅海報／消息列表</div>';
-          }
-          if (items.length) {
-            html += '<div class="qty" style="margin-top:6px">';
-            items.slice(0, 3).forEach((it) => {
-              html += '· ' + MPS.escapeHtml(it.title || ('#' + (it.id || ''))) +
-                (it.publishedAt ? '（' + MPS.escapeHtml(it.publishedAt) + '）' : '') +
-                (it.imageStatus && it.imageStatus !== 'ok' ? ' · 圖：' + MPS.escapeHtml(it.imageStatus) : '') +
-                '<br/>';
-            });
-            html += '</div>';
-          }
-          html += '</div></li>';
-        }
-        html += '</ul>';
-        body.innerHTML = html;
-      } catch (e) {
-        metaEl.textContent = '未有 data/promo/news/index.json';
-        body.innerHTML = '<p class="empty">試探檔未就緒。見 <code>docs/promo-news-probe.md</code>。</p>';
+    Promise.all([
+      MPS.loadMeta(),
+      MPS.loadJSON('data/promo-leaflet/index.json').catch(() => null),
+      MPS.loadJSON('data/promo/index.json').catch(() => null)
+    ]).then(([meta, leaf, promo]) => {
+      leafletIndex = leaf;
+      legacyIndex = promo;
+      if (!leaf) {
+        document.getElementById('promo-meta').textContent = '未有 data/promo-leaflet/index.json';
+        document.getElementById('store-empty').hidden = false;
+      } else {
+        const stores = leaf.stores || [];
+        const pages = stores.reduce((n, s) => n + ((s.pages || []).length), 0);
+        const ocrN = stores.reduce((n, s) => n + ((s.ocrItems || []).length), 0);
+        document.getElementById('promo-meta').innerHTML =
+          MPS.wrapUpdateHtml('leaflet 鏡像', leaf.mirroredAt || '') +
+          ' · ' + stores.length + ' 店 · ' + pages + ' 頁圖 · OCR 品名 ' + ocrN +
+          ' · <span class="badge ok">主展示</span>';
+        renderStoreChips();
+        if (stores[0]) selectLeafletStore(stores[0]);
       }
-    }
-
-        Promise.all([MPS.loadMeta(), MPS.loadJSON('data/promo/index.json').catch(() => null)])
-      .then(([meta, idx]) => {
-        if (!idx) {
-          document.getElementById('promo-meta').textContent = '未有 data/promo/index.json';
-          document.getElementById('store-empty').hidden = false;
-          MPS.fillFooter(meta);
-          return;
-        }
-        index = idx;
-        const bits = [];
-        bits.push(MPS.wrapUpdateHtml('鏡像', idx.mirroredAt || ''));
-        if (idx.stub) bits.push('<span class="badge muted">stub／待 Windows 覆蓋</span>');
-        bits.push((idx.stores || []).length + ' 店');
-        document.getElementById('promo-meta').innerHTML = bits.join(' · ');
-        renderStores();
-        loadPromoNews();
-        MPS.fillFooter(meta, [MPS.wrapUpdateHtml('優惠鏡像', idx.mirroredAt || '')]);
-      });
+      if (promo) {
+        renderLegacyStores();
+      } else {
+        document.getElementById('legacy-empty').hidden = false;
+      }
+      const extras = [];
+      if (leaf) extras.push(MPS.wrapUpdateHtml('leaflet', leaf.mirroredAt || ''));
+      if (promo) extras.push(MPS.wrapUpdateHtml('舊折扣鏡像', promo.mirroredAt || ''));
+      MPS.fillFooter(meta, extras);
+    });
   </script>
 </body>
 </html>

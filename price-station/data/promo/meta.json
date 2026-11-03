@@ -119,5 +119,9 @@
       "image": "c007.png"
     }
   ],
-  "source": "supermarket/ds/main + active_goodtype + discount_price"
+  "source": "supermarket/ds/main + active_goodtype + discount_price",
+  "primaryDisplay": "leaflet",
+  "leafletIndex": "data/promo-leaflet/index.json",
+  "discountApiStatus": "demoted-not-primary",
+  "note": "主展示改 leaflet（來來／泰豐 P0）；消委會 discount_price 僅備查"
 }

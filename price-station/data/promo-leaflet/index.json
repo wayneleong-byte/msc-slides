@@ -1,0 +1,180 @@
+{
+  "mirroredAt": "2026-11-03T11:25:00+08:00",
+  "timezone": "Asia/Macau",
+  "period": "2026-11-03",
+  "assetRoot": "data/promo-leaflet/2026-11-03/",
+  "sourcePolicy": "official-website-leaflet + OCR; consumer-council discount API not primary",
+  "ocrEngine": "tesseract 5 chi_tra+eng",
+  "ocrNote": "價錢 OCR 弱（美術字）；品名／單位／SKU 半可用。圖為準。",
+  "stores": [
+    {
+      "id": "royal",
+      "scode": null,
+      "name_cn": "來來超市",
+      "name_en": "Royal Supermarket",
+      "mark": "來來",
+      "sourceUrl": "https://www.royalsupermarket.com.mo/DM_leaflet.asp",
+      "sourceType": "official-dm",
+      "promoWindow": "2026年11月2日至12月2日",
+      "pages": [
+        {
+          "file": "royal/DM1.jpg",
+          "label": "DM1"
+        },
+        {
+          "file": "royal/DM2.jpg",
+          "label": "DM2"
+        },
+        {
+          "file": "royal/DM3.jpg",
+          "label": "DM3"
+        },
+        {
+          "file": "royal/DM4.jpg",
+          "label": "DM4"
+        },
+        {
+          "file": "royal/DM5.jpg",
+          "label": "DM5"
+        },
+        {
+          "file": "royal/DM6.jpg",
+          "label": "DM6"
+        },
+        {
+          "file": "royal/DM7.jpg",
+          "label": "DM7"
+        },
+        {
+          "file": "royal/DM8.jpg",
+          "label": "DM8"
+        }
+      ],
+      "ocrItems": [
+        {
+          "name": "泰國頂上香米",
+          "price": null,
+          "unit": "8+1kg",
+          "sku": "124469/224608/237684",
+          "page": "DM1"
+        },
+        {
+          "name": "熊貓牌鮮味蠔油",
+          "price": null,
+          "unit": "255g",
+          "sku": "6427/38188",
+          "page": "DM1"
+        },
+        {
+          "name": "全蛋麵(排裝/袋裝)",
+          "price": null,
+          "unit": "454g",
+          "sku": "9195/234555",
+          "page": "DM1"
+        },
+        {
+          "name": "燕麥片(即食/快熟)",
+          "price": null,
+          "unit": "800g",
+          "sku": "3626/3624",
+          "page": "DM1"
+        },
+        {
+          "name": "梳打餅(芝麻/奶鹽/香蔥)",
+          "price": null,
+          "unit": "100g",
+          "sku": "14225/14230/14233",
+          "page": "DM1"
+        },
+        {
+          "name": "蝦片(蒜味/蟹味/黑胡椒味)",
+          "price": null,
+          "unit": "82g",
+          "sku": "204183/204184/238897",
+          "page": "DM1"
+        },
+        {
+          "name": "梳打味雜錦汽水",
+          "price": null,
+          "unit": "75g-111g",
+          "sku": "73868/223150/218688",
+          "page": "DM1"
+        },
+        {
+          "name": "檸檬茶(指定款)/維他蘋果綠茶",
+          "price": null,
+          "unit": "250mlx6",
+          "sku": "12181/224211/93479/230610/237256/12189",
+          "page": "DM1"
+        },
+        {
+          "name": "啤酒",
+          "price": null,
+          "unit": "500mlx4",
+          "sku": "168206/1246",
+          "page": "DM1"
+        },
+        {
+          "name": "里奧哈紅酒",
+          "price": null,
+          "unit": "750ml",
+          "sku": "237447",
+          "page": "DM1"
+        },
+        {
+          "name": "拔蘭地",
+          "price": null,
+          "unit": "1L",
+          "sku": "38109",
+          "page": "DM1"
+        },
+        {
+          "name": "全亮白竹碳深潔牙膏",
+          "price": null,
+          "unit": "140g",
+          "sku": "155245",
+          "page": "DM1"
+        }
+      ],
+      "ocrNote": "品名來自 DM1 OCR；價全 null"
+    },
+    {
+      "id": "taifung",
+      "scode": "0104",
+      "name_cn": "泰豐",
+      "name_en": "Tai Fung",
+      "mark": "泰豐",
+      "sourceUrl": "https://www.taifungmacau.com/",
+      "sourceType": "official-homepage-poster",
+      "promoWindow": "2026/11 官網輪播",
+      "pages": [
+        {
+          "file": "taifung/tf-01-3d343825ddc0b341788865125564879f-800x600.jpg",
+          "label": "海報1"
+        },
+        {
+          "file": "taifung/tf-02-b97aa16a8f5a689ce91579a086eef31a-800x600.jpg",
+          "label": "海報2"
+        },
+        {
+          "file": "taifung/tf-03-46c568960250217930f081a70973ce1d-800x600.jpg",
+          "label": "海報3"
+        },
+        {
+          "file": "taifung/tf-04-a176477e72674af02bbb41bd1d48f007-800x600.jpg",
+          "label": "海報4"
+        },
+        {
+          "file": "taifung/tf-05-51a5101aa53e013fa3f0114071af6a61-800x600.jpg",
+          "label": "海報5"
+        },
+        {
+          "file": "taifung/tf-06-f4b2032bc5ba91842ace99614b0e0558-800x600.jpg",
+          "label": "海報6"
+        }
+      ],
+      "ocrItems": [],
+      "ocrNote": "tf-01 OCR 為分店電話／類別橫額，暫無可入清單品名；價目或在其餘頁，P1 再掃"
+    }
+  ]
+}

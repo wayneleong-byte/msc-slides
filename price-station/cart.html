@@ -176,10 +176,17 @@
           </li>`;
         }
 
+        const leaflet = it.kind === 'promo-leaflet' || String(it.id || '').indexOf('leaflet:') === 0;
+        const kindBadge = leaflet
+          ? '<span class="kind-badge promo-leaflet">優惠海報</span>'
+          : '<span class="kind-badge supermarket">超市</span>';
+        const selectRow = leaflet
+          ? '<span class="badge muted">來源店：' + MPS.escapeHtml(it.preferredStore || '—') + ' · 請對照海報核價</span>'
+          : storeSelectHtml(it);
         return `<li>
           <div style="flex:1;min-width:180px">
             <div class="title">
-              <span class="kind-badge supermarket">超市</span>
+              ${kindBadge}
               ${MPS.escapeHtml(it.name || '')}
             </div>
             <div class="qty">${MPS.escapeHtml(it.quantity || '')}
@@ -189,7 +196,7 @@
                 ? ' <span class="badge muted">參考最平 ' + MPS.escapeHtml(it.bestStore) + ' ' + MPS.money(it.bestPrice) + '</span>'
                 : ''}
             </div>
-            <div class="select-row">${storeSelectHtml(it)}</div>
+            <div class="select-row">${selectRow}</div>
           </div>
           <div style="text-align:right">
             <div class="price best">${pref != null ? MPS.money(pref) : '—'}</div>
