@@ -14,8 +14,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "9.4",
-        "priceKg": "15.6",
+        "priceCatty": "9.2",
+        "priceKg": "15.2",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -88,14 +88,14 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "9.3",
-        "priceKg": "15.4",
+        "priceCatty": "9.7",
+        "priceKg": "16.0",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "9.6",
-        "priceKg": "15.9",
+        "priceCatty": "9.7",
+        "priceKg": "16.0",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:20+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:27+08:00",
   "source": "market_item_price_detail 紅蘿蔔"
 }

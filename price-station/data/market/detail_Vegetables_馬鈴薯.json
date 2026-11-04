@@ -3,9 +3,154 @@
   "categoryName": "新鮮食用蔬菜類",
   "itemName": "馬鈴薯",
   "namePt": "Batata",
-  "markets": [],
-  "todayUpdated": "",
-  "weekUpdated": "",
-  "mirroredAt": "2026-11-03T01:22:27+08:00",
+  "markets": [
+    {
+      "marketTag": "AL",
+      "marketName": "紅街市",
+      "today": {
+        "priceCatty": "10.0",
+        "priceKg": "16.5",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "9.2",
+        "priceKg": "15.2",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "CSL",
+      "marketName": "下環街市市政綜合大樓",
+      "today": {
+        "priceCatty": "9.3",
+        "priceKg": "15.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "9.4",
+        "priceKg": "15.6",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "NSD",
+      "marketName": "營地街市市政綜合大樓",
+      "today": {
+        "priceCatty": "9.3",
+        "priceKg": "15.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "9.3",
+        "priceKg": "15.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "PAT",
+      "marketName": "沙梨頭街市",
+      "today": {
+        "priceCatty": "8.0",
+        "priceKg": "13.2",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "8.0",
+        "priceKg": "13.2",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "CTB",
+      "marketName": "台山街市市政綜合大樓",
+      "today": {
+        "priceCatty": "10.0",
+        "priceKg": "16.5",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "10.0",
+        "priceKg": "16.5",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "IH",
+      "marketName": "祐漢街市",
+      "today": {
+        "priceCatty": "9.3",
+        "priceKg": "15.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "9.4",
+        "priceKg": "15.6",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "HM",
+      "marketName": "雀仔園街市",
+      "today": {
+        "priceCatty": "9.3",
+        "priceKg": "15.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "9.3",
+        "priceKg": "15.4",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "TA",
+      "marketName": "氹仔街市",
+      "today": {
+        "priceCatty": "9.0",
+        "priceKg": "14.9",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      },
+      "week": {
+        "priceCatty": "9.0",
+        "priceKg": "14.9",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
+      }
+    },
+    {
+      "marketTag": "CO",
+      "marketName": "路環街市",
+      "today": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      },
+      "week": {
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
+      }
+    }
+  ],
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:34+08:00",
   "source": "market_item_price_detail 馬鈴薯"
 }

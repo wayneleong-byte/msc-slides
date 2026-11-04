@@ -24,14 +24,14 @@
       "marketTag": "CSL",
       "marketName": "下環街市市政綜合大樓",
       "today": {
-        "priceCatty": "55.0",
-        "priceKg": "90.9",
+        "priceCatty": "60.0",
+        "priceKg": "99.2",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "59.3",
-        "priceKg": "98.0",
+        "priceCatty": "58.5",
+        "priceKg": "96.8",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -40,10 +40,10 @@
       "marketTag": "NSD",
       "marketName": "營地街市市政綜合大樓",
       "today": {
-        "priceCatty": "",
-        "priceKg": "",
-        "unitCatty": "",
-        "unitKg": ""
+        "priceCatty": "160.0",
+        "priceKg": "264.6",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
       },
       "week": {
         "priceCatty": "",
@@ -62,8 +62,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "113.0",
-        "priceKg": "186.9",
+        "priceCatty": "112.6",
+        "priceKg": "186.1",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:09+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:18+08:00",
   "source": "market_item_price_detail 蟶子"
 }

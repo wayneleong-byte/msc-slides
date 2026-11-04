@@ -318,27 +318,30 @@
     return branches.length ? branches[0] : null;
   }
 
-  /** Attach preferredBranch / branchId / branches onto a cart entry. */
+  /** Attach preferredBranch / branchId / branches onto a cart entry (t546). */
   function withPromoBranch(entry, branchEntry, selected) {
     const out = Object.assign({}, entry || {});
+    const brand = out.preferredStore || out.bestStore ||
+      (branchEntry && branchEntry.name_cn) || '';
     const branches = ((branchEntry && branchEntry.branches) || []).map((b) => ({
       id: String(b.id),
       name: String(b.name || '')
     }));
     out.branches = branches;
-    if (branchEntry && branchEntry.scode) out.scode = String(branchEntry.scode);
+    const sc = (branchEntry && branchEntry.scode) || out.scode || null;
+    if (sc) out.scode = String(sc);
     let sel = selected || null;
     if (!sel && branches.length) sel = branches[0];
-    if (sel) {
+    if (sel && (sel.name || sel.id != null)) {
       out.branchId = String(sel.id != null ? sel.id : '');
       out.preferredBranch = String(sel.name || '');
-      if (sel.name) {
-        out.preferredStore = String(sel.name);
-        out.bestStore = String(sel.name);
-      }
+      // preferredStore = chosen branch (where to shop); keep brand in bestStore if absent
+      if (sel.name) out.preferredStore = String(sel.name);
+      if (!out.bestStore) out.bestStore = brand || String(sel.name || '');
     } else {
       out.branchId = out.branchId || null;
-      out.preferredBranch = out.preferredBranch || '';
+      out.preferredBranch = out.preferredBranch || brand || '';
+      if (!out.preferredStore && brand) out.preferredStore = brand;
     }
     return out;
   }

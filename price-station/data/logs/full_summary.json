@@ -1,14 +1,14 @@
 {
-  "mirroredAt": "2026-11-03T01:23:27+08:00",
-  "elapsedSec": 545.9,
+  "mirroredAt": "2026-11-04T12:44:57+08:00",
+  "elapsedSec": 630.8,
   "supermarketCategories": 14,
   "supermarketItems": 599,
   "supermarketItemsOk": 599,
   "marketCategories": 6,
   "marketItems": 60,
   "marketItemsOk": 60,
-  "promoStores": 10,
-  "promoPriceFiles": 70,
+  "promoStores": 24,
+  "promoPriceFiles": 168,
   "specialCategories": 8,
   "failures": []
 }

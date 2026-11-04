@@ -1,39 +1,10 @@
 {
   "scode": "0102",
   "name": "San Miu",
-  "mirroredAt": "2026-11-03T01:23:16+08:00",
+  "mirroredAt": "2026-11-04T12:43:05+08:00",
   "raw": {
     "success": 1,
-    "data": [
-      {
-        "_id": "C007",
-        "d_count": 84
-      },
-      {
-        "_id": "C006",
-        "d_count": 124
-      },
-      {
-        "_id": "C005",
-        "d_count": 111
-      },
-      {
-        "_id": "C004",
-        "d_count": 553
-      },
-      {
-        "_id": "C003",
-        "d_count": 619
-      },
-      {
-        "_id": "C002",
-        "d_count": 231
-      },
-      {
-        "_id": "C001",
-        "d_count": 91
-      }
-    ],
+    "data": [],
     "error": null
   }
 }

@@ -8,8 +8,8 @@
       "marketTag": "AL",
       "marketName": "紅街市",
       "today": {
-        "priceCatty": "29.5",
-        "priceKg": "48.8",
+        "priceCatty": "30.4",
+        "priceKg": "50.2",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -24,8 +24,8 @@
       "marketTag": "CSL",
       "marketName": "下環街市市政綜合大樓",
       "today": {
-        "priceCatty": "35.0",
-        "priceKg": "57.9",
+        "priceCatty": "32.0",
+        "priceKg": "52.9",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -46,8 +46,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "32.4",
-        "priceKg": "53.5",
+        "priceCatty": "32.5",
+        "priceKg": "53.7",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:21:42+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:41:52+08:00",
   "source": "market_item_price_detail 鯇魚"
 }

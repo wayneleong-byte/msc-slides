@@ -29,7 +29,7 @@
       <strong>Hybrid 展示</strong>：有官網／社交 leaflet 嘅店以<strong>海報＋檔期＋來源</strong>為主（不限 11 月）。
       OCR 品<strong>必須有減價（salePrice）</strong>先顯示「加入清單」；主顯示減價，旁註原價同折扣率。無價品唔入清單。
       暫難找 leaflet 嘅五店（Tmart／利豐／福倡／南華美式貨場／宏基）<strong>保留消委會／DSEDT 折扣價表</strong>（可標資料日；常見 2026-10）。
-      Leaflet 店<strong>唔</strong>用舊折扣作主展示。入清單時可<strong>揀分店</strong>；無分店資料則顯示店址或待補提示。
+      Leaflet 店<strong>唔</strong>用舊折扣作主展示。
     </div>
 
     <div class="card">
@@ -75,6 +75,7 @@
     <div class="card" id="ocr-card" hidden>
       <h2>OCR 品名 · 加入清單 <span class="badge muted">須有減價</span></h2>
       <p class="meta-line" id="ocr-meta"></p>
+      <div class="select-row" id="ocr-branch-bar" hidden></div>
       <div id="ocr-body"></div>
     </div>
 
@@ -86,6 +87,7 @@
     <div class="card" id="price-card" hidden>
       <h2 id="price-title">優惠價</h2>
       <p class="meta-line" id="price-meta"></p>
+      <div class="select-row" id="price-branch-bar" hidden></div>
       <div id="price-body"></div>
     </div>
   </main>
@@ -102,21 +104,6 @@
         </div>
       </div>
       <img id="lb-img" alt="優惠海報大圖" />
-    </div>
-  </div>
-
-
-  <div class="branch-modal" id="branch-modal" hidden>
-    <div class="branch-modal-backdrop" data-branch-close="1"></div>
-    <div class="branch-modal-panel" role="dialog" aria-modal="true" aria-labelledby="branch-modal-title">
-      <h3 id="branch-modal-title">揀分店後加入清單</h3>
-      <p class="meta-line" id="branch-modal-item" style="margin:0 0 4px"></p>
-      <p class="meta-line" id="branch-modal-chain" style="margin:0"></p>
-      <div id="branch-modal-body"></div>
-      <div class="branch-modal-actions">
-        <button type="button" class="secondary" id="branch-modal-cancel" data-branch-close="1">取消</button>
-        <button type="button" id="branch-modal-confirm">確認加入</button>
-      </div>
     </div>
   </div>
 
@@ -142,8 +129,9 @@
     let selectedGt = null;
     let storeActive = {};
     let mode = null; // 'leaflet' | 'discount'
-    let storeBranchesIndex = null; // t546
-    let branchPickResolver = null;
+    let storeBranches = null;
+    let leafletBranchId = null;
+    let discountBranchId = null;
 
     function assetUrl(rel) {
       const root = (leafletIndex && leafletIndex.assetRoot) || 'data/promo-leaflet/2026-11-03/';
@@ -169,6 +157,75 @@
       return st.name || st.groupName || st.scode || '';
     }
 
+    function branchEntryFor(ref) {
+      const scode = MPS.resolvePromoScode(ref);
+      return MPS.storeBranchEntry(storeBranches, scode || ref) ||
+        MPS.storeBranchEntry(storeBranches, ref && ref.id);
+    }
+
+    function selectedBranchObj(entry, branchId) {
+      const branches = (entry && entry.branches) || [];
+      if (!branches.length) return null;
+      if (branchId != null && branchId !== '') {
+        const hit = branches.find((b) => String(b.id) === String(branchId));
+        if (hit) return hit;
+      }
+      return branches[0];
+    }
+
+    function renderBranchBar(barId, entry, brandName, selectedId, onChange) {
+      const bar = document.getElementById(barId);
+      if (!bar) return;
+      const branches = (entry && entry.branches) || [];
+      const brand = brandName || (entry && entry.name_cn) || '';
+      bar.hidden = false;
+      if (branches.length > 1) {
+        const cur = selectedBranchObj(entry, selectedId);
+        const curId = cur ? String(cur.id) : String(branches[0].id);
+        bar.innerHTML =
+          '<label style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%">' +
+          '<span class="badge">入清單分店</span>' +
+          '<select class="store-select" id="' + barId + '-select" aria-label="揀分店" style="flex:1;min-width:180px">' +
+          branches.map((b) => {
+            const sel = String(b.id) === curId ? ' selected' : '';
+            return '<option value="' + MPS.escapeHtml(String(b.id)) + '"' + sel + '>' +
+              MPS.escapeHtml(b.name) + '</option>';
+          }).join('') +
+          '</select></label>';
+        const sel = document.getElementById(barId + '-select');
+        if (sel && onChange) sel.addEventListener('change', () => onChange(sel.value));
+        if (onChange) onChange(curId);
+        return;
+      }
+      if (branches.length === 1) {
+        bar.innerHTML =
+          '<span class="badge muted">分店</span> ' +
+          '<strong>' + MPS.escapeHtml(branches[0].name) + '</strong>' +
+          (brand ? ' <span class="badge muted">' + MPS.escapeHtml(brand) + '</span>' : '');
+        if (onChange) onChange(String(branches[0].id));
+        return;
+      }
+      bar.innerHTML =
+        '<span class="badge muted">店址資訊</span> ' +
+        '<strong>' + MPS.escapeHtml(brand || '—') + '</strong>' +
+        ' <span class="qty">（物價站暫無分店名單；唔假造門牌）</span>';
+      if (onChange) onChange(null);
+    }
+
+    function syncLeafletBranchBar() {
+      if (!selectedLeaflet) return;
+      const entry = branchEntryFor(selectedLeaflet);
+      const brand = selectedLeaflet.name_cn || selectedLeaflet.mark || selectedLeaflet.id || '';
+      renderBranchBar('ocr-branch-bar', entry, brand, leafletBranchId, (id) => { leafletBranchId = id; });
+    }
+
+    function syncDiscountBranchBar() {
+      if (!selectedDiscount) return;
+      const entry = branchEntryFor(selectedDiscount);
+      const brand = storeDisplayName(selectedDiscount);
+      renderBranchBar('price-branch-bar', entry, brand, discountBranchId, (id) => { discountBranchId = id; });
+    }
+
     function gtImg(gt) {
       const img = (gt && gt.image) ? String(gt.image) : ((gt && gt.code) ? gt.code.toLowerCase() + '.png' : '');
       if (!img) return '';
@@ -179,141 +236,16 @@
     function hideLeafletPanels() {
       document.getElementById('viewer-card').hidden = true;
       document.getElementById('ocr-card').hidden = true;
+      const ob = document.getElementById('ocr-branch-bar');
+      if (ob) { ob.hidden = true; ob.innerHTML = ''; }
       closeLightbox();
     }
 
     function hideDiscountPanels() {
       document.getElementById('gt-card').hidden = true;
       document.getElementById('price-card').hidden = true;
-    }
-
-    async function ensureStoreBranches() {
-      if (storeBranchesIndex) return storeBranchesIndex;
-      try {
-        storeBranchesIndex = await MPS.loadJSON('data/promo-leaflet/store-branches.json');
-      } catch (_) {
-        storeBranchesIndex = { stores: [] };
-      }
-      return storeBranchesIndex;
-    }
-
-    function findStoreBranchMeta(opts) {
-      const raw = (storeBranchesIndex && storeBranchesIndex.stores) || [];
-      // t546 schema：stores 為陣列；兼容舊 dict keyed by scode
-      let stores = [];
-      if (Array.isArray(raw)) {
-        stores = raw;
-      } else if (raw && typeof raw === 'object') {
-        const aliases = (storeBranchesIndex && storeBranchesIndex.aliases) || {};
-        stores = Object.keys(raw).map((k) => {
-          const v = raw[k] || {};
-          return {
-            id: v.id || k,
-            scode: v.scode != null ? v.scode : k,
-            name_cn: v.name_cn || '',
-            groupId: v.groupId || k,
-            branches: v.branches || [],
-            address: v.address != null ? v.address : null,
-            note: v.note || ''
-          };
-        });
-        // also expose leaflet aliases as virtual entries
-        Object.keys(aliases).forEach((lid) => {
-          const sc = String(aliases[lid]);
-          const base = stores.find((s) => String(s.scode) === sc || s.groupId === sc);
-          if (base && !stores.some((s) => s.id === lid)) {
-            stores.push(Object.assign({}, base, { id: lid }));
-          }
-        });
-      }
-      const leafletId = opts && opts.leafletId;
-      const scode = opts && opts.scode != null && opts.scode !== '' ? String(opts.scode) : '';
-      if (leafletId) {
-        const byId = stores.find((s) => s.id === leafletId);
-        if (byId) return byId;
-      }
-      if (scode) {
-        const bySc = stores.find((s) => s.scode != null && String(s.scode) === scode);
-        if (bySc) return bySc;
-        const byG = stores.find((s) => String(s.groupId) === scode);
-        if (byG) return byG;
-      }
-      return null;
-    }
-
-    function closeBranchModal(result) {
-      const modal = document.getElementById('branch-modal');
-      if (modal) modal.hidden = true;
-      const resolver = branchPickResolver;
-      branchPickResolver = null;
-      if (resolver) resolver(result || null);
-    }
-
-    /** t546：入清單前揀分店；無分店則顯示店址或待補。回傳 {preferredStore,bestStore,branchId} 或 null（取消）。 */
-    async function pickBranchForAdd(opts) {
-      await ensureStoreBranches();
-      const chainName = (opts && opts.chainName) || '未知店';
-      const itemLabel = (opts && opts.itemLabel) || '';
-      const meta = findStoreBranchMeta({
-        leafletId: opts && opts.leafletId,
-        scode: opts && opts.scode
-      }) || { name_cn: chainName, branches: [], address: null, note: '' };
-      const branches = Array.isArray(meta.branches) ? meta.branches : [];
-      const address = meta.address || null;
-
-      return new Promise((resolve) => {
-        branchPickResolver = resolve;
-        const modal = document.getElementById('branch-modal');
-        const body = document.getElementById('branch-modal-body');
-        const itemEl = document.getElementById('branch-modal-item');
-        const chainEl = document.getElementById('branch-modal-chain');
-        itemEl.textContent = itemLabel ? ('品名：' + itemLabel) : '';
-        chainEl.textContent = '連鎖：' + (meta.name_cn || chainName);
-        modal.setAttribute('data-leaflet-id', (opts && opts.leafletId) || '');
-        modal.setAttribute('data-scode', (opts && opts.scode != null && opts.scode !== '') ? String(opts.scode) : (meta.scode != null ? String(meta.scode) : ''));
-
-        if (branches.length >= 1) {
-          let optsHtml = '<option value="">未指定分店</option>';
-          branches.forEach((b, i) => {
-            const sel = i === 0 ? ' selected' : '';
-            optsHtml += '<option value="' + MPS.escapeHtml(String(b.id)) + '"' + sel + '>' +
-              MPS.escapeHtml(b.name || String(b.id)) + '</option>';
-          });
-          body.innerHTML = '<label for="branch-select">分店</label>' +
-            '<select id="branch-select">' + optsHtml + '</select>' +
-            '<p class="meta-line" style="margin:8px 0 0">預設揀第一間分店；亦可揀「未指定分店」只記連鎖名。</p>';
-        } else if (address) {
-          body.innerHTML = '<div class="branch-address"><strong>店址</strong><br>' +
-            MPS.escapeHtml(address) + '</div>' +
-            '<p class="meta-line" style="margin:8px 0 0">此連鎖暫無分店清單；將以連鎖名加入。</p>';
-        } else {
-          body.innerHTML = '<div class="branch-pending">暫無分店／店址資料（待補）</div>' +
-            '<p class="meta-line" style="margin:8px 0 0">仍可以連鎖名加入清單。</p>';
-        }
-        modal.hidden = false;
-        const sel = document.getElementById('branch-select');
-        if (sel) sel.focus();
-        else document.getElementById('branch-modal-confirm').focus();
-      }).then((choice) => {
-        if (!choice) return null;
-        // choice may be raw from confirm click — normalize here if needed
-        return choice;
-      });
-    }
-
-    function readBranchPickResult(chainName, meta) {
-      const branches = (meta && meta.branches) || [];
-      if (branches.length >= 1) {
-        const sel = document.getElementById('branch-select');
-        const val = sel ? String(sel.value || '') : '';
-        if (!val) {
-          return { preferredStore: chainName, bestStore: chainName, branchId: null };
-        }
-        const br = branches.find((b) => String(b.id) === val);
-        const name = (br && br.name) || chainName;
-        return { preferredStore: name, bestStore: name, branchId: val };
-      }
-      return { preferredStore: chainName, bestStore: chainName, branchId: null };
+      const pb = document.getElementById('price-branch-bar');
+      if (pb) { pb.hidden = true; pb.innerHTML = ''; }
     }
 
     function renderLeafletChips() {
@@ -343,6 +275,7 @@
       selectedLeaflet = st;
       selectedDiscount = null;
       selectedGt = null;
+      leafletBranchId = null;
       pageIdx = 0;
       hideDiscountPanels();
       renderLeafletChips();
@@ -371,6 +304,7 @@
       renderThumbs();
       showPage(0);
       renderOcr();
+      syncLeafletBranchBar();
     }
 
     function renderThumbs() {
@@ -482,30 +416,19 @@
       html += '</ul>';
       body.innerHTML = html;
       body.querySelectorAll('button[data-ocr-idx]').forEach((btn) => {
-        btn.addEventListener('click', async () => {
+        btn.addEventListener('click', () => {
           const it = items[Number(btn.getAttribute('data-ocr-idx'))];
           if (!it) return;
           const sale = leafletSalePrice(it);
           if (sale == null) return;
-          const chainName = selectedLeaflet.name_cn || selectedLeaflet.mark || selectedLeaflet.id;
+          const storeName = selectedLeaflet.name_cn || selectedLeaflet.mark || selectedLeaflet.id;
           const orig = (it.originalPrice == null || it.originalPrice === '') ? null : Number(it.originalPrice);
           const disc = leafletDiscountLabel(it);
           const id = 'leaflet:' + selectedLeaflet.id + ':' +
             encodeURIComponent(String(it.sku || it.name || Math.random()).slice(0, 80));
-          await ensureStoreBranches();
-          const meta = findStoreBranchMeta({
-            leafletId: selectedLeaflet.id,
-            scode: selectedLeaflet.scode
-          });
-          const picked = await pickBranchForAdd({
-            chainName: chainName,
-            leafletId: selectedLeaflet.id,
-            scode: selectedLeaflet.scode,
-            itemLabel: it.name || '未名品'
-          });
-          // pickBranchForAdd resolves via closeBranchModal — confirm handler sets result
-          if (!picked) return;
-          MPS.addToCart({
+          const entry = branchEntryFor(selectedLeaflet);
+          const br = selectedBranchObj(entry, leafletBranchId);
+          const cartEntry = MPS.withPromoBranch({
             id: id,
             kind: 'promo-leaflet',
             name: it.name || '未名品',
@@ -514,8 +437,8 @@
             updateDate: (leafletIndex && leafletIndex.mirroredAt) || '',
             stores: [],
             bestPrice: sale,
-            bestStore: picked.bestStore,
-            preferredStore: picked.preferredStore,
+            bestStore: storeName,
+            preferredStore: storeName,
             preferredPrice: sale,
             originalPrice: (orig != null && !Number.isNaN(orig)) ? orig : null,
             discountLabel: disc || '',
@@ -524,10 +447,13 @@
             leafletStoreId: selectedLeaflet.id,
             leafletPage: it.page || '',
             salePrice: sale,
-            scode: selectedLeaflet.scode || (meta && meta.scode) || null,
-            branchId: picked.branchId
-          });
-          alert('已加入清單（' + picked.preferredStore + ' · 減價 ' + MPS.money(sale) +
+            scode: MPS.resolvePromoScode(selectedLeaflet)
+          }, entry, br);
+          MPS.addToCart(cartEntry);
+          const branchLabel = cartEntry.preferredBranch
+            ? (storeName + ' · ' + cartEntry.preferredBranch)
+            : storeName;
+          alert('已加入清單（' + branchLabel + ' · 減價 ' + MPS.money(sale) +
             (orig != null && !Number.isNaN(orig) ? ' · 原價 ' + MPS.money(orig) : '') + '）');
         });
       });
@@ -591,6 +517,7 @@
       selectedDiscount = st;
       selectedLeaflet = null;
       selectedGt = null;
+      discountBranchId = null;
       hideLeafletPanels();
       renderLeafletChips();
       renderDiscountChips();
@@ -629,6 +556,7 @@
       const title = document.getElementById('price-title');
       const metaEl = document.getElementById('price-meta');
       card.hidden = false;
+      syncDiscountBranchBar();
       const storeName = storeDisplayName(selectedDiscount);
       title.textContent = storeName + ' · ' + (gt.name || gt.code);
       body.innerHTML = '<p class="empty">載入優惠價…</p>';
@@ -663,25 +591,16 @@
         html += '</tbody></table></div>';
         body.innerHTML = html;
         body.querySelectorAll('button[data-disc-idx]').forEach((btn) => {
-          btn.addEventListener('click', async () => {
+          btn.addEventListener('click', () => {
             const it = items[Number(btn.getAttribute('data-disc-idx'))];
             if (!it) return;
             const disc = it.discount == null || it.discount === '' || Number.isNaN(Number(it.discount))
               ? null : Number(it.discount);
-            // t534／折扣：無優惠價唔入
-            if (disc == null) {
-              alert('此項暫無優惠價，未能加入清單。');
-              return;
-            }
             const rawId = (it.raw && (it.raw.id || it.raw._id)) || it.barcode || it.name || Math.random();
             const id = 'promo:' + selectedDiscount.scode + ':' + encodeURIComponent(String(rawId).slice(0, 80));
-            const picked = await pickBranchForAdd({
-              chainName: storeName,
-              scode: selectedDiscount.scode,
-              itemLabel: it.name || '未名品'
-            });
-            if (!picked) return;
-            MPS.addToCart({
+            const entry = branchEntryFor(selectedDiscount);
+            const br = selectedBranchObj(entry, discountBranchId);
+            const cartEntry = MPS.withPromoBranch({
               id: id,
               kind: 'promo-discount',
               name: it.name || '未名品',
@@ -690,15 +609,18 @@
               updateDate: it.sync_date || data.mirroredAt || '',
               stores: [],
               bestPrice: disc,
-              bestStore: picked.bestStore,
-              preferredStore: picked.preferredStore,
+              bestStore: storeName,
+              preferredStore: storeName,
               preferredPrice: disc,
               source: 'dsedt-discount',
               scode: selectedDiscount.scode,
-              gtcode: gt.code,
-              branchId: picked.branchId
-            });
-            alert('已加入清單（' + picked.preferredStore + ' · 優惠價 ' + disc + '）');
+              gtcode: gt.code
+            }, entry, br);
+            MPS.addToCart(cartEntry);
+            const branchLabel = cartEntry.preferredBranch
+              ? (storeName + ' · ' + cartEntry.preferredBranch)
+              : storeName;
+            alert('已加入清單（' + branchLabel + ' · 優惠價 ' + (disc != null ? disc : '—') + '）');
           });
         });
       } catch (e) {
@@ -733,22 +655,6 @@
       ).join('');
     }
 
-    document.getElementById('branch-modal').addEventListener('click', (e) => {
-      if (e.target && e.target.getAttribute('data-branch-close')) closeBranchModal(null);
-    });
-    document.getElementById('branch-modal-confirm').addEventListener('click', () => {
-      const chainEl = document.getElementById('branch-modal-chain');
-      const chainName = (chainEl && chainEl.textContent || '').replace(/^連鎖：/, '') || '未知店';
-      // re-resolve meta from last open context via select presence / stored attrs
-      const leafletId = document.getElementById('branch-modal').getAttribute('data-leaflet-id') || '';
-      const scode = document.getElementById('branch-modal').getAttribute('data-scode') || '';
-      const meta = findStoreBranchMeta({ leafletId: leafletId || null, scode: scode || null }) ||
-        { branches: [], name_cn: chainName };
-      const result = readBranchPickResult(meta.name_cn || chainName, meta);
-      closeBranchModal(result);
-    });
-    document.getElementById('branch-modal-cancel').addEventListener('click', () => closeBranchModal(null));
-
     document.getElementById('btn-prev').addEventListener('click', () => showPage(pageIdx - 1));
     document.getElementById('btn-next').addEventListener('click', () => showPage(pageIdx + 1));
     document.getElementById('main-img-btn').addEventListener('click', openLightbox);
@@ -758,8 +664,6 @@
       if (e.target && e.target.getAttribute('data-close')) closeLightbox();
     });
     document.addEventListener('keydown', (e) => {
-      const brOpen = !document.getElementById('branch-modal').hidden;
-      if (e.key === 'Escape' && brOpen) { closeBranchModal(null); return; }
       const lbOpen = !document.getElementById('lightbox').hidden;
       if (e.key === 'Escape' && lbOpen) closeLightbox();
       if (mode !== 'leaflet' || !selectedLeaflet) return;
@@ -771,11 +675,11 @@
       MPS.loadMeta(),
       MPS.loadJSON('data/promo-leaflet/index.json').catch(() => null),
       MPS.loadJSON('data/promo/index.json').catch(() => null),
-      MPS.loadJSON('data/promo-leaflet/store-branches.json').catch(() => ({ stores: [] }))
+      MPS.loadJSON('data/promo-leaflet/store-branches.json').catch(() => ({ stores: {}, aliases: {} }))
     ]).then(([meta, leaf, promo, branches]) => {
       leafletIndex = leaf;
       if (promo) promoIndex = promo;
-      storeBranchesIndex = branches || { stores: [] };
+      storeBranches = branches || { stores: {}, aliases: {} };
 
       const bits = [];
       if (leaf) {

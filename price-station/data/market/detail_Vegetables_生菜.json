@@ -14,8 +14,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "13.5",
-        "priceKg": "22.3",
+        "priceCatty": "13.6",
+        "priceKg": "22.5",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -30,8 +30,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "11.3",
-        "priceKg": "18.7",
+        "priceCatty": "11.4",
+        "priceKg": "18.9",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -72,8 +72,8 @@
       "marketTag": "CTB",
       "marketName": "台山街市市政綜合大樓",
       "today": {
-        "priceCatty": "12.0",
-        "priceKg": "19.8",
+        "priceCatty": "14.0",
+        "priceKg": "23.1",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -94,8 +94,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "10.6",
-        "priceKg": "17.5",
+        "priceCatty": "10.8",
+        "priceKg": "17.8",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -127,7 +127,7 @@
       },
       "week": {
         "priceCatty": "10.0",
-        "priceKg": "16.5",
+        "priceKg": "16.6",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:15+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:23+08:00",
   "source": "market_item_price_detail 生菜"
 }

@@ -88,8 +88,8 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "54.3",
-        "priceKg": "89.8",
+        "priceCatty": "54.0",
+        "priceKg": "89.3",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -104,14 +104,14 @@
       "marketTag": "HM",
       "marketName": "雀仔園街市",
       "today": {
-        "priceCatty": "55.0",
-        "priceKg": "90.9",
+        "priceCatty": "54.2",
+        "priceKg": "89.7",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "54.8",
-        "priceKg": "90.6",
+        "priceCatty": "54.6",
+        "priceKg": "90.2",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:21:59+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:09+08:00",
   "source": "market_item_price_detail 豬𦟌"
 }

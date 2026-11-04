@@ -8,14 +8,14 @@
       "marketTag": "AL",
       "marketName": "紅街市",
       "today": {
-        "priceCatty": "3.0",
-        "priceKg": "79.4",
+        "priceCatty": "4.0",
+        "priceKg": "105.8",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
         "priceCatty": "3.1",
-        "priceKg": "82.4",
+        "priceKg": "83.1",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -24,14 +24,14 @@
       "marketTag": "CSL",
       "marketName": "下環街市市政綜合大樓",
       "today": {
-        "priceCatty": "4.0",
-        "priceKg": "105.8",
+        "priceCatty": "2.5",
+        "priceKg": "66.1",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
-        "priceCatty": "3.4",
-        "priceKg": "90.4",
+        "priceCatty": "3.5",
+        "priceKg": "92.6",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -40,14 +40,14 @@
       "marketTag": "NSD",
       "marketName": "營地街市市政綜合大樓",
       "today": {
-        "priceCatty": "4.0",
-        "priceKg": "105.8",
+        "priceCatty": "4.3",
+        "priceKg": "112.5",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
-        "priceCatty": "4.0",
-        "priceKg": "105.8",
+        "priceCatty": "3.7",
+        "priceKg": "98.3",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -56,14 +56,14 @@
       "marketTag": "PAT",
       "marketName": "沙梨頭街市",
       "today": {
-        "priceCatty": "2.9",
-        "priceKg": "76.6",
+        "priceCatty": "3.7",
+        "priceKg": "99.2",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
-        "priceCatty": "2.8",
-        "priceKg": "74.8",
+        "priceCatty": "3.1",
+        "priceKg": "81.1",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -72,8 +72,8 @@
       "marketTag": "CTB",
       "marketName": "台山街市市政綜合大樓",
       "today": {
-        "priceCatty": "3.5",
-        "priceKg": "92.6",
+        "priceCatty": "4.0",
+        "priceKg": "105.8",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
@@ -88,14 +88,14 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "3.7",
-        "priceKg": "97.0",
+        "priceCatty": "3.6",
+        "priceKg": "95.2",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
-        "priceCatty": "3.7",
-        "priceKg": "98.7",
+        "priceCatty": "3.6",
+        "priceKg": "95.9",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -127,7 +127,7 @@
       },
       "week": {
         "priceCatty": "4.6",
-        "priceKg": "121.2",
+        "priceKg": "120.9",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:21:50+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:00+08:00",
   "source": "market_item_price_detail 馬頭"
 }

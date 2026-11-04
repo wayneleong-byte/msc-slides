@@ -2,57 +2,8 @@
   "scode": "0108",
   "gtcode": "C005",
   "storeName": "Lee Fong",
-  "mirroredAt": "2026-11-03T01:22:47+08:00",
-  "itemCount": 2,
-  "items": [
-    {
-      "name": "旺旺大作戰酸軟糖-混合乳酸味 65g",
-      "price": "9.5",
-      "discount": "7.9",
-      "sync_date": "2026-10-09T00:00:00.000Z",
-      "barcode": null,
-      "raw": {
-        "_id": 31589,
-        "id": 31589,
-        "barcode": null,
-        "batch": "1791521680639",
-        "discount": "7.9",
-        "discount_desp": "貝達9月-10月特價",
-        "gtcode": "C005",
-        "name": "旺旺大作戰酸軟糖-混合乳酸味 65g",
-        "price": "9.5",
-        "remark": null,
-        "scode": "0108",
-        "sync_date": "2026-10-09T00:00:00.000Z",
-        "user": "andrewsam",
-        "created_at": "2026-10-08T20:54:40.000Z",
-        "updated_at": "2026-10-08T20:54:40.000Z"
-      }
-    },
-    {
-      "name": "旺旺大作戰酸軟糖-檸檬及可樂味 70g",
-      "price": "9.5",
-      "discount": "7.9",
-      "sync_date": "2026-10-09T00:00:00.000Z",
-      "barcode": null,
-      "raw": {
-        "_id": 31588,
-        "id": 31588,
-        "barcode": null,
-        "batch": "1791521680639",
-        "discount": "7.9",
-        "discount_desp": "貝達9月-10月特價",
-        "gtcode": "C005",
-        "name": "旺旺大作戰酸軟糖-檸檬及可樂味 70g",
-        "price": "9.5",
-        "remark": null,
-        "scode": "0108",
-        "sync_date": "2026-10-09T00:00:00.000Z",
-        "user": "andrewsam",
-        "created_at": "2026-10-08T20:54:40.000Z",
-        "updated_at": "2026-10-08T20:54:40.000Z"
-      }
-    }
-  ],
+  "mirroredAt": "2026-11-04T12:44:45+08:00",
+  "itemCount": 0,
+  "items": [],
   "rawSuccess": 1
 }

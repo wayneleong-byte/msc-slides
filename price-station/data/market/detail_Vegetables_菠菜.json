@@ -8,14 +8,14 @@
       "marketTag": "AL",
       "marketName": "紅街市",
       "today": {
-        "priceCatty": "17.1",
-        "priceKg": "28.2",
+        "priceCatty": "16.7",
+        "priceKg": "27.6",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "18.0",
-        "priceKg": "29.8",
+        "priceCatty": "17.7",
+        "priceKg": "29.2",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -30,8 +30,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "18.0",
-        "priceKg": "29.8",
+        "priceCatty": "18.1",
+        "priceKg": "30.0",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -94,8 +94,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "16.8",
-        "priceKg": "27.8",
+        "priceCatty": "17.0",
+        "priceKg": "28.1",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -120,8 +120,8 @@
       "marketTag": "TA",
       "marketName": "氹仔街市",
       "today": {
-        "priceCatty": "20.0",
-        "priceKg": "33.1",
+        "priceCatty": "19.4",
+        "priceKg": "32.0",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:23+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:31+08:00",
   "source": "market_item_price_detail 菠菜"
 }

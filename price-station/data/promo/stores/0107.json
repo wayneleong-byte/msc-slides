@@ -1,39 +1,10 @@
 {
   "scode": "0107",
   "name": "Vang Kei",
-  "mirroredAt": "2026-11-03T01:22:55+08:00",
+  "mirroredAt": "2026-11-04T12:43:24+08:00",
   "raw": {
     "success": 1,
-    "data": [
-      {
-        "_id": "C007",
-        "d_count": 7
-      },
-      {
-        "_id": "C006",
-        "d_count": 29
-      },
-      {
-        "_id": "C005",
-        "d_count": 13
-      },
-      {
-        "_id": "C004",
-        "d_count": 206
-      },
-      {
-        "_id": "C003",
-        "d_count": 301
-      },
-      {
-        "_id": "C002",
-        "d_count": 179
-      },
-      {
-        "_id": "C001",
-        "d_count": 32
-      }
-    ],
+    "data": [],
     "error": null
   }
 }

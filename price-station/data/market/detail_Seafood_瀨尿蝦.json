@@ -14,8 +14,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "112.2",
-        "priceKg": "185.6",
+        "priceCatty": "109.4",
+        "priceKg": "180.9",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -56,14 +56,14 @@
       "marketTag": "PAT",
       "marketName": "沙梨頭街市",
       "today": {
-        "priceCatty": "100.0",
-        "priceKg": "165.3",
-        "unitCatty": "元/司馬斤",
-        "unitKg": "Pataca/Kg"
+        "priceCatty": "",
+        "priceKg": "",
+        "unitCatty": "",
+        "unitKg": ""
       },
       "week": {
-        "priceCatty": "145.0",
-        "priceKg": "239.7",
+        "priceCatty": "136.0",
+        "priceKg": "224.8",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -120,16 +120,16 @@
       "marketTag": "TA",
       "marketName": "氹仔街市",
       "today": {
-        "priceCatty": "",
-        "priceKg": "",
-        "unitCatty": "",
-        "unitKg": ""
+        "priceCatty": "180.0",
+        "priceKg": "297.6",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "",
-        "priceKg": "",
-        "unitCatty": "",
-        "unitKg": ""
+        "priceCatty": "180.0",
+        "priceKg": "297.6",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
       }
     },
     {
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:08+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:16+08:00",
   "source": "market_item_price_detail 瀨尿蝦"
 }

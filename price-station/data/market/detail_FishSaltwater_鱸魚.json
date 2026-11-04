@@ -15,7 +15,7 @@
       },
       "week": {
         "priceCatty": "2.4",
-        "priceKg": "64.2",
+        "priceKg": "64.6",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -40,14 +40,14 @@
       "marketTag": "NSD",
       "marketName": "營地街市市政綜合大樓",
       "today": {
-        "priceCatty": "2.4",
-        "priceKg": "64.4",
+        "priceCatty": "4.6",
+        "priceKg": "122.4",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
-        "priceCatty": "3.2",
-        "priceKg": "85.6",
+        "priceCatty": "2.9",
+        "priceKg": "76.2",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -56,10 +56,10 @@
       "marketTag": "PAT",
       "marketName": "沙梨頭街市",
       "today": {
-        "priceCatty": "",
-        "priceKg": "",
-        "unitCatty": "",
-        "unitKg": ""
+        "priceCatty": "5.0",
+        "priceKg": "132.3",
+        "unitCatty": "元/公斤",
+        "unitKg": "Pataca/Tael"
       },
       "week": {
         "priceCatty": "3.6",
@@ -88,14 +88,14 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "4.5",
-        "priceKg": "119.0",
+        "priceCatty": "4.8",
+        "priceKg": "125.7",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
         "priceCatty": "4.7",
-        "priceKg": "124.9",
+        "priceKg": "124.3",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -111,7 +111,7 @@
       },
       "week": {
         "priceCatty": "3.2",
-        "priceKg": "83.8",
+        "priceKg": "85.7",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:21:54+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:03+08:00",
   "source": "market_item_price_detail 鱸魚"
 }

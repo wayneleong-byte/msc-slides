@@ -30,8 +30,8 @@
         "unitKg": "Pataca/Cabeça"
       },
       "week": {
-        "priceCatty": "10.3",
-        "priceKg": "10.3",
+        "priceCatty": "10.0",
+        "priceKg": "10.0",
         "unitCatty": "元/頭",
         "unitKg": "Pataca/Cabeça"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:06+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:15+08:00",
   "source": "market_item_price_detail 帶子"
 }

@@ -15,7 +15,7 @@
       },
       "week": {
         "priceCatty": "2.8",
-        "priceKg": "72.8",
+        "priceKg": "75.0",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -24,14 +24,14 @@
       "marketTag": "CSL",
       "marketName": "下環街市市政綜合大樓",
       "today": {
-        "priceCatty": "2.0",
-        "priceKg": "52.9",
+        "priceCatty": "2.2",
+        "priceKg": "57.9",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
         "priceCatty": "2.1",
-        "priceKg": "56.2",
+        "priceKg": "55.4",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -40,14 +40,14 @@
       "marketTag": "NSD",
       "marketName": "營地街市市政綜合大樓",
       "today": {
-        "priceCatty": "3.0",
-        "priceKg": "79.4",
+        "priceCatty": "2.0",
+        "priceKg": "52.9",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
-        "priceCatty": "2.6",
-        "priceKg": "68.8",
+        "priceCatty": "2.8",
+        "priceKg": "72.8",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -56,14 +56,14 @@
       "marketTag": "PAT",
       "marketName": "沙梨頭街市",
       "today": {
-        "priceCatty": "1.6",
-        "priceKg": "43.0",
+        "priceCatty": "1.9",
+        "priceKg": "49.6",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
-        "priceCatty": "1.7",
-        "priceKg": "44.0",
+        "priceCatty": "1.8",
+        "priceKg": "46.6",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -88,14 +88,14 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "1.4",
-        "priceKg": "37.5",
+        "priceCatty": "1.7",
+        "priceKg": "45.9",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       },
       "week": {
         "priceCatty": "1.4",
-        "priceKg": "37.7",
+        "priceKg": "37.9",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -110,8 +110,8 @@
         "unitKg": "Pataca/Tael"
       },
       "week": {
-        "priceCatty": "1.9",
-        "priceKg": "49.3",
+        "priceCatty": "1.8",
+        "priceKg": "47.6",
         "unitCatty": "元/公斤",
         "unitKg": "Pataca/Tael"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:21:46+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:41:55+08:00",
   "source": "market_item_price_detail 九吐"
 }

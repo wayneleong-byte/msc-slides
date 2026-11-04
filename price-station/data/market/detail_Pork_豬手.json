@@ -24,8 +24,8 @@
       "marketTag": "CSL",
       "marketName": "下環街市市政綜合大樓",
       "today": {
-        "priceCatty": "35.7",
-        "priceKg": "59.1",
+        "priceCatty": "36.0",
+        "priceKg": "59.5",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -88,14 +88,14 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "34.2",
-        "priceKg": "56.5",
+        "priceCatty": "33.9",
+        "priceKg": "56.1",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "34.1",
-        "priceKg": "56.4",
+        "priceCatty": "34.0",
+        "priceKg": "56.3",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:00+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:09+08:00",
   "source": "market_item_price_detail 豬手"
 }

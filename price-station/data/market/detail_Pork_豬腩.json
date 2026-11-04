@@ -14,8 +14,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "41.3",
-        "priceKg": "68.3",
+        "priceCatty": "41.4",
+        "priceKg": "68.4",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -24,8 +24,8 @@
       "marketTag": "CSL",
       "marketName": "下環街市市政綜合大樓",
       "today": {
-        "priceCatty": "53.5",
-        "priceKg": "88.5",
+        "priceCatty": "54.7",
+        "priceKg": "90.4",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -88,8 +88,8 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "44.0",
-        "priceKg": "72.7",
+        "priceCatty": "43.7",
+        "priceKg": "72.3",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -104,14 +104,14 @@
       "marketTag": "HM",
       "marketName": "雀仔園街市",
       "today": {
-        "priceCatty": "46.0",
-        "priceKg": "76.1",
+        "priceCatty": "45.7",
+        "priceKg": "75.6",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "45.9",
-        "priceKg": "75.9",
+        "priceCatty": "45.8",
+        "priceKg": "75.8",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:03+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:12+08:00",
   "source": "market_item_price_detail 豬腩"
 }

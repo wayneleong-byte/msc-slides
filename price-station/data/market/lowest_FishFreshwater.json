@@ -1,13 +1,13 @@
 {
   "tag": "FishFreshwater",
   "ccn": "魚類 - 淡水魚",
-  "mirroredAt": "2026-11-03T01:21:41+08:00",
+  "mirroredAt": "2026-11-04T12:41:51+08:00",
   "items": [
     {
       "name": "大魚",
       "namePt": "Carpa de cabeça grande",
-      "lpaToday": "20",
-      "lpbToday": "33.1",
+      "lpaToday": "21.3",
+      "lpbToday": "35.3",
       "lpaWeek": "22.3",
       "lpbWeek": "36.8"
     },

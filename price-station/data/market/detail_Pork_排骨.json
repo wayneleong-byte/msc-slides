@@ -24,8 +24,8 @@
       "marketTag": "CSL",
       "marketName": "下環街市市政綜合大樓",
       "today": {
-        "priceCatty": "69.7",
-        "priceKg": "115.3",
+        "priceCatty": "70.3",
+        "priceKg": "116.3",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -88,8 +88,8 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "68.6",
-        "priceKg": "113.4",
+        "priceCatty": "68.5",
+        "priceKg": "113.2",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -110,8 +110,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "65.9",
-        "priceKg": "109.0",
+        "priceCatty": "65.8",
+        "priceKg": "108.8",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:21:57+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:06+08:00",
   "source": "market_item_price_detail 排骨"
 }

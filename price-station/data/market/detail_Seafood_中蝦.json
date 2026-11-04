@@ -8,8 +8,8 @@
       "marketTag": "AL",
       "marketName": "紅街市",
       "today": {
-        "priceCatty": "45.0",
-        "priceKg": "74.4",
+        "priceCatty": "48.0",
+        "priceKg": "79.4",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -40,14 +40,14 @@
       "marketTag": "NSD",
       "marketName": "營地街市市政綜合大樓",
       "today": {
-        "priceCatty": "50.0",
-        "priceKg": "82.7",
+        "priceCatty": "49.0",
+        "priceKg": "81.1",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "39.3",
-        "priceKg": "64.9",
+        "priceCatty": "38.8",
+        "priceKg": "64.1",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -56,14 +56,14 @@
       "marketTag": "PAT",
       "marketName": "沙梨頭街市",
       "today": {
-        "priceCatty": "52.5",
-        "priceKg": "86.8",
+        "priceCatty": "42.5",
+        "priceKg": "70.3",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "54.7",
-        "priceKg": "90.5",
+        "priceCatty": "57.6",
+        "priceKg": "95.3",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -88,14 +88,14 @@
       "marketTag": "IH",
       "marketName": "祐漢街市",
       "today": {
-        "priceCatty": "34.0",
-        "priceKg": "56.2",
+        "priceCatty": "44.8",
+        "priceKg": "74.0",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
         "priceCatty": "34.8",
-        "priceKg": "57.5",
+        "priceKg": "57.6",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:05+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:14+08:00",
   "source": "market_item_price_detail 中蝦"
 }

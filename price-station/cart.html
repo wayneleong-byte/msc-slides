@@ -61,6 +61,57 @@
         Number(a.price) - Number(b.price) || a.storeName.localeCompare(b.storeName, 'zh-Hant'));
     }
 
+    let storeBranches = null;
+
+    function ensureCartBranches(it) {
+      if (!it) return it;
+      const leaflet = it.kind === 'promo-leaflet' || String(it.id || '').indexOf('leaflet:') === 0;
+      const promoDisc = it.kind === 'promo-discount' || String(it.id || '').indexOf('promo:') === 0;
+      if (!leaflet && !promoDisc) return it;
+      if (Array.isArray(it.branches) && it.branches.length) return it;
+      const ref = it.scode || it.leafletStoreId || null;
+      const entry = MPS.storeBranchEntry(storeBranches, ref);
+      if (!entry) return it;
+      const br = MPS.pickDefaultBranch(entry);
+      return MPS.withPromoBranch(Object.assign({}, it, {
+        scode: entry.scode || it.scode || MPS.resolvePromoScode(ref)
+      }), entry, it.branchId
+        ? ((entry.branches || []).find((b) => String(b.id) === String(it.branchId)) || br)
+        : (it.preferredBranch
+          ? ((entry.branches || []).find((b) => b.name === it.preferredBranch) || br)
+          : br));
+    }
+
+    function promoBranchSelectHtml(it) {
+      const branches = Array.isArray(it.branches) ? it.branches : [];
+      const brand = it.preferredStore && branches.some((b) => b.name === it.preferredStore)
+        ? (it.bestStore && it.bestStore !== it.preferredStore ? it.bestStore : '')
+        : (it.preferredStore || it.bestStore || '');
+      // preferredBranch is the selected branch name; preferredStore may have been set to branch by withPromoBranch
+      const prefName = it.preferredBranch || '';
+      const prefId = it.branchId != null ? String(it.branchId) : '';
+      if (branches.length > 1) {
+        return '<select class="store-select" data-id="' + MPS.escapeHtml(it.id) +
+          '" data-kind="promo-branch" aria-label="改選分店">' +
+          branches.map((b) => {
+            const sel = (prefId && String(b.id) === prefId) ||
+              (!prefId && prefName && b.name === prefName) ||
+              (!prefId && !prefName && it.preferredStore === b.name) ? ' selected' : '';
+            return '<option value="' + MPS.escapeHtml(String(b.id)) + '"' + sel + '>' +
+              MPS.escapeHtml(b.name) + '</option>';
+          }).join('') +
+          '</select>';
+      }
+      if (branches.length === 1) {
+        return '<span class="badge muted">分店</span> <strong>' +
+          MPS.escapeHtml(branches[0].name) + '</strong>';
+      }
+      const label = prefName || it.preferredStore || it.bestStore || '—';
+      return '<span class="badge muted">店址資訊</span> ' +
+        '<strong>' + MPS.escapeHtml(label) + '</strong>' +
+        ' <span class="qty">（暫無分店名單）</span>';
+    }
+
     function storeSelectHtml(it) {
       const stores = uniqueStores(it.stores);
       const pref = it.preferredStore || it.bestStore || '';
@@ -116,6 +167,16 @@
               preferredPriceCatty: Number(block.priceCatty),
               preferredPriceKg: block.priceKg === '' || block.priceKg == null ? null : Number(block.priceKg)
             });
+          } else if (kind === 'promo-branch') {
+            const branches = Array.isArray(it.branches) ? it.branches : [];
+            const b = branches.find((x) => String(x.id) === String(sel.value));
+            if (!b) return;
+            cart[idx] = Object.assign({}, it, {
+              branchId: String(b.id),
+              preferredBranch: b.name,
+              preferredStore: b.name,
+              bestStore: it.bestStore || b.name
+            });
           } else {
             const s = uniqueStores(it.stores).find((x) => x.storeName === sel.value);
             if (!s) return;
@@ -131,7 +192,27 @@
     }
 
     function render() {
-      const cart = MPS.getCart();
+      const cart = MPS.getCart().map((x) => {
+        const leaflet = x.kind === 'promo-leaflet' || String(x.id || '').indexOf('leaflet:') === 0;
+        const promoDisc = x.kind === 'promo-discount' || String(x.id || '').indexOf('promo:') === 0;
+        if (!(leaflet || promoDisc)) return x;
+        return ensureCartBranches(x);
+      });
+      // persist enriched promo branch fields once
+      if (storeBranches) {
+        const raw = MPS.getCart();
+        let changed = false;
+        const next = raw.map((x, i) => {
+          const y = cart[i];
+          if (y && y !== x && (y.branches || y.preferredBranch || y.branchId) &&
+              (x.branches == null || x.preferredBranch == null)) {
+            changed = true;
+            return y;
+          }
+          return x;
+        });
+        if (changed) MPS.saveCart(next);
+      }
       const ul = document.getElementById('cart-list');
       const summary = document.getElementById('summary');
       if (!cart.length) {
@@ -188,16 +269,18 @@
         else if (promoDisc) kindBadge = '<span class="kind-badge promo-discount">官方折扣</span>';
         else if (special) kindBadge = '<span class="kind-badge special">專項</span>';
         let selectRow = storeSelectHtml(it);
-        if (leaflet) {
+        if (leaflet || promoDisc) {
+          it = ensureCartBranches(it);
           const orig = (it.originalPrice != null && it.originalPrice !== '' && !Number.isNaN(Number(it.originalPrice)))
             ? Number(it.originalPrice) : null;
           const disc = it.discountLabel || (it.discountPercent != null && !Number.isNaN(Number(it.discountPercent))
             ? ('-' + Number(it.discountPercent).toFixed(0) + '%') : '');
-          let bits = '來源店：' + MPS.escapeHtml(it.preferredStore || '—');
-          if (it.leafletPage) bits += ' · ' + MPS.escapeHtml(String(it.leafletPage));
-          if (orig != null) bits += ' · <span class="badge muted">原價 ' + MPS.money(orig) + '</span>';
-          if (disc) bits += ' · <span class="badge ok">' + MPS.escapeHtml(String(disc)) + '</span>';
-          selectRow = '<span class="badge muted">' + bits + '</span>';
+          let bits = '';
+          if (leaflet && it.leafletPage) bits += MPS.escapeHtml(String(it.leafletPage));
+          if (orig != null) bits += (bits ? ' · ' : '') + '<span class="badge muted">原價 ' + MPS.money(orig) + '</span>';
+          if (disc) bits += (bits ? ' · ' : '') + '<span class="badge ok">' + MPS.escapeHtml(String(disc)) + '</span>';
+          selectRow = promoBranchSelectHtml(it) +
+            (bits ? '<div class="qty" style="margin-top:4px">' + bits + '</div>' : '');
         } else if (special) {
           const cat = it.specialCat ? (' · 分類 ' + it.specialCat) : '';
           if ((it.stores || []).some((s) => s.price != null)) {
@@ -216,10 +299,15 @@
             </div>
             <div class="qty">${MPS.escapeHtml(it.quantity || '')}
               ${it.updateDate ? ' · ' + MPS.wrapUpdateHtml('資料日', it.updateDate) : ''}
-              <br>已選：${MPS.escapeHtml(it.preferredStore || it.bestStore || '—')}
-              ${it.bestStore && it.preferredStore && it.preferredStore !== it.bestStore
+              <br>已選：${MPS.escapeHtml(
+                (leaflet || promoDisc)
+                  ? (it.preferredBranch || it.preferredStore || it.bestStore || '—')
+                  : (it.preferredStore || it.bestStore || '—')
+              )}
+              ${!(leaflet || promoDisc) && it.bestStore && it.preferredStore && it.preferredStore !== it.bestStore
                 ? ' <span class="badge muted">參考最平 ' + MPS.escapeHtml(it.bestStore) + ' ' + MPS.money(it.bestPrice) + '</span>'
                 : ''}
+              ${(leaflet || promoDisc) && it.scode ? ' <span class="badge muted">scode ' + MPS.escapeHtml(String(it.scode)) + '</span>' : ''}
             </div>
             <div class="select-row">${selectRow}</div>
           </div>
@@ -318,6 +406,13 @@
           continue;
         }
 
+        const isLeaflet = it.kind === 'promo-leaflet' || String(it.id || '').indexOf('leaflet:') === 0;
+        const isPromoDisc = it.kind === 'promo-discount' || String(it.id || '').indexOf('promo:') === 0;
+        if (isLeaflet || isPromoDisc) {
+          next.push(ensureCartBranches(it));
+          continue;
+        }
+
         try {
           const detail = await MPS.loadJSON('data/items/' + it.id + '.json');
           const best = MPS.cheapestStore(detail.groups);
@@ -385,6 +480,9 @@
     });
 
     MPS.loadMeta().then((m) => { meta = m; MPS.fillFooter(meta); });
+    MPS.loadJSON('data/promo-leaflet/store-branches.json')
+      .catch(() => ({ stores: {}, aliases: {} }))
+      .then((b) => { storeBranches = b || { stores: {}, aliases: {} }; render(); });
     render();
   </script>
 </body>

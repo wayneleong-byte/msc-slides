@@ -1,31 +1,10 @@
 {
   "scode": "0121",
   "name": "NK MART",
-  "mirroredAt": "2026-11-03T01:22:33+08:00",
+  "mirroredAt": "2026-11-04T12:43:35+08:00",
   "raw": {
     "success": 1,
-    "data": [
-      {
-        "_id": "C005",
-        "d_count": 19
-      },
-      {
-        "_id": "C004",
-        "d_count": 19
-      },
-      {
-        "_id": "C003",
-        "d_count": 14
-      },
-      {
-        "_id": "C002",
-        "d_count": 9
-      },
-      {
-        "_id": "C001",
-        "d_count": 6
-      }
-    ],
+    "data": [],
     "error": null
   }
 }

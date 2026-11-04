@@ -72,10 +72,10 @@
       "marketTag": "CTB",
       "marketName": "台山街市市政綜合大樓",
       "today": {
-        "priceCatty": "",
-        "priceKg": "",
-        "unitCatty": "",
-        "unitKg": ""
+        "priceCatty": "95.0",
+        "priceKg": "157.1",
+        "unitCatty": "元/司馬斤",
+        "unitKg": "Pataca/Kg"
       },
       "week": {
         "priceCatty": "95.0",
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:21:35+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:41:45+08:00",
   "source": "market_item_price_detail 尾龍扒"
 }

@@ -31,6 +31,15 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, quote
 from urllib.request import Request, urlopen
 
+# Windows console (cp950) 會炸罕見漢字 print；強制 stdout/stderr 用 utf-8 replace
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 BASE = "https://consumer-api03.dsedt.gov.mo"

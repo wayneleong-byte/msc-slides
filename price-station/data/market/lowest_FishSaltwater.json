@@ -1,55 +1,55 @@
 {
   "tag": "FishSaltwater",
   "ccn": "魚類 - 鹹水魚",
-  "mirroredAt": "2026-11-03T01:21:46+08:00",
+  "mirroredAt": "2026-11-04T12:41:55+08:00",
   "items": [
     {
       "name": "九吐",
       "namePt": "KAO TOU",
-      "lpaToday": "1.4",
-      "lpbToday": "37.5",
+      "lpaToday": "1.7",
+      "lpbToday": "45.9",
       "lpaWeek": "1.4",
-      "lpbWeek": "37.7"
+      "lpbWeek": "37.9"
     },
     {
       "name": "幼鱗撻沙",
       "namePt": "Linguado de escama fina",
-      "lpaToday": "2.5",
-      "lpbToday": "66.1",
-      "lpaWeek": "2.5",
-      "lpbWeek": "67"
+      "lpaToday": "2.9",
+      "lpbToday": "76.7",
+      "lpaWeek": "2.6",
+      "lpbWeek": "69"
     },
     {
       "name": "石斑",
       "namePt": "Garoupa",
-      "lpaToday": "3.7",
-      "lpbToday": "99.2",
-      "lpaWeek": "3",
-      "lpbWeek": "80.5"
+      "lpaToday": "2.2",
+      "lpbToday": "57.9",
+      "lpaWeek": "3.1",
+      "lpbWeek": "81.4"
     },
     {
       "name": "粗鱗撻沙(中型)",
       "namePt": "Linguado de escama grossa (médio)",
-      "lpaToday": "5",
-      "lpbToday": "132.3",
-      "lpaWeek": "3",
-      "lpbWeek": "79.4"
+      "lpaToday": "8",
+      "lpbToday": "211.6",
+      "lpaWeek": "3.3",
+      "lpbWeek": "88.2"
     },
     {
       "name": "紅衫",
       "namePt": "Salmonete",
-      "lpaToday": "2.9",
-      "lpbToday": "77.7",
+      "lpaToday": "3.4",
+      "lpbToday": "90.4",
       "lpaWeek": "3.7",
-      "lpbWeek": "97.2"
+      "lpbWeek": "98.9"
     },
     {
       "name": "馬頭",
       "namePt": "Cabeça-de-cavalo",
-      "lpaToday": "2.9",
-      "lpbToday": "76.6",
-      "lpaWeek": "2.8",
-      "lpbWeek": "74.8"
+      "lpaToday": "2.5",
+      "lpbToday": "66.1",
+      "lpaWeek": "3.1",
+      "lpbWeek": "81.1"
     },
     {
       "name": "䱽魚",
@@ -57,7 +57,7 @@
       "lpaToday": "2",
       "lpbToday": "52.9",
       "lpaWeek": "2.5",
-      "lpbWeek": "66.3"
+      "lpbWeek": "64.9"
     },
     {
       "name": "魷魚",
@@ -70,10 +70,10 @@
     {
       "name": "鮫魚",
       "namePt": "Serra",
-      "lpaToday": "3.5",
-      "lpbToday": "92.6",
-      "lpaWeek": "3.7",
-      "lpbWeek": "98.3"
+      "lpaToday": "3",
+      "lpbToday": "79.4",
+      "lpaWeek": "3.5",
+      "lpbWeek": "93.5"
     },
     {
       "name": "鱸魚",
@@ -86,10 +86,10 @@
     {
       "name": "黃腳𩶘",
       "namePt": "Asa amarela",
-      "lpaToday": "2.5",
-      "lpbToday": "66.1",
+      "lpaToday": "3.2",
+      "lpbToday": "84.7",
       "lpaWeek": "2.8",
-      "lpbWeek": "75.1"
+      "lpbWeek": "74.6"
     }
   ]
 }

@@ -1,107 +1,175 @@
 {
-  "mirroredAt": "2026-11-03T01:22:28+08:00",
+  "mirroredAt": "2026-11-04T12:42:35+08:00",
   "stub": false,
   "source": "supermarket/ds/main + active_goodtype + discount_price",
   "stores": [
     {
-      "scode": "0124",
-      "name": "Tmart",
+      "scode": "0123",
+      "name": "全佳超級市場",
       "logo": "",
-      "syncDate": "2026-10-14T00:00:00.000Z",
-      "groupName": "Tmart",
-      "name_cn": "Tmart",
-      "name_zh": "Tmart",
-      "mark": "Tmart"
+      "syncDate": "",
+      "groupName": "全佳超級市場"
     },
     {
-      "scode": "0121",
-      "name": "NK MART",
+      "scode": "0117",
+      "name": "Shui Heng",
       "logo": "",
-      "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "南光 Mart",
-      "name_cn": "南光 Mart",
-      "name_zh": "南光 Mart",
-      "mark": "南光 Mart"
+      "syncDate": "",
+      "groupName": "Shui Heng"
     },
     {
-      "scode": "0103",
-      "name": "Sunsco",
+      "scode": "0115",
+      "name": "Simple Kind Life Mart",
       "logo": "",
-      "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "新花城",
-      "name_cn": "新花城",
-      "name_zh": "新花城",
-      "mark": "新花城"
+      "syncDate": "",
+      "groupName": "Simple Kind Life Mart"
     },
     {
-      "scode": "0108",
-      "name": "Lee Fong",
+      "scode": "0101",
+      "name": "Royal",
       "logo": "",
-      "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "利豐",
-      "name_cn": "利豐",
-      "name_zh": "利豐",
-      "mark": "利豐"
+      "syncDate": "",
+      "groupName": "Royal"
     },
     {
-      "scode": "0104",
-      "name": "Tai Fung",
+      "scode": "0120",
+      "name": "Benvindo",
       "logo": "",
-      "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "泰豐",
-      "name_cn": "泰豐",
-      "name_zh": "泰豐",
-      "mark": "泰豐"
-    },
-    {
-      "scode": "0107",
-      "name": "Vang Kei",
-      "logo": "",
-      "syncDate": "2026-10-09T00:00:00.000Z",
-      "groupName": "宏基",
-      "name_cn": "宏基",
-      "name_zh": "宏基",
-      "mark": "宏基"
-    },
-    {
-      "scode": "0110",
-      "name": "Fok Cheong",
-      "logo": "",
-      "syncDate": "2026-10-21T00:00:00.000Z",
-      "groupName": "福倡",
-      "name_cn": "福倡",
-      "name_zh": "福倡",
-      "mark": "福倡"
+      "syncDate": "",
+      "groupName": "Benvindo"
     },
     {
       "scode": "0105",
       "name": "ParknShop",
       "logo": "",
-      "syncDate": "2026-10-01T00:00:00.000Z",
-      "groupName": "百佳",
-      "name_cn": "百佳",
-      "name_zh": "百佳",
-      "mark": "百佳"
-    },
-    {
-      "scode": "0122",
-      "name": "Nanhua american Goods yarel",
-      "logo": "",
-      "syncDate": "2026-10-04T00:00:00.000Z",
-      "groupName": "南華美式貨場",
-      "name_cn": "南華美式貨場",
-      "name_zh": "南華美式貨場",
-      "mark": "南華美式貨場"
+      "syncDate": "",
+      "groupName": "ParknShop"
     },
     {
       "scode": "0102",
       "name": "San Miu",
       "logo": "",
-      "syncDate": "2026-09-07T00:00:00.000Z",
-      "groupName": "新苗",
-      "name_cn": "新苗",
-      "name_zh": "新苗",
-      "mark": "新苗"
+      "syncDate": "",
+      "groupName": "San Miu"
+    },
+    {
+      "scode": "0104",
+      "name": "Tai Fung",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Tai Fung"
+    },
+    {
+      "scode": "0107",
+      "name": "Vang Kei",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Vang Kei"
+    },
+    {
+      "scode": "0121",
+      "name": "NK MART",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "NK MART"
+    },
+    {
+      "scode": "0103",
+      "name": "Sunsco",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Sunsco"
+    },
+    {
+      "scode": "0106",
+      "name": "Seng Cheong",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Seng Cheong"
+    },
+    {
+      "scode": "0112",
+      "name": "Grand Mart",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Grand Mart"
+    },
+    {
+      "scode": "0109",
+      "name": "Lei Man",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Lei Man"
+    },
+    {
+      "scode": "0118",
+      "name": "Dai Win",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Dai Win"
+    },
+    {
+      "scode": "0110",
+      "name": "Fok Cheong",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Fok Cheong"
+    },
+    {
+      "scode": "0119",
+      "name": "Cheok Chai Un",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Cheok Chai Un"
+    },
+    {
+      "scode": "0113",
+      "name": "Luen Fung Food",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Luen Fung Food"
+    },
+    {
+      "scode": "0111",
+      "name": "Tai Chon",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Tai Chon"
+    },
+    {
+      "scode": "0114",
+      "name": "YOYO.MO",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "YOYO.MO"
+    },
+    {
+      "scode": "0122",
+      "name": "Nanhua american Goods yarel",
+      "logo": "南華美式貨場",
+      "syncDate": "",
+      "groupName": "Nanhua american Goods yarel"
+    },
+    {
+      "scode": "0124",
+      "name": "Tmart",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Tmart"
+    },
+    {
+      "scode": "0108",
+      "name": "Lee Fong",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "Lee Fong"
+    },
+    {
+      "scode": "0116",
+      "name": "New Horse",
+      "logo": "",
+      "syncDate": "",
+      "groupName": "New Horse"
     }
   ],
   "goodTypes": [

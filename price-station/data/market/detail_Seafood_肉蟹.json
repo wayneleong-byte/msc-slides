@@ -8,14 +8,14 @@
       "marketTag": "AL",
       "marketName": "紅街市",
       "today": {
-        "priceCatty": "168.0",
-        "priceKg": "277.8",
+        "priceCatty": "190.0",
+        "priceKg": "314.2",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "171.2",
-        "priceKg": "283.0",
+        "priceCatty": "168.0",
+        "priceKg": "277.8",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -24,8 +24,8 @@
       "marketTag": "CSL",
       "marketName": "下環街市市政綜合大樓",
       "today": {
-        "priceCatty": "168.0",
-        "priceKg": "277.8",
+        "priceCatty": "160.0",
+        "priceKg": "264.6",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
@@ -40,14 +40,14 @@
       "marketTag": "NSD",
       "marketName": "營地街市市政綜合大樓",
       "today": {
-        "priceCatty": "200.0",
-        "priceKg": "330.7",
+        "priceCatty": "220.0",
+        "priceKg": "363.8",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "205.7",
-        "priceKg": "340.2",
+        "priceCatty": "202.8",
+        "priceKg": "335.4",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -56,14 +56,14 @@
       "marketTag": "PAT",
       "marketName": "沙梨頭街市",
       "today": {
-        "priceCatty": "125.0",
-        "priceKg": "206.7",
+        "priceCatty": "130.0",
+        "priceKg": "215.0",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "128.3",
-        "priceKg": "212.2",
+        "priceCatty": "127.2",
+        "priceKg": "210.3",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -94,8 +94,8 @@
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "138.7",
-        "priceKg": "229.3",
+        "priceCatty": "138.9",
+        "priceKg": "229.7",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -120,14 +120,14 @@
       "marketTag": "TA",
       "marketName": "氹仔街市",
       "today": {
-        "priceCatty": "190.0",
-        "priceKg": "314.2",
+        "priceCatty": "170.0",
+        "priceKg": "281.1",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       },
       "week": {
-        "priceCatty": "190.0",
-        "priceKg": "314.2",
+        "priceCatty": "185.0",
+        "priceKg": "305.9",
         "unitCatty": "元/司馬斤",
         "unitKg": "Pataca/Kg"
       }
@@ -149,8 +149,8 @@
       }
     }
   ],
-  "todayUpdated": "2026/11/3 08:00:10",
-  "weekUpdated": "2026/11/3 08:00:33",
-  "mirroredAt": "2026-11-03T01:22:08+08:00",
+  "todayUpdated": "2026/11/4 20:00:13",
+  "weekUpdated": "2026/11/4 20:00:42",
+  "mirroredAt": "2026-11-04T12:42:17+08:00",
   "source": "market_item_price_detail 肉蟹"
 }
