@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Common ions · 3 rounds · Table 8.3 · Geoffrey</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../../">← Geoffrey Study Hub</a>
+
+  <!-- HOME -->
+  <section class="screen active" id="screen-home" aria-label="Home">
+    <header>
+      <h1>Common ions · 3 rounds <span class="zh">常見離子三關</span></h1>
+      <p class="sub">Table 8.3 drill · mobile-first · EN primary · British spelling<br>
+      Formula · charge · name — timed practice for Geoffrey</p>
+    </header>
+
+    <div class="toggle-row">
+      <span>Quick 15 <span class="zh">快測 15 題</span><br><small style="color:var(--muted)">Default: all 45 ions</small></span>
+      <label class="switch" aria-label="Quick 15 toggle">
+        <input type="checkbox" id="opt-quick">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button type="button" class="level-btn primary" id="btn-play-all">
+      <span class="lb-title">▶ Play all 3 levels</span>
+      <span class="lb-meta">Sequential · summaries between rounds · 連續三關</span>
+    </button>
+
+    <div class="level-grid">
+      <button type="button" class="level-btn" data-start-level="1">
+        <span class="lb-title">Level 1 · Formula → charge</span>
+        <span class="lb-meta">Drag / tap into 1+ 2+ 3+ 1− 2− 3− · flag &gt;5s</span>
+      </button>
+      <button type="button" class="level-btn" data-start-level="2">
+        <span class="lb-title">Level 2 · Name → formula + charge</span>
+        <span class="lb-meta">Type formula · pick charge · flag &gt;15s</span>
+      </button>
+      <button type="button" class="level-btn" data-start-level="3">
+        <span class="lb-title">Level 3 · Formula → name</span>
+        <span class="lb-meta">Type name · “ ion” already shown · flag &gt;30s</span>
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>How it scores <span class="zh">計分</span></h2>
+      <p style="margin:0;font-size:.9rem;color:var(--muted);line-height:1.55">
+        Timer starts when each item appears. Wrong answers are recorded, then auto-advance.
+        End of level: accuracy %, mistake table, and items slower than the level limit.
+        Tip 中 shows Chinese as a hint only — not required to score.
+      </p>
+    </div>
+  </section>
+
+  <!-- PLAY -->
+  <section class="screen" id="screen-play" aria-label="Play">
+    <div class="hud">
+      <span class="badge" id="level-badge">Lv 1</span>
+      <span class="timer-chip" id="timer-chip">0.0s</span>
+    </div>
+    <div class="stats">
+      <span id="stat-progress"><b>1</b>/45</span>
+      <span class="ok">✓ <b id="stat-ok">0</b></span>
+      <span class="no">✗ <b id="stat-no">0</b></span>
+      <span class="streak">🔥 <b id="stat-streak">0</b></span>
+    </div>
+    <div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>
+    <div id="play-stage"></div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="screen" id="screen-summary" aria-label="Level summary">
+    <header>
+      <h1>Round complete <span class="zh">本關完成</span></h1>
+    </header>
+    <div id="summary-body"></div>
+    <div class="actions" id="summary-actions" style="margin-top:12px"></div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="screen" id="screen-final" aria-label="Final results">
+    <header>
+      <h1>All done <span class="zh">三關完成</span></h1>
+      <p class="sub">Nice work — review slow / wrong items, then replay weak levels.</p>
+    </header>
+    <div id="final-body"></div>
+    <div class="actions" style="margin-top:12px">
+      <button type="button" class="btn btn-primary" id="btn-final-home">Back to home</button>
+    </div>
+  </section>
+
+  <footer class="note">
+    Private study materials for Geoffrey Leong · Table 8.3 (printed) · preview only<br>
+    Hg⁺ listed as mercury(I) follows this textbook’s simplification
+  </footer>
+</div>
+<script src="ions-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
