@@ -15,9 +15,10 @@
   <!-- HOME -->
   <section class="screen active" id="screen-home" aria-label="Home">
     <header>
+      <div class="hero-chip">Table 8.3 · drill game</div>
       <h1>Common ions · 3 rounds <span class="zh">常見離子三關</span></h1>
-      <p class="sub">Table 8.3 drill · mobile-first · EN primary · British spelling<br>
-      Formula · charge · name — timed practice for Geoffrey</p>
+      <p class="sub">Mobile-first · EN primary · British spelling<br>
+      Name · formula · charge — timed practice for Geoffrey</p>
     </header>
 
     <div class="toggle-row">
@@ -35,14 +36,17 @@
 
     <div class="level-grid">
       <button type="button" class="level-btn" data-start-level="1">
-        <span class="lb-title">Level 1 · Formula → charge</span>
-        <span class="lb-meta">Drag / tap into 1+ 2+ 3+ 1− 2− 3− · flag &gt;5s</span>
+        <span class="lb-num">01</span>
+        <span class="lb-title">Level 1 · Name → charge</span>
+        <span class="lb-meta">Tap charge buttons only · flag &gt;5s</span>
       </button>
       <button type="button" class="level-btn" data-start-level="2">
-        <span class="lb-title">Level 2 · Name → formula + charge</span>
-        <span class="lb-meta">Type formula · pick charge · flag &gt;15s</span>
+        <span class="lb-num">02</span>
+        <span class="lb-title">Level 2 · Name → formula</span>
+        <span class="lb-meta">Type formula · charge fills in · Submit · flag &gt;15s</span>
       </button>
       <button type="button" class="level-btn" data-start-level="3">
+        <span class="lb-num">03</span>
         <span class="lb-title">Level 3 · Formula → name</span>
         <span class="lb-meta">Type name · “ ion” already shown · flag &gt;30s</span>
       </button>
@@ -62,7 +66,10 @@
   <section class="screen" id="screen-play" aria-label="Play">
     <div class="hud">
       <span class="badge" id="level-badge">Lv 1</span>
-      <span class="timer-chip" id="timer-chip">0.0s</span>
+      <div class="hud-right">
+        <button type="button" class="mute-btn" id="btn-mute" aria-label="Mute sounds" title="Mute">🔊</button>
+        <span class="timer-chip" id="timer-chip">0.0s</span>
+      </div>
     </div>
     <div class="stats">
       <span id="stat-progress"><b>1</b>/45</span>
@@ -96,7 +103,7 @@
   </section>
 
   <footer class="note">
-    Private study materials for Geoffrey Leong · Table 8.3 (printed) · preview only<br>
+    Private study materials for Geoffrey Leong · Table 8.3 (printed)<br>
     Hg⁺ listed as mercury(I) follows this textbook’s simplification
   </footer>
 </div>

@@ -5,6 +5,7 @@
   const BINS = window.CHARGE_BINS;
   const LABELS = window.CHARGE_LABELS;
   const SLOW = window.LEVEL_SLOW;
+  const MUTE_KEY = "ions-common-muted";
 
   /* ---------- normalize helpers ---------- */
   const SUP_MAP = {
@@ -17,19 +18,26 @@
     "₅": "5", "₆": "6", "₇": "7", "₈": "8", "₉": "9"
   };
 
+  // ASCII charge suffix → pretty unicode for input display
+  const CHARGE_ASCII = {
+    "1+": "+", "2+": "2+", "3+": "3+",
+    "1-": "-", "2-": "2-", "3-": "3-"
+  };
+  const CHARGE_PRETTY = {
+    "1+": "⁺", "2+": "²⁺", "3+": "³⁺",
+    "1-": "⁻", "2-": "²⁻", "3-": "³⁻"
+  };
+
   function normalizeFormula(raw) {
     if (!raw) return "";
     let s = String(raw).trim().replace(/\s+/g, "");
     s = s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻₊₋]/g, (c) => SUP_MAP[c] || c);
     s = s.replace(/[₀₁₂₃₄₅₆₇₈₉]/g, (c) => SUB_MAP[c] || c);
-    // unicode minus / en-dash / em-dash → -
     s = s.replace(/[−–—‐]/g, "-");
-    // strip trailing "ion" if someone typed it into formula (unlikely)
     return s;
   }
 
   function formulasEqual(a, b) {
-    // case-insensitive element letters; digits and signs stay
     const na = normalizeFormula(a);
     const nb = normalizeFormula(b);
     return na.toLowerCase() === nb.toLowerCase();
@@ -39,9 +47,7 @@
     if (!raw) return "";
     let s = String(raw).trim().toLowerCase();
     s = s.replace(/\s+/g, " ");
-    // strip trailing " ion" / "ion"
     s = s.replace(/\s*ions?\s*$/i, "").trim();
-    // soft US → British / spaced variants
     s = s
       .replace(/\baluminum\b/g, "aluminium")
       .replace(/\bsulfate\b/g, "sulphate")
@@ -50,12 +56,28 @@
       .replace(/\bhydrogen\s+carbonate\b/g, "hydrogencarbonate")
       .replace(/\bhydrogen\s+sulphate\b/g, "hydrogensulphate")
       .replace(/\bhydrogen\s+sulfate\b/g, "hydrogensulphate");
-    // roman numerals case-normalize: copper(ii) → copper(ii) already lower
     return s;
   }
 
   function namesEqual(a, b) {
     return normalizeName(a) === normalizeName(b);
+  }
+
+  /** Strip trailing charge from a typed formula (ASCII or unicode). */
+  function stripChargeSuffix(raw) {
+    let s = String(raw || "");
+    // unicode charge forms at end
+    s = s.replace(/([²³]?[⁺⁻]|[₊₋])$/u, "");
+    // ascii: optional digit then +/-, optionally with spaces
+    s = s.replace(/\s*[1-3]?\s*[+\-−–—]\s*$/u, "");
+    return s;
+  }
+
+  /** Apply charge button to input value — replace existing charge or append. */
+  function applyChargeToInput(current, chargeKey) {
+    const base = stripChargeSuffix(current).replace(/\s+$/, "");
+    const pretty = CHARGE_PRETTY[chargeKey] || CHARGE_ASCII[chargeKey] || chargeKey;
+    return base + pretty;
   }
 
   function shuffle(arr) {
@@ -70,7 +92,6 @@
   function pickDeck(quick15) {
     const all = shuffle(IONS);
     if (!quick15) return all;
-    // stratified-ish: take mix of charges
     const by = {};
     all.forEach((ion) => {
       (by[ion.charge] = by[ion.charge] || []).push(ion);
@@ -80,16 +101,89 @@
     let i = 0;
     while (out.length < 15) {
       const ch = order[i % order.length];
-      if (by[ch].length) out.push(by[ch].shift());
+      if (by[ch] && by[ch].length) out.push(by[ch].shift());
       i++;
       if (i > 200) break;
     }
     return shuffle(out);
   }
 
+  /* ---------- SFX (Web Audio — no asset files) ---------- */
+  const sfx = {
+    ctx: null,
+    muted: false
+  };
+
+  function loadMute() {
+    try {
+      sfx.muted = localStorage.getItem(MUTE_KEY) === "1";
+    } catch (_) {
+      sfx.muted = false;
+    }
+  }
+
+  function saveMute() {
+    try {
+      localStorage.setItem(MUTE_KEY, sfx.muted ? "1" : "0");
+    } catch (_) {}
+  }
+
+  function ensureAudio() {
+    if (sfx.muted) return null;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    if (!sfx.ctx) sfx.ctx = new AC();
+    if (sfx.ctx.state === "suspended") sfx.ctx.resume();
+    return sfx.ctx;
+  }
+
+  function tone(freq, dur, type, gainPeak, when) {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const t0 = (when != null ? when : 0) + ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = type || "sine";
+    osc.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(gainPeak || 0.12, t0 + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g);
+    g.connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.02);
+  }
+
+  function playCorrect() {
+    tone(523.25, 0.09, "triangle", 0.1, 0);
+    tone(659.25, 0.11, "triangle", 0.09, 0.07);
+    tone(783.99, 0.16, "sine", 0.08, 0.14);
+  }
+
+  function playWrong() {
+    tone(220, 0.12, "square", 0.07, 0);
+    tone(165, 0.18, "sawtooth", 0.05, 0.08);
+  }
+
+  function playClear() {
+    tone(392, 0.1, "triangle", 0.09, 0);
+    tone(523.25, 0.1, "triangle", 0.09, 0.1);
+    tone(659.25, 0.12, "triangle", 0.09, 0.2);
+    tone(783.99, 0.22, "sine", 0.1, 0.32);
+  }
+
+  function updateMuteBtn() {
+    const btn = $("#btn-mute");
+    if (!btn) return;
+    btn.textContent = sfx.muted ? "🔇" : "🔊";
+    btn.classList.toggle("is-muted", sfx.muted);
+    btn.setAttribute("aria-label", sfx.muted ? "Unmute sounds" : "Mute sounds");
+    btn.title = sfx.muted ? "Unmute" : "Mute";
+  }
+
   /* ---------- state ---------- */
   const state = {
-    mode: "home", // home | play | summary | final
+    mode: "home",
     level: 1,
     playAll: false,
     quick15: false,
@@ -100,16 +194,13 @@
     streak: 0,
     mistakes: [],
     slowItems: [],
-    results: [], // per-level summaries when playAll
+    results: [],
     startedAt: 0,
     timerId: null,
     elapsed: 0,
     locked: false,
     selectedCharge: null,
-    tipShown: false,
-    // L1 drag
-    selectedCard: false,
-    dragging: false
+    tipShown: false
   };
 
   /* ---------- DOM ---------- */
@@ -174,7 +265,7 @@
     badge.className = "badge" + (state.level === 2 ? " l2" : state.level === 3 ? " l3" : "");
     badge.textContent =
       state.level === 1
-        ? "Lv 1 · Formula → charge"
+        ? "Lv 1 · Name → charge"
         : state.level === 2
         ? "Lv 2 · Name → formula"
         : "Lv 3 · Formula → name";
@@ -183,6 +274,7 @@
   /* ---------- start level ---------- */
   function startLevel(level, opts) {
     opts = opts || {};
+    ensureAudio(); // unlock on user gesture
     state.level = level;
     if (!opts.keepPlayAll) state.playAll = !!opts.playAll;
     state.quick15 = $("#opt-quick").checked;
@@ -195,7 +287,6 @@
     state.slowItems = [];
     state.locked = false;
     state.selectedCharge = null;
-    state.selectedCard = false;
     showScreen("play");
     renderQuestion();
   }
@@ -203,7 +294,6 @@
   function renderQuestion() {
     state.locked = false;
     state.selectedCharge = null;
-    state.selectedCard = false;
     state.tipShown = false;
     const ion = currentIon();
     if (!ion) {
@@ -221,139 +311,45 @@
     startTimer();
   }
 
-  /* ===== Level 1 ===== */
+  function buildChargeButtons(container, onPick, opts) {
+    opts = opts || {};
+    BINS.forEach((ch) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "charge-btn " + (ch.endsWith("+") ? "cation" : "anion");
+      b.dataset.charge = ch;
+      b.textContent = LABELS[ch];
+      b.addEventListener("click", () => {
+        if (state.locked) return;
+        onPick(ch, b);
+      });
+      container.appendChild(b);
+    });
+  }
+
+  /* ===== Level 1: Name → tap charge ===== */
   function renderL1(stage, ion) {
     stage.innerHTML = `
-      <p class="ask" style="text-align:center;color:var(--muted);font-size:.8rem;margin:0 0 8px;letter-spacing:.05em;text-transform:uppercase;">Drag or tap → charge bin</p>
-      <div class="drag-card" id="drag-card" draggable="true" role="button" tabindex="0" aria-label="Ion card ${ion.formulaDisp}">
-        <div class="formula">${ion.formulaDisp}</div>
-        <div class="tap-hint">Drag onto a bin · or tap card then tap bin</div>
+      <div class="prompt" id="prompt">
+        <div class="ask">Tap the charge</div>
+        <div class="name-show">${escapeHtml(ion.name)} <span style="color:var(--muted);font-weight:700">ion</span></div>
+        <div class="hint-zh" id="hint-zh"></div>
       </div>
-      <div class="bins" id="bins"></div>
+      <p class="section-label">Charge</p>
+      <div class="charge-grid" id="charge-grid"></div>
       <p class="feedback" id="feedback"></p>
       <div class="actions">
         <button type="button" class="btn btn-tip" id="btn-tip">Tip 中</button>
       </div>
     `;
-    const bins = $("#bins", stage);
-    BINS.forEach((ch) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "bin " + (ch.endsWith("+") ? "cation" : "anion");
-      b.dataset.charge = ch;
-      b.innerHTML = '<span class="sign">' + LABELS[ch] + "</span>";
-      bins.appendChild(b);
-    });
-
-    const card = $("#drag-card", stage);
-    wireDrag(card, bins);
-    bins.addEventListener("click", (e) => {
-      const bin = e.target.closest(".bin");
-      if (!bin || state.locked) return;
-      if (state.selectedCard || true) {
-        // always allow tap-bin as fallback once card shown
-        answerL1(bin.dataset.charge);
-      }
-    });
-    card.addEventListener("click", () => {
-      if (state.locked) return;
-      state.selectedCard = !state.selectedCard;
-      card.classList.toggle("selected", state.selectedCard);
+    const grid = $("#charge-grid", stage);
+    buildChargeButtons(grid, (ch, btn) => {
+      const ionNow = currentIon();
+      const ok = ch === ionNow.charge;
+      btn.classList.add(ok ? "flash-hit" : "flash-miss");
+      answerL1(ch);
     });
     $("#btn-tip", stage).addEventListener("click", () => showTip(ion));
-  }
-
-  function wireDrag(card, binsEl) {
-    let pointerId = null;
-    let startX = 0, startY = 0, ox = 0, oy = 0;
-    let ghost = null;
-
-    function onDown(e) {
-      if (state.locked) return;
-      if (e.button != null && e.button !== 0) return;
-      pointerId = e.pointerId;
-      card.setPointerCapture(pointerId);
-      state.dragging = true;
-      card.classList.add("dragging");
-      const r = card.getBoundingClientRect();
-      startX = e.clientX;
-      startY = e.clientY;
-      ox = e.clientX - r.left;
-      oy = e.clientY - r.top;
-      // ghost clone for visual
-      ghost = card.cloneNode(true);
-      ghost.id = "";
-      ghost.style.position = "fixed";
-      ghost.style.left = r.left + "px";
-      ghost.style.top = r.top + "px";
-      ghost.style.width = r.width + "px";
-      ghost.style.margin = "0";
-      ghost.style.zIndex = "1000";
-      ghost.style.pointerEvents = "none";
-      ghost.style.opacity = "0.95";
-      document.body.appendChild(ghost);
-      card.style.opacity = "0.35";
-      e.preventDefault();
-    }
-    function onMove(e) {
-      if (!state.dragging || e.pointerId !== pointerId) return;
-      const x = e.clientX - ox;
-      const y = e.clientY - oy;
-      if (ghost) {
-        ghost.style.left = x + "px";
-        ghost.style.top = y + "px";
-      }
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      $$(".bin").forEach((b) => b.classList.remove("over"));
-      const bin = el && el.closest && el.closest(".bin");
-      if (bin) bin.classList.add("over");
-    }
-    function onUp(e) {
-      if (!state.dragging || e.pointerId !== pointerId) return;
-      state.dragging = false;
-      card.classList.remove("dragging");
-      card.style.opacity = "";
-      $$(".bin").forEach((b) => b.classList.remove("over"));
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      const bin = el && el.closest && el.closest(".bin");
-      if (ghost) {
-        ghost.remove();
-        ghost = null;
-      }
-      try { card.releasePointerCapture(pointerId); } catch (_) {}
-      pointerId = null;
-      // distinguish tap vs drag
-      const dx = Math.abs(e.clientX - startX);
-      const dy = Math.abs(e.clientY - startY);
-      if (bin && (dx > 8 || dy > 8)) {
-        answerL1(bin.dataset.charge);
-      }
-      // else leave selection to click handler
-    }
-    card.addEventListener("pointerdown", onDown);
-    card.addEventListener("pointermove", onMove);
-    card.addEventListener("pointerup", onUp);
-    card.addEventListener("pointercancel", onUp);
-
-    // HTML5 drag fallback (desktop)
-    card.addEventListener("dragstart", (e) => {
-      e.dataTransfer.setData("text/plain", "ion");
-      e.dataTransfer.effectAllowed = "move";
-      card.classList.add("dragging");
-    });
-    card.addEventListener("dragend", () => card.classList.remove("dragging"));
-    $$(".bin", binsEl).forEach((bin) => {
-      bin.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        bin.classList.add("over");
-      });
-      bin.addEventListener("dragleave", () => bin.classList.remove("over"));
-      bin.addEventListener("drop", (e) => {
-        e.preventDefault();
-        bin.classList.remove("over");
-        answerL1(bin.dataset.charge);
-      });
-    });
   }
 
   function answerL1(chosen) {
@@ -361,82 +357,80 @@
     const ion = currentIon();
     const ok = chosen === ion.charge;
     finishItem(ok, {
-      shown: ion.formulaDisp,
+      shown: ion.name + " ion",
       chosen: LABELS[chosen] || chosen,
       correct: LABELS[ion.charge],
-      detail: ion.name
+      detail: ion.formulaDisp
     });
   }
 
-  /* ===== Level 2 ===== */
+  /* ===== Level 2: Name → formula; charge fills input; Submit ===== */
   function renderL2(stage, ion) {
     stage.innerHTML = `
       <div class="prompt" id="prompt">
-        <div class="ask">Type the formula · pick charge</div>
-        <div class="name-show">${escapeHtml(ion.name)} <span style="color:var(--muted);font-weight:600">ion</span></div>
+        <div class="ask">Type the formula</div>
+        <div class="name-show">${escapeHtml(ion.name)} <span style="color:var(--muted);font-weight:700">ion</span></div>
         <div class="hint-zh" id="hint-zh"></div>
       </div>
       <div class="input-block">
         <label for="formula-in">Formula</label>
         <div class="input-row">
-          <input id="formula-in" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="e.g. Cu2+ or SO4 2-" inputmode="text" />
+          <input id="formula-in" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="e.g. Na then tap 1+" inputmode="text" />
         </div>
       </div>
       <div class="input-block">
-        <label>Charge</label>
+        <label>Tap charge → fills into formula</label>
         <div class="charge-grid" id="charge-grid"></div>
       </div>
       <p class="feedback" id="feedback"></p>
       <div class="actions">
         <button type="button" class="btn btn-tip" id="btn-tip">Tip 中</button>
-        <button type="button" class="btn btn-primary" id="btn-check">Check</button>
+        <button type="button" class="btn btn-submit" id="btn-submit">Submit</button>
       </div>
     `;
-    const grid = $("#charge-grid", stage);
-    BINS.forEach((ch) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "charge-btn";
-      b.dataset.charge = ch;
-      b.textContent = LABELS[ch];
-      b.addEventListener("click", () => {
-        if (state.locked) return;
-        state.selectedCharge = ch;
-        $$(".charge-btn", grid).forEach((x) => x.classList.toggle("selected", x.dataset.charge === ch));
-      });
-      grid.appendChild(b);
-    });
     const input = $("#formula-in", stage);
-    input.focus();
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") $("#btn-check", stage).click();
+    const grid = $("#charge-grid", stage);
+    buildChargeButtons(grid, (ch, btn) => {
+      state.selectedCharge = ch;
+      $$(".charge-btn", grid).forEach((x) => x.classList.toggle("selected", x.dataset.charge === ch));
+      input.value = applyChargeToInput(input.value, ch);
+      input.focus();
+      // move caret to end
+      try {
+        const len = input.value.length;
+        input.setSelectionRange(len, len);
+      } catch (_) {}
     });
-    $("#btn-check", stage).addEventListener("click", () => {
+
+    function doSubmit() {
       if (state.locked) return;
       const f = input.value;
-      const ch = state.selectedCharge;
       if (!f.trim()) {
-        $("#feedback").textContent = "Enter a formula";
+        $("#feedback").textContent = "Enter a formula (tap charge to add charge)";
         $("#feedback").className = "feedback bad";
         return;
       }
-      if (!ch) {
-        $("#feedback").textContent = "Pick a charge";
-        $("#feedback").className = "feedback bad";
-        return;
-      }
-      const ok = formulasEqual(f, ion.formula) && ch === ion.charge;
+      const ok = formulasEqual(f, ion.formula);
       finishItem(ok, {
-        shown: ion.name,
-        chosen: normalizeFormula(f) + " · " + (LABELS[ch] || ch),
-        correct: ion.formulaDisp + " · " + LABELS[ion.charge],
+        shown: ion.name + " ion",
+        chosen: normalizeFormula(f),
+        correct: ion.formulaDisp,
         detail: ion.name
       });
+    }
+
+    input.focus();
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        doSubmit();
+      }
     });
+    $("#btn-submit", stage).addEventListener("click", doSubmit);
     $("#btn-tip", stage).addEventListener("click", () => showTip(ion));
   }
 
-  /* ===== Level 3 ===== */
+  /* ===== Level 3: Formula → name (unchanged gameplay) ===== */
   function renderL3(stage, ion) {
     stage.innerHTML = `
       <div class="prompt" id="prompt">
@@ -454,13 +448,16 @@
       <p class="feedback" id="feedback"></p>
       <div class="actions">
         <button type="button" class="btn btn-tip" id="btn-tip">Tip 中</button>
-        <button type="button" class="btn btn-primary" id="btn-check">Check</button>
+        <button type="button" class="btn btn-submit" id="btn-check">Submit</button>
       </div>
     `;
     const input = $("#name-in", stage);
     input.focus();
     input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") $("#btn-check", stage).click();
+      if (e.key === "Enter") {
+        e.preventDefault();
+        $("#btn-check", stage).click();
+      }
     });
     $("#btn-check", stage).addEventListener("click", () => {
       if (state.locked) return;
@@ -504,9 +501,11 @@
     if (ok) {
       state.correct++;
       state.streak++;
+      playCorrect();
     } else {
       state.wrong++;
       state.streak = 0;
+      playWrong();
       state.mistakes.push({
         shown: info.shown,
         chosen: info.chosen,
@@ -525,7 +524,7 @@
     }
 
     const fb = $("#feedback");
-    const prompt = $("#prompt") || $("#drag-card");
+    const prompt = $("#prompt");
     if (ok) {
       if (fb) {
         fb.textContent = "Correct ✓";
@@ -545,11 +544,12 @@
       state.idx++;
       if (state.idx >= state.deck.length) endLevel();
       else renderQuestion();
-    }, ok ? 450 : 900);
+    }, ok ? 420 : 880);
   }
 
   function endLevel() {
     stopTimer();
+    playClear();
     const total = state.correct + state.wrong;
     const pct = total ? Math.round((state.correct / total) * 100) : 0;
     const summary = {
@@ -656,6 +656,19 @@
 
   /* ---------- wire home ---------- */
   function init() {
+    loadMute();
+    updateMuteBtn();
+
+    $("#btn-mute").addEventListener("click", () => {
+      sfx.muted = !sfx.muted;
+      saveMute();
+      updateMuteBtn();
+      if (!sfx.muted) {
+        ensureAudio();
+        playCorrect();
+      }
+    });
+
     $("#btn-play-all").addEventListener("click", () => {
       state.results = [];
       state.playAll = true;
@@ -671,12 +684,13 @@
     $("#btn-final-home").addEventListener("click", () => showScreen("home"));
     showScreen("home");
 
-    // expose for self-test
     window.__IONS_TEST__ = {
       normalizeFormula,
       formulasEqual,
       normalizeName,
       namesEqual,
+      stripChargeSuffix,
+      applyChargeToInput,
       IONS
     };
   }
