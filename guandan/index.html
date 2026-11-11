@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>摜蛋學堂｜規則・關卡・四人模擬・逐手複盤</title>
+<style>
+:root{
+  --felt:#123324; --felt2:#0a2218; --felt3:#1b4531;
+  --gold:#d9b26a; --gold2:#f0d69c; --gold-dim:#8c7343;
+  --red:#c8392f; --red2:#e2564a; --ink:#0d1a13;
+  --paper:#f6efe0; --cream:#f2e6cc; --muted:#a9b8a9;
+  --line:rgba(217,178,106,.28);
+  --card-w:62px; --card-h:88px;
+  --serif:"Songti TC","Noto Serif CJK TC","Source Han Serif TC","PMingLiU","MingLiU","SimSun",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100%}
+body{
+  font-family:var(--serif); color:var(--cream); font-size:16px; line-height:1.75;
+  background:
+    radial-gradient(ellipse at 50% 0%,#20503a 0%,#123324 42%,#071a12 100%),
+    #071a12;
+  background-attachment:fixed;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.18;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='180' height='180' filter='url(%23n)' opacity='.55'/></svg>");
+  mix-blend-mode:overlay;
+}
+#app{position:relative;z-index:1;max-width:1480px;margin:0 auto;padding:0 18px 60px}
+button{font-family:inherit;font-size:inherit;cursor:pointer;color:inherit}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold2);outline-offset:3px}
+a{color:var(--gold2)}
+h1,h2,h3,h4{margin:0 0 .5em;font-weight:700;letter-spacing:.06em}
+h2{font-size:1.6rem;color:var(--gold2)}
+h3{font-size:1.22rem;color:var(--gold2)}
+h4{font-size:1.05rem;color:var(--gold)}
+p{margin:.45em 0}
+small,.sm{font-size:.86rem;color:var(--muted)}
+.gold{color:var(--gold2)} .red{color:var(--red2)} .warn{color:#ffd275}
+
+/* ---------- top bar ---------- */
+#top{
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  padding:14px 4px 12px;border-bottom:1px solid var(--line);margin-bottom:22px;
+}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+.brand-mark{
+  width:52px;height:52px;display:grid;place-items:center;border-radius:12px;
+  font-size:30px;font-weight:700;color:#2a1608;
+  background:linear-gradient(150deg,var(--gold2),var(--gold) 55%,#a8813f);
+  box-shadow:0 6px 18px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.6);
+  border:1px solid #6d5227;
+}
+.brand h1{font-size:1.5rem;margin:0;letter-spacing:.14em;color:var(--gold2)}
+.brand p{margin:0;font-size:.78rem;color:var(--muted);letter-spacing:.1em}
+#nav{display:flex;gap:6px;flex-wrap:wrap}
+.navbtn{
+  background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:8px;
+  padding:9px 15px;color:var(--cream);letter-spacing:.08em;transition:.2s;
+}
+.navbtn:hover{background:rgba(217,178,106,.14);border-color:var(--gold)}
+.navbtn.active{background:linear-gradient(180deg,#c8392f,#8e241c);border-color:var(--gold2);color:#fff5e2;box-shadow:0 3px 12px rgba(200,57,47,.4)}
+.topmeta{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--gold2)}
+
+/* ---------- generic ---------- */
+.view{display:none;animation:fade .35s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel{
+  background:linear-gradient(160deg,rgba(9,32,22,.92),rgba(5,20,14,.94));
+  border:1px solid var(--line);border-radius:14px;padding:18px 20px;
+  box-shadow:0 12px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(180deg,#1d4a34,#0e2b1d);border:1px solid var(--gold-dim);
+  color:var(--gold2);border-radius:9px;padding:9px 18px;letter-spacing:.08em;transition:.18s;
+}
+.btn:hover{background:linear-gradient(180deg,#2b6244,#15402a);border-color:var(--gold2);transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(180deg,#d04335,#932319);border-color:var(--gold2);color:#fff6e6;font-weight:700}
+.btn.primary:hover{background:linear-gradient(180deg,#e2564a,#a82a1f)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--cream)}
+.btn.sm{padding:5px 11px;font-size:.86rem}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:2px 11px;font-size:.82rem;color:var(--gold2);background:rgba(217,178,106,.08)}
+.tag-red{background:rgba(200,57,47,.22);border-color:rgba(226,86,74,.5);color:#ffcfc8}
+.tag-ok{background:rgba(60,150,90,.22);border-color:#5ab37c;color:#c9f2d6}
+hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+/* ---------- home ---------- */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center;min-height:400px}
+.hero h2{font-size:2.5rem;line-height:1.3;letter-spacing:.1em}
+.hero .lead{font-size:1.08rem;color:#d9cdb3}
+.hero .quote{border-left:3px solid var(--gold);padding-left:14px;color:var(--muted);font-style:italic}
+.mini-table{
+  position:relative;height:330px;border-radius:48%/22%;
+  background:radial-gradient(ellipse at 50% 45%,#1e5339,#0d2a1c 78%);
+  border:10px solid #3a2a19;box-shadow:0 0 0 2px var(--gold-dim),0 24px 50px rgba(0,0,0,.6),inset 0 0 60px rgba(0,0,0,.55);
+}
+.mini-table::after{content:"摜 蛋";position:absolute;inset:0;display:grid;place-items:center;font-size:2.2rem;letter-spacing:.5em;color:rgba(217,178,106,.16)}
+.mini-seat{position:absolute;font-size:.85rem;color:var(--gold2);border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:rgba(0,0,0,.3)}
+.mini-seat.s0{bottom:10px;left:50%;transform:translateX(-50%)}
+.mini-seat.s1{top:10px;left:50%;transform:translateX(-50%)}
+.mini-seat.s2{left:12px;top:50%;transform:translateY(-50%)}
+.mini-seat.s3{right:12px;top:50%;transform:translateY(-50%)}
+.mini-cards{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;gap:0}
+.mini-cards .card{width:44px;height:64px;font-size:12px;margin-left:-20px}
+.mini-cards .card:first-child{margin-left:0}
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.feature{
+  text-align:left;background:linear-gradient(160deg,rgba(20,58,39,.9),rgba(6,24,16,.95));
+  border:1px solid var(--line);border-radius:13px;padding:18px;transition:.22s;color:var(--cream);
+}
+.feature:hover{transform:translateY(-4px);border-color:var(--gold2);box-shadow:0 14px 28px rgba(0,0,0,.45)}
+.feature .num{font-size:2rem;color:var(--gold);line-height:1}
+.feature h3{margin:.4em 0;font-size:1.12rem}
+.feature p{font-size:.88rem;color:var(--muted);margin:0}
+
+/* ---------- cards ---------- */
+.card{
+  position:relative;flex:0 0 auto;width:var(--card-w);height:var(--card-h);
+  border-radius:7px;border:1px solid #b9ac91;
+  background:linear-gradient(155deg,#fffdf7,#eee5d2);
+  color:#1b1b1b;box-shadow:0 3px 7px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,255,255,.7);
+  font-family:var(--serif);user-select:none;transition:transform .16s ease,box-shadow .16s ease,margin .16s;
+  padding:0;text-align:left;overflow:hidden;
+}
+.card .rk{position:absolute;top:3px;left:5px;font-size:15px;font-weight:700;line-height:1.1;letter-spacing:-.02em}
+.card .sk{position:absolute;top:19px;left:5px;font-size:12px;line-height:1}
+.card .big{position:absolute;right:5px;bottom:4px;font-size:27px;line-height:1;opacity:.85}
+.card.reds{color:#b4261d}
+.card.joker{background:linear-gradient(155deg,#fff6dc,#ecd6a5);border-color:var(--gold-dim)}
+.card.joker .big{font-size:16px;writing-mode:vertical-rl;letter-spacing:.1em;color:#8b1c14;right:6px;bottom:6px}
+.card.joker.small .big{color:#243b6b}
+.card.wild{background:linear-gradient(155deg,#fff8e3,#f4dfae);border-color:#b98c3d;box-shadow:0 3px 7px rgba(0,0,0,.5),inset 0 0 0 2px #ffe9ae}
+.card.wild::after{
+  content:"配";position:absolute;top:2px;right:3px;background:linear-gradient(180deg,#d04335,#8e241c);color:#fff3dd;
+  font-size:10px;line-height:1;padding:2px 4px;border-radius:4px;border:1px solid var(--gold2);
+}
+.card.sel{transform:translateY(-19px);box-shadow:0 12px 20px rgba(0,0,0,.6),0 0 0 3px var(--gold2)}
+.card.hint{box-shadow:0 0 0 3px #69d38b,0 6px 14px rgba(0,0,0,.5)}
+.card.dim{opacity:.42;filter:saturate(.5)}
+.card.back{
+  background:repeating-linear-gradient(45deg,#8e241c 0 5px,#a32e24 5px 10px);
+  border:2px solid #e6d3a8;box-shadow:0 2px 5px rgba(0,0,0,.5);
+}
+.card.back::before{content:"";position:absolute;inset:5px;border:1px solid rgba(240,214,156,.7);border-radius:3px}
+.card.mini{width:40px;height:58px}
+.card.mini .rk{font-size:11px;top:2px;left:3px}
+.card.mini .sk{font-size:9px;top:15px;left:3px}
+.card.mini .big{font-size:17px;right:3px;bottom:2px}
+.card.mini.joker .big{font-size:11px}
+.card.tiny{width:30px;height:44px;border-radius:5px}
+.card.tiny .rk{font-size:9px;top:1px;left:2px}
+.card.tiny .sk{font-size:7px;top:12px;left:2px}
+.card.tiny .big{font-size:12px;right:2px;bottom:1px}
+.card.tiny.joker .big{font-size:8px}
+.hand{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:visible;padding:22px 8px 6px;gap:0;min-height:118px}
+.hand .card{margin-left:-24px}
+.hand .card:first-child{margin-left:0}
+.hand .card:hover{margin-right:16px}
+.hand.small .card{margin-left:-32px}
+.card-btn{background:none;border:0;padding:0}
+
+/* ---------- table ---------- */
+.table-wrap{position:relative;border-radius:22px;padding:16px;
+  background:linear-gradient(180deg,#3a2a19,#241a10);border:2px solid var(--gold-dim);
+  box-shadow:0 18px 40px rgba(0,0,0,.6),inset 0 2px 0 rgba(255,255,255,.12)}
+.table{
+  position:relative;min-height:470px;border-radius:130px/90px;overflow:visible;
+  background:
+    radial-gradient(ellipse at 50% 42%,#20583c 0%,#123b27 55%,#082416 100%);
+  border:3px solid rgba(217,178,106,.35);
+  box-shadow:inset 0 0 80px rgba(0,0,0,.65),inset 0 0 0 10px rgba(217,178,106,.05);
+}
+.table::before{content:"";position:absolute;inset:14px;border:1px dashed rgba(217,178,106,.2);border-radius:120px/80px;pointer-events:none}
+.seat{position:absolute;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:3}
+.seat.s0{bottom:128px;left:50%;transform:translateX(-50%)}
+.seat.s1{right:16px;top:50%;transform:translateY(-50%)}
+.seat.s2{top:12px;left:50%;transform:translateX(-50%)}
+.seat.s3{left:16px;top:50%;transform:translateY(-50%)}
+.seat .plate{
+  display:flex;align-items:center;gap:8px;background:rgba(4,18,12,.85);
+  border:1px solid var(--line);border-radius:10px;padding:5px 11px;font-size:.88rem;color:var(--gold2);
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+}
+.seat .plate .cnt{background:var(--red);color:#fff3e0;border-radius:999px;padding:0 7px;font-size:.78rem;font-weight:700}
+.seat.turn .plate{border-color:var(--gold2);box-shadow:0 0 0 2px rgba(240,214,156,.35),0 0 22px rgba(240,214,156,.5);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 4px rgba(240,214,156,.2),0 0 30px rgba(240,214,156,.75)}}
+.seat.teamA .plate{border-left:4px solid #d94b3c}
+.seat.teamB .plate{border-left:4px solid #4d86c6}
+.seat .backs{display:flex}
+.seat .backs .card{margin-left:-20px}
+.seat .backs .card:first-child{margin-left:0}
+.seat.s1 .backs,.seat.s3 .backs{flex-direction:column}
+.seat.s1 .backs .card,.seat.s3 .backs .card{margin:-33px 0 0}
+.seat.s1 .backs .card:first-child,.seat.s3 .backs .card:first-child{margin:0}
+.seat .badge{font-size:.76rem;color:#ffd275;background:rgba(0,0,0,.5);border-radius:6px;padding:1px 7px}
+#playZone{
+  position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+  min-width:230px;min-height:126px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  border:1px dashed rgba(217,178,106,.35);border-radius:14px;padding:10px 16px;background:rgba(3,16,10,.35);z-index:2;
+}
+#playZone.dragover{border-color:var(--gold2);background:rgba(217,178,106,.16);box-shadow:0 0 30px rgba(217,178,106,.3)}
+#playZone .zcards{display:flex;min-height:var(--card-h)}
+#playZone .zcards .card{margin-left:-26px}
+#playZone .zcards .card:first-child{margin-left:0}
+#playZone .zlabel{font-size:.86rem;color:var(--muted);text-align:center;max-width:340px}
+.burst{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);z-index:9;pointer-events:none;
+  font-size:4rem;font-weight:900;color:#ffd275;text-shadow:0 0 24px #e2564a,0 6px 0 #8e241c;animation:boom .8s ease forwards}
+@keyframes boom{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-14deg)}
+  35%{opacity:1;transform:translate(-50%,-50%) scale(1.25) rotate(6deg)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.6) rotate(0)}}
+.deal-anim{animation:dealIn .5s ease both}
+@keyframes dealIn{from{opacity:0;transform:translateY(-70px) rotate(-12deg)}to{opacity:1;transform:none}}
+
+/* ---------- rules / lessons / match / replay layouts ---------- */
+.split{display:grid;grid-template-columns:250px 1fr;gap:18px;align-items:start}
+.side{position:sticky;top:12px;max-height:78vh;overflow:auto}
+.chaplist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.chaplist button,.lesslist button{width:100%;text-align:left;background:rgba(0,0,0,.2);border:1px solid transparent;
+  border-radius:8px;padding:9px 12px;color:var(--cream);font-size:.92rem;transition:.15s}
+.chaplist button:hover,.lesslist button:hover{border-color:var(--line);background:rgba(217,178,106,.1)}
+.chaplist button.active,.lesslist button.active{background:linear-gradient(90deg,rgba(200,57,47,.5),rgba(200,57,47,.1));border-color:var(--gold);color:#fff3dd}
+.lesslist button.locked{opacity:.42;cursor:not-allowed}
+.lesslist button.done::after{content:" ✓";color:#7fe0a0}
+.article{max-width:900px}
+.article p,.article li{font-size:1rem;color:#e6d9c0}
+.article li{margin:.35em 0}
+.article ul,.article ol{padding-left:1.5em}
+.article .note{background:rgba(217,178,106,.09);border-left:3px solid var(--gold);padding:10px 14px;border-radius:0 8px 8px 0;color:#f0e2c6}
+.article .ambig{background:rgba(200,57,47,.13);border-left:3px solid var(--red2);padding:10px 14px;border-radius:0 8px 8px 0}
+.article table{border-collapse:collapse;width:100%;font-size:.92rem;margin:12px 0}
+.article th,.article td{border:1px solid var(--line);padding:7px 10px;text-align:left;color:#e6d9c0}
+.article th{background:rgba(217,178,106,.14);color:var(--gold2)}
+.ladder{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.ladder span{border:1px solid var(--gold-dim);background:linear-gradient(180deg,rgba(200,57,47,.35),rgba(0,0,0,.3));
+  border-radius:8px;padding:8px 12px;font-size:.9rem;color:#ffe9c6}
+.ladder span i{font-style:normal;color:var(--gold2);margin-right:6px}
+.demo{margin-top:18px;border:1px solid var(--line);border-radius:12px;padding:14px;background:rgba(3,16,10,.45)}
+.demo .tray{display:flex;gap:5px;flex-wrap:wrap;min-height:100px;padding:8px;border-radius:8px;background:rgba(0,0,0,.25)}
+.demo .drop{min-height:102px;border:2px dashed var(--line);border-radius:10px;padding:9px;display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+.demo .drop.over{border-color:var(--gold2);background:rgba(217,178,106,.12)}
+.demo .verdict{margin-top:10px;min-height:30px;font-size:.95rem;color:var(--gold2)}
+.quiz-opts{display:flex;flex-direction:column;gap:9px;margin:14px 0}
+.quiz-opts button{text-align:left;background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:9px;padding:11px 14px;transition:.15s}
+.quiz-opts button:hover{border-color:var(--gold2);background:rgba(217,178,106,.12)}
+.quiz-opts button.chosen{border-color:var(--gold2);background:rgba(217,178,106,.2)}
+.feedback{margin-top:12px;padding:12px 14px;border-radius:9px;display:none}
+.feedback.ok{display:block;background:rgba(50,140,80,.2);border:1px solid #5ab37c;color:#d6f5e0}
+.feedback.no{display:block;background:rgba(190,50,40,.2);border:1px solid #e2564a;color:#ffd9d3}
+.feedback b{color:#fff2d5}
+.progressbar{height:8px;border-radius:99px;background:rgba(0,0,0,.4);overflow:hidden;margin:10px 0}
+.progressbar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold2));transition:width .4s}
+
+.match-grid{display:grid;grid-template-columns:1fr 310px;gap:18px;align-items:start}
+.sidepanel{display:flex;flex-direction:column;gap:14px}
+#matchLog{height:210px;overflow:auto;font-size:.86rem;line-height:1.7;background:rgba(0,0,0,.32);border:1px solid var(--line);border-radius:9px;padding:10px}
+#matchLog div{border-bottom:1px dotted rgba(217,178,106,.15);padding:2px 0;color:#cfd8c8}
+#matchLog div.hi{color:var(--gold2)}
+#matchLog div.bad{color:#ffb1a6}
+.ctrlbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.status{font-size:.95rem;color:var(--gold2);min-height:26px}
+.cfgrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.cfgrow label{font-size:.88rem;color:var(--muted)}
+select,input[type=checkbox]{font-family:inherit}
+select{background:#0d2a1d;color:var(--gold2);border:1px solid var(--gold-dim);border-radius:7px;padding:6px 9px}
+input[type=checkbox]{accent-color:var(--red);width:17px;height:17px}
+
+.replay-grid{display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:start}
+.replay-list{display:flex;flex-direction:column;gap:8px;max-height:70vh;overflow:auto}
+.replay-item{text-align:left;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.replay-item:hover,.replay-item.active{border-color:var(--gold2);background:rgba(217,178,106,.14)}
+.replay-item b{color:var(--gold2)}
+.stepbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.stepbar input[type=range]{flex:1;min-width:160px;accent-color:var(--gold)}
+.hands4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.handbox{border:1px solid var(--line);border-radius:9px;padding:8px;background:rgba(0,0,0,.25)}
+.handbox h4{margin:0 0 5px;font-size:.9rem}
+.handbox .cards{display:flex;flex-wrap:wrap;gap:2px}
+.handbox .cards .card{margin:0}
+.candidate-list{display:flex;flex-direction:column;gap:6px;max-height:190px;overflow:auto;margin-top:8px}
+.candidate{border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:rgba(0,0,0,.22);font-size:.87rem}
+.candidate.better{border-color:#5ab37c;background:rgba(60,150,90,.16)}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);z-index:60;
+  background:#1b3b29;border:1px solid var(--gold2);border-radius:10px;padding:10px 20px;color:#fff2d5;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:.28s;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#modalWrap{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px}
+#modalWrap.show{display:flex}
+#modalBox{max-width:680px;width:100%;max-height:88vh;overflow:auto;background:linear-gradient(160deg,#153b28,#081d13);
+  border:2px solid var(--gold-dim);border-radius:16px;padding:22px;box-shadow:0 22px 60px rgba(0,0,0,.75)}
+#modalBox h2{margin-top:0}
+.modal-cards{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.modal-cards .card{cursor:pointer}
+.modal-cards .card.sel{transform:translateY(-8px)}
+.kbd{display:inline-block;border:1px solid var(--gold-dim);border-bottom-width:3px;border-radius:5px;padding:0 6px;font-size:.8rem;color:var(--gold2);background:rgba(0,0,0,.3)}
+.footnote{margin-top:26px;border-top:1px solid var(--line);padding-top:12px;font-size:.82rem;color:var(--muted);text-align:center}
+
+@media (max-width:1100px){
+  :root{--card-w:54px;--card-h:78px}
+  .match-grid{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr}
+  .feature-grid{grid-template-columns:1fr 1fr}
+  .table{min-height:430px}
+  .seat.s0{bottom:118px}
+}
+@media (max-width:760px){
+  :root{--card-w:46px;--card-h:68px}
+  #app{padding:0 10px 40px}
+  .split,.replay-grid{grid-template-columns:1fr}
+  .side{position:static;max-height:none}
+  .chaplist,.lesslist{flex-direction:row;overflow:auto;gap:6px}
+  .chaplist button,.lesslist button{white-space:nowrap;min-width:120px}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .feature-grid{grid-template-columns:1fr 1fr}
+  .table{border-radius:80px/60px;min-height:400px}
+  .seat.s1,.seat.s3{display:none}
+  .seat.s0{bottom:110px}
+  #playZone{top:40%}
+  .hands4{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div class="brand"><div class="brand-mark" aria-hidden="true">摜</div>
+      <div><h1>摜蛋學堂</h1><p>規則 ・ 關卡 ・ 四人模擬 ・ 逐手複盤</p></div></div>
+    <nav id="nav" aria-label="主導覽">
+      <button class="navbtn active" data-view="home">首頁</button>
+      <button class="navbtn" data-view="rules">規則教學</button>
+      <button class="navbtn" data-view="lessons">新手關卡</button>
+      <button class="navbtn" data-view="match">模擬對戰</button>
+      <button class="navbtn" data-view="replay">歷史複盤</button>
+    </nav>
+    <div class="topmeta"><span id="topLevel" class="pill">級別：2</span><button class="btn sm ghost" id="btnSettings">設定</button></div>
+  </header>
+
+  <!-- ================= 首頁 ================= -->
+  <section class="view active" id="view-home">
+    <div class="hero">
+      <div>
+        <p class="pill">兩副撲克・108 張・四人對家制・離線可玩</p>
+        <h2>由打 <span class="gold">2</span> 開始，<br>一手一手學會摜蛋。</h2>
+        <p class="lead">十章規則、十六道過關練習、四人模擬對戰、逐手複盤。全部收在一個 HTML 檔裡，不必上網、不用帳號。</p>
+        <p class="quote">「對家既是隊友，也是敵人。」—— 摜蛋最迷人之處，在於升級只看頭游那一方。</p>
+        <div class="ctrlbar">
+          <button class="btn primary" data-go="rules">先讀規則</button>
+          <button class="btn" data-go="lessons">直接闖關</button>
+          <button class="btn" data-go="match">開始對戰</button>
+        </div>
+      </div>
+      <div class="mini-table" aria-hidden="true">
+        <div class="mini-seat s0">南・你</div><div class="mini-seat s1">北・隊友</div>
+        <div class="mini-seat s2">西・對手</div><div class="mini-seat s3">東・對手</div>
+        <div class="mini-cards" id="miniCards"></div>
+      </div>
+    </div>
+    <div class="feature-grid">
+      <button class="feature" data-go="rules"><div class="num">01</div><h3>規則教學</h3><p>分章講解，示例牌可拖放、可點選，即時判定牌型與大小。</p></button>
+      <button class="feature" data-go="lessons"><div class="num">02</div><h3>新手關卡</h3><p>每條規則一關，答錯會講原因；未過關不能跳去下一關。</p></button>
+      <button class="feature" data-go="match"><div class="num">03</div><h3>模擬對戰</h3><p>你坐南家，三家電腦；發牌、進貢、抗貢、升級完整跑一局。</p></button>
+      <button class="feature" data-go="replay"><div class="num">04</div><h3>歷史複盤</h3><p>本機保存最近對局，逐手重播、揭曉四家手牌與更佳選擇。</p></button>
+    </div>
+    <div class="panel" style="margin-top:24px">
+      <h3>本頁採用的規則版本</h3>
+      <p class="sm">以《江蘇省摜蛋競賽簡易規則（2017 版）》與國家體育總局棋牌運動管理中心常見競賽規則為主；遇到民間玩法分歧的地方，教學章節會標明「歧義」並說明本頁的取捨，設定頁可切換部分項目。完整說明見「規則教學 → 第十章」。</p>
+    </div>
+  </section>
+
+  <!-- ================= 規則教學 ================= -->
+  <section class="view" id="view-rules">
+    <div class="split">
+      <aside class="panel side"><h3>章節目錄</h3><ul class="chaplist" id="chapList"></ul>
+        <hr><p class="sm">每章底部的「示範牌桌」可拖放或點選牌，再按「判定」看結果。</p></aside>
+      <div class="panel article" id="ruleBody"></div>
+    </div>
+  </section>
+
+  <!-- ================= 新手關卡 ================= -->
+  <section class="view" id="view-lessons">
+    <div class="split">
+      <aside class="panel side">
+        <h3>關卡進度</h3><div class="progressbar"><i id="lessonBar" style="width:0%"></i></div>
+        <p class="sm" id="lessonProgress">0 / 0</p>
+        <ul class="lesslist" id="lessList" style="list-style:none;padding:0"></ul>
+        <hr><button class="btn sm ghost" id="btnResetLessons">重設關卡進度</button>
+      </aside>
+      <div class="panel article" id="lessonBody"></div>
+    </div>
+  </section>
+
+  <!-- ================= 模擬對戰 ================= -->
+  <section class="view" id="view-match">
+    <div class="match-grid">
+      <div>
+        <div class="table-wrap"><div class="table" id="table">
+          <div class="seat teamA s0" id="seat0"><div class="plate"><span>南・你</span><span class="cnt" id="cnt0">27</span></div><div class="badge" id="badge0"></div></div>
+          <div class="seat teamB s1" id="seat1"><div class="plate"><span>東・對手</span><span class="cnt" id="cnt1">27</span></div><div class="backs" id="backs1"></div><div class="badge" id="badge1"></div></div>
+          <div class="seat teamA s2" id="seat2"><div class="plate"><span>北・隊友</span><span class="cnt" id="cnt2">27</span></div><div class="backs" id="backs2"></div><div class="badge" id="badge2"></div></div>
+          <div class="seat teamB s3" id="seat3"><div class="plate"><span>西・對手</span><span class="cnt" id="cnt3">27</span></div><div class="backs" id="backs3"></div><div class="badge" id="badge3"></div></div>
+          <div id="playZone"><div class="zcards" id="zoneCards"></div><div class="zlabel" id="zoneLabel">尚未開局</div></div>
+        </div></div>
+        <div class="panel" style="margin-top:14px">
+          <div class="status" id="matchStatus">按「開始新局」發牌。</div>
+          <div class="hand" id="playerHand" aria-label="你的手牌"></div>
+          <div class="ctrlbar">
+            <button class="btn primary" id="btnPlay">出牌</button>
+            <button class="btn" id="btnPass">過牌</button>
+            <button class="btn" id="btnHint">一鍵提示</button>
+            <button class="btn ghost" id="btnClear">清除選取</button>
+            <span class="sm">快捷鍵：<span class="kbd">Enter</span> 出牌　<span class="kbd">P</span> 過牌　<span class="kbd">H</span> 提示　<span class="kbd">←</span><span class="kbd">→</span> 選牌</span>
+          </div>
+          <div id="playVerdict" class="sm" style="min-height:26px;margin-top:6px"></div>
+        </div>
+      </div>
+      <div class="sidepanel">
+        <div class="panel">
+          <h3>開局設定</h3>
+          <div class="cfgrow"><label for="selDiff">電腦難度</label>
+            <select id="selDiff"><option value="easy">入門</option><option value="normal" selected>普通</option><option value="hard">進階</option></select></div>
+          <div class="cfgrow"><label for="chkHintAI"><input type="checkbox" id="chkHintAI" checked> 對戰提示（顯示建議與原因）</label></div>
+          <div class="cfgrow"><label for="chkBroad"><input type="checkbox" id="chkBroad" checked> 複盤揭曉四家手牌</label></div>
+          <div class="ctrlbar"><button class="btn primary" id="btnNewMatch">開始新局</button><button class="btn ghost" id="btnNextHand" disabled>下一局（進貢）</button></div>
+          <p class="sm" id="matchMeta"></p>
+        </div>
+        <div class="panel">
+          <h3>對局日誌</h3><div id="matchLog"></div>
+          <div class="ctrlbar"><button class="btn sm ghost" id="btnShowReplay">查看本局複盤</button></div>
+        </div>
+        <div class="panel">
+          <h3>牌型速查</h3><p class="sm" id="quickRef"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 歷史複盤 ================= -->
+  <section class="view" id="view-replay">
+    <div class="replay-grid">
+      <aside class="panel side">
+        <h3>本機對局記錄</h3><p class="sm">最近 8 局，儲存在瀏覽器 localStorage，不會上傳。</p>
+        <div class="replay-list" id="replayList"></div>
+        <hr><button class="btn sm ghost" id="btnClearHistory">清除全部記錄</button>
+      </aside>
+      <div class="panel" id="replayBody"><p class="sm">左邊選一局，即可逐步重播。</p></div>
+    </div>
+  </section>
+
+  <p class="footnote">摜蛋學堂・單一 HTML 離線版｜規則引擎與介面分離，方便日後修訂｜鍵盤可操作、按鈕皆有文字</p>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="modalWrap" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div id="modalBox"></div></div>
+
+<script>
+'use strict';
+/* =====================================================================
+   摜蛋規則引擎 GD  —— 完全不依賴 DOM，可獨立測試／日後修訂
+   版本依據：江蘇省摜蛋競賽簡易規則（2017）＋ 棋牌中心常見競賽版
+   ===================================================================== */
+const GD = (function(){
+  const SUITS=['S','H','C','D'];
+  const SUIT_CH={S:'♠',H:'♥',C:'♣',D:'♦',J:'★'};
+  const RANK_CH={2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',8:'8',9:'9',10:'10',11:'J',12:'Q',13:'K',14:'A'};
+  const TYPE_CH={SINGLE:'單張',PAIR:'對子',TRIPLE:'三張',FULLHOUSE:'三帶二',STRAIGHT:'順子',
+    PAIRS:'連對',TRIPLES:'鋼板',BOMB:'炸彈',STRAIGHT_FLUSH:'同花順',JOKER_BOMB:'天王炸'};
+  const cfg={level:2,strictLengths:false,elasticFlush:false,threeAReset:true,broadReveal:true};
+
+  /* ---- 牌張 ---- */
+  function C(deck,suit,r){return {id:'D'+deck+suit+r,deck:deck,s:suit,r:r};}
+  function J(deck,big){return {id:'D'+deck+'J'+(big?'B':'S'),deck:deck,s:'J',r:big?17:16};}
+  function makeDeck(){
+    const a=[];
+    for(let d=0;d<2;d++){
+      for(const s of SUITS) for(let r=2;r<=14;r++) a.push(C(d,s,r));
+      a.push(J(d,false),J(d,true));
+    }
+    return a;                     // 2 副 × 54 = 108 張
+  }
+  function shuffle(arr,rnd){
+    rnd=rnd||Math.random;const a=arr.slice();
+    for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}
+    return a;
+  }
+  /* 教學／關卡用的簡記法：S A = 黑桃A；H 6 = 紅心6；T=10；XS=小王；XB=大王 */
+  function parseCards(str){
+    const map={'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'T':10,'J':11,'Q':12,'K':13,'A':14};
+    return str.trim().split(/\s+/).filter(Boolean).map((tok,i)=>{
+      if(tok==='XS'||tok==='XB'){const c=J(i%2,tok==='XB');c.id='L'+i;return c;}
+      const s=tok[0],r=map[tok.slice(1)];
+      if(!SUITS.includes(s)||!r) throw new Error('牌張格式錯誤：'+tok);
+      const c=C(i%2,s,r);c.id='L'+i;return c;
+    });
+  }
+  const ord=(c,L)=> c.r>=16 ? c.r : (c.r===L ? 15 : c.r);
+  const isJoker=c=> c.r>=16;
+  const isWild=(c,L)=> c.s==='H' && c.r===L;
+  const rankChar=r=> r===15?'級牌':r===16?'小王':r===17?'大王':(RANK_CH[r]||String(r));
+  function cardText(c,L){
+    if(c.r===17) return '大王';
+    if(c.r===16) return '小王';
+    return SUIT_CH[c.s]+rankChar(c.r)+(isWild(c,L)?'（配）':'');
+  }
+  function sortHand(cards,L){return cards.slice().sort((a,b)=> ord(b,L)-ord(a,L) || a.s.localeCompare(b.s) || a.id.localeCompare(b.id));}
+  function byId(cards,ids){const m=new Map(cards.map(c=>[c.id,c]));return ids.map(i=>m.get(i)).filter(Boolean);}
+
+  /* ---- 單一解讀下的牌型判定 ---- */
+  function seqHigh(ranks,allowA1){
+    const arr=ranks.slice().map(r=> (r===14&&allowA1)?1:r);
+    const s=Array.from(new Set(arr)).sort((a,b)=>a-b);
+    if(s.length!==ranks.length) return null;
+    for(let i=1;i<s.length;i++) if(s[i]!==s[i-1]+1) return null;
+    if(s[0]<1||s[s.length-1]>14) return null;
+    return s[s.length-1];
+  }
+  const bombPower=n=> n<=5 ? n-3 : n-2;   // 4→1,5→2,6→4,7→5 … 10→8；同花順=3
+
+  function classifyPlain(cards,L,st){
+    st=st||cfg;const n=cards.length;if(!n) return [];
+    const out=[];
+    const ors=cards.map(c=>ord(c,L));
+    const cnt={};ors.forEach(o=>cnt[o]=(cnt[o]||0)+1);
+    const keys=Object.keys(cnt).map(Number);
+    const push=t=>{ t.size=n; t.key=t.key||0; t.power=t.power||0; t.desc=describe(t); out.push(t); };
+    /* 天王炸：兩張大王＋兩張小王 */
+    if(n===4 && cards.filter(c=>c.r===17).length===2 && cards.filter(c=>c.r===16).length===2)
+      push({type:'JOKER_BOMB',key:0,power:99});
+    /* 單張／對子／三張 */
+    if(n===1) push({type:'SINGLE',key:ors[0]});
+    if(n===2 && keys.length===1) push({type:'PAIR',key:ors[0]});
+    if(n===3 && keys.length===1) push({type:'TRIPLE',key:ors[0]});
+    /* 三帶二：只比三張那一組 */
+    if(n===5 && keys.length===2){
+      const tri=keys.find(k=>cnt[k]===3),pair=keys.find(k=>cnt[k]===2);
+      if(tri!==undefined&&pair!==undefined) push({type:'FULLHOUSE',key:tri});
+    }
+    /* 炸彈：四張或以上同點（王不可成普通炸彈） */
+    if(n>=4 && n<=10 && keys.length===1 && ors[0]<=15)
+      push({type:'BOMB',key:ors[0],power:bombPower(n),count:n});
+
+    /* 序列類：不得含王；級牌按「自然點數」歸位；A 可作 1（A2345） */
+    const noJoker=cards.every(c=>c.r<=14);
+    if(noJoker && n>=5){
+      const nat=cards.map(c=>c.r);
+      const byNat={};nat.forEach(r=>byNat[r]=(byNat[r]||0)+1);
+      const natKeys=Object.keys(byNat).map(Number);
+      const sameSuit=cards.every(c=>c.s===cards[0].s) && cards[0].s!=='V' && SUITS.includes(cards[0].s);
+      const straightOK=st.strictLengths ? n===5 : n>=5;
+      const high=seqHigh(nat,true) ?? seqHigh(nat,false);
+      const hRaw=seqHigh(nat,false), hA1=seqHigh(nat,true);
+      const bestHigh=(hRaw!==null&&hA1!==null)?Math.max(hRaw,hA1):(hRaw!==null?hRaw:hA1);
+      /* 同花順：競賽版固定五張、同花色、連續；視為特殊炸彈 */
+      if(n===5 && sameSuit && bestHigh!==null)
+        push({type:'STRAIGHT_FLUSH',key:bestHigh,power:3,suit:cards[0].s});
+      else if(straightOK && bestHigh!==null)
+        push({type:'STRAIGHT',key:bestHigh});
+      /* 連對：每點恰好兩張、連續三對以上（競賽版固定三對） */
+      const pairsOK=st.strictLengths ? n===6 : (n>=6&&n%2===0);
+      if(pairsOK && natKeys.every(k=>byNat[k]===2)){
+        const p1=seqHigh(natKeys,true) ?? seqHigh(natKeys,false);
+        if(p1!==null) push({type:'PAIRS',key:p1});
+      }
+      /* 鋼板：每點恰好三張、連續兩組以上（競賽版固定兩組） */
+      const tripsOK=st.strictLengths ? n===6 : (n>=6&&n%3===0);
+      if(tripsOK && natKeys.every(k=>byNat[k]===3)){
+        const t1=seqHigh(natKeys,true) ?? seqHigh(natKeys,false);
+        if(t1!==null) push({type:'TRIPLES',key:t1});
+      }
+    }
+    return out;
+  }
+  function describe(t){
+    const name=TYPE_CH[t.type]||t.type;
+    if(t.type==='BOMB') return t.count+' 張'+rankChar(t.key)+'炸彈';
+    if(t.type==='JOKER_BOMB') return '天王炸（四王）';
+    if(t.type==='STRAIGHT_FLUSH') return '同花順（最大 '+rankChar(t.key)+'）';
+    if(t.type==='STRAIGHT'||t.type==='PAIRS'||t.type==='TRIPLES')
+      return name+' '+t.size+' 張（最大 '+rankChar(t.key)+'）';
+    if(t.type==='FULLHOUSE') return '三帶二（三張 '+rankChar(t.key)+'）';
+    return name+'（'+rankChar(t.key)+'）';
+  }
+  const sig=t=>[t.type,t.size,t.key,t.power].join('|');
+
+  /* ---- 含逢人配的完整解讀（最多兩張萬能牌） ---- */
+  const _classCache=new Map();
+  function classifySet(cards,L,st){
+    L=L===undefined?cfg.level:L;st=st||cfg;
+    if(!cards.length) return [];
+    const ckey=L+'|'+(st.strictLengths?1:0)+'|'+cards.map(c=>c.id+':'+c.s+':'+c.r).sort().join(',');
+    if(_classCache.has(ckey)) return _classCache.get(ckey);
+    const wilds=cards.filter(c=>isWild(c,L));
+    const fixed=cards.filter(c=>!isWild(c,L));
+    const res=new Map();
+    const addAll=arr=>arr.forEach(t=>res.set(sig(t),t));
+    const done=v=>{ if(_classCache.size>8000) _classCache.clear(); _classCache.set(ckey,v); return v; };
+    if(wilds.length>2) return done([]);
+    if(!fixed.length){ return done(classifyPlain(cards,L,st)); }   // 萬能牌單獨打出＝只代表本身（級牌）
+    const natFixed=fixed.filter(c=>c.r<=14).map(c=>c.r);
+    const dom=new Set(natFixed);dom.add(L);
+    natFixed.forEach(r=>{for(let d=-2;d<=2;d++){const v=r+d;if(v>=2&&v<=14)dom.add(v);}});
+    const ranks=Array.from(dom).sort((a,b)=>a-b);
+    const k=wilds.length;
+    const run=(suit)=>{
+      const assign=new Array(k);
+      const rec=i=>{
+        if(i===k){
+          const virt=assign.map((r,ix)=>({id:wilds[ix].id+'_v',deck:wilds[ix].deck,s:suit,r:r,virtual:true}));
+          addAll(classifyPlain(fixed.concat(virt),L,st));
+          return;
+        }
+        for(const r of ranks){assign[i]=r;rec(i+1);}
+      };
+      rec(0);
+    };
+    run('V');                                     // 一般解讀：花色無關
+    const sf=fixed.filter(c=>c.r<=14).map(c=>c.s);
+    if(cards.length===5 && sf.length && sf.every(s=>s===sf[0]) && SUITS.includes(sf[0]) && !fixed.some(c=>c.r>=16))
+      run(sf[0]);                                     // 只有五張同花才需要補同花色湊同花順
+    return done(Array.from(res.values()).sort((a,b)=> b.power-a.power || b.key-a.key || b.size-a.size));
+  }
+  /* 從眾多解讀中挑「最強」或指定類型 */
+  function pickPlay(cards,L,st,typeHint){
+    const all=classifySet(cards,L,st);
+    if(!all.length) return null;
+    if(typeHint) return all.find(t=>t.type===typeHint)||all[0];
+    return all[0];
+  }
+
+  /* ---- 大小比較 ---- */
+  function beats(a,b,L,st){
+    if(!b) return !!a;
+    if(!a) return false;
+    if(a.power>0 && b.power===0) return true;      // 炸彈可壓任何普通牌型
+    if(a.power===0 && b.power>0) return false;
+    if(a.power>0 && b.power>0){
+      if(a.power!==b.power) return a.power>b.power;
+      if(a.type==='BOMB'&&b.type==='BOMB') return a.key>b.key;
+      if(a.type==='STRAIGHT_FLUSH'&&b.type==='STRAIGHT_FLUSH') return a.key>b.key;
+      return false;                                // 同張數同點數：先出為大
+    }
+    if(a.type!==b.type) return false;
+    if(a.size!==b.size) return false;              // 競賽規則：同牌型且同張數才可比較
+    return a.key>b.key;
+  }
+  function explainBeats(a,b,L,st){
+    if(!a) return '這組牌不成任何合法牌型，請重新選牌。';
+    if(!b) return '首出自由，任何合法牌型都可以。';
+    if(a.type===b.type && a.size===b.size && a.key<=b.key && !a.power)
+      return '點數不夠大：上一手是「'+b.desc+'」，你選的是「'+a.desc+'」，同牌型必須更大才能壓。';
+    if(a.type!==b.type && !a.power)
+      return '牌型不同：上一手是「'+b.desc+'」，你選的是「'+a.desc+'」；後手須出相同牌型，或改用炸彈。';
+    if(a.size!==b.size && !a.power)
+      return '張數不同：競賽規則要求同牌型、同總張數才能比大小（上一手 '+b.size+' 張，你選 '+a.size+' 張）。';
+    if(b.power>0 && a.power===0)
+      return '上一手是炸彈類「'+b.desc+'」，普通牌型壓不過，必須出更大的炸彈／同花順／天王炸。';
+    if(b.power>0 && a.power>0 && a.power<=b.power)
+      return '炸彈不夠大：'+b.desc+' 的層級不低於 '+a.desc+'。（天王炸＞六張以上炸彈＞同花順＞五張炸＞四張炸）';
+    return '這一手不合法。';
+  }
+  /* 診斷一組選牌為何不成牌型 */
+  function explainShape(cards,L,st){
+    L=L===undefined?cfg.level:L;
+    if(!cards.length) return '尚未選牌。';
+    const w=cards.filter(c=>isWild(c,L)).length;
+    if(cards.some(c=>c.r>=16) && cards.length>1 && cards.some(c=>c.r<16) && w===0
+       && !cards.every(c=>c.r>=16))
+      return '王牌不能與點數牌混進順子／連對／鋼板；四張王（兩大兩小）才可組成天王炸。';
+    if(w>2) return '一副牌只有兩張紅桃級牌（逢人配），不可能同時用三張。';
+    if(cards.length>=4){
+      const rs=cards.map(c=>ord(c,L));
+      if(new Set(rs).size===1 && rs[0]<=15) return '這組同點牌只有 '+cards.length+' 張，成不了牌型（四張起才是炸彈）。';
+    }
+    return '這 '+cards.length+' 張牌組不成任何合法牌型：檢查是否同點、是否連續五張、A 是否可作 1、級牌有否按自然點數歸位。';
+  }
+
+  /* ---- 合法出牌候選產生器（提示、電腦、複盤共用） ---- */
+  function combos(arr,k){
+    if(k===0) return [[]];
+    if(arr.length<k) return [];
+    const out=[];
+    (function rec(start,cur){
+      if(out.length>40) return;
+      if(cur.length===k){out.push(cur.slice());return;}
+      for(let i=start;i<=arr.length-(k-cur.length);i++){cur.push(arr[i]);rec(i+1,cur);cur.pop();}
+    })(0,[]);
+    return out;
+  }
+  function genCandidates(hand,lead,L,st,limit){
+    L=L===undefined?cfg.level:L;st=st||cfg;limit=limit||900;
+    const out=[],seen=new Set();let work=0;
+    const wilds=hand.filter(c=>isWild(c,L));
+    const fixed=hand.filter(c=>!isWild(c,L));
+    const byOrd={},byNat={},bySR={};
+    fixed.forEach(c=>{
+      (byOrd[ord(c,L)]=byOrd[ord(c,L)]||[]).push(c);
+      if(c.r<=14){
+        (byNat[c.r]=byNat[c.r]||[]).push(c);
+        (bySR[c.s+c.r]=bySR[c.s+c.r]||[]).push(c);
+      }
+    });
+    const add=cards=>{
+      if(!cards.length||out.length>=limit||++work>6000) return;
+      const ids=cards.map(c=>c.id).sort().join(',');
+      if(seen.has(ids)) return; seen.add(ids);
+      for(const t of classifySet(cards,L,st)){
+        if(lead && !beats(t,lead,L,st)) continue;
+        out.push(Object.assign({},t,{cards:cards.slice()}));
+      }
+    };
+    /* 單張 */
+    hand.forEach(c=>add([c]));
+    /* 同點組合：同點牌彼此等價，每種張數只需取一組（另取一組不同實體牌備用） */
+    for(let o=2;o<=17;o++){
+      const g=byOrd[o]||[];
+      const max=Math.min(g.length+wilds.length,10);
+      for(let count=2;count<=max;count++){
+        for(let w=0;w<=Math.min(2,wilds.length,count);w++){
+          const k=count-w;
+          if(k<1||k>g.length) continue;
+          add(g.slice(0,k).concat(wilds.slice(0,w)));
+          if(g.length>k) add(g.slice(1,k+1).concat(wilds.slice(0,w)));
+        }
+      }
+    }
+    /* 天王炸 */
+    const big=fixed.filter(c=>c.r===17),small=fixed.filter(c=>c.r===16);
+    if(big.length>=2&&small.length>=2) add(big.slice(0,2).concat(small.slice(0,2)));
+    /* 三帶二：三張組 × 對子組 */
+    const triples=[],pairs=[];
+    for(let o=2;o<=17;o++){
+      const g=byOrd[o]||[];
+      if(g.length>=3) triples.push({o:o,cards:g.slice(0,3)});
+      if(g.length>=2) pairs.push({o:o,cards:g.slice(0,2)});
+      if(g.length>=2&&wilds.length>=1) triples.push({o:o,cards:g.slice(0,2).concat(wilds.slice(0,1))});
+      if(g.length>=1&&wilds.length>=1) pairs.push({o:o,cards:g.slice(0,1).concat(wilds.slice(0,1))});
+    }
+    if(wilds.length>=2) pairs.push({o:-1,cards:wilds.slice(0,2)});
+    for(const t of triples) for(const p of pairs){
+      if(t.o===p.o) continue;
+      if(new Set(t.cards.concat(p.cards).map(c=>c.id)).size!==5) continue;
+      add(t.cards.concat(p.cards));
+    }
+    /* 順子／連對／鋼板／同花順：三類序列各有自己的長度集合 */
+    const rankRuns=len=>{
+      const out=[];
+      for(let start=2;start+len-1<=14;start++){
+        const rs=[];for(let i=0;i<len;i++)rs.push(start+i);out.push(rs);
+      }
+      const a1=[14];for(let i=2;i<=len;i++)a1.push(i);
+      if(a1[a1.length-1]<=14)out.push(a1);     // A 當 1：A-2-3-4-5 …
+      return out;
+    };
+    const lengths=upTo=>{const a=[];for(let n=upTo[0];n<=upTo[1];n++)a.push(n);return a;};
+    const straightLens=st.strictLengths?[5]:lengths([5,12]);
+    const pairLens=st.strictLengths?[3]:lengths([3,8]);
+    const tripLens=st.strictLengths?[2]:lengths([2,5]);
+    const buildSeq=(rs,per,pool)=>{
+      let need=0;const picks=[];
+      for(const r of rs){
+        const avail=(pool[r]||[]).slice(0,per);
+        const lack=per-avail.length;
+        if(lack<0)return;
+        need+=lack;picks.push(avail);
+      }
+      if(need>wilds.length)return;
+      for(const w of combos(wilds,need)){
+        const cards=[];picks.forEach(p=>cards.push(...p));cards.push(...w);
+        add(cards);
+      }
+    };
+    straightLens.forEach(len=>rankRuns(len).forEach(rs=>buildSeq(rs,1,byNat)));
+    pairLens.forEach(len=>rankRuns(len).forEach(rs=>buildSeq(rs,2,byNat)));
+    tripLens.forEach(len=>rankRuns(len).forEach(rs=>buildSeq(rs,3,byNat)));
+    rankRuns(5).forEach(rs=>{for(const s of SUITS){       // 同花順：競賽版固定五張
+      const pool={};rs.forEach(r=>pool[r]=(bySR[s+r]||[]).slice());
+      buildSeq(rs,1,pool);
+    }});
+    return out;
+  }
+  function scorePlay(p,L,ctx){
+    L=L===undefined?cfg.level:L;ctx=ctx||{};
+    let s=0;
+    if(p.power>0) s+=900+p.power*22;
+    else s+=p.key*4;
+    s-=(p.size-1)*7;
+    s+=(p.cards||[]).filter(c=>isWild(c,L)).length*9;
+    if(p.type==='JOKER_BOMB') s+=9000;
+    if(p.type==='SINGLE'&&p.key>=15) s+=55;
+    if(p.type==='PAIR'&&p.key>=15) s+=35;
+    if(ctx.lead&&ctx.partnerLeading) s+=120;
+    return s;
+  }
+  function bestPlay(cands,L,ctx){
+    if(!cands.length) return null;
+    let best=cands[0],bs=Infinity;
+    for(const p of cands){const s=scorePlay(p,L,ctx);if(s<bs){bs=s;best=p;}}
+    return best;
+  }
+  function suggestReason(chosen,best,L,ctx){
+    L=L===undefined?cfg.level:L;
+    if(!best) return '當時沒有其他可出的牌，選擇正確。';
+    if(!chosen) return '當時建議出「'+best.desc+'」：'+(ctx&&ctx.partnerLeading?'隊友正在領出，保守為宜。':'有合法牌可走，不必急著過牌。');
+    if(best.cards&&chosen.cards&&best.cards.map(c=>c.id).sort().join()===chosen.cards.map(c=>c.id).sort().join())
+      return '與引擎建議一致，這一手沒有更好的替代。';
+    if(chosen.power>0&&best.power===0) return '建議改出「'+best.desc+'」：炸彈應留到對手衝刺或關鍵牌權時再用。';
+    if(best.size>chosen.size) return '建議改出「'+best.desc+'」：一次多走 '+(best.size-chosen.size)+' 張，減少手牌、保留大牌。';
+    if(best.key<chosen.key) return '建議改出「'+best.desc+'」：用更小的牌同樣能壓過，把大牌留到後面。';
+    return '建議改出「'+best.desc+'」：整體牌力消耗較低，後段較好掌控。';
+  }
+
+  return {SUITS,SUIT_CH,RANK_CH,TYPE_CH,cfg,C,J,makeDeck,shuffle,parseCards,ord,isJoker,isWild,
+    rankChar,cardText,sortHand,byId,classifyPlain,classifySet,pickPlay,bombPower,beats,explainBeats,
+    explainShape,describe,genCandidates,scorePlay,bestPlay,suggestReason};
+})();
+/* =====================================================================
+   介面層：素材、儲存、導覽、規則教學
+   ===================================================================== */
+const $=(s,r)=>(r||document).querySelector(s);
+const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+const LS={
+  get(k,d){try{const v=localStorage.getItem('gd_'+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
+  set(k,v){try{localStorage.setItem('gd_'+k,JSON.stringify(v));return true;}catch(e){return false;}}
+};
+let toastTimer=null;
+function toast(msg,ms){
+  const el=$('#toast');el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),ms||2600);
+}
+function modal(html){
+  $('#modalBox').innerHTML=html;$('#modalWrap').classList.add('show');
+  const b=$('#modalBox button');if(b)b.focus();
+}
+function closeModal(){$('#modalWrap').classList.remove('show');$('#modalBox').innerHTML='';}
+$('#modalWrap').addEventListener('click',e=>{if(e.target.id==='modalWrap')closeModal();});
+
+function cardHTML(c,L,o){
+  o=o||{};
+  const red=c.s==='H'||c.s==='D';
+  let cls='card'+(c.r>=16?' joker'+(c.r===16?' small':''):'')+(red?' reds':'')+
+    (GD.isWild(c,L)?' wild':'')+(o.cls?' '+o.cls:'');
+  const rk=c.r===17?'大':c.r===16?'小':GD.rankChar(c.r);
+  const sk=c.r>=16?(c.r===17?'王':'王'):GD.SUIT_CH[c.s];
+  const big=c.r===17?'大王':c.r===16?'小王':GD.SUIT_CH[c.s];
+  return '<button type="button" class="'+cls+'" data-id="'+c.id+'" aria-pressed="'+(o.selected?'true':'false')+'"'+
+    ' aria-label="'+GD.cardText(c,L)+(o.selected?'，已選取':'')+'"'+(o.drag?' draggable="true"':'')+'>'+
+    '<span class="rk">'+rk+'</span><span class="sk">'+sk+'</span><span class="big">'+big+'</span></button>';
+}
+function cardBack(cls){return '<div class="card back '+(cls||'mini')+'" aria-hidden="true"></div>';}
+function renderCardRow(el,cards,L,o){
+  o=o||{};el.innerHTML=cards.map(c=>cardHTML(c,L,o)).join('');
+}
+function cardsLine(cards,L,cls){
+  return '<span style="display:inline-flex;gap:2px;vertical-align:middle;flex-wrap:wrap">'+
+    cards.map(c=>cardHTML(c,L,{cls:'tiny '+(cls||'')})).join('')+'</span>';
+}
+function go(view){
+  $$('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+  $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+view));
+  if(view==='replay')renderReplayList();
+  if(view==='lessons')renderLesson();
+  if(view==='match')refreshMatch();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateTop(){ $('#topLevel').textContent='級別：'+(GD.cfg.level===14?'A':GD.rankChar(GD.cfg.level))+
+  (GD.cfg.level===14?'（第 '+(STATE.aFails+1)+' 次）':''); }
+
+/* ---------- 規則教學內容 ---------- */
+const CHAPTERS=[
+{t:'一、牌具・座位・目標',d:{level:2,tray:'S2 H2 D2 C2 SA S3 XS XB',tip:'點選或拖放「紅桃2」，看看它單獨打出時只是級牌單張，不是炸彈。'},h:`
+<h2>一、牌具・座位・目標</h2>
+<p>摜蛋用 <b class="gold">兩副撲克牌共 108 張</b>（每副 52 張點數牌＋小王、大王各一張；兩副合計四張王）。四人一桌，每人 27 張，<b>對坐者為同一方</b>。本頁你坐南家，北家是隊友，東、西是對手；出牌按逆時針方向 <span class="gold">南 → 東 → 北 → 西</span>。</p>
+<p>目標不是「贏一局」，而是<b>把級別從 2 一路打到 A，並成功過 A</b>。每一局比的是誰先把 27 張出完：最先出完叫<b>頭游</b>，之後依次是<b>二游、三游、末游</b>。若頭游、二游是同一方，叫<b class="red">雙上</b>；若三游、末游是同一方，叫<b>雙下</b>。</p>
+<div class="ladder"><span><i>108 張</i>2 副 × 54</span><span><i>27 張</i>每人手牌</span><span><i>2 隊</i>對家為一方</span><span><i>2 → A</i>共 13 級＋過 A</span></div>
+<div class="note"><b>報牌：</b>競賽規則規定，出完一手後若剩餘手牌 <b>10 張或以下</b>，須立即報出張數。本頁在每個座位即時顯示剩餘張數，等於自動報牌，方便你判斷對手是否衝刺。</div>
+<p>還有一個很摜蛋的觀念：<b>一副牌可能在四人全部出完前就結束</b>。競賽規則訂明，同一方兩人拿到頭游、二游（雙上），或已有三人出完，該副牌即告結束；剩下的人依序補上三游、末游。本頁結束時按剩餘手牌少者為三游，並在結算畫面說明。</p>`},
+
+{t:'二、級牌與牌點大小',d:{level:8,tray:'XB XS H8 S8 SA S2 S7',tip:'打 8 時，試把「紅桃8（級牌）」和「黑桃A」輪流放到出牌區，比較牌點。'},h:`
+<h2>二、級牌與牌點大小</h2>
+<p>「打幾」就有「級牌」：開局打 2，所有 2 都是級牌；升到打 8，所有 8 都是級牌。<b class="gold">級牌比 A 大、比小王小</b>，其餘點數按自然順序排列。注意：級牌「升格」後，原本的點數在單張、對子、炸彈比較時一律用升格後的位置。</p>
+<div class="ladder">
+<span><i>1</i>大王</span><span><i>2</i>小王</span><span><i>3</i><b>級牌</b></span><span><i>4</i>A</span><span><i>5</i>K</span><span><i>6</i>Q</span><span><i>7</i>J</span><span><i>8</i>10</span><span><i>…</i>9…3</span><span><i>末</i>2</span></div>
+<p>以打 8 為例，單張由大到小是：<b>大王 ＞ 小王 ＞ 8（級牌）＞ A ＞ K ＞ Q ＞ J ＞ 10 ＞ 9 ＞ 7 ＞ 6 ＞ 5 ＞ 4 ＞ 3 ＞ 2</b>。也就是說原本很小的 2 變成全場最小，而 8 跳到 A 之上。</p>
+<div class="note"><b>關鍵例外：</b>組成<b>順子、連對、鋼板、同花順</b>時，級牌<b>按原本的自然點數歸位</b>。打 8 時，6-7-8-9-10 仍是合法順子；打 2 時，A-2-3-4-5 也仍是合法順子。王牌永遠不能進入任何序列牌型。</div>
+<p>級牌中的<b class="gold">兩張紅桃</b>（兩副牌各一張）另有身分，就是下一章的「逢人配」。其餘三種花色的級牌只是普通級牌。</p>`},
+
+{t:'三、逢人配（紅桃級牌）',d:{level:5,tray:'SQ CQ DQ H5 S3 S4 S6 S7 H4 S9',tip:'打 5 時萬能牌是「紅桃 5」。試試：① 選 S3 S4 S6 S7 ＋ 紅桃5 → 3-4-5-6-7 順子；② 選 SQ CQ DQ ＋ 紅桃5 → 四張 Q 炸彈；③ 只選紅桃5 → 只是級牌單張，不是炸彈。'},h:`
+<h2>三、逢人配（紅桃級牌）</h2>
+<p>每局只有 <b class="gold">兩張</b>逢人配：兩副牌中的紅桃級牌。打 2 是兩張紅桃 2，打 10 是兩張紅桃 10。它可以<b>代替除大王、小王以外的任何一張牌</b>，用來補齊順子、連對、鋼板、三帶二、炸彈，甚至同花順（補同花色的缺張）。</p>
+<table><tr><th>可以</th><th>不可以</th></tr>
+<tr><td>代替任何點數、任何花色的點數牌</td><td>代替大王、小王</td></tr>
+<tr><td>與四張 Q 合成 <b>五張 Q 炸彈</b></td><td>單獨一張當成炸彈</td></tr>
+<tr><td>與八張同點牌合成 <b>十張炸彈</b>（全場第二大）</td><td>與王牌拼成天王炸</td></tr>
+<tr><td>補同花色缺張組成同花順</td><td>一手中用超過兩張萬能牌</td></tr></table>
+<p><b>三條一定要記住：</b></p>
+<ol>
+<li><b>單獨打出時只代表它自己</b>——也就是一張「級牌單張」，不是炸彈，也不是任意牌。</li>
+<li><b>配進炸彈要算張數</b>：4 張 Q ＋ 1 張逢人配＝五張 Q 炸彈；8 張同點炸彈 ＋ 2 張逢人配＝十張炸彈。競賽規則明訂「如和八張炸彈一起，可變為 10 張炸彈」，配成的炸彈與天然炸彈<b>同等效力</b>，一律先比張數、同張數比點數。</li>
+<li><b>要宣告</b>：一手牌若有多種解讀（例如三帶二時萬能牌可作大牌或小牌），競賽規則要求出牌時說明所充當的牌點；未說明時按小牌處理。本頁會自動列出所有解讀，並讓你選「宣告牌型」。</li>
+</ol>
+<div class="ambig"><b>歧義說明：</b>部分民間平台允許逢人配代替王、或允許「單張逢人配」當最大單張。競賽版兩者都不允許，本頁採用競賽版，並在判定訊息中明確寫出原因。</div>`},
+
+{t:'四、基本牌型',d:{level:3,tray:'S7 D7 C7 SQ DQ SK XB XB S9',tip:'試組：S7 D7（對子）；S7 D7 C7（三張）；S7 D7 C7 SQ DQ（三帶二）；XB XB（一對大王）。'},h:`
+<h2>四、基本牌型：單張・對子・三張・三帶二</h2>
+<table><tr><th>牌型</th><th>構成</th><th>比較方式</th></tr>
+<tr><td>單張</td><td>任意 1 張</td><td>比牌點</td></tr>
+<tr><td>對子</td><td>2 張同點（花色不限）</td><td>比牌點</td></tr>
+<tr><td>三張（三同張）</td><td>3 張同點</td><td>比牌點</td></tr>
+<tr><td>三帶二（夯）</td><td>3 張同點 ＋ 1 對，共 5 張</td><td><b>只比三張那組</b>，所帶的對子不比大小</td></tr></table>
+<p>兩張大王是一對、兩張小王也是一對，且是最大的對子；但<b>一大王＋一小王不是對子</b>，因為兩者牌點不同。同理，級牌與同點數的非級牌在本局已升格，仍是同一點。</p>
+<div class="note"><b>競賽比較通則：</b>普通牌型之間「只有牌型相同、總張數相同才可以比大小」，牌型之間不能互壓。例如三張壓不了對子，順子壓不了連對；唯一例外是<b>炸彈可壓任何普通牌型</b>。</div>
+<p>逢人配可補進上述任一牌型；例如 2 張 Q ＋ 1 張逢人配可當三張 Q，再配一對 5 就是「三張 Q 帶一對 5」。</p>`},
+
+{t:'五、序列牌型',d:{level:9,tray:'SA S2 S3 S4 S5 S6 ST SJ SQ SK S3 D3 S4 D4 S5 D5 S6 C6 D6 S7 C7 D7',tip:'試組 A-2-3-4-5（A 可作 1）、10-J-Q-K-A，或 33 44 55、666 777 等。打 9 時 9 仍可按自然點數進順子。'},h:`
+<h2>五、序列牌型：順子・連對・鋼板</h2>
+<table><tr><th>牌型</th><th>構成</th><th>競賽版長度</th><th>本頁預設</th></tr>
+<tr><td>順子（雜花順）</td><td>5 張連續單張，花色不限</td><td>固定 5 張</td><td>5 張或以上</td></tr>
+<tr><td>連對（木板／三連對）</td><td>3 對連續對子，如 33 44 55</td><td>固定 3 對（6 張）</td><td>3 對或以上</td></tr>
+<tr><td>鋼板（三順／二連三）</td><td>2 組連續三張，如 666 777</td><td>固定 2 組（6 張）</td><td>2 組或以上</td></tr></table>
+<p><b>接續規則（必考）：</b>序列使用自然點數 2-3-4-5-6-7-8-9-10-J-Q-K-A，<b>王牌不得進入序列</b>。<b class="gold">A 可以當 1 用</b>：A-2-3-4-5 是最小的順子（A 算 1，最大牌算 5），10-J-Q-K-A 是最大的順子（A 算 14）；連對也一樣，AA-22-33 最小、AA-KK-QQ 最大。但<b>不能繞回</b>：J-Q-K-A-2、Q-K-A-2-3 都不合法。</p>
+<p>級牌在序列中按自然點數歸位（見第二章），例如打 9 時 7-8-9-10-J 合法；逢人配可補缺張，例如 3-4-6-7 ＋ 紅桃級牌可宣告為 3-4-5-6-7。</p>
+<div class="ambig"><b>歧義說明：</b>競賽版（江蘇 2017 簡易規則、棋牌中心常見規則）明文規定「順子不可超過五張、三連對不可超過三對、三順不可超過兩個」，且「兩連對不可出」；不少線上平台則開放更長的序列。本頁<b>預設採彈性版（五張／三對／兩組以上）</b>以符合完整牌型涵蓋，並在「設定」提供<b>競賽嚴格模式</b>一鍵切回固定長度；關卡與複盤會依當時設定判定，前後一致。</div>`},
+
+{t:'六、炸彈家族與比較序',d:{level:6,tray:'S7 D7 C7 H7 S3 D3 C3 H3 S4 D4 C4 H4 XB XB XS XS H6 S10 SJ SQ SK SA',tip:'組四張 7 炸彈、五張炸彈、四王（天王炸），或同花色的 10-J-Q-K-A 同花順，看看各自的層級。'},h:`
+<h2>六、炸彈家族與比較序</h2>
+<h3>三種炸彈</h3>
+<ul>
+<li><b>普通炸彈</b>：四張或以上同點數牌。兩副牌同一點最多 8 張，加上兩張逢人配可達 <b>10 張</b>。壓得過任何普通牌型。</li>
+<li><b>同花順（火箭）</b>：<b>五張同花色且連續</b>的單張，競賽版固定五張；最大 10-J-Q-K-A，最小 A-2-3-4-5，<b>花色無大小</b>。它視為特殊炸彈。</li>
+<li><b>天王炸（四大天王）</b>：兩張大王＋兩張小王，共四張王，<b class="red">全場最大</b>，可壓任何牌型。逢人配不能充當王，故天王炸不含萬能牌。</li>
+</ul>
+<h3>完整比較階梯（由大到小）</h3>
+<div class="ladder">
+<span><i>①</i>天王炸（四王）</span><span><i>②</i>10 張炸</span><span><i>③</i>9 張炸</span>
+<span><i>④</i>8 張炸</span><span><i>⑤</i>7 張炸</span><span><i>⑥</i>6 張炸</span>
+<span><i>⑦</i>同花順</span><span><i>⑧</i>5 張炸</span><span><i>⑨</i>4 張炸</span><span><i>⑩</i>其他牌型</span></div>
+<p>換句話說：<b>六張或以上的炸彈壓得過同花順；同花順壓得過五張及四張炸彈</b>。同層級時：炸彈先比張數，同張數比點數（級牌炸最大）；同花順之間比最大牌點，完全相同則<b>先出為大</b>。</p>
+<div class="note"><b>常被搞錯的一題：</b>五張 2 炸彈壓不過同花順，六張 2 炸彈卻壓得過。原因是競賽規則把同花順插在「六張炸」與「五張炸」之間，而不是把所有炸彈都排在同花順之上。</div>
+<p>另外，<b>一張逢人配本身不是炸彈</b>；它必須與同點牌搭配使炸彈張數增加，才會被當成炸彈。四張王若拆成兩對大王／小王，就只是普通對子，不再是天王炸。</p>`},
+
+{t:'七、出牌流程與接風',d:{level:4,tray:'S5 D5 C5 S6 D6 S7 D7 C7 S9 D9 C9 H9 SA SK',tip:'先按「載入上一手」放一組 55，再從牌堆選更大的牌試壓，看判定結果。'},h:`
+<h2>七、出牌流程・跟牌・過牌・接風</h2>
+<ol>
+<li><b>首出（領出）自由</b>：可出任何合法牌型。</li>
+<li><b>後手三選一</b>：① 出<b>相同牌型、相同張數且更大</b>的一手；② 用<b>更大的炸彈</b>（含同花順、天王炸）壓；③ 喊<b>過</b>。牌型不同或張數不同，一律不能壓。</li>
+<li><b>一圈結束</b>：其餘三家都過，最後出牌者取得下一圈領出權，可重新自由出牌。</li>
+<li><b>接風（借風）</b>：若最後出牌者已經把牌出完（成為頭游或二游），而餘下各家都不壓，則由<b>他的對家</b>承接下一圈領出權。這是摜蛋配合戰術的核心。</li>
+<li>重複至一副牌結束（三人出完，或同一方包辦頭游二游）。</li>
+</ol>
+<div class="note"><b>誰領第一圈？</b>首局由約定或抽牌決定，本頁簡化為<b>南家（你）先出</b>。第二局起：有進貢時由<b>進貢給頭游的那一家（下游方）</b>領出；<b>抗貢成功則由頭游領出</b>；雙貢時由進貢牌較大者所對應的下游方領出（詳見第九章）。</div>
+<p>「過」不會失去之後再跟的權利：同一圈內若前面有人壓過，輪到你時仍可再出或再過。本頁在每次不合法出牌時，都會明確指出是<b>牌型不符、張數不符、點數不夠、還是炸彈層級不足</b>。</p>`},
+
+{t:'八、名次・升級・過 A',d:{level:14,tray:'SA HA DA CA S2 D2 C2 H2 XB XS',tip:'打 A 時所有 A 都是級牌，紅桃 A 是逢人配。看看升格後 A 的位置。'},h:`
+<h2>八、名次・升級・過 A</h2>
+<p><b>只有頭游那一方可以升級</b>，升幾級看頭游的對家（隊友）拿到第幾名：</p>
+<table><tr><th>頭游方名次</th><th>結果</th><th>升級</th></tr>
+<tr><td>頭游 ＋ 二游（對手雙下）</td><td class="gold">雙上</td><td><b>升 3 級</b></td></tr>
+<tr><td>頭游 ＋ 三游</td><td>對手有一家末游</td><td><b>升 2 級</b></td></tr>
+<tr><td>頭游 ＋ 末游</td><td>己方隊友末游</td><td><b>升 1 級</b></td></tr></table>
+<p>級別順序：2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → J → Q → K → A → 過 A。級別是<b>全桌共用</b>的：升級後下一局兩方都打新的級牌。</p>
+<h3>打 A 與過 A（獨立考點）</h3>
+<ul>
+<li><b>A 必打</b>：升級到 A 後不能跳過，必須在打 A 的局裡再取頭游。</li>
+<li><b>過 A 條件</b>：打 A 時己方取得頭游，<b>且隊友不是末游</b>（即升 2 級或 3 級），才算成功過 A、贏得整場。若只拿到「頭游＋末游」升 1 級，<b>不算過 A</b>，要繼續打 A。</li>
+<li><b>三次未過 A</b>：常見競賽附則規定，連續三次打 A 未過，退回打 2 重來。本頁採用此附則並在設定中可關閉；結算畫面會顯示目前是第幾次打 A。</li>
+</ul>
+<div class="ambig"><b>歧義說明：</b>部分資料寫「打 A 只要升 1 級以上即算過」，亦有平台採「頭游＋對家非末游」。本頁採後者（較通行、亦與百度百科／競賽資料一致），並在第九章之後一致套用。另有民間「雙下升 4 級」的玩法，本頁<b>不採用</b>。</div>`},
+
+{t:'九、進貢・還貢・抗貢',d:{level:5,tray:'XB XB XS S5 SA SK H5 D5 S10 C10',tip:'持有兩張大王即為抗貢情境；單貢時要找出「除紅桃級牌外最大的一張」。'},h:`
+<h2>九、進貢・還貢・抗貢</h2>
+<p>從<b>第二局開始</b>，發牌後、出牌前，先按上一局名次執行貢牌。這是摜蛋最容易被簡化掉、卻絕不能少的一環。</p>
+<h3>單貢（一般情況）</h3>
+<ul>
+<li>上一局的<b>末游</b>向<b>頭游</b>進貢：從自己手牌中交出<b>牌點最大的一張</b>，<b class="gold">紅桃級牌（逢人配）除外</b>。所以手上有大王就貢大王；只有逢人配最大時，順延交下一張。</li>
+<li>頭游<b>還貢</b>一張：從自己手牌選<b>牌點不超過 10</b> 的牌（級牌、王牌都不算 ≤10）；<b>若全手牌都大於 10，則還最小的一張</b>。紅桃級牌不還。</li>
+<li>還貢後，<b>首圈由進貢者（下游）領出</b>。</li>
+</ul>
+<h3>雙貢（上一局雙下）</h3>
+<ul>
+<li>輸方<b>兩人都要進貢</b>；頭游取<b>牌點較大</b>的貢牌，二游取較小的；兩人各自還牌給自己的進貢者。</li>
+<li>兩張貢牌同點時，按順時針方向配對；還牌同時亮出。</li>
+<li>還牌後由<b>進貢給頭游的那一家</b>領出首圈。</li>
+</ul>
+<h3>抗貢</h3>
+<div class="note"><b>抗貢條件：</b>應進貢者握有<b>兩個大王</b>即免貢。單貢看末游一人；雙貢時，下游方兩人各持一個大王（合計兩個）、或其中一人獨持兩個大王，<b>兩人都不用進貢</b>。抗貢時不進貢、不還貢，<b>首圈改由頭游領出</b>。</div>
+<div class="ambig"><b>歧義說明：</b>有平台規定「還給己方隊友必須 ≤10、還給對手可任意」，也有版本把抗貢條件放寬成「任一張大王」。競賽版（江蘇 2017、百度百科競賽條文）為「一律 ≤10」與「兩個大王」，本頁採競賽版。另外雙下首圈領出者，不同文件有「進貢給上游者」與「頭游的下家」兩種寫法，本頁採前者並在此註明。</div>`},
+
+{t:'十、版本取捨與設定',d:{level:2,tray:'S2 H2 D2 C2 SA SK SQ SJ S10 XS XB',tip:'這是本頁的規則總整理；切換設定後再回來試組牌，判定會跟著改變。'},h:`
+<h2>十、版本取捨・歧義總表・設定</h2>
+<p>本頁以《江蘇省摜蛋競賽簡易規則（2017 版）》與國家體育總局棋牌運動管理中心常見競賽規則為骨幹；下列項目在民間玩法有分歧，這裡一次講清楚，<b>全站（教學、關卡、對戰、複盤）一致套用</b>。</p>
+<table><tr><th>項目</th><th>本頁採用（競賽版為主）</th><th>另一常見寫法</th></tr>
+<tr><td>炸彈比較序</td><td>天王炸＞6 張以上炸＞同花順＞5 張炸＞4 張炸</td><td>同花順一律大於所有炸彈</td></tr>
+<tr><td>順子／連對／鋼板長度</td><td>預設彈性（≥5 張／≥3 對／≥2 組），可切競賽嚴格（固定 5／3／2）</td><td>只限固定長度，或無上限</td></tr>
+<tr><td>逢人配</td><td>只兩張、不可當王、單出只是級牌；可配成 10 張炸</td><td>可當王、單張視為最大牌</td></tr>
+<tr><td>還貢</td><td>牌點 ≤10；全手皆大於 10 則還最小</td><td>還給對手可任意牌</td></tr>
+<tr><td>抗貢</td><td>下游方合計兩個大王</td><td>一張大王即可</td></tr>
+<tr><td>升級</td><td>雙上 3／頭三 2／頭末 1；無「雙下升 4」</td><td>部分平台雙下升 4 級</td></tr>
+<tr><td>過 A</td><td>頭游且隊友非末游（升 ≥2）；三次未過退回 2</td><td>升 1 級即算過 A；無退級</td></tr>
+<tr><td>結束時機</td><td>三人出完或雙上即結束，其餘補名次</td><td>必須四人全部出完</td></tr></table>
+<h3>可切換設定</h3>
+<ul><li><b>競賽嚴格模式</b>：順子固定 5 張、連對固定 3 對、鋼板固定 2 組。</li>
+<li><b>三次未過 A 退級</b>：關閉後可一直打 A。</li>
+<li><b>對戰提示</b>：顯示一鍵提示與建議原因，可關閉當作考試模式。</li>
+<li><b>複盤揭曉手牌</b>：關閉後複盤只看得到自己與已出的牌。</li></ul>
+<div class="note"><b>程式結構：</b>規則集中在 <code>GD</code> 物件（發牌、牌型判定、萬能牌解讀、大小比較、合法候選、升級與貢牌計算），介面集中在 <code>UI／STATE</code>。要修規則，只改 <code>GD</code> 即可，不必動畫面。</div>
+<p class="sm">參考方向：江蘇省體育局《摜蛋競賽簡易規則（2017 版）》、國家體育總局棋牌運動管理中心摜蛋競賽規則、以及各大專院校工會公布之兩副牌摜蛋比賽規則。本頁為教學工具，正式比賽請以主辦單位當場公布之規則為準。</p>`}
+];
+
+/* ---------- 規則章節渲染 ---------- */
+let curChapter=0, demoSel=[], demoTray=[], demoLead=null;
+function renderChapter(){
+  const c=CHAPTERS[curChapter];
+  $$('#chapList button').forEach((b,i)=>b.classList.toggle('active',i===curChapter));
+  demoSel=[];demoLead=null;
+  demoTray=GD.parseCards(c.d.tray);
+  let html=c.h+'<div class="demo"><h3>互動示範牌桌・打 '+(c.d.level===14?'A':GD.rankChar(c.d.level))+'</h3>'+
+    '<p class="sm">'+c.d.tip+'</p>'+
+    '<div class="sm" style="margin-bottom:6px">牌堆（點選或拖到下方出牌區）：</div>'+
+    '<div class="tray" id="demoTray"></div>'+
+    '<div class="sm" style="margin:10px 0 4px">出牌區：</div>'+
+    '<div class="drop" id="demoDrop"></div>'+
+    '<div class="ctrlbar"><button class="btn sm primary" id="demoCheck">判定牌型</button>'+
+    '<button class="btn sm" id="demoSetLead">把出牌區設為上一手</button>'+
+    '<button class="btn sm ghost" id="demoClear">清空</button></div>'+
+    '<div class="verdict" id="demoVerdict">尚未判定。</div>'+
+    '<div id="demoLeadBox" class="sm"></div></div>';
+  $('#ruleBody').innerHTML=html;
+  paintDemo();
+  $('#demoCheck').onclick=demoCheck;
+  $('#demoSetLead').onclick=()=>{
+    const p=demoInterpret(demoSel,c.d.level);
+    if(!p){toast('出牌區不是合法牌型，不能設為上一手');return;}
+    demoLead=p;$('#demoLeadBox').innerHTML='上一手：<b class="gold">'+p.desc+'</b>（'+demoSel.map(x=>GD.cardText(x,c.d.level)).join('、')+'）。現在再選一手牌按「判定」看能否壓過。';
+    toast('已設為上一手：'+p.desc);
+  };
+  $('#demoClear').onclick=()=>{demoSel=[];demoLead=null;$('#demoLeadBox').innerHTML='';$('#demoVerdict').textContent='尚未判定。';paintDemo();};
+}
+function demoInterpret(cards,L){
+  const all=GD.classifySet(cards,L,GD.cfg);return all.length?all[0]:null;
+}
+function paintDemo(){
+  const L=CHAPTERS[curChapter].d.level;
+  const tray=demoTray.filter(c=>!demoSel.some(x=>x.id===c.id));
+  renderCardRow($('#demoTray'),tray,L,{drag:true});
+  renderCardRow($('#demoDrop'),demoSel,L,{drag:true,selected:true});
+  $$('#demoTray .card').forEach(el=>{
+    el.onclick=()=>{const c=demoTray.find(x=>x.id===el.dataset.id);if(c)demoSel.push(c);$('#demoVerdict').textContent='已放入 '+GD.cardText(c,L)+'，按「判定牌型」看結果。';paintDemo();};
+    el.ondragstart=e=>{e.dataTransfer.setData('text/plain',el.dataset.id);e.dataTransfer.effectAllowed='move';};
+  });
+  $$('#demoDrop .card').forEach(el=>{
+    el.onclick=()=>{demoSel=demoSel.filter(x=>x.id!==el.dataset.id);paintDemo();};
+    el.ondragstart=e=>{e.dataTransfer.setData('text/plain',el.dataset.id);e.dataTransfer.effectAllowed='move';};
+  });
+  const drop=$('#demoDrop');
+  drop.ondragover=e=>{e.preventDefault();drop.classList.add('over');};
+  drop.ondragleave=()=>drop.classList.remove('over');
+  drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');const id=e.dataTransfer.getData('text/plain');
+    const c=demoTray.find(x=>x.id===id);if(c&&!demoSel.some(x=>x.id===id))demoSel.push(c);paintDemo();};
+  const trayEl=$('#demoTray');
+  trayEl.ondragover=e=>{e.preventDefault();};
+  trayEl.ondrop=e=>{e.preventDefault();const id=e.dataTransfer.getData('text/plain');
+    demoSel=demoSel.filter(x=>x.id!==id);paintDemo();};
+}
+function demoCheck(){
+  const L=CHAPTERS[curChapter].d.level;
+  if(!demoSel.length){$('#demoVerdict').textContent='出牌區是空的，先放幾張牌進來。';return;}
+  const all=GD.classifySet(demoSel,L,GD.cfg);
+  const box=$('#demoVerdict');
+  if(!all.length){box.innerHTML='<b class="red">✗ 不成牌型。</b> '+GD.explainShape(demoSel,L,GD.cfg);return;}
+  let s='<b class="gold">✓ 可解讀為：</b><ul style="margin:6px 0;padding-left:1.4em">';
+  all.slice(0,5).forEach(t=>{
+    let extra='';
+    if(demoLead) extra=GD.beats(t,demoLead,L,GD.cfg)
+      ? ' <b class="tag-ok pill">可壓過上一手</b>'
+      : ' <b class="tag-red pill">壓不過：'+GD.explainBeats(t,demoLead,L,GD.cfg)+'</b>';
+    s+='<li>'+t.desc+(t.power?'（炸彈層級 '+t.power+'）':'')+extra+'</li>';
+  });
+  s+='</ul>';
+  if(demoLead){
+    const ok=all.some(t=>GD.beats(t,demoLead,L,GD.cfg));
+    s+=ok?'<b class="tag-ok pill">結論：這一手可以出。</b>':'<b class="tag-red pill">結論：這一手不能出，應改出更大同型牌、更大炸彈，或按「過」。</b>';
+  }
+  box.innerHTML=s;
+}
+function buildRulesPage(){
+  $('#chapList').innerHTML=CHAPTERS.map((c,i)=>'<li><button data-i="'+i+'">'+(i+1)+'. '+c.t.replace(/^[一二三四五六七八九十]+、/,'')+'</button></li>').join('');
+  $$('#chapList button').forEach(b=>b.onclick=()=>{curChapter=+b.dataset.i;renderChapter();});
+  renderChapter();
+}
+/* =====================================================================
+   新手關卡：每條規則至少一關，未過關不能跳關
+   ===================================================================== */
+function P(str,prefix){return GD.parseCards(str).map((c,i)=>Object.assign({},c,{id:prefix+i}));}
+function tok(c){
+  if(c.r===17)return 'XB';if(c.r===16)return 'XS';
+  return c.s+({10:'T',11:'J',12:'Q',13:'K',14:'A'}[c.r]||String(c.r));
+}
+const LESSONS=[
+{t:'級牌與牌點大小',ref:'第二章',level:8,mode:'quiz',
+ body:'<p>打 8 時，所有 8 都是<b>級牌</b>，比 A 大、比小王小；原本最大的 A 退一級，原本很小的 2 變成最小。王牌永遠在級牌之上。</p>',
+ qs:[
+  {q:'打 8 時，下列敘述何者正確？',o:['紅桃 8 比小王大','黑桃 8 比 A 大，但比小王小','2 比 3 大','A 比級牌大'],a:1,why:'級牌的位置固定在「A 之上、小王之下」；紅桃級牌是逢人配，但單張比較時仍只是級牌。'},
+  {q:'打 8 時，下列哪一張單張最大？',o:['黑桃 A','紅桃 8','小王','大王'],a:3,why:'大王 ＞ 小王 ＞ 級牌 ＞ A。'},
+  {q:'打 8 時，6-7-8-9-10 能否當順子？',o:['可以，級牌在序列中按自然點數歸位','不可以，級牌已升格','可以，但要級牌當最大','不可以，順子不能有 8'],a:0,why:'序列牌型用自然點數，級牌歸回原位；只有單張、對子、炸彈比較時才用升格後的位置。'}],
+ hint:'把牌點階梯背起來：大王 → 小王 → 級牌 → A → K → … → 2。序列則用自然點數。'},
+
+{t:'單張・對子・三張',ref:'第四章',level:3,mode:'choose',
+ body:'<p>同點數的兩張是對子、三張是三同張。兩張大王是一對；<b>一大王＋一小王不是對子</b>。請從牌堆中選出一個<b>合法的三張</b>。</p>',
+ hand:'S7 D7 C7 SQ DQ SK S9 C9 D9 XS XB',goal:{type:'shape',shape:'TRIPLE',size:3},
+ hint:'找三張點數完全相同的牌（花色可以不同）。'},
+
+{t:'三帶二的比較',ref:'第四章',level:4,mode:'quiz',
+ body:'<p>三帶二＝三張同點＋一對，共 5 張；<b>只比三張那組</b>，帶的對子完全不影響大小。</p>',
+ qs:[
+  {q:'「三張 8 帶一對 A」與「三張 8 帶一對 3」相比？',o:['前者大','後者大','一樣大，先出為大','不能比較'],a:2,why:'三帶二只比三同張；兩者三張都是 8，點數相同，先出為大。'},
+  {q:'上一手「三張 5 帶一對 9」，下列哪一手是同牌型、同張數且更大的跟牌？',o:['三張 6 帶一對 2','三張 5 帶一對 A','三張 4 帶一對 A','一對大王'],a:0,why:'三帶二只比三張：6 比 5 大便可壓；把所帶的對子換成 A 沒有用。炸彈也能壓，但不在選項中。'}],
+ hint:'三帶二只看「三張」那一組；遇到炸彈時，炸彈當然也能壓。'},
+
+{t:'順子與 A 可作 1',ref:'第五章',level:2,mode:'play',
+ body:'<p>順子是五張連續單張，花色不限；<b>A 可當 1</b>，所以 A-2-3-4-5 是最小順子，10-J-Q-K-A 是最大順子。上一手是 A-2-3-4-5，請選一手<b>同為五張、更大的順子</b>壓過它。</p>',
+ lead:'SA D2 S3 D4 S5',hand:'H3 C4 D5 S6 D7 H8 C9 S10 D2 C2 S4 H4',goal:{type:'beat'},
+ hint:'順子必須「同牌型、同張數、更大」；用 3-4-5-6-7 就能壓過 A-2-3-4-5。'},
+
+{t:'連對（三連對）',ref:'第五章',level:2,mode:'play',
+ body:'<p>連對是<b>三對或以上連續對子</b>，例如 33 44 55；A 可作 1，AA 22 33 是最小連對。上一手是 33 44 55，請出更大的連對。</p>',
+ lead:'S3 D3 S4 D4 S5 D5',hand:'H6 C6 H7 C7 H8 C8 S9 D9 C9 S10 D10 H2 C2',goal:{type:'beat'},
+ hint:'找三組連續、每組恰好兩張的牌，例如 66 77 88。'},
+
+{t:'鋼板（二連三）',ref:'第五章',level:2,mode:'play',
+ body:'<p>鋼板是<b>兩組或以上連續三同張</b>，例如 333 444（共 6 張）。上一手是 333 444，請出更大的鋼板。</p>',
+ lead:'S3 D3 C3 S4 D4 C4',hand:'H5 C5 D5 H6 C6 D6 S7 D7 C7 S8 D8 H8 S9',goal:{type:'beat'},
+ hint:'每組要恰好三張，兩組點數要相連，例如 555 666。'},
+
+{t:'炸彈：先比張數',ref:'第六章',level:2,mode:'play',
+ body:'<p>炸彈是四張或以上同點數牌。<b>張數多者大於張數少者；同張數才比點數</b>。上一手是五張 7 炸彈，四張 K 炸彈壓不過，但六張小炸彈可以。請選出能壓過的一手。</p>',
+ lead:'S7 D7 C7 H7 S7',hand:'S3 D3 C3 H3 S3 D3 SK DK CK HK S9 D9 C9',goal:{type:'beat'},
+ hint:'五張炸要用「六張炸」或「五張且點數更大」或更大的特殊炸來壓。'},
+
+{t:'同花順的層級',ref:'第六章',level:2,mode:'play',
+ body:'<p>五張<b>同花色</b>連續牌是同花順（火箭），層級在「六張炸」之下、「五張炸」之上。上一手是紅桃 10-J-Q-K-A 同花順，請選出壓得過的一手。</p>',
+ lead:'H10 HJ HQ HK HA',hand:'S4 D4 C4 H4 S4 D4 SK DK CK HK SK S9 D9 C9 H9',goal:{type:'beat'},
+ hint:'同花順只怕六張以上炸彈與天王炸；五張 K 炸不夠。'},
+
+{t:'天王炸（四王）',ref:'第六章',level:2,mode:'choose',
+ body:'<p>兩張大王＋兩張小王＝<b>天王炸</b>，全場最大，可壓任何牌型。請把這四張王選出來。</p>',
+ hand:'XB XB XS XS SA SK SQ H2 S9 D9 C9 S3',goal:{type:'shape',shape:'JOKER_BOMB',size:4},
+ hint:'兩張大王、兩張小王，合共四張。'},
+
+{t:'逢人配補順子',ref:'第三章',level:5,mode:'play',
+ body:'<p>打 5 時，<b>紅桃 5 是逢人配</b>。上一手是 3-4-5-6-7 順子；你可以用紅桃 5 補成 4-5-6-7-8 順子壓過。請選出那一手牌。</p>',
+ lead:'S3 D4 C5 H6 S7',hand:'S4 C5 D6 S8 H5 S9 D9 C9 S10 H10',goal:{type:'beat'},
+ hint:'選 4、5、6、8 再加紅桃 5（當 7），正好 4-5-6-7-8 五張。'},
+
+{t:'逢人配配進炸彈',ref:'第三章',level:5,mode:'choose',
+ body:'<p>逢人配可代替任何點數牌（王除外）。三張 Q ＋ 一張紅桃 5（當 Q）＝<b>四張 Q 炸彈</b>。請選出這四張牌。</p>',
+ hand:'SQ DQ CQ H5 S9 D9 C9 SA SK H4',goal:{type:'shape',shape:'BOMB',size:4},
+ hint:'三張 Q 加上紅桃 5，共四張。'},
+
+{t:'逢人配的限制',ref:'第三章',level:5,mode:'quiz',
+ body:'<p>逢人配很好用，但競賽版有三條紅線，考試最愛考。</p>',
+ qs:[
+  {q:'單獨打出一張紅桃級牌，算什麼？',o:['最大單張','一張炸彈','級牌單張','任意牌'],a:2,why:'競賽規則：逢人配單獨打出時只代表它本身，也就是級牌單張。'},
+  {q:'下列何者不可能用逢人配做到？',o:['補成 10 張炸彈','補成同花順','代替大王組成天王炸','補成三帶二'],a:2,why:'逢人配不可當成王，天王炸必須是兩大兩小四張真王。'},
+  {q:'八張同點炸彈＋兩張逢人配，可變成？',o:['9 張炸彈','10 張炸彈','同花順','天王炸'],a:1,why:'競賽規則明訂可變為 10 張炸彈，是僅次於天王炸的最大炸彈。'}],
+ hint:'記住：不可當王、單出不是炸彈、最多兩張。'},
+
+{t:'壓不過就過牌',ref:'第七章',level:2,mode:'play',
+ body:'<p>後手若沒有合法的更大牌型，就應該按「<b>過牌</b>」。上一手是天王炸，已經是全場最大，任何牌都壓不過。請做出正確決定。</p>',
+ lead:'XB XB XS XS',hand:'S5 D5 C5 SA DA CA S9 D9 C9 H9 S2 D2 C2 H2',goal:{type:'beat',expectPass:true},
+ hint:'天王炸無敵，硬出只會被判不合法；按「過牌」。'},
+
+{t:'非法出牌辨識',ref:'第七章',level:2,mode:'quiz',
+ body:'<p>普通牌型之間，<b>牌型要相同、總張數也要相同、點數要更大</b>；炸彈才能跨牌型壓制。</p>',
+ qs:[
+  {q:'上一手是五張順子，你出六張順子（點數更大），合法嗎？',o:['合法','不合法，張數不同','合法，只要點數大','看花色'],a:1,why:'競賽規則要求同牌型且同總張數才可比較；六張順子與五張順子不能比。'},
+  {q:'上一手是對子 88，你出三張 999，合法嗎？',o:['合法','不合法，牌型不同','合法，點數較大','合法，張數較多'],a:1,why:'牌型不同不能互壓；除非你出的是炸彈。'},
+  {q:'上一手是三帶二，你出四張 5 炸彈，合法嗎？',o:['合法，炸彈可壓任何普通牌型','不合法','只限同花順可壓','要先報牌才可'],a:0,why:'炸彈（含同花順、天王炸）可壓任何普通牌型。'}],
+ hint:'口訣：同型、同張數、更大；不然就炸，不然就過。'},
+
+{t:'單貢：選進貢牌',ref:'第九章',level:5,mode:'choose',
+ body:'<p>第二局起，上一局<b>末游</b>要向頭游進貢「<b>除紅桃級牌外</b>牌點最大的一張」。打 5 時紅桃 5 是逢人配，雖然它是級牌，但<b>不能進貢</b>。請點選正確的進貢牌。</p>',
+ hand:'H5 SA SK SQ SJ S9 S3',goal:{type:'want',want:'SA'},
+ hint:'跳過紅桃級牌，剩下的牌中 A 最大。'},
+
+{t:'還貢：不得超過 10',ref:'第九章',level:5,mode:'choose',
+ body:'<p>頭游還貢時，要還一張<b>牌點不超過 10</b> 的牌；級牌、王牌、J/Q/K/A 都不合資格。請從手牌中點選一張合法的還貢牌。</p>',
+ hand:'S3 S10 SJ SK H5 XB SA S9',goal:{type:'return'},
+ hint:'3 或 10 都可以；紅桃 5 是級牌（升格後大於 A），不可以還。'},
+
+{t:'抗貢',ref:'第九章',level:2,mode:'quiz',
+ body:'<p>抗貢是摜蛋給弱勢一方的翻身機會，條件與後果都要記清楚。</p>',
+ qs:[
+  {q:'單貢時，末游持有什麼可以抗貢？',o:['一個大王','兩個大王','一個小王','兩張級牌'],a:1,why:'競賽規則：應進貢者抓到兩個大王即免貢。'},
+  {q:'雙下時，下游方兩人各持一個大王，如何處理？',o:['只有一人免貢','兩人都不用進貢','照常進貢','改由頭游進貢'],a:1,why:'雙下方合計有兩個大王即全體抗貢。'},
+  {q:'抗貢成功後，首圈由誰領出？',o:['末游','頭游','二游','抽牌決定'],a:1,why:'抗貢時不進貢、不還貢，首圈改由頭游領出；有進貢時才由下游方領出。'}],
+ hint:'兩個大王 → 免貢免還 → 頭游先出。'},
+
+{t:'升級數',ref:'第八章',level:2,mode:'quiz',
+ body:'<p>只有<b>頭游那一方</b>升級，升幾級看頭游的對家第幾名。</p>',
+ qs:[
+  {q:'你與對家包辦頭游、二游（雙上），升幾級？',o:['1 級','2 級','3 級','4 級'],a:2,why:'雙上升 3 級，是本頁採用的競賽版；民間「雙下升 4 級」不採用。'},
+  {q:'頭游的隊友是三游，升幾級？',o:['1 級','2 級','3 級','不升'],a:1,why:'頭游＋三游升 2 級。'},
+  {q:'頭游的隊友是末游，升幾級？',o:['1 級','2 級','3 級','不升'],a:0,why:'頭游＋末游只升 1 級，而且在打 A 時不算過 A。'}],
+ hint:'3／2／1，對照「二游／三游／末游」。'},
+
+{t:'打 A 與過 A',ref:'第八章',level:14,mode:'quiz',
+ body:'<p>打到 A 還沒完：A 必打，且要<b>成功過 A</b> 才算贏得整場。</p>',
+ qs:[
+  {q:'打 A 時，己方拿到頭游但隊友是末游，算過 A 嗎？',o:['算，升 1 級','不算，要繼續打 A','算，直接獲勝','看對手是否雙下'],a:1,why:'過 A 要「頭游且隊友不是末游」，即升 2 或 3 級；升 1 級要留在 A 再打。'},
+  {q:'打 A 時，所有 A 的地位是？',o:['最小牌','級牌，比 A 大比小王小（紅桃 A 為逢人配）','與 K 相同','比大王大'],a:1,why:'打 A 時 A 就是級牌；兩張紅桃 A 是逢人配。'},
+  {q:'本頁對「連續三次打 A 未過」的處理是？',o:['直接判輸','退回打 2 重來','維持打 A 直到過關','降一級'],a:1,why:'常見競賽附則為退回 2 重打；本頁採用，並可在「設定」關閉。'}],
+ hint:'A 必打；過 A 需要頭游＋隊友非末游；三次未過退回 2。'}
+];
+
+let curLesson=0,lessonState=null;
+function unlockedCount(){return Math.min(LESSONS.length,Math.max(0,LS.get('lessons',0)));}
+function renderLessonList(){
+  const u=unlockedCount();
+  $('#lessonBar').style.width=(u/LESSONS.length*100)+'%';
+  $('#lessonProgress').textContent='已過關 '+u+' / '+LESSONS.length+' 關';
+  $('#lessList').innerHTML=LESSONS.map((l,i)=>'<li><button data-i="'+i+'" class="'+
+    (i===curLesson?'active ':'')+(i>u?'locked':'')+(i<u?'done':'')+'"'+(i>u?' disabled title="要先通過前一關"':'')+'>'+
+    (i+1)+'. '+l.t+'</button></li>').join('');
+  $$('#lessList button').forEach(b=>b.onclick=()=>{if(+b.dataset.i>unlockedCount()){toast('要先通過前一關才能解鎖。');return;}curLesson=+b.dataset.i;renderLesson();});
+}
+function renderLesson(){
+  renderLessonList();
+  const l=LESSONS[curLesson];
+  lessonState={sel:[],answers:{},passed:false,done:false};
+  let h='<p class="sm">第 '+(curLesson+1)+' 關／共 '+LESSONS.length+' 關　對應規則：<span class="pill">'+l.ref+'</span>　本關級別：<span class="pill">'+(l.level===14?'A':GD.rankChar(l.level))+'</span></p>'+
+    '<h2>'+l.t+'</h2>'+l.body+'<hr>';
+  if(l.mode==='quiz'){
+    h+='<div id="quizBox">'+l.qs.map((q,qi)=>'<div style="margin-bottom:16px"><h4>'+(qi+1)+'. '+q.q+'</h4><div class="quiz-opts" data-q="'+qi+'">'+
+      q.o.map((o,oi)=>'<button type="button" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+o+'</button>').join('')+'</div></div>').join('')+'</div>'+
+      '<div class="ctrlbar"><button class="btn primary" id="lsSubmit">提交答案</button><button class="btn" id="lsHint">提示</button></div>';
+  }else{
+    const lead=l.lead?P(l.lead,'P'):null;
+    const leadPlay=lead?GD.pickPlay(lead,l.level,GD.cfg,null):null;
+    if(leadPlay) h+='<p><b>上一手：</b><span class="gold">'+leadPlay.desc+'</span>　'+cardsLine(lead,l.level)+'</p>';
+    h+='<p class="sm">點選下方手牌（可多選）；再按「提交」'+(l.mode==='play'?'，或按「過牌」':'')+'。</p>'+
+      '<div class="demo"><div class="tray" id="lsHand"></div>'+
+      '<div class="sm" style="margin:10px 0 4px">已選取：</div><div class="drop" id="lsSel"></div>'+
+      '<div class="ctrlbar"><button class="btn primary" id="lsSubmit">'+(l.mode==='play'?'出牌':'提交')+'</button>'+
+      (l.mode==='play'?'<button class="btn" id="lsPass">過牌</button>':'')+
+      '<button class="btn" id="lsHint">提示</button><button class="btn ghost" id="lsClear">清除選取</button></div></div>';
+  }
+  h+='<div class="feedback" id="lsFb"></div><div class="ctrlbar" id="lsNextBox"></div>';
+  $('#lessonBody').innerHTML=h;
+  if(l.mode==='quiz'){
+    $$('#quizBox button').forEach(b=>b.onclick=()=>{
+      lessonState.answers[+b.dataset.q]=+b.dataset.o;
+      $$('#quizBox button[data-q="'+b.dataset.q+'"]').forEach(x=>x.classList.toggle('chosen',x===b));
+    });
+  }else{
+    lessonState.hand=P(l.hand,'H');
+    paintLessonCards();
+  }
+  $('#lsHint').onclick=()=>showLessonHint(l);
+  $('#lsSubmit').onclick=()=>submitLesson(l,false);
+  if($('#lsPass'))$('#lsPass').onclick=()=>submitLesson(l,true);
+  if($('#lsClear'))$('#lsClear').onclick=()=>{lessonState.sel=[];paintLessonCards();};
+}
+function paintLessonCards(){
+  const l=LESSONS[curLesson],H=lessonState.hand;
+  const tray=H.filter(c=>!lessonState.sel.includes(c.id));
+  const sel=lessonState.sel.map(id=>H.find(c=>c.id===id)).filter(Boolean);
+  renderCardRow($('#lsHand'),tray,l.level,{drag:false,cls:lessonState.hintIds&&lessonState.hintIds.length?'':'x'});
+  renderCardRow($('#lsSel'),sel,l.level,{selected:true});
+  $$('#lsHand .card').forEach(el=>el.onclick=()=>{lessonState.sel.push(el.dataset.id);paintLessonCards();});
+  $$('#lsSel .card').forEach(el=>el.onclick=()=>{lessonState.sel=lessonState.sel.filter(x=>x!==el.dataset.id);paintLessonCards();});
+  if(lessonState.hintIds) $$('#lsHand .card').forEach(el=>el.classList.toggle('hint',lessonState.hintIds.includes(el.dataset.id)));
+}
+function showLessonHint(l){
+  if(l.mode==='quiz'){toast(l.hint,4200);return;}
+  const lead=l.lead?GD.pickPlay(P(l.lead,'P'),l.level,GD.cfg,null):null;
+  const cands=GD.genCandidates(lessonState.hand,lead,l.level,GD.cfg,300);
+  const best=GD.bestPlay(cands,l.level,{});
+  if(best&&best.cards){lessonState.hintIds=best.cards.map(c=>c.id);paintLessonCards();
+    toast('提示：試試「'+best.desc+'」——'+l.hint,5000);}
+  else toast(l.hint,4600);
+}
+function lessonFeedback(ok,msg){
+  const el=$('#lsFb');el.className='feedback '+(ok?'ok':'no');el.innerHTML=msg;
+}
+function submitLesson(l,passed){
+  const L=l.level;
+  if(l.mode==='quiz'){
+    const wrong=[];
+    l.qs.forEach((q,i)=>{if(lessonState.answers[i]!==q.a)wrong.push(i);});
+    if(wrong.length){
+      const i=wrong[0],q=l.qs[i];
+      lessonFeedback(false,'<b>✗ 還未過關。</b>第 '+(i+1)+' 題答錯或未作答。正確答案：<b>'+String.fromCharCode(65+q.a)+'. '+q.o[q.a]+'</b><br>原因：'+q.why+'<br><span class="sm">其餘答錯題數：'+wrong.length+'；改正後再提交。</span>');
+      return;
+    }
+    passLesson(l,'<b>✓ 全對，過關！</b> '+l.hint);return;
+  }
+  const lead=l.lead?GD.pickPlay(P(l.lead,'P'),L,GD.cfg,l.leadType):null;
+  const g=l.goal;
+  const sel=lessonState.sel.map(id=>lessonState.hand.find(c=>c.id===id)).filter(Boolean);
+  const hasLegal=GD.genCandidates(lessonState.hand,lead,L,GD.cfg,200).length>0;
+  if(passed){
+    if(g.expectPass){
+      if(hasLegal){lessonFeedback(false,'<b>✗ 其實還有牌可壓</b>，不應過牌。');return;}
+      passLesson(l,'<b>✓ 判斷正確！</b> 天王炸是最大炸彈，沒有任何牌能壓；其餘三家都過，由最後出牌者領下一圈。');return;
+    }
+    if(g.type==='beat'&&!hasLegal){passLesson(l,'<b>✓ 判斷正確！</b> 手上確實沒有合法的更大牌型，選擇過牌是對的。');return;}
+    lessonFeedback(false,'<b>✗ 不對。</b> 手上仍有合法可出的牌：'+GD.genCandidates(lessonState.hand,lead,L,GD.cfg,20).slice(0,3).map(c=>c.desc).join('、')+'。請選牌再出。');
+    return;
+  }
+  if(!sel.length){lessonFeedback(false,'<b>✗ 尚未選牌。</b> 請先點選手牌。');return;}
+  if(g.type==='want'){
+    const ok=sel.length===1&&tok(sel[0])===g.want;
+    if(!ok)lessonFeedback(false,'<b>✗ 進貢牌選錯。</b> 競賽規則：交出「除紅桃級牌外」牌點最大的一張；本題應選 '+g.want+'。你選了 '+sel.map(c=>GD.cardText(c,L)).join('、')+'。');
+    else passLesson(l,'<b>✓ 正確！</b> 紅桃級牌（逢人配）不可進貢，故順延到 A。');
+    return;
+  }
+  if(g.type==='return'){
+    const c=sel[0],ok=sel.length===1&&!GD.isJoker(c)&&!GD.isWild(c,L)&&GD.ord(c,L)<=10;
+    if(!ok){const why=GD.isWild(c,L)?'紅桃級牌是萬能牌，不能還':GD.isJoker(c)?'王牌大於 10':GD.ord(c,L)>10?'牌點大於 10':'請只選一張';
+      lessonFeedback(false,'<b>✗ 還貢不合法。</b> '+why+'；還貢須為牌點 ≤10 的牌。');return;}
+    passLesson(l,'<b>✓ 正確！</b> 還貢牌點不得超過 10；若全手牌都大於 10，才還最小的一張。');return;
+  }
+  const all=GD.classifySet(sel,L,GD.cfg);
+  if(!all.length){lessonFeedback(false,'<b>✗ 不成牌型。</b> '+GD.explainShape(sel,L,GD.cfg));return;}
+  if(g.type==='shape'){
+    const hit=all.find(t=>t.type===g.shape&&(!g.size||t.size===g.size));
+    if(!hit){lessonFeedback(false,'<b>✗ 牌型不對。</b> 你選的是「'+all[0].desc+'」，本關要求「'+GD.TYPE_CH[g.shape]+'」'+(g.size?'（'+g.size+' 張）':'')+'。'+l.hint);return;}
+    passLesson(l,'<b>✓ 正確！</b> 判定為「'+hit.desc+'」。'+l.hint);return;
+  }
+  if(g.type==='beat'){
+    const hit=all.find(t=>GD.beats(t,lead,L,GD.cfg));
+    if(!hit){lessonFeedback(false,'<b>✗ 壓不過。</b> '+GD.explainBeats(all[0],lead,L,GD.cfg)+'<br><span class="sm">你選的是：'+all[0].desc+'</span>');return;}
+    passLesson(l,'<b>✓ 合法且壓得過！</b> 你出的是「'+hit.desc+'」，上一手是「'+lead.desc+'」。'+l.hint);return;
+  }
+}
+function passLesson(l,msg){
+  if(lessonState.done)return;lessonState.done=true;
+  lessonFeedback(true,msg);
+  const u=unlockedCount();
+  if(curLesson===u){LS.set('lessons',Math.min(LESSONS.length,u+1));}
+  renderLessonList();
+  const box=$('#lsNextBox');
+  box.innerHTML=curLesson<LESSONS.length-1
+    ? '<button class="btn primary" id="lsNext">下一關：'+LESSONS[curLesson+1].t+' →</button>'
+    : '<b class="gold">🎉 全部關卡完成！可以進入「模擬對戰」了。</b><button class="btn" data-go="match">前往模擬對戰</button>';
+  if($('#lsNext'))$('#lsNext').onclick=()=>{curLesson++;renderLesson();};
+  const g=box.querySelector('[data-go]');if(g)g.onclick=()=>go('match');
+  toast('過關！已解鎖下一關。');
+}
+function buildLessonPage(){
+  curLesson=Math.min(curLesson,unlockedCount());
+  renderLesson();
+  $('#btnResetLessons').onclick=()=>{
+    modal('<h2 id="modalTitle">重設關卡進度</h2><p>會把已解鎖的關卡全部重置，確定嗎？</p>'+
+      '<div class="ctrlbar"><button class="btn primary" id="mOk">確定重設</button><button class="btn ghost" id="mCancel">取消</button></div>');
+    $('#mOk').onclick=()=>{LS.set('lessons',0);curLesson=0;closeModal();renderLesson();toast('已重設關卡進度');};
+    $('#mCancel').onclick=closeModal;
+  };
+}
+/* =====================================================================
+   對戰層：STATE + 完整一局流程（規則計算仍由 GD 負責）
+   ===================================================================== */
+const MASTER=GD.makeDeck();
+const MASTER_MAP=new Map(MASTER.map(c=>[c.id,c]));
+const SEAT_NAME=['南・你','東・對手','北・隊友','西・對手'];
+const teamOf=s=>s%2;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let replayTimer=null;
+
+const STATE={
+  G:null,diff:'normal',hintOn:true,reveal:true,aFails:0,prevRanking:null,champion:null,
+  sel:[],cursor:0,hintIds:[],declare:null,replayMatch:null,replayStep:0,busy:false,
+  match:null
+};
+function newGame(firstHand){
+  return {level:GD.cfg.level,hands:[[],[],[],[]],current:0,leadSeat:null,leadPlay:null,
+    passCount:0,finished:[],round:1,over:false,firstHand:!!firstHand,lastPlayCards:[],
+    lastPlaySeat:null};
+}
+function activeSeats(){return [0,1,2,3].filter(s=>!STATE.G.finished.includes(s));}
+function nextActive(from){
+  for(let i=1;i<=4;i++){const s=(from+i)%4;if(!STATE.G.finished.includes(s))return s;}
+  return from;
+}
+function snapHands(){return STATE.G.hands.map(h=>h.map(c=>c.id).join(' '));}
+function resolveIds(str){return str?str.split(' ').filter(Boolean).map(i=>MASTER_MAP.get(i)).filter(Boolean):[];}
+function recordStep(k,data){
+  const st=Object.assign({i:STATE.match.steps.length,k:k,level:GD.cfg.level,
+    round:STATE.G.round,hands:snapHands(),
+    lead:STATE.G.leadPlay?{seat:STATE.G.leadSeat,desc:STATE.G.leadPlay.desc}:null},data);
+  STATE.match.steps.push(st);
+  return st;
+}
+function logLine(msg,cls){
+  const el=$('#matchLog');if(!el)return;
+  const d=document.createElement('div');d.textContent=msg;if(cls)d.className=cls;
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
+}
+function burst(txt){
+  const z=$('#table');if(!z)return;
+  const b=document.createElement('div');b.className='burst';b.textContent=txt;z.appendChild(b);
+  setTimeout(()=>b.remove(),850);
+}
+function pickTribute(hand,L){
+  const pool=hand.filter(c=>!GD.isWild(c,L));
+  const src=pool.length?pool:hand;
+  return src.slice().sort((a,b)=>GD.ord(b,L)-GD.ord(a,L))[0];
+}
+function pickReturn(hand,L){
+  const ok=hand.filter(c=>!GD.isWild(c,L)&&!GD.isJoker(c)&&GD.ord(c,L)<=10);
+  const src=ok.length?ok:hand.filter(c=>!GD.isWild(c,L));
+  const pool=src.length?src:hand;
+  return pool.slice().sort((a,b)=>GD.ord(a,L)-GD.ord(b,L))[0];
+}
+function tributePlan(ranking,hands,L){
+  const first=ranking[0],second=ranking[1],third=ranking[2],fourth=ranking[3];
+  const doubleDown=teamOf(first)===teamOf(second);      // 頭游二游同方 ⇒ 對方雙下 ⇒ 雙貢
+  const losers=doubleDown?[third,fourth]:[fourth];
+  const winners=doubleDown?[first,second]:[first];
+  const bigs=losers.reduce((n,s)=>n+hands[s].filter(c=>c.r===17).length,0);
+  if(bigs>=2) return {resist:true,doubleDown:doubleDown,losers:losers,winners:winners,
+    leader:first,pairs:[],reason:'下游方合計持有兩個大王'};
+  const tribs=losers.map(s=>({from:s,card:pickTribute(hands[s],L)}));
+  if(doubleDown) tribs.sort((a,b)=>GD.ord(b.card,L)-GD.ord(a.card,L));
+  const pairs=tribs.map((t,i)=>({from:t.from,to:winners[i]||winners[0],card:t.card}));
+  return {resist:false,doubleDown:doubleDown,losers:losers,winners:winners,
+    leader:doubleDown?pairs[0].from:fourth,pairs:pairs,reason:''};
+}
+function chooseCardModal(cards,L,title,msg,suggestId){
+  return new Promise(resolve=>{
+    const html='<h2 id="modalTitle">'+title+'</h2><p>'+msg+'</p><div class="modal-cards" id="mCards">'+
+      cards.map(c=>cardHTML(c,L,{cls:'mini'+(c.id===suggestId?' hint':'')})).join('')+'</div>'+
+      '<p class="sm">點選一張牌即可確定；加亮者為規則建議。</p>'+
+      '<div class="ctrlbar"><button class="btn primary" id="mUse">使用建議</button></div>';
+    modal(html);
+    const chosen=id=>{closeModal();resolve(cards.find(c=>c.id===id));};
+    $$('#mCards .card').forEach(b=>b.onclick=()=>chosen(b.dataset.id));
+    $('#mUse').onclick=()=>chosen(suggestId||cards[0].id);
+  });
+}
+function confirmModal(title,msg,btnText){
+  return new Promise(resolve=>{
+    modal('<h2 id="modalTitle">'+title+'</h2><p>'+msg+'</p><div class="ctrlbar"><button class="btn primary" id="mOk">'+(btnText||'確定')+'</button></div>');
+    $('#mOk').onclick=()=>{closeModal();resolve(true);};
+  });
+}
+async function doTribute(){
+  const G=STATE.G,L=GD.cfg.level,plan=tributePlan(STATE.prevRanking,G.hands,L);
+  STATE.match.tribute=JSON.parse(JSON.stringify(plan));
+  if(plan.resist){
+    const names=plan.losers.map(s=>SEAT_NAME[s]).join('、');
+    recordStep('tribute',{note:'抗貢成立：'+names+' 合計持有兩個大王，免進貢、免還貢；首圈改由頭游 '+SEAT_NAME[plan.leader]+' 領出。',resist:true,hands:snapHands()});
+    logLine('【抗貢】'+names+' 有兩個大王，免貢；由'+SEAT_NAME[plan.leader]+'先出。','hi');
+    await confirmModal('抗貢成立','下游方 '+names+' 合計持有兩個大王，依競賽規則<b>不用進貢，也不用還貢</b>。首圈改由頭游 '+SEAT_NAME[plan.leader]+' 領出。','知道了');
+  }else{
+    for(const pr of plan.pairs){
+      /* 進貢 */
+      G.hands[pr.from]=G.hands[pr.from].filter(c=>c.id!==pr.card.id);
+      G.hands[pr.to].push(pr.card);
+      const isHumanFrom=pr.from===0,isHumanTo=pr.to===0;
+      if(isHumanFrom){
+        await confirmModal('你要進貢',
+          '你是上一局的'+ (plan.doubleDown?'下游方':'末游') +'，須向 '+SEAT_NAME[pr.to]+' 進貢<b>除紅桃級牌外牌點最大的一張</b>：'+
+          '<b class="gold">'+GD.cardText(pr.card,L)+'</b>。','交出這張牌');
+      }
+      recordStep('tribute',{note:SEAT_NAME[pr.from]+' 向 '+SEAT_NAME[pr.to]+' 進貢 '+GD.cardText(pr.card,L),
+        card:pr.card.id,from:pr.from,to:pr.to,hands:snapHands()});
+      logLine('【進貢】'+SEAT_NAME[pr.from]+' → '+SEAT_NAME[pr.to]+'：'+GD.cardText(pr.card,L),'hi');
+      /* 還貢 */
+      let ret=pickReturn(G.hands[pr.to],L);
+      if(isHumanTo){
+        const ok=G.hands[pr.to].filter(c=>!GD.isWild(c,L)&&!GD.isJoker(c)&&GD.ord(c,L)<=10);
+        const choices=ok.length?ok:G.hands[pr.to].filter(c=>!GD.isWild(c,L));
+        ret=await chooseCardModal(choices,L,'你要還貢',
+          '你是 '+SEAT_NAME[pr.to]+'，收到 '+SEAT_NAME[pr.from]+' 的進貢後，須還一張<b>牌點 ≤10</b> 的牌'+
+          (ok.length?'；若全手牌皆大於 10，才還最小的一張。':'；你手上沒有 ≤10 的牌，依規則還最小的一張。'),ret.id);
+      }
+      G.hands[pr.to]=G.hands[pr.to].filter(c=>c.id!==ret.id);
+      G.hands[pr.from].push(ret);
+      recordStep('tribute',{note:SEAT_NAME[pr.to]+' 還貢 '+GD.cardText(ret,L)+' 給 '+SEAT_NAME[pr.from],
+        card:ret.id,from:pr.to,to:pr.from,hands:snapHands()});
+      logLine('【還貢】'+SEAT_NAME[pr.to]+' → '+SEAT_NAME[pr.from]+'：'+GD.cardText(ret,L),'hi');
+    }
+    await confirmModal(plan.doubleDown?'雙貢完成':'進貢完成',
+      (plan.doubleDown?'上一局對方雙下，輸方兩人各進貢一張；頭游取較大的貢牌，二游取較小的。':'單貢：末游進貢、頭游還貢。')+
+      '<br>還牌後<b>首圈由 '+SEAT_NAME[plan.leader]+' 領出</b>。','開始出牌');
+  }
+  G.hands=G.hands.map(h=>GD.sortHand(h,L));
+  G.current=plan.leader;G.leadSeat=null;G.leadPlay=null;G.passCount=0;
+  recordStep('tribute',{note:'進貢／還貢程序結束，首圈由 '+SEAT_NAME[G.current]+' 領出。',hands:snapHands()});
+}
+
+function candidateInfo(seat){
+  const G=STATE.G,L=GD.cfg.level,hand=G.hands[seat],lead=G.leadPlay;
+  const cands=GD.genCandidates(hand,lead,L,GD.cfg,140);
+  const ctx={lead:!!lead,partnerLeading:!!(lead&&teamOf(G.leadSeat)===teamOf(seat)&&G.leadSeat!==seat)};
+  const sorted=cands.slice().sort((a,b)=>GD.scorePlay(a,L,ctx)-GD.scorePlay(b,L,ctx));
+  const best=sorted[0]||null;
+  return {cands:cands,best:best,ctx:ctx,
+    list:sorted.slice(0,8).map(p=>({desc:p.desc,ids:p.cards.map(c=>c.id)})),
+    better:best?{desc:best.desc,ids:best.cards.map(c=>c.id)}:null,
+    reason:GD.suggestReason(null,best,L,ctx)};
+}
+function aiChoose(seat,info){
+  const G=STATE.G,L=GD.cfg.level,d=STATE.diff;
+  const cands=info.cands;
+  if(!cands.length)return null;
+  const teammateLeading=info.ctx.partnerLeading&&G.leadPlay&&G.leadPlay.power===0;
+  const partner=(seat+2)%4;
+  const partnerClose=G.hands[partner].length<=6&&!G.finished.includes(partner);
+  if(teammateLeading&&d!=='easy'&&(d==='hard'||Math.random()<0.72)&&!partnerClose) return null;
+  if(teammateLeading&&d==='hard'&&partnerClose) return null;
+  let pool=cands.filter(p=>p.power===0);
+  if(!pool.length)pool=cands;
+  if(d==='easy'){
+    if(Math.random()<0.25)return null;
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+  /* 適時用炸彈：對手快出完、或上一手已是炸彈且我方有更大炸 */
+  const danger=activeSeats().some(s=>teamOf(s)!==teamOf(seat)&&G.hands[s].length<=5);
+  const bombs=cands.filter(p=>p.power>0).sort((a,b)=>a.power-b.power||a.key-b.key);
+  if(bombs.length&&(danger||(G.leadPlay&&G.leadPlay.power>0&&d==='hard'))){
+    if(d==='hard'||Math.random()<0.65)return bombs[0];
+  }
+  let best=GD.bestPlay(pool,L,info.ctx);
+  if(d==='normal'&&Math.random()<0.12) return pool[Math.floor(Math.random()*pool.length)];
+  return best;
+}
+function validatePlay(cards,seat,declared){
+  const G=STATE.G,L=GD.cfg.level;
+  if(!cards.length)return {ok:false,reason:'尚未選牌。'};
+  const all=GD.classifySet(cards,L,GD.cfg);
+  if(!all.length)return {ok:false,reason:'<b>不合法：</b>'+GD.explainShape(cards,L,GD.cfg)};
+  const lead=G.leadPlay;
+  let play=declared?all.find(t=>t.desc===declared):null;
+  if(play&&!GD.beats(play,lead,L,GD.cfg))return {ok:false,reason:'<b>宣告的牌型壓不過：</b>'+GD.explainBeats(play,lead,L,GD.cfg)};
+  if(!play)play=all.find(t=>GD.beats(t,lead,L,GD.cfg));
+  if(!play)return {ok:false,reason:'<b>不合法：</b>'+GD.explainBeats(all[0],lead,L,GD.cfg)};
+  return {ok:true,play:play};
+}
+function applyPlay(seat,cards,play,info,human){
+  const G=STATE.G,L=GD.cfg.level;
+  const ids=cards.map(c=>c.id);
+  G.hands[seat]=G.hands[seat].filter(c=>!ids.includes(c.id));
+  G.leadSeat=seat;G.leadPlay=play;G.passCount=0;
+  G.lastPlayCards=cards.slice();G.lastPlaySeat=seat;
+  const chosenInfo=info||{list:[],better:null,reason:''};
+  recordStep('play',{seat:seat,cards:ids,desc:play.desc,type:play.type,power:play.power,
+    legal:true,list:chosenInfo.list,better:chosenInfo.better,reason:chosenInfo.reason,
+    chosenBetter:human&&chosenInfo.better?chosenInfo.better.ids.slice().sort().join()===ids.slice().sort().join():null,
+    hands:snapHands()});
+  logLine('第'+G.round+'圈｜'+SEAT_NAME[seat]+' 出 '+play.desc+'：'+cards.map(c=>GD.cardText(c,L)).join(' '),play.power?'hi':'');
+  if(play.power>0)burst(play.type==='JOKER_BOMB'?'天王炸！':play.count>5?'轟！':'炸！');
+  if(G.hands[seat].length<=10&&G.hands[seat].length>0)logLine('　└ '+SEAT_NAME[seat]+' 報牌：剩 '+G.hands[seat].length+' 張');
+  if(G.hands[seat].length===0)finishPlayer(seat);
+}
+function applyPass(seat,info){
+  const G=STATE.G;
+  G.passCount++;
+  recordStep('pass',{seat:seat,legal:true,note:SEAT_NAME[seat]+' 過牌',
+    list:info?info.list:[],better:info?info.better:null,reason:info?info.reason:'',hands:snapHands()});
+  logLine('第'+G.round+'圈｜'+SEAT_NAME[seat]+' 過牌');
+}
+function finishPlayer(seat){
+  const G=STATE.G;
+  if(G.finished.includes(seat))return;
+  G.finished.push(seat);
+  const names=['頭游','二游','三游','末游'];
+  recordStep('rank',{seat:seat,rank:G.finished.length,note:SEAT_NAME[seat]+' 成為 '+names[G.finished.length-1],hands:snapHands()});
+  logLine('★ '+SEAT_NAME[seat]+' 成為 '+names[G.finished.length-1],'hi');
+  const doubleUp=G.finished.length>=2&&teamOf(G.finished[0])===teamOf(G.finished[1]);
+  if(G.finished.length>=3||doubleUp)G.over=true;
+}
+function closeCircle(){
+  const G=STATE.G;
+  let leader=G.leadSeat;
+  if(G.finished.includes(leader)){
+    const partner=(leader+2)%4;
+    if(!G.finished.includes(partner)){leader=partner;logLine('　└ 接風：'+SEAT_NAME[leader]+' 承接下一圈領出權','hi');}
+    else leader=nextActive(leader);
+  }
+  G.leadSeat=null;G.leadPlay=null;G.passCount=0;G.round++;
+  G.current=leader;G.lastPlayCards=[];G.lastPlaySeat=null;
+  recordStep('newlead',{note:'三家皆過，本圈結束；由 '+SEAT_NAME[leader]+' 領出下一圈。',hands:snapHands()});
+}
+function afterAction(seat){
+  const G=STATE.G;
+  if(G.over)return;
+  const act=activeSeats();
+  const others=act.length-(act.includes(G.leadSeat)?1:0);
+  if(G.passCount>=Math.max(1,others)){closeCircle();return;}
+  G.current=nextActive(seat);
+}
+function settle(){
+  const G=STATE.G,L=GD.cfg.level;
+  let ranking=G.finished.slice();
+  const rest=[0,1,2,3].filter(s=>!ranking.includes(s))
+    .sort((a,b)=>G.hands[a].length-G.hands[b].length||a-b);
+  ranking=ranking.concat(rest);
+  const first=ranking[0],partner=(first+2)%4;
+  const pIdx=ranking.indexOf(partner);
+  const upgrade=pIdx===1?3:pIdx===2?2:1;
+  const winTeam=teamOf(first);
+  const doubleUp=upgrade===3;
+  const doubleDown=teamOf(ranking[2])===teamOf(ranking[3]);
+  let note='',champion=false;
+  if(L===14){
+    if(upgrade>=2){champion=true;STATE.champion=winTeam;STATE.aFails=0;
+      note='打 A 成功過關：頭游且隊友非末游（升 '+upgrade+' 級），'+(winTeam===0?'你這一方':'對手一方')+'贏得整場！';}
+    else{STATE.aFails++;
+      if(GD.cfg.threeAReset&&STATE.aFails>=3){GD.cfg.level=2;STATE.aFails=0;note='打 A 只升 1 級（隊友末游），且已連續三次未過 A，依競賽附則退回打 2 重來。';}
+      else note='打 A 只升 1 級（頭游＋末游），不算過 A；續打 A（第 '+(STATE.aFails+1)+' 次）。';}
+  }else{
+    GD.cfg.level=Math.min(14,L+upgrade);
+    note='頭游方升 '+upgrade+' 級：'+(doubleUp?'雙上（頭游＋二游）':pIdx===2?'頭游＋三游':'頭游＋末游')+'，級別 '+(L===14?'A':GD.rankChar(L))+' → '+(GD.cfg.level===14?'A':GD.rankChar(GD.cfg.level))+'。';
+  }
+  STATE.prevRanking=ranking;
+  saveCfg();
+  STATE.match.ranking=ranking;STATE.match.upgrade=upgrade;STATE.match.newLevel=GD.cfg.level;
+  STATE.match.summary=note;STATE.match.doubleUp=doubleUp;STATE.match.doubleDown=doubleDown;STATE.match.champion=champion;
+  recordStep('result',{ranking:ranking,upgrade:upgrade,note:note,doubleUp:doubleUp,doubleDown:doubleDown,
+    newLevel:GD.cfg.level,hands:snapHands()});
+  logLine('【結算】'+note,'hi');
+  const list=LS.get('matches',[]);list.unshift(STATE.match);
+  LS.set('matches',list.slice(0,8));
+  updateTop();
+  return {ranking:ranking,upgrade:upgrade,note:note,doubleUp:doubleUp,doubleDown:doubleDown,champion:champion};
+}
+function showResult(r){
+  const names=['頭游','二游','三游','末游'];
+  const rows=r.ranking.map((s,i)=>'<tr><td>'+names[i]+'</td><td>'+SEAT_NAME[s]+'</td><td>'+(teamOf(s)===0?'我方':'對手')+'</td></tr>').join('');
+  modal((r.champion?'<p style="font-size:1.8rem">🏆 成功過 A・整場勝利 🏆</p>':'')+
+    '<h2 id="modalTitle">本局結算</h2>'+
+    '<p class="gold" style="font-size:1.12rem">'+r.note+'</p>'+
+    '<table><tr><th>名次</th><th>座位</th><th>陣營</th></tr>'+rows+'</table>'+
+    '<p><b>升級數：</b><span class="gold">'+r.upgrade+' 級</span>　'+
+    (r.doubleUp?'<span class="pill tag-red">雙上</span> ':'')+(r.doubleDown?'<span class="pill">對方雙下 → 下局雙貢</span>':'')+'</p>'+
+    '<p class="sm">下一局級別：'+(GD.cfg.level===14?'A（必打）':GD.rankChar(GD.cfg.level))+
+    '　｜　下局進貢：'+(r.doubleDown?'輸方兩人雙貢':'末游單貢')+'；若下游方合計有兩個大王則抗貢。</p>'+
+    '<div class="ctrlbar"><button class="btn primary" id="mNext">下一局（執行進貢）</button>'+
+    '<button class="btn" id="mReplay">查看逐手複盤</button><button class="btn ghost" id="mClose">留在這頁</button></div>');
+  $('#mNext').onclick=()=>{closeModal();startMatch(false);};
+  $('#mReplay').onclick=()=>{closeModal();STATE.replayMatch=STATE.match;STATE.replayStep=0;go('replay');renderReplayList();renderReplay();};
+  $('#mClose').onclick=closeModal;
+  $('#btnNextHand').disabled=false;
+}
+
+async function gameLoop(){
+  if(STATE.busy)return;STATE.busy=true;
+  try{
+    while(!STATE.G.over){
+      const seat=STATE.G.current;
+      if(seat===0){
+        refreshMatch();return;                  // 等玩家操作
+      }
+      await sleep(560);
+      if(STATE.G.over)break;
+      const info=candidateInfo(seat);
+      const play=aiChoose(seat,info);
+      if(play){applyPlay(seat,play.cards,play,info,false);}
+      else{applyPass(seat,info);}
+      afterAction(seat);
+      refreshMatch();
+    }
+    if(STATE.G.over){
+      const r=settle();refreshMatch();showResult(r);
+    }
+  }finally{STATE.busy=false;}
+}
+async function humanPlay(){
+  if(STATE.busy||!STATE.G||STATE.G.over)return;
+  if(STATE.G.current!==0){toast('現在不是你的回合。');return;}
+  STATE.busy=true;let ok=false;
+  try{
+    const cards=STATE.sel.map(id=>STATE.G.hands[0].find(c=>c.id===id)).filter(Boolean);
+    const v=validatePlay(cards,0,STATE.declare);
+    if(!v.ok){
+      $('#playVerdict').innerHTML='<span class="red">'+v.reason+'</span>';
+      logLine('✗ 出牌被拒：'+v.reason.replace(/<[^>]+>/g,''),'bad');
+      recordStep('illegal',{seat:0,cards:cards.map(c=>c.id),legal:false,
+        reason:v.reason.replace(/<[^>]+>/g,''),note:'學習者嘗試出 '+cards.map(c=>GD.cardText(c,GD.cfg.level)).join('、')+'，被判不合法。',
+        hands:snapHands()});
+      toast('出牌不合法，請看下方原因');return;
+    }
+    const info=candidateInfo(0);
+    applyPlay(0,cards,v.play,info,true);
+    STATE.sel=[];STATE.declare=null;STATE.hintIds=[];
+    afterAction(0);refreshMatch();ok=true;
+  }finally{STATE.busy=false;}
+  if(ok)await gameLoop();
+}
+async function humanPass(){
+  if(STATE.busy||!STATE.G||STATE.G.over)return;
+  if(STATE.G.current!==0){toast('現在不是你的回合。');return;}
+  if(!STATE.G.leadPlay){toast('你是領出者，不能過牌，必須出一手牌。');return;}
+  STATE.busy=true;let ok=false;
+  try{
+    const info=candidateInfo(0);
+    applyPass(0,info);STATE.sel=[];STATE.declare=null;STATE.hintIds=[];
+    afterAction(0);refreshMatch();ok=true;
+  }finally{STATE.busy=false;}
+  if(ok)await gameLoop();
+}
+async function startMatch(firstHand){
+  if(STATE.busy)return;
+  STATE.busy=true;
+  try{
+    const L=GD.cfg.level;
+    const G=newGame(firstHand&&!STATE.prevRanking);
+    const deck=GD.shuffle(MASTER);
+    for(let i=0;i<108;i++)G.hands[i%4].push(deck[i]);
+    G.hands=G.hands.map(h=>GD.sortHand(h,L));
+    STATE.G=G;STATE.sel=[];STATE.declare=null;STATE.hintIds=[];STATE.champion=null;
+    STATE.match={id:Date.now(),date:new Date().toLocaleString('zh-Hant',{hour12:false}),
+      level:L,diff:STATE.diff,strict:GD.cfg.strictLengths,steps:[],ranking:null,upgrade:null,summary:''};
+    $('#matchLog').innerHTML='';$('#btnNextHand').disabled=true;
+    recordStep('deal',{note:'發牌：兩副撲克共 108 張，每人 27 張；本局打 '+(L===14?'A':GD.rankChar(L))+'，紅桃'+(L===14?'A':GD.rankChar(L))+' 為逢人配。',hands:snapHands()});
+    logLine('=== 第 '+(LS.get('matches',[]).length+1)+' 局・打 '+(L===14?'A':GD.rankChar(L))+' ===','hi');
+    logLine('發牌完成，每人 27 張。'+(GD.cfg.strictLengths?'（競賽嚴格模式）':''));
+    $('#playVerdict').textContent='';
+    refreshMatch();
+    if(STATE.prevRanking){await doTribute();}
+    else{G.current=0;recordStep('tribute',{note:'首局無進貢，本頁約定由南家（你）領出首圈。',hands:snapHands()});}
+    refreshMatch();
+    await sleep(250);
+  }finally{STATE.busy=false;}
+  await gameLoop();
+}
+/* =====================================================================
+   對戰介面・設定・複盤・啟動
+   ===================================================================== */
+function saveCfg(){
+  LS.set('cfg',{level:GD.cfg.level,strictLengths:GD.cfg.strictLengths,threeAReset:GD.cfg.threeAReset});
+  LS.set('aFails',STATE.aFails);
+  LS.set('prevRanking',STATE.prevRanking);
+}
+function stepLabel(st){
+  const who=st.seat!==undefined?SEAT_NAME[st.seat]:'';
+  switch(st.k){
+    case 'deal':return '發牌';
+    case 'tribute':return '進貢';
+    case 'play':return who+' 出牌';
+    case 'pass':return who+' 過牌';
+    case 'illegal':return who+' 企圖非法出牌';
+    case 'rank':return who+' '+(st.note||'').split(' ').pop();
+    case 'newlead':return '新一圈';
+    case 'result':return '結算';
+    default:return st.k;
+  }
+}
+function updateSelectionVerdict(){
+  const box=$('#playVerdict');if(!box||!STATE.G)return;
+  const L=GD.cfg.level;
+  const cards=STATE.sel.map(id=>STATE.G.hands[0].find(c=>c.id===id)).filter(Boolean);
+  const decl=$('#selDeclare');
+  const all=cards.length?GD.classifySet(cards,L,GD.cfg):[];
+  if(decl){
+    if(all.length>1){
+      decl.innerHTML='<option value="">自動（最強解讀）</option>'+all.map(t=>'<option value="'+t.desc+'">'+t.desc+'</option>').join('');
+      decl.value=STATE.declare||'';decl.disabled=false;
+      decl.onchange=()=>{STATE.declare=decl.value||null;updateSelectionVerdict();};
+    }else{
+      decl.innerHTML='<option value="">'+(all.length?all[0].desc:'—')+'</option>';decl.disabled=true;decl.value='';
+    }
+  }
+  if(!cards.length){box.innerHTML='<span class="sm">點選手牌可多選；拖放到牌桌中央亦可選取。'+
+    (STATE.G.leadPlay?'上一手：'+STATE.G.leadPlay.desc+'，須同型同張數更大，或用更大的炸彈，或按「過牌」。':'你領出，任何合法牌型都可以。')+'</span>';return;}
+  const v=validatePlay(cards,0,STATE.declare);
+  box.innerHTML=v.ok
+    ? '<span class="tag-ok pill">✓ 可出：'+v.play.desc+'</span> <span class="sm">'+(STATE.G.leadPlay?'可壓過 '+STATE.G.leadPlay.desc:'首出自由')+'</span>'
+    : '<span class="tag-red pill">✗ 不可出</span> <span class="red">'+v.reason+'</span>';
+}
+function refreshMatch(){
+  updateTop();
+  $('#quickRef').innerHTML='單張・對子・三張・三帶二・順子(≥5)・連對(≥3 對)・鋼板(≥2 組)・炸彈(4~10 張)・同花順(同花 5 張)・天王炸(四王)。'+
+    '<br>比較：天王炸＞6 張以上炸＞同花順＞5 張炸＞4 張炸＞其他。逢人配＝紅桃級牌，不可當王。';
+  const G=STATE.G;
+  const myTurn=!!G&&!G.over&&G.current===0;
+  $('#btnPlay').disabled=!myTurn;$('#btnPass').disabled=!myTurn;
+  $('#btnHint').disabled=!myTurn;$('#btnClear').disabled=!myTurn;
+  $('#btnHint').textContent=STATE.hintOn?'一鍵提示':'提示已關閉';
+  if(!G){
+    $('#matchStatus').textContent='按「開始新局」發牌。';
+    $('#zoneCards').innerHTML='';$('#zoneLabel').textContent='尚未開局';
+    $('#playerHand').innerHTML='';
+    for(let s=0;s<4;s++){$('#cnt'+s).textContent='—';$('#badge'+s).textContent='';$('#seat'+s).classList.remove('turn');}
+    $('#matchMeta').textContent='尚未開局。';
+    return;
+  }
+  const L=GD.cfg.level;
+  $('#matchMeta').textContent='打 '+(L===14?'A':GD.rankChar(L))+'｜逢人配：紅桃'+(L===14?'A':GD.rankChar(L))+
+    '｜難度：'+({easy:'入門',normal:'普通',hard:'進階'}[STATE.diff])+
+    (GD.cfg.strictLengths?'｜競賽嚴格長度':'｜彈性序列長度')+
+    (STATE.prevRanking?'｜已載入上局名次（下局進貢）':'')+
+    (L===14?'｜第 '+(STATE.aFails+1)+' 次打 A':'');
+  for(let s=0;s<4;s++){
+    const h=G.hands[s];
+    $('#cnt'+s).textContent=h.length;
+    const rank=G.finished.indexOf(s);
+    $('#badge'+s).textContent=rank>=0?['🏆 頭游','二游','三游','末游'][rank]:(h.length<=10?'報牌 '+h.length+' 張':'');
+    $('#seat'+s).classList.toggle('turn',!G.over&&G.current===s);
+    if(s>0)$('#backs'+s).innerHTML=Array.from({length:Math.min(7,h.length)},()=>cardBack('tiny')).join('');
+  }
+  if(G.leadPlay&&G.lastPlayCards.length){
+    renderCardRow($('#zoneCards'),G.lastPlayCards,L,{cls:'mini'});
+    $('#zoneLabel').innerHTML='上一手：<b class="gold">'+SEAT_NAME[G.lastPlaySeat]+'　'+G.leadPlay.desc+'</b>'+(G.leadPlay.power?'（特殊炸彈層級 '+G.leadPlay.power+'）':'');
+  }else{
+    $('#zoneCards').innerHTML='';
+    $('#zoneLabel').textContent=G.over?'本局結束':'第 '+G.round+' 圈・'+SEAT_NAME[G.current]+' 領出（首出自由）';
+  }
+  const hand=G.hands[0];
+  $('#playerHand').innerHTML=hand.map(c=>cardHTML(c,L,{
+    cls:(STATE.sel.includes(c.id)?'sel ':'')+(STATE.hintIds.includes(c.id)?'hint':''),
+    selected:STATE.sel.includes(c.id),drag:true})).join('');
+  $$('#playerHand .card').forEach(el=>{
+    el.onclick=()=>{
+      if(!myTurn)return;
+      STATE.sel=STATE.sel.includes(el.dataset.id)?STATE.sel.filter(x=>x!==el.dataset.id):STATE.sel.concat([el.dataset.id]);
+      STATE.hintIds=[];refreshMatch();updateSelectionVerdict();
+    };
+    el.ondragstart=e=>{e.dataTransfer.setData('text/plain',el.dataset.id);e.dataTransfer.effectAllowed='move';};
+  });
+  if(myTurn){
+    $('#matchStatus').innerHTML='<b class="gold">輪到你出牌</b>　'+
+      (G.leadPlay?'須同牌型同張數更大／更大炸彈／過牌；上一手「'+G.leadPlay.desc+'」':'你是領出者，可出任何合法牌型')+
+      '　手牌 '+hand.length+' 張';
+  }else if(G.over){$('#matchStatus').innerHTML='<b class="gold">本局結束，請看結算。</b>';}
+  else{$('#matchStatus').textContent='等待 '+SEAT_NAME[G.current]+' 出牌……（第 '+G.round+' 圈）';}
+  updateSelectionVerdict();
+}
+function showHint(){
+  if(!STATE.G||STATE.G.current!==0||STATE.G.over)return;
+  if(!STATE.hintOn){toast('對戰提示已在設定關閉。');return;}
+  const info=candidateInfo(0);
+  if(!info.best){toast('沒有能壓過的牌，建議按「過牌」。');$('#playVerdict').innerHTML='<span class="gold">提示：手上沒有合法可出的牌，按「過牌」。</span>';return;}
+  const b=info.best;
+  STATE.sel=b.cards.map(c=>c.id);STATE.hintIds=STATE.sel.slice();STATE.declare=null;
+  refreshMatch();
+  $('#playVerdict').innerHTML='<span class="tag-ok pill">提示：'+b.desc+'</span> <span class="sm">'+info.reason+'</span>';
+  toast('已把建議牌組選好，按「出牌」即可。');
+}
+function renderReplayList(){
+  const list=LS.get('matches',[]);
+  const box=$('#replayList');
+  if(!list.length){box.innerHTML='<p class="sm">還沒有對局記錄。先去「模擬對戰」打一局吧。</p>';return;}
+  box.innerHTML=list.map((m,i)=>'<button class="replay-item'+(STATE.replayMatch&&STATE.replayMatch.id===m.id?' active':'')+'" data-i="'+i+'">'+
+    '<b>'+(i+1)+'. 打 '+(m.level===14?'A':GD.rankChar(m.level))+'　'+m.date+'</b><br>'+
+    '<span class="sm">'+m.steps.length+' 步｜'+({easy:'入門',normal:'普通',hard:'進階'}[m.diff]||'普通')+'｜'+
+    (m.upgrade!==null&&m.upgrade!==undefined?'升 '+m.upgrade+' 級':'進行中')+'｜'+(m.summary||'').slice(0,26)+'</span></button>').join('');
+  $$('#replayList .replay-item').forEach(b=>b.onclick=()=>{
+    STATE.replayMatch=list[+b.dataset.i];STATE.replayStep=0;renderReplayList();renderReplay();
+  });
+}
+function renderReplay(){
+  const m=STATE.replayMatch;
+  if(!m){$('#replayBody').innerHTML='<p class="sm">左邊選一局，即可逐步重播。</p>';return;}
+  const steps=m.steps,max=steps.length-1;
+  STATE.replayStep=Math.max(0,Math.min(STATE.replayStep,max));
+  const st=steps[STATE.replayStep],L=st.level||m.level;
+  let h='<h2>逐手複盤・打 '+(m.level===14?'A':GD.rankChar(m.level))+'</h2>'+
+    '<p class="sm">'+m.date+'｜共 '+steps.length+' 步｜'+(m.strict?'競賽嚴格長度':'彈性序列長度')+
+    (m.summary?'｜'+m.summary:'')+'</p>'+
+    '<div class="stepbar"><button class="btn sm" id="rpFirst">⏮ 第一步</button>'+
+    '<button class="btn sm" id="rpPrev">← 上一步</button>'+
+    '<button class="btn sm primary" id="rpAuto">▶ 自動播放</button>'+
+    '<button class="btn sm" id="rpNext">下一步 →</button>'+
+    '<button class="btn sm" id="rpLast">最後一步 ⏭</button></div>'+
+    '<div class="stepbar"><span class="sm">第</span><input type="range" id="rpRange" min="0" max="'+max+'" value="'+STATE.replayStep+'" aria-label="重播進度">'+
+    '<span class="gold">'+(STATE.replayStep+1)+' / '+steps.length+'</span>'+
+    '<label class="sm" for="rpJump">跳到任一手</label><select id="rpJump">'+
+    steps.map((s,i)=>'<option value="'+i+'"'+(i===STATE.replayStep?' selected':'')+'>'+(i+1)+'. '+stepLabel(s)+'</option>').join('')+'</select></div>';
+
+  const cards=st.cards?resolveIds(st.cards.join(' ')):[];
+  let kind='',color='gold';
+  if(st.k==='illegal'){kind='非法出牌（被系統拒絕）';color='red';}
+  else if(st.k==='play')kind='出牌';else if(st.k==='pass')kind='過牌（合法）';
+  else if(st.k==='tribute')kind='進貢／還貢／抗貢';else kind=stepLabel(st);
+  h+='<div class="panel" style="margin-top:10px"><h3>第 '+(STATE.replayStep+1)+' 步・'+stepLabel(st)+'</h3>'+
+    '<p'+(color==='red'?' class="red"':'')+'><b>動作：</b>'+kind+'</p>'+
+    (st.note?'<p>'+st.note+'</p>':'')+
+    (st.desc?'<p class="gold">牌型：'+st.desc+'</p>':'')+
+    (cards.length?'<p>'+cardsLine(cards,L)+'</p>':'')+
+    (st.lead?'<p class="sm">當時上一手：'+SEAT_NAME[st.lead.seat]+'　'+st.lead.desc+'</p>':'')+
+    (st.k==='illegal'?'<p class="red">原因：'+(st.reason||'').replace(/<[^>]+>/g,'')+'</p>':'')+
+    (st.k==='play'||st.k==='pass'?'<p><span class="pill '+(st.legal?'tag-ok':'tag-red')+'">'+(st.legal?'✓ 合法':'✗ 非法')+'</span> '+
+      (st.k==='play'&&st.chosenBetter===false?'<span class="pill tag-red">與引擎建議不同</span>':'')+'</p>':'')+
+    '</div>';
+  if(st.k==='result'){
+    const names=['頭游','二游','三游','末游'];
+    h+='<div class="panel" style="margin-top:10px"><h3>最終名次與升級</h3><table><tr><th>名次</th><th>座位</th><th>陣營</th></tr>'+
+      (st.ranking||[]).map((s,i)=>'<tr><td>'+names[i]+'</td><td>'+SEAT_NAME[s]+'</td><td>'+(teamOf(s)===0?'我方':'對手')+'</td></tr>').join('')+
+      '</table><p class="gold">升 '+st.upgrade+' 級｜'+(st.doubleUp?'雙上':'')+(st.doubleDown?'　對方雙下（下局雙貢）':'')+'</p></div>';
+  }
+  h+='<div class="panel" style="margin-top:10px"><h3>當時四家手牌'+(STATE.reveal?'（複盤揭曉）':'（僅顯示自己）')+'</h3><div class="hands4">';
+  for(let s=0;s<4;s++){
+    const hc=GD.sortHand(resolveIds(st.hands[s]),L);
+    h+='<div class="handbox"><h4>'+SEAT_NAME[s]+'　'+hc.length+' 張</h4><div class="cards">'+
+      (STATE.reveal||s===0?hc.map(c=>cardHTML(c,L,{cls:'tiny'})).join(''):Array.from({length:Math.min(14,hc.length)},()=>cardBack('tiny')).join(''))+
+      '</div></div>';
+  }
+  h+='</div></div>';
+  if(st.list&&st.list.length){
+    h+='<div class="panel" style="margin-top:10px"><h3>當時的合法選擇</h3><div class="candidate-list">'+
+      st.list.map(c=>'<div class="candidate">'+c.desc+'</div>').join('')+'</div>'+
+      (st.better?'<p style="margin-top:10px"><b class="gold">引擎較佳選擇：</b>'+st.better.desc+
+        '　'+cardsLine(resolveIds(st.better.ids.join(' ')),L,'hint')+'</p><p class="sm">理由：'+(st.reason||'')+'</p>':'')+
+      '</div>';
+  }else if(st.k==='play'||st.k==='pass'){
+    h+='<div class="panel" style="margin-top:10px"><p class="sm">這一步沒有可出的替代選擇（或當時已無合法牌）。</p></div>';
+  }
+  $('#replayBody').innerHTML=h;
+  $('#rpFirst').onclick=()=>{STATE.replayStep=0;renderReplay();};
+  $('#rpPrev').onclick=()=>{STATE.replayStep--;renderReplay();};
+  $('#rpNext').onclick=()=>{STATE.replayStep++;renderReplay();};
+  $('#rpLast').onclick=()=>{STATE.replayStep=max;renderReplay();};
+  $('#rpRange').oninput=e=>{STATE.replayStep=+e.target.value;renderReplay();};
+  $('#rpJump').onchange=e=>{STATE.replayStep=+e.target.value;renderReplay();};
+  $('#rpAuto').onclick=()=>{
+    if(replayTimer){stopReplayAuto();return;}
+    $('#rpAuto').textContent='⏸ 暫停';
+    replayTimer=setInterval(()=>{
+      if(STATE.replayStep>=steps.length-1){stopReplayAuto();return;}
+      STATE.replayStep++;renderReplay();
+    },900);
+  };
+  if(replayTimer)$('#rpAuto').textContent='⏸ 暫停';
+}
+function stopReplayAuto(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}const b=$('#rpAuto');if(b)b.textContent='▶ 自動播放';}
+
+function openSettings(){
+  modal('<h2 id="modalTitle">設定</h2>'+
+    '<p class="sm">規則爭議項目前後一致套用於教學、關卡、對戰與複盤；修改後請重新判定。</p>'+
+    '<div class="cfgrow"><label><input type="checkbox" id="setStrict"'+(GD.cfg.strictLengths?' checked':'')+'> 競賽嚴格模式：順子固定 5 張、連對固定 3 對、鋼板固定 2 組</label></div>'+
+    '<div class="cfgrow"><label><input type="checkbox" id="setA"'+(GD.cfg.threeAReset?' checked':'')+'> 三次未過 A 退回打 2</label></div>'+
+    '<div class="cfgrow"><label><input type="checkbox" id="setHint"'+(STATE.hintOn?' checked':'')+'> 對戰提示（一鍵提示與建議原因）</label></div>'+
+    '<div class="cfgrow"><label><input type="checkbox" id="setReveal"'+(STATE.reveal?' checked':'')+'> 複盤揭曉四家手牌</label></div>'+
+    '<div class="cfgrow"><label for="setLevel">目前級別</label><select id="setLevel">'+
+      Array.from({length:13},(_,i)=>i+2).map(r=>'<option value="'+r+'"'+(r===GD.cfg.level?' selected':'')+'>'+(r===14?'A':GD.rankChar(r))+'</option>').join('')+'</select></div>'+
+    '<div class="ctrlbar"><button class="btn primary" id="setSave">儲存設定</button>'+
+    '<button class="btn ghost" id="setReset">重新開一場（回打 2）</button>'+
+    '<button class="btn ghost" id="setCancel">取消</button></div>');
+  $('#setSave').onclick=()=>{
+    GD.cfg.strictLengths=$('#setStrict').checked;
+    GD.cfg.threeAReset=$('#setA').checked;
+    STATE.hintOn=$('#setHint').checked;STATE.reveal=$('#setReveal').checked;
+    GD.cfg.level=+$('#setLevel').value;
+    $('#chkHintAI').checked=STATE.hintOn;$('#chkBroad').checked=STATE.reveal;
+    saveCfg();closeModal();updateTop();refreshMatch();toast('設定已儲存');
+  };
+  $('#setReset').onclick=()=>{
+    GD.cfg.level=2;STATE.aFails=0;STATE.prevRanking=null;STATE.champion=null;STATE.G=null;
+    saveCfg();closeModal();updateTop();refreshMatch();toast('已重新開一場：打 2，無進貢');
+  };
+  $('#setCancel').onclick=closeModal;
+}
+function bindDropZone(){
+  const z=$('#playZone');
+  z.ondragover=e=>{e.preventDefault();z.classList.add('dragover');};
+  z.ondragleave=()=>z.classList.remove('dragover');
+  z.ondrop=e=>{
+    e.preventDefault();z.classList.remove('dragover');
+    if(!STATE.G||STATE.G.current!==0||STATE.G.over)return;
+    const id=e.dataTransfer.getData('text/plain');
+    if(STATE.G.hands[0].some(c=>c.id===id)&&!STATE.sel.includes(id))STATE.sel.push(id);
+    STATE.hintIds=[];refreshMatch();updateSelectionVerdict();toast('已把牌放入出牌區，按「出牌」確認');
+  };
+}
+function boot(){
+  const saved=LS.get('cfg',{});
+  if(typeof saved.level==='number')GD.cfg.level=Math.max(2,Math.min(14,saved.level));
+  if(typeof saved.strictLengths==='boolean')GD.cfg.strictLengths=saved.strictLengths;
+  if(typeof saved.threeAReset==='boolean')GD.cfg.threeAReset=saved.threeAReset;
+  STATE.aFails=LS.get('aFails',0);
+  const pr=LS.get('prevRanking',null);
+  STATE.prevRanking=Array.isArray(pr)&&pr.length===4?pr:null;
+  STATE.hintOn=LS.get('hintOn',true);STATE.reveal=LS.get('reveal',true);
+  $('#chkHintAI').checked=STATE.hintOn;$('#chkBroad').checked=STATE.reveal;
+  $('#btnClear').insertAdjacentHTML('afterend','<label class="sm" for="selDeclare">宣告牌型</label><select id="selDeclare" aria-label="宣告牌型"><option value="">自動</option></select>');
+  /* 導覽 */
+  $$('.navbtn').forEach(b=>b.onclick=()=>go(b.dataset.view));
+  $$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+  /* 首頁示例牌 */
+  const mini=GD.parseCards('SA SK SQ SJ S10 H2 D9 C8 XB');
+  $('#miniCards').innerHTML=mini.map((c,i)=>cardHTML(c,2,{cls:'mini'})).join('');
+  /* 教學與關卡 */
+  buildRulesPage();
+  buildLessonPage();
+  /* 對戰 */
+  $('#btnNewMatch').onclick=()=>{STATE.prevRanking=STATE.prevRanking&&STATE.G?STATE.prevRanking:STATE.prevRanking;startMatch(false);};
+  $('#btnNextHand').onclick=()=>{if(STATE.G&&STATE.G.over)startMatch(false);};
+  $('#btnPlay').onclick=humanPlay;
+  $('#btnPass').onclick=humanPass;
+  $('#btnHint').onclick=showHint;
+  $('#btnClear').onclick=()=>{STATE.sel=[];STATE.hintIds=[];STATE.declare=null;refreshMatch();};
+  $('#selDiff').onchange=e=>{STATE.diff=e.target.value;toast('難度設為 '+({easy:'入門',normal:'普通',hard:'進階'}[STATE.diff]));refreshMatch();};
+  $('#chkHintAI').onchange=e=>{STATE.hintOn=e.target.checked;LS.set('hintOn',STATE.hintOn);refreshMatch();};
+  $('#chkBroad').onchange=e=>{STATE.reveal=e.target.checked;LS.set('reveal',STATE.reveal);};
+  $('#btnSettings').onclick=openSettings;
+  $('#btnShowReplay').onclick=()=>{
+    if(STATE.match&&STATE.match.steps.length){STATE.replayMatch=STATE.match;STATE.replayStep=0;}
+    go('replay');renderReplayList();renderReplay();
+  };
+  bindDropZone();
+  /* 複盤 */
+  $('#btnClearHistory').onclick=()=>{
+    modal('<h2 id="modalTitle">清除對局記錄</h2><p>會刪掉本機保存的所有對局，無法還原，確定嗎？</p>'+
+      '<div class="ctrlbar"><button class="btn primary" id="mOk">確定清除</button><button class="btn ghost" id="mCancel">取消</button></div>');
+    $('#mOk').onclick=()=>{LS.set('matches',[]);STATE.replayMatch=null;closeModal();renderReplayList();renderReplay();toast('已清除');};
+    $('#mCancel').onclick=closeModal;
+  };
+  renderReplayList();
+  /* 鍵盤 */
+  document.addEventListener('keydown',e=>{
+    if($('#modalWrap').classList.contains('show')){if(e.key==='Escape')closeModal();return;}
+    if($('#view-match').classList.contains('active')&&STATE.G&&STATE.G.current===0&&!STATE.G.over&&!STATE.busy){
+      const tag=(e.target.tagName||'').toLowerCase();
+      if(tag==='select'||tag==='input')return;
+      const k=e.key.toLowerCase();
+      if(k==='p'){e.preventDefault();humanPass();}
+      else if(k==='h'){e.preventDefault();showHint();}
+      else if(k==='enter'&&tag==='body'){e.preventDefault();humanPlay();}
+      else if(k==='escape'){STATE.sel=[];refreshMatch();}
+      else if(k==='arrowleft'||k==='arrowright'){
+        e.preventDefault();const h=STATE.G.hands[0];
+        STATE.cursor=Math.max(0,Math.min(h.length-1,STATE.cursor+(k==='arrowright'?1:-1)));
+        const el=$$('#playerHand .card')[STATE.cursor];if(el)el.focus();
+      }
+    }
+  });
+  updateTop();refreshMatch();
+}
+if(typeof document!=='undefined'){
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
+  else boot();
+}
+if(typeof module!=='undefined'&&module.exports){
+  module.exports={GD:GD,STATE:STATE,LESSONS:LESSONS,CHAPTERS:CHAPTERS};
+}
+</script>
+</body>
+</html>
