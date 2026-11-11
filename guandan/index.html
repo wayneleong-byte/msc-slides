@@ -64,6 +64,13 @@ small,.sm{font-size:.86rem;color:var(--muted)}
 .navbtn:hover{background:rgba(217,178,106,.14);border-color:var(--gold)}
 .navbtn.active{background:linear-gradient(180deg,#c8392f,#8e241c);border-color:var(--gold2);color:#fff5e2;box-shadow:0 3px 12px rgba(200,57,47,.4)}
 .topmeta{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--gold2)}
+.script-toggle{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.script-toggle button{background:rgba(0,0,0,.22);border:0;border-radius:0;padding:6px 11px;color:var(--cream);letter-spacing:.12em;line-height:1.4}
+.script-toggle button+button{border-left:1px solid var(--line)}
+.script-toggle button[aria-pressed="true"]{background:linear-gradient(180deg,#d9b26a,#a8813f);color:#2a1608;font-weight:700}
+.script-toggle button:hover{background:rgba(217,178,106,.16)}
+.script-toggle button[aria-pressed="true"]:hover{background:linear-gradient(180deg,#e6c98a,#b8924e)}
+html[lang="zh-Hans"] .mini-table::after{content:"掼 蛋"}
 
 /* ---------- generic ---------- */
 .view{display:none;animation:fade .35s ease}
@@ -336,12 +343,19 @@ input[type=checkbox]{accent-color:var(--red);width:17px;height:17px}
       <div><h1>摜蛋學堂</h1><p>規則 ・ 關卡 ・ 四人模擬 ・ 逐手複盤</p></div></div>
     <nav id="nav" aria-label="主導覽">
       <button class="navbtn active" data-view="home">首頁</button>
+      <button class="navbtn" data-view="story">歷史故事</button>
       <button class="navbtn" data-view="rules">規則教學</button>
       <button class="navbtn" data-view="lessons">新手關卡</button>
       <button class="navbtn" data-view="match">模擬對戰</button>
       <button class="navbtn" data-view="replay">歷史複盤</button>
     </nav>
-    <div class="topmeta"><span id="topLevel" class="pill">級別：2</span><button class="btn sm ghost" id="btnSettings">設定</button></div>
+    <div class="topmeta">
+      <div class="script-toggle" id="scriptToggle" data-script-lock="1" role="group" aria-label="繁簡切換">
+        <button type="button" id="btnHant" aria-pressed="true">繁體</button>
+        <button type="button" id="btnHans" aria-pressed="false">简体</button>
+      </div>
+      <span id="topLevel" class="pill">級別：2</span><button class="btn sm ghost" id="btnSettings">設定</button>
+    </div>
   </header>
 
   <!-- ================= 首頁 ================= -->
@@ -373,6 +387,63 @@ input[type=checkbox]{accent-color:var(--red);width:17px;height:17px}
     <div class="panel" style="margin-top:24px">
       <h3>本頁採用的規則版本</h3>
       <p class="sm">以《江蘇省摜蛋競賽簡易規則（2017 版）》與國家體育總局棋牌運動管理中心常見競賽規則為主；遇到民間玩法分歧的地方，教學章節會標明「歧義」並說明本頁的取捨，設定頁可切換部分項目。完整說明見「規則教學 → 第十章」。</p>
+    </div>
+  </section>
+
+  <!-- ================= 歷史故事 ================= -->
+  <section class="view" id="view-story">
+    <div class="panel article">
+      <h2>歷史故事</h2>
+      <p class="sm">摜蛋從哪裡來、為什麼有這個名字，又怎麼從鄉鎮牌桌走到賽場。這裡只寫公開報道和地方文史裡反覆出現、對得上出處的說法；口述和後來的認定會標出來，不把傳說寫成定案。</p>
+
+      <h3>名字：摜蛋、摜牌，以及口語裡的「搓蛋」</h3>
+      <p>現在最常見的寫法是<b class="gold">摜蛋</b>。競賽文件裡也寫「摜牌（摜蛋）」。牌桌上另有人叫它<b>搓蛋</b>：口語裡「搓」就是坐下來打牌，跟「搓麻將」是同一個「搓」，「蛋」仍是這一局。這是叫法，不是另一套規則，也不是南閘當年寫下來的原名。書面、非遺和賽事用的仍是摜蛋。</p>
+      <p>「摜」在江淮口語裡有摔、砸、甩的意思，農活裡的「摜麥」就是把麥把舉高再摔下去脫粒。地方文史和仍在世的玩牌人都把出牌時揚起、再摔到桌上的動作跟這個字連在一起。後面那個音 <span class="gold">dàn</span>，說法並不一致：</p>
+      <ul>
+        <li>不少淮安人口語裡，它原先更接近「炸彈」的「彈」。牌一摔下去，叫的就是手裡的炸。</li>
+        <li>寫成「蛋」是後來的事。淮安市政協的文史整理說，很長一段時間只有讀音、沒有固定寫法；約在 2005 年，淮安網要把玩法做成網路遊戲，才把字定為「摜蛋」。當事人的回憶裡，也有人說到當晚的炒鴨蛋。兩種回憶可以並存。</li>
+      </ul>
+      <p>報刊上還能看到「灌蛋」「摜彈」。作家王干談過這些異寫。它們指的是同一類牌，不是另一種發明。民間還有一句很常見的話：「飯前不摜蛋，等於沒吃飯。」那是愛好者的口頭禪，不是起源證據。</p>
+
+      <div class="note"><b>「淮海」是地區，不是淮海戰役。</b>南閘在淮河下游、大運河旁邊，地理上屬於人們說的淮海一帶；玩法後來也在江蘇、安徽傳開。公開材料把成型放在二十世紀六十年代的鄉鎮牌桌，而不是 1948–1949 年的戰場。把「淮海」理解成這片地區可以，理解成「戰役裡發明的」則缺少出處。</div>
+
+      <h3>一般認為從哪裡開始</h3>
+      <p>江蘇省體育局轉載的地方文章、國家體育總局的報道，以及淮安市政協《文史活頁》裡朱潔的《摜蛋文化發展簡史》，都把起點指向<b>江蘇省淮安縣南閘公社</b>（今淮安市淮安區漕運鎮一帶），時間是<b>二十世紀六十年代</b>。2014 年，「淮安摜蛋」列入淮安市非物質文化遺產，類別是傳統體育、遊藝與雜技。</p>
+      <p>更細的一種說法來自玩牌人自己。2024 年，江蘇摜蛋運動協會公開把「中國摜蛋發明人」的稱號發給四位南閘人：孫兆成、樊越榮、耿志昌、陶萬智，並稱漕運鎮（原南閘鄉）為發源地。據仍在世的孫兆成回憶，1969 年國慶前後，他們覺得一副牌的「爭上游」太單調，就把「打對門」「爭上游」「打夯」拼在一起：仍是對坐合作、先出完者勝，再補上紅桃「逢人配」，以及四張同點算炸彈、張數更多的炸彈可以壓過張數少的、同花順可以壓過一部分炸彈。這是口述，又在很多年以後由協會認定，適合當作當事人的版本，而不是當年的檔案。</p>
+      <p>另一條本地研究者的線索是南閘的紙牌「小鬼牌」（八十四張）。朱潔的簡史寫道：小鬼牌裡的「紅總王」能配牌，近於後來的逢人配；「五花飄」則近於同花順。六七十年代，撲克上的「跑得快」和「打對門」（升級一類）傳到南閘，人們把舊紙牌的配牌和組合接進新的撲克局。非遺介紹裡也有相近的話。它解釋的是<b>牌型可能從哪裡借來</b>，並不取代「六十年代在南閘成型」這句更常被引用的說法。</p>
+
+      <h3>怎麼從南閘傳到蘇皖</h3>
+      <div class="ladder">
+        <span><i>1960 年代</i>南閘成型</span>
+        <span><i>1985</i>鄉賽</span>
+        <span><i>1980–90 年代</i>縣內、工地、務工</span>
+        <span><i>2000 年前後</i>市內與周邊</span>
+        <span><i>2005</i>上網並定名</span>
+        <span><i>2014</i>市級非遺</span>
+        <span><i>2016–17</i>賽事與規則</span>
+      </div>
+      <p>簡史記了 1985 年南閘鄉的一場民歌與摜蛋大賽，賽場在南閘中學，有三十二支隊伍。此後周邊鄉鎮開始跟著打。水利工地上，南閘民工歇下來就擺牌，外鄉的人學會了；外出務工的人再把打法帶去別處。到八九十年代，它已是當時淮安縣很常見的文娛。</p>
+      <p>大約 2000 年以後，玩法從縣城一帶進到地級淮安市和周邊城市。簡史說市區這一段「沒有確切的說法」，其中一種是掛職幹部把打法帶進市裡——這裡只保留「其中一種」，不寫成唯一路線。再往外，國家體育總局和新華社的報道都說它流行於江蘇、安徽。蘇皖一起被提到，是因為傳開以後的群眾基礎，不是因為安徽另有一個同樣被寫定的發明地。</p>
+      <p>2005 年 6 月，淮安網推出摜蛋網頁遊戲，並把字定為「摜蛋」。地方文史把這件事看成從口頭玩法走到固定名稱、再走到線上的一步。此後南京和周邊城市的牌桌、電視臺欄目和網站，讓它離開南閘。</p>
+
+      <h3>寫成規則，走上賽場</h3>
+      <p>民間打法長期並不統一。本頁規則章採用的《江蘇省摜蛋競賽簡易規則（2017 版）》，是江蘇省社會體育管理中心在 2017 年 4 月公布的，用來把執裁和判罰說清楚。同一時期，國家體育總局棋牌運動管理中心審定、並於 2017 年 4 月在淮安頒布《淮安摜蛋競賽規則》，把一些口語牌名改成比賽用名，例如「木板」寫成三連對，「雜花順」寫成順子，「火箭」寫成同花順。</p>
+      <ul>
+        <li><b>2014 年</b>：淮安市把「淮安摜蛋」列入市級非物質文化遺產。</li>
+        <li><b>2016 年 2 月</b>：國際智力運動聯盟智力運動精英賽在淮安舉行，淮安摜蛋作為表演項目出場。同一年，它也進入江蘇省第七屆全民健身運會的正式比賽。</li>
+        <li><b>2017 年 1 月 18 日</b>：棋牌運動管理中心在中國棋院把摜蛋列入全國趣味棋牌類競賽項目，排在競技二打一之後。</li>
+        <li>後來還有試行的競技規則，以及全國智力運動會上的表演項目。寫進賽事，並不等於各地牌桌只剩一種打法——規則教學第十章仍會標出民間分歧。</li>
+      </ul>
+      <div class="ambig"><b>這些話先不要當成史實。</b>「某人某日獨自發明了今天的全部規則」「淮海戰役軍中所創」「從來只有一個毫無爭議的發源城市」——要麼缺少同時期記載，要麼和後來的公開認定不是同一層材料。南閘／漕運鎮是目前政府報道、非遺和地方文史最常對上的起點；1969 年四人拼玩法，是發明人回憶加上 2024 年的協會認定。</div>
+
+      <h3>材料從哪來</h3>
+      <ul>
+        <li>朱潔《摜蛋文化發展簡史》，淮安市政協《文史活頁》2024 年第 6 期。南閘、小鬼牌、1985 年鄉賽、工地與務工、2005 年定名，主要據此。</li>
+        <li>江蘇省體育局 2022 年轉載《淮安區報》《淮安摜蛋的起源及發展》：六十年代的南閘公社（今漕運鎮）。</li>
+        <li>國家體育總局網站：2017 年 1 月列入趣味棋牌競賽項目（新華社報道）；2017 年 4 月頒布《淮安摜蛋競賽規則》。報道並寫明當時流行於江蘇、安徽。</li>
+        <li>江蘇省社會體育管理中心《江蘇省摜蛋競賽簡易規則》（2017 版）。本頁的規則引擎以此和棋牌中心常見競賽版為骨幹。</li>
+        <li>2024 年江蘇摜蛋運動協會對漕運鎮與四位發明人的公開認定，以及孫兆成關於 1969 年國慶的回憶（揚子晚報等報道）。作口述和事後認定，不升格成當年檔案。</li>
+      </ul>
     </div>
   </section>
 
@@ -2045,5 +2116,134 @@ if(typeof module!=='undefined'&&module.exports){
   module.exports={GD:GD,STATE:STATE,LESSONS:LESSONS,CHAPTERS:CHAPTERS};
 }
 </script>
+<script>
+'use strict';
+/* 繁→簡：OpenCC t2s 用字（Apache-2.0, BYVoid/OpenCC）裡本頁出現過的字。
+   詞只保留和逐字轉換結果不同的幾條（反覆、網路，以及臺灣寫法裡的「著」）。
+   只改畫面上的文字與無障礙標籤，不改 option 的 value、牌局資料或規則引擎。 */
+(function(){
+var CT="並來個們備傳僅價儲內兩別刪則創動務勝勢區協卻參啟單嗎嘗嚴國圖執報場壓夠娛孫學實審寫寬將專對導屆層屬帳帶幹幾張強彈後從愛慶憶應戰戲捨掛採揚換摜撲擇據擬擺敘敵數斷於時暫曉書會東條榮構標樣機檔檢欄權歷歸決沒況減測湊準潔瀏為無營爭獨獲現環產畫異當發盤眾確礎禪種稱競節範簡紀約紅紙級細紹終組結絕給統經維網線練縣總繞繼續罰義習聯職脫腦臺與舉舊華萬蓋藝蘇處號術衝補裡複見規視覺覽觀訂計訊記訣設許診註試話該詳誌認語誤說誰調談請論講證識議讀變讓負貢責資質賴賽贏軍較載輪輸轉轟辦農這連進遊運過達遠適選遺還邊鄉釋針鈕鋼錄錯鍵鎖鎮長門閉開間閘闖關陣隊階際雖雙雜離難電響頁項順須預頒領頭題類顯風飄飯餘體鴨麥麼點齊";
+var CS="并来个们备传仅价储内两别删则创动务胜势区协却参启单吗尝严国图执报场压够娱孙学实审写宽将专对导届层属帐带干几张强弹后从爱庆忆应战戏舍挂采扬换掼扑择据拟摆叙敌数断于时暂晓书会东条荣构标样机档检栏权历归决没况减测凑准洁浏为无营争独获现环产画异当发盘众确础禅种称竞节范简纪约红纸级细绍终组结绝给统经维网线练县总绕继续罚义习联职脱脑台与举旧华万盖艺苏处号术冲补里复见规视觉览观订计讯记诀设许诊注试话该详志认语误说谁调谈请论讲证识议读变让负贡责资质赖赛赢军较载轮输转轰办农这连进游运过达远适选遗还边乡释针钮钢录错键锁镇长门闭开间闸闯关阵队阶际虽双杂离难电响页项顺须预颁领头题类显风飘饭余体鸭麦么点齐";
+var PH={"反覆":"反复","網路":"网络","跟著":"跟着","急著":"急着"};
+var CM=Object.create(null);
+for(var i=0;i<CT.length;i++) CM[CT.charAt(i)]=CS.charAt(i);
+var MAXP=2;
+function toHans(s){
+  if(!s) return s;
+  var n=s.length,i=0,out='';
+  while(i<n){
+    var best=0,bestv='',lim=MAXP<n-i?MAXP:n-i;
+    for(var len=lim;len>=2;len--){
+      var sub=s.substr(i,len);
+      if(Object.prototype.hasOwnProperty.call(PH,sub)){best=len;bestv=PH[sub];break;}
+    }
+    if(best){out+=bestv;i+=best;}
+    else{var ch=s.charAt(i);out+=(CM[ch]||ch);i++;}
+  }
+  return out;
+}
+var textOrig=new WeakMap();
+var attrOrig=new WeakMap();
+var ATTRS=['aria-label','title','alt','placeholder'];
+var mode='zh-Hant';
+function hidden(node){
+  var el=node.nodeType===1?node:node.parentElement;
+  return !el||!!el.closest('script,style,noscript,[data-script-lock]');
+}
+function convertText(node){
+  if(!node||node.nodeType!==3||hidden(node)) return;
+  var raw=node.nodeValue;
+  if(!raw||!/[\u3400-\u9fff]/.test(raw)) return;
+  var prev=textOrig.get(node);
+  if(prev!==undefined&&raw===toHans(prev)) return;
+  var simp=toHans(raw);
+  if(simp===raw) return;
+  textOrig.set(node,raw);
+  node.nodeValue=simp;
+}
+function restoreText(node){
+  if(!node||node.nodeType!==3) return;
+  var prev=textOrig.get(node);
+  if(prev!==undefined&&node.nodeValue!==prev) node.nodeValue=prev;
+  textOrig.delete(node);
+}
+function convertAttrs(el){
+  if(!el||el.nodeType!==1||hidden(el)) return;
+  var bag=attrOrig.get(el);
+  for(var i=0;i<ATTRS.length;i++){
+    var a=ATTRS[i];
+    if(!el.hasAttribute(a)) continue;
+    var raw=el.getAttribute(a);
+    var prev=bag&&bag[a];
+    if(prev!==undefined&&raw===toHans(prev)) continue;
+    var simp=toHans(raw);
+    if(simp===raw) continue;
+    if(!bag){bag={};attrOrig.set(el,bag);}
+    bag[a]=raw;
+    el.setAttribute(a,simp);
+  }
+}
+function restoreAttrs(el){
+  if(!el||el.nodeType!==1) return;
+  var bag=attrOrig.get(el);
+  if(!bag) return;
+  for(var a in bag){ if(el.getAttribute(a)!==bag[a]) el.setAttribute(a,bag[a]); }
+  attrOrig.delete(el);
+}
+function walk(root,fnText,fnEl){
+  if(!root||hidden(root)) return;
+  if(root.nodeType===3){fnText(root);return;}
+  if(root.nodeType!==1) return;
+  fnEl(root);
+  var kids=root.childNodes;
+  for(var i=0;i<kids.length;i++){
+    var c=kids[i];
+    if(c.nodeType===3) fnText(c);
+    else if(c.nodeType===1) walk(c,fnText,fnEl);
+  }
+}
+var obs=new MutationObserver(function(recs){
+  if(mode!=='zh-Hans') return;
+  obs.disconnect();
+  recs.forEach(function(r){
+    if(r.type==='characterData') convertText(r.target);
+    else if(r.type==='attributes') convertAttrs(r.target);
+    else if(r.type==='childList'){
+      r.addedNodes.forEach(function(n){
+        if(n.nodeType===3) convertText(n);
+        else if(n.nodeType===1) walk(n,convertText,convertAttrs);
+      });
+    }
+  });
+  arm();
+});
+function arm(){
+  obs.observe(document.documentElement,{
+    subtree:true,childList:true,characterData:true,
+    attributes:true,attributeFilter:ATTRS
+  });
+}
+function paint(next){
+  mode=next==='zh-Hans'?'zh-Hans':'zh-Hant';
+  try{localStorage.setItem('gd_script',mode);}catch(e){}
+  document.documentElement.lang=mode;
+  var h=document.getElementById('btnHant'),s=document.getElementById('btnHans'),g=document.getElementById('scriptToggle');
+  if(h) h.setAttribute('aria-pressed',mode==='zh-Hant'?'true':'false');
+  if(s) s.setAttribute('aria-pressed',mode==='zh-Hans'?'true':'false');
+  if(g) g.setAttribute('aria-label',mode==='zh-Hans'?'繁简切换':'繁簡切換');
+  obs.disconnect();
+  if(mode==='zh-Hans') walk(document.documentElement,convertText,convertAttrs);
+  else walk(document.documentElement,restoreText,restoreAttrs);
+  arm();
+}
+var hb=document.getElementById('btnHant'),sb=document.getElementById('btnHans');
+if(hb) hb.addEventListener('click',function(){paint('zh-Hant');});
+if(sb) sb.addEventListener('click',function(){paint('zh-Hans');});
+var saved='zh-Hant';
+try{var v=localStorage.getItem('gd_script'); if(v==='zh-Hans'||v==='zh-Hant') saved=v;}catch(e){}
+paint(saved);
+})();
+</script>
+
 </body>
 </html>
