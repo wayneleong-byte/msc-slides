@@ -2,73 +2,117 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#173c37" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>第十一屆我最愛餐廳選舉｜澳門美食地圖</title>
-  <meta name="description" content="食客向互動地圖：第十一屆我最愛餐廳選舉獲獎餐廳，可按分類篩選，並以高德地圖導航。" />
+  <meta name="description" content="食客向互動地圖：第十一屆我最愛餐廳選舉獲獎餐廳，可按獎項、分類、地區篩選，並以高德地圖導航。" />
   <link rel="stylesheet" href="assets/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="assets/app.css?v=6" />
+  <link rel="stylesheet" href="assets/app.css?v=20261112" />
 </head>
 <body class="view-map">
   <div id="app">
     <header class="topbar">
       <div class="brand">
-        <h1>澳門美食地圖</h1>
-        <p class="sub">第十一屆我最愛餐廳選舉 · 食客向</p>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" width="40" height="40">
+            <circle cx="20" cy="20" r="18.5" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+            <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" stroke-width=".8" opacity=".4"/>
+            <path d="M20 8.5l2.6 6.1 6.6.6-5 4.3 1.5 6.4L20 22.5l-5.7 3.4 1.5-6.4-5-4.3 6.6-.6z" fill="currentColor"/>
+            <path d="M11 28.5h18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".7"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="eyebrow">第十一屆我最愛餐廳選舉</span>
+          <h1>澳門美食地圖</h1>
+        </span>
       </div>
       <div class="topbar-actions">
         <div class="mode-switch" role="tablist" aria-label="觀看模式">
           <button type="button" id="btnModeMap" class="on" role="tab" aria-selected="true">地圖</button>
           <button type="button" id="btnModeList" role="tab" aria-selected="false">列表</button>
         </div>
-        <button type="button" id="btnTogglePanel" class="icon-btn" aria-label="開啟／關閉列表">☰</button>
+        <button type="button" id="btnShare" class="icon-btn" aria-label="複製此頁面的分享連結" title="分享">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg>
+        </button>
       </div>
     </header>
 
     <div class="workspace">
-      <aside id="panel" class="panel">
-        <div class="panel-inner">
-          <div class="search-row">
-            <input id="search" type="search" placeholder="搜尋店名、獎項、地址…" autocomplete="off" enterkeyhint="search" />
-            <button type="button" id="btnClear" class="text-btn">清除</button>
-          </div>
+      <aside id="panel" class="panel" aria-label="搜尋與餐廳列表">
+        <div class="panel-scroll">
+          <section class="search-block">
+            <div class="search-box">
+              <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
+              <input id="search" type="search" placeholder="搜尋店名、獎項、地址…" autocomplete="off" enterkeyhint="search" aria-label="搜尋餐廳" />
+              <button type="button" id="btnClear" class="clear-btn hidden" aria-label="清除搜尋">×</button>
+            </div>
+            <div id="suggestions" class="suggestions hidden" role="listbox" aria-label="搜尋建議"></div>
+          </section>
 
-          <div class="filter-block">
-            <div class="filter-label">獎項類型</div>
+          <section class="filters">
+            <div class="filter-head">
+              <span class="filter-label">獎項類型</span>
+              <button type="button" id="btnReset" class="reset-btn">清除全部</button>
+            </div>
             <div id="groupFilters" class="chips"></div>
-          </div>
 
-          <div class="filter-block collapsible">
-            <button type="button" class="filter-label toggle" id="btnToggleCats">分類（25類等） ▾</button>
+            <div class="filter-head"><span class="filter-label">地區</span></div>
+            <div id="areaFilters" class="chips"></div>
+
+            <button type="button" class="cat-toggle" id="btnToggleCats" aria-expanded="false">
+              <span>分類篩選</span><span id="catCount" class="cat-count"></span><span class="chev">▾</span>
+            </button>
             <div id="catFilters" class="chips cats hidden"></div>
-          </div>
+          </section>
 
           <div class="result-meta">
-            <span id="resultCount">—</span>
-            <span id="pinHint" class="muted"></span>
+            <span id="resultCount" class="result-count">載入中…</span>
+            <span id="resultHint" class="result-hint"></span>
           </div>
 
-          <ul id="list" class="list"></ul>
+          <ul id="list" class="list" aria-label="餐廳列表"></ul>
 
           <footer class="panel-foot">
             <details class="src-details">
-              <summary>資料說明</summary>
-              <p>資料來源：第十一屆我最愛餐廳選舉獲獎名單（澳門餐飲行業協會／劃澳等主辦承辦）。位置與聯絡優先引用<a href="https://www.macaotourism.gov.mo/" target="_blank" rel="noopener">澳門旅遊局</a>公開餐飲資料及餐廳／酒店官方頁。缺漏欄位不捏造。</p>
-              <p class="muted">底圖 OpenStreetMap；導航使用高德地圖深連結（未載入高德 JS API）。</p>
+              <summary>資料說明與來源</summary>
+              <p>獎項與店名以「第十一屆我最愛餐廳選舉」兩張獲獎名單圖為準。地址、電話、座標僅採用<a href="https://www.macaotourism.gov.mo/" target="_blank" rel="noopener">澳門旅遊局</a>公開餐飲資料及餐廳／酒店官方頁面。</p>
+              <p>缺漏欄位一律留空並標「待補」，不捏造電話、營業時間、價位、座標或店舖介紹。標示「約略位置」者只表示所屬建築／地區範圍，並非店舖精確位置；「位置待補」者請用導航按鈕以店名搜尋。</p>
+              <p class="muted">底圖 OpenStreetMap（本地 Leaflet）；導航為高德地圖深連結，本頁未載入高德 JS API。相片標「示意圖片」者非官方圖片，僅供參考。</p>
             </details>
           </footer>
         </div>
       </aside>
 
       <div class="map-pane">
+        <div class="map-tools">
+          <button type="button" id="btnLocate" class="tool-btn" title="顯示我附近的餐廳">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="8"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg>
+            <span>我附近</span>
+          </button>
+          <button type="button" id="btnFit" class="tool-btn" title="回到全澳門視角">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V4h5M21 9V4h-5M3 15v5h5M21 15v5h-5"/></svg>
+            <span>全覽</span>
+          </button>
+        </div>
+
         <div id="soloBanner" class="solo-banner hidden" role="status">
           <span id="soloText" class="solo-text">只顯示一間餐廳</span>
           <button type="button" id="btnClearSolo">顯示全部</button>
         </div>
+
         <main id="map" role="application" aria-label="澳門餐廳地圖"></main>
+
+        <div id="mapLegend" class="map-legend" aria-hidden="true">
+          <span><i class="dot dot-official"></i>已核實位置</span>
+          <span><i class="dot dot-approx"></i>約略位置</span>
+          <span><i class="dot dot-cluster"></i>多間聚合</span>
+        </div>
+
         <div id="detail" class="detail hidden" aria-live="polite">
+          <div class="sheet-handle" aria-hidden="true"></div>
           <button type="button" id="btnCloseDetail" class="detail-close" aria-label="關閉">×</button>
           <div id="detailBody"></div>
         </div>
@@ -77,11 +121,11 @@
 
     <nav class="bottom-nav" aria-label="手機觀看模式">
       <button type="button" id="navMap" class="on" aria-current="page">
-        <span class="ico">🗺️</span>
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M9 3L3 5.5v15L9 18l6 3 6-2.5v-15L15 6z"/><path d="M9 3v15M15 6v15"/></svg>
         <span>地圖</span>
       </button>
       <button type="button" id="navList">
-        <span class="ico">📋</span>
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="3.5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="3.5" cy="18" r="1.2" fill="currentColor" stroke="none"/></svg>
         <span>列表篩選</span>
       </button>
     </nav>
@@ -93,7 +137,9 @@
     <p id="lightboxCaption" class="lightbox-caption"></p>
   </div>
 
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
   <script src="assets/leaflet/leaflet.js"></script>
-  <script src="assets/app.js?v=6"></script>
+  <script src="assets/app.js?v=20261112"></script>
 </body>
 </html>
