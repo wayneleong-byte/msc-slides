@@ -1,0 +1,7905 @@
+/* 由 scripts/fix_data.py 與 restaurants.json 同步產出；供 file:// 直接開檔時使用，勿手動編輯。 */
+window.__MACAU_FOOD_DATA__ = {
+  "meta": {
+    "title": "第十一屆我最愛餐廳選舉｜澳門美食地圖",
+    "subtitle": "食客向互動地圖（不含供應商獎項）",
+    "source": "獎項與店名以「第十一屆我最愛餐廳選舉」兩張獲獎名單圖為準；地址、電話、座標僅採用澳門旅遊局公開餐飲資料及餐廳／酒店官方頁面。",
+    "map_note": "底圖：OpenStreetMap（本地 Leaflet）。導航：高德地圖深連結（uri.amap.com），未載入高德 JS API。",
+    "generated_at": "2026-11-12",
+    "updated": "2026-11-12",
+    "timezone": "Asia/Macau",
+    "counts": {
+      "restaurants": 168,
+      "with_coordinates": 91,
+      "with_official_coordinates": 15,
+      "with_approx_coordinates": 72,
+      "with_address": 90,
+      "with_authoritative_link": 58,
+      "with_phone": 63,
+      "with_hours": 46,
+      "with_price_range": 0,
+      "with_verified_signature": 0,
+      "branches_added": 22,
+      "branch_entries": 35,
+      "award_dishes_from_name_list": 9
+    },
+    "note": "2026-11-12 核對：逐項比對兩張名單圖，修正 4 處店名錯字；移除無可靠來源的77 組座標、71 條佔位地址、168 條按分類生成的模板介紹及 38 條推導式招牌菜；23 筆地址改用澳門旅遊局中文地址；修正 4 處分店連結／電話錯配；另清查自動比對錯配，移除 7 筆誤填的地址／電話／座標／連結；導航深連結改為「僅官方座標才定位，其餘用店名搜尋」。金蓮花菜式獎的 9 道獲獎菜式保留於 awards[].dish，頁面直接呈現。缺漏欄位一律留空並標「待補」，不捏造電話、營業時間、價位、座標或介紹。",
+    "data_policy": "缺漏欄位不捏造；無來源者留空並標「待補」。coord_accuracy：official／approx／unverified／missing。",
+    "sources": [
+      "source-25cats.jpg（25 類獲獎名單）",
+      "source-other.jpg（最高得票本土品牌、心動味力榜、2026 心動味力 Top10、金蓮花菜式獎、中國文旅金馬獎、最佳酒店精選、旅遊／社區餐飲名店、最佳藥膳湯水）",
+      "mgto_rest.json（澳門旅遊局公開餐飲資料，672 筆）",
+      "mgto_qtsas.json（澳門旅遊局星級旅遊服務商戶，315 筆，含官方座標）",
+      "mgto_detail_cache.json（旅遊局商戶詳細頁快取）",
+      "branch_expand_report.json（22 間後補分店展開紀錄）"
+    ],
+    "excluded": [
+      "最佳供應商獎（非食客向餐廳）",
+      "中國文旅金馬獎·人物及企業獎中的個人獎項（非餐廳）"
+    ]
+  },
+  "filter_groups": [
+    {
+      "id": "cats",
+      "label": "25類獲獎"
+    },
+    {
+      "id": "heart",
+      "label": "心動味力榜"
+    },
+    {
+      "id": "top10",
+      "label": "2026心動味力Top10"
+    },
+    {
+      "id": "golden",
+      "label": "金蓮花菜式獎"
+    },
+    {
+      "id": "horse_dish",
+      "label": "中國文旅金馬獎·名菜"
+    },
+    {
+      "id": "horse_person",
+      "label": "中國文旅金馬獎·人物企業"
+    },
+    {
+      "id": "hotel",
+      "label": "最佳酒店精選"
+    },
+    {
+      "id": "travel",
+      "label": "旅遊餐飲名店"
+    },
+    {
+      "id": "community",
+      "label": "社區餐飲名店"
+    },
+    {
+      "id": "local_brand",
+      "label": "最高得票本土品牌"
+    },
+    {
+      "id": "soup",
+      "label": "最佳藥膳湯水"
+    }
+  ],
+  "filter_categories": [
+    "我最愛茶餐廳",
+    "我最愛老字號",
+    "我最愛酒店餐廳",
+    "最高得票本土品牌",
+    "我最愛自助餐、放題",
+    "我最愛手搖茶飲",
+    "我最愛麵食",
+    "我最愛粥品",
+    "我最愛燒味",
+    "我最愛茶樓酒家",
+    "社區餐飲名店",
+    "我最愛火鍋",
+    "心動味力榜",
+    "我最愛海鮮小炒",
+    "我最愛街頭小食",
+    "我最愛咖啡",
+    "我最愛甜品",
+    "我最愛烘焙店",
+    "我最愛日本菜",
+    "我最愛東南亞菜",
+    "我最愛西餐",
+    "我最愛葡國菜",
+    "我最愛川湘菜",
+    "我最愛韓國料理",
+    "我最愛燒烤",
+    "2026心動味力Top10",
+    "我最愛酒吧",
+    "我最愛創意私房菜",
+    "我最愛素食",
+    "金蓮花菜式獎",
+    "中國文旅金馬獎·名菜獎",
+    "旅遊餐飲名店",
+    "中國文旅金馬獎·年度傑出創意餐飲品牌",
+    "最佳藥膳湯水"
+  ],
+  "restaurants": [
+    {
+      "id": "r001",
+      "name": "路環輝記美食茶座",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛茶餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛茶餐廳"
+      ],
+      "area": "路環",
+      "address": "澳門路環十月初五日街",
+      "lat": 22.1168,
+      "lng": 113.5508,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%B7%AF%E7%92%B0%E8%BC%9D%E8%A8%98%E7%BE%8E%E9%A3%9F%E8%8C%B6%E5%BA%A7%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%B7%AF%E7%92%B0%E8%BC%9D%E8%A8%98%E7%BE%8E%E9%A3%9F%E8%8C%B6%E5%BA%A7%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（公開商戶／媒體報導近似位置）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r001.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r002",
+      "name": "榮威美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛茶餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛茶餐廳"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A6%AE%E5%A8%81%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E5%A8%81%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r002.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r003",
+      "name": "金撈茶餐室",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛茶餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛茶餐廳"
+      ],
+      "area": "澳門半島",
+      "address": "RUA UM DO BAIRRO IAO HON, N.° 61, HENG LONG, R/C A, MACAU.",
+      "lat": 22.211801035704593,
+      "lng": 113.55095826587161,
+      "phone": "+853 6668 0348",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9130106",
+        "amap": "https://uri.amap.com/marker?position=113.55095826587161,22.211801035704593&name=%E9%87%91%E6%92%88%E8%8C%B6%E9%A4%90%E5%AE%A4&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.211801035704593,113.55095826587161"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r003.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "coord_accuracy": "official",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r004",
+      "name": "盛記白粥（雅廉訪總店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門雅廉訪大馬路77號地下（幸運閣地面）",
+      "lat": 22.20185,
+      "lng": 113.5429,
+      "phone": "+853 2859 1056",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E9%9B%85%E5%BB%89%E8%A8%AA%E7%B8%BD%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E9%9B%85%E5%BB%89%E8%A8%AA%E7%B8%BD%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r004.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r005",
+      "name": "榮記牛雜（官也街店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "氹仔",
+      "address": "氹仔官也街9-D號",
+      "lat": 22.1539,
+      "lng": 113.5561,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%AE%98%E4%B9%9F%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%AE%98%E4%B9%9F%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r005.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r006",
+      "name": "美丹小食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門碼頭／司打口一帶",
+      "lat": 22.1935,
+      "lng": 113.5355,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E4%B8%B9%E5%B0%8F%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E4%B8%B9%E5%B0%8F%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（公開商戶近似位置）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r006.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r007",
+      "name": "倫敦人美食園",
+      "aliases": [
+        "倫敦人美食園（倫敦人酒店）"
+      ],
+      "awards": [
+        {
+          "category": "我最愛酒店餐廳"
+        },
+        {
+          "category": "最高得票本土品牌"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        },
+        {
+          "id": "local_brand",
+          "label": "最高得票本土品牌"
+        }
+      ],
+      "categories": [
+        "我最愛酒店餐廳",
+        "最高得票本土品牌"
+      ],
+      "area": "路氹",
+      "address": "路氹城路氹連貫公路第5及6部分，\"倫敦人名匯\"酒店第1層（L1）",
+      "lat": 22.1488,
+      "lng": 113.5665,
+      "phone": "+853 8113 9788",
+      "hours": "Monday to Tuesday  07:00~11:00\nWednesday to Sunday  07:00~11:00\nWednesday to Sunday  18:00~22:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.londonermacao.com/macau-restaurants",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/11920",
+        "amap": "https://uri.amap.com/marker?position=113.5665,22.1488&name=%E5%80%AB%E6%95%A6%E4%BA%BA%E7%BE%8E%E9%A3%9F%E5%9C%92&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.1488,113.5665"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r007.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:11920",
+        "名單圖：source-25cats.jpg",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r008",
+      "name": "翠華餐廳（銀河店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒店餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒店餐廳"
+      ],
+      "area": "路氹",
+      "address": "路氹望德聖母灣大馬路澳門銀河地面層G45／G51舖",
+      "lat": 22.14979,
+      "lng": 113.55307,
+      "phone": "+853 8883 2268",
+      "hours": "24 Hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.tsuiwah.com/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/11341",
+        "amap": "https://uri.amap.com/search?keyword=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E9%8A%80%E6%B2%B3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E9%8A%80%E6%B2%B3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": null,
+      "photo": "assets/photos/r008.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「翠華餐廳」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r009",
+      "name": "密利拿海鮮酒家",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒店餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒店餐廳"
+      ],
+      "area": "路氹",
+      "address": "路氹填海區，路氹連貫公路以西，望德聖母灣大馬路以南，\"澳門威尼斯人酒店\"大運河購物中心第5層3006-3007A舖位",
+      "lat": 22.14704564712552,
+      "lng": 113.5598373413086,
+      "phone": "+853 2875 2151",
+      "hours": "Monday to Sunday  10:30~23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/14031",
+        "amap": "https://uri.amap.com/marker?position=113.5598373413086,22.14704564712552&name=%E5%AF%86%E5%88%A9%E6%8B%BF%E6%B5%B7%E9%AE%AE%E9%85%92%E5%AE%B6&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.14704564712552,113.5598373413086"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r009.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:14031",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r010",
+      "name": "自助山（上葡京綜合度假村）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛自助餐、放題"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛自助餐、放題"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹城「上葡京」綜合度假村",
+      "lat": 22.147,
+      "lng": 113.5645,
+      "phone": "+853 8881 1800",
+      "hours": "Monday to Sunday  07:00~10:30 / Monday to Sunday  12:00~15:00 / Monday to Sunday  18:00~22:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.lisboapalace.com/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/13958",
+        "amap": "https://uri.amap.com/search?keyword=%E8%87%AA%E5%8A%A9%E5%B1%B1%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E7%B6%9C%E5%90%88%E5%BA%A6%E5%81%87%E6%9D%91%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%87%AA%E5%8A%A9%E5%B1%B1%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E7%B6%9C%E5%90%88%E5%BA%A6%E5%81%87%E6%9D%91%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標為度假村範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r010.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「自助山」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r011",
+      "name": "漢普閣",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛自助餐、放題"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛自助餐、放題"
+      ],
+      "area": "路氹",
+      "address": "路氹城路氹連貫公路第5及6部分，\"倫敦人名匯\"酒店第2層（L2）及第3層（L3）",
+      "lat": 22.149,
+      "lng": 113.557,
+      "phone": "+853 8113 8075",
+      "hours": "Monday to Sunday  07:00~23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "http://www.londonermacao.com/macau-restaurants/hampton-court.html",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/14361",
+        "amap": "https://uri.amap.com/search?keyword=%E6%BC%A2%E6%99%AE%E9%96%A3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BC%A2%E6%99%AE%E9%96%A3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（永利皇宮範圍）",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r011.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:14361",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "approx",
+      "is_branch": false
+    },
+    {
+      "id": "r012",
+      "name": "巴黎人自助餐（澳門巴黎人）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛自助餐、放題"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛自助餐、放題"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹城「巴黎人」綜合度假村",
+      "lat": 22.1455,
+      "lng": 113.5615,
+      "phone": "+853 8111 9250",
+      "hours": "Monday to Sunday  07:00~13:00 / Monday to Sunday  18:00~22:30",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.parisianmacao.com/restaurants.html",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/13225",
+        "amap": "https://uri.amap.com/search?keyword=%E5%B7%B4%E9%BB%8E%E4%BA%BA%E8%87%AA%E5%8A%A9%E9%A4%90%EF%BC%88%E6%BE%B3%E9%96%80%E5%B7%B4%E9%BB%8E%E4%BA%BA%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%B7%B4%E9%BB%8E%E4%BA%BA%E8%87%AA%E5%8A%A9%E9%A4%90%EF%BC%88%E6%BE%B3%E9%96%80%E5%B7%B4%E9%BB%8E%E4%BA%BA%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標為度假村範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r012.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「巴黎人自助餐」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r013",
+      "name": "山凌久",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛手搖茶飲"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛手搖茶飲"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%B1%B1%E5%87%8C%E4%B9%85%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%B1%B1%E5%87%8C%E4%B9%85%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r013.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r014",
+      "name": "悅之茶",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛手搖茶飲"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛手搖茶飲"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%82%85%E4%B9%8B%E8%8C%B6%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%82%85%E4%B9%8B%E8%8C%B6%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r014.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r015",
+      "name": "知味茶",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛手搖茶飲"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛手搖茶飲"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%9F%A5%E5%91%B3%E8%8C%B6%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9F%A5%E5%91%B3%E8%8C%B6%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r015.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r016",
+      "name": "英英食店",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛麵食"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛麵食"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.2002,
+      "lng": 113.5415,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%8B%B1%E8%8B%B1%E9%A3%9F%E5%BA%97%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%8B%B1%E8%8B%B1%E9%A3%9F%E5%BA%97%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r016.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r017",
+      "name": "石岐佬樂記美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛麵食"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛麵食"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%9F%B3%E5%B2%90%E4%BD%AC%E6%A8%82%E8%A8%98%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9F%B3%E5%B2%90%E4%BD%AC%E6%A8%82%E8%A8%98%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r017.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r018",
+      "name": "澳門美味好麵食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛麵食"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛麵食"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E7%BE%8E%E5%91%B3%E5%A5%BD%E9%BA%B5%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%BE%8E%E5%91%B3%E5%A5%BD%E9%BA%B5%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r018.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r019",
+      "name": "一哥美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛粥品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛粥品"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.1995,
+      "lng": 113.544,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E4%B8%80%E5%93%A5%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E4%B8%80%E5%93%A5%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r019.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r020",
+      "name": "彪記",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛粥品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛粥品"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%BD%AA%E8%A8%98%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%BD%AA%E8%A8%98%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r020.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r021",
+      "name": "椿記",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛粥品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛粥品"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A4%BF%E8%A8%98%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A4%BF%E8%A8%98%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r021.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r022",
+      "name": "瑞盛記燒味",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛燒味"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛燒味"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%91%9E%E7%9B%9B%E8%A8%98%E7%87%92%E5%91%B3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%91%9E%E7%9B%9B%E8%A8%98%E7%87%92%E5%91%B3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r022.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r023",
+      "name": "德仔記燒味茶餐廳",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛燒味"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛燒味"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%BE%B7%E4%BB%94%E8%A8%98%E7%87%92%E5%91%B3%E8%8C%B6%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%BE%B7%E4%BB%94%E8%A8%98%E7%87%92%E5%91%B3%E8%8C%B6%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r023.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r024",
+      "name": "杏苑燒臘美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛燒味"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛燒味"
+      ],
+      "area": "氹仔",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%9D%8F%E8%8B%91%E7%87%92%E8%87%98%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%9D%8F%E8%8B%91%E7%87%92%E8%87%98%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原值隨自動比對地址而來，已移除。",
+      "intro": null,
+      "address_note": "地址待補：原值來自自動比對，已移除。",
+      "photo": "assets/photos/r024.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "quality_note": "旅遊局對應商戶為「咖啡苑」等永利皇宮餐廳，與「杏苑燒臘美食」不符；相關地址、電話、座標、連結已移除，待核實。",
+      "area_note": "僅地區級資訊，街道地址與座標待補",
+      "sources": [
+        "mgto_rest.json（錯配查核）",
+        "名單圖：source-25cats.jpg"
+      ],
+      "is_branch": false
+    },
+    {
+      "id": "r025",
+      "name": "聯邦大酒樓",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛茶樓酒家"
+        },
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        },
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "我最愛茶樓酒家",
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門山邊街16號及28號五樓",
+      "lat": 22.191975,
+      "lng": 113.546509,
+      "phone": "+853 2831 3313",
+      "hours": "Monday to Sunday  08:00~24:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4088",
+        "amap": "https://uri.amap.com/marker?position=113.546509,22.191975&name=%E8%81%AF%E9%82%A6%E5%A4%A7%E9%85%92%E6%A8%93&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.191975,113.546509"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r025.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4088",
+        "名單圖：source-25cats.jpg",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r026",
+      "name": "港澳德興火鍋海鮮酒家",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛茶樓酒家"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛茶樓酒家"
+      ],
+      "area": "澳門半島",
+      "address": "澳門殷皇子大馬路23號一樓，另有入口設於蘇亞利斯博士大馬路299號",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 2878 7272",
+      "hours": "Monday to Sunday  08:00~24:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4260",
+        "amap": "https://uri.amap.com/search?keyword=%E6%B8%AF%E6%BE%B3%E5%BE%B7%E8%88%88%E7%81%AB%E9%8D%8B%E6%B5%B7%E9%AE%AE%E9%85%92%E5%AE%B6%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B8%AF%E6%BE%B3%E5%BE%B7%E8%88%88%E7%81%AB%E9%8D%8B%E6%B5%B7%E9%AE%AE%E9%85%92%E5%AE%B6%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r026.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4260",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "missing",
+      "is_branch": false
+    },
+    {
+      "id": "r027",
+      "name": "羽軒",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛茶樓酒家"
+        },
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        },
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "我最愛茶樓酒家",
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%BD%E8%BB%92%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%BD%E8%BB%92%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r027.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg",
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r028",
+      "name": "饌貴樓",
+      "aliases": [
+        "額貴樓"
+      ],
+      "awards": [
+        {
+          "category": "我最愛火鍋"
+        },
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        },
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "我最愛火鍋",
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": "澳門友誼大馬路555號，\"新東方置地酒店\"一樓",
+      "lat": 22.198,
+      "lng": 113.545,
+      "phone": "+853 6679 9988",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%A5%8C%E8%B2%B4%E6%A8%93%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%A5%8C%E8%B2%B4%E6%A8%93%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "intro": null,
+      "photo": "assets/photos/r028.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4493",
+        "名單圖：source-25cats.jpg",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "approx",
+      "is_branch": false
+    },
+    {
+      "id": "r029",
+      "name": "滋養四季·椰子雞（華峰食館）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛火鍋"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛火鍋"
+      ],
+      "area": "澳門半島",
+      "address": "RUA FRANCISCO H. FERNANDES, NOS.34, 38 E 44, R/C, LOJAS H, I, J, MACAU.",
+      "lat": 22.188740541568666,
+      "lng": 113.54932643473148,
+      "phone": "+853 2875 5111, +853 2875 5118",
+      "hours": "07:00 to 19:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9030072",
+        "amap": "https://uri.amap.com/search?keyword=%E6%BB%8B%E9%A4%8A%E5%9B%9B%E5%AD%A3%C2%B7%E6%A4%B0%E5%AD%90%E9%9B%9E%EF%BC%88%E8%8F%AF%E5%B3%B0%E9%A3%9F%E9%A4%A8%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BB%8B%E9%A4%8A%E5%9B%9B%E5%AD%A3%C2%B7%E6%A4%B0%E5%AD%90%E9%9B%9E%EF%BC%88%E8%8F%AF%E5%B3%B0%E9%A3%9F%E9%A4%A8%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "旅遊局對應商戶「華峰食館」（自動比對，請以高德／現場為準）",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r029.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「華峰食館」，與本頁店名不同（可能為自動比對結果）；地址與電話僅供參考，請自行核對。",
+      "coord_accuracy": "unverified",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r030",
+      "name": "鍋道場",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛火鍋"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛火鍋"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%8D%8B%E9%81%93%E5%A0%B4%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8D%8B%E9%81%93%E5%A0%B4%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r030.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r031",
+      "name": "張記大排檔",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛海鮮小炒"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛海鮮小炒"
+      ],
+      "area": "澳門半島",
+      "address": "澳門賈伯樂提督街26號地下，地庫和閣樓",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 6687 2424",
+      "hours": "Monday to Sunday  07:00~03:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4174",
+        "amap": "https://uri.amap.com/search?keyword=%E5%BC%B5%E8%A8%98%E5%A4%A7%E6%8E%92%E6%AA%94%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%BC%B5%E8%A8%98%E5%A4%A7%E6%8E%92%E6%AA%94%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r031.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4174",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "missing",
+      "is_branch": false
+    },
+    {
+      "id": "r032",
+      "name": "輝記海鮮美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛海鮮小炒"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛海鮮小炒"
+      ],
+      "area": "澳門半島",
+      "address": "RUA DO GENERAL IVENS FERRAZ, NO.480, LOK IEONG FA UN BLOCO 4(LEI WO KOK), R/C AF, MACAU.",
+      "lat": 22.2070801118162,
+      "lng": 113.540563682755,
+      "phone": null,
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9060027",
+        "amap": "https://uri.amap.com/marker?position=113.540563682755,22.2070801118162&name=%E8%BC%9D%E8%A8%98%E6%B5%B7%E9%AE%AE%E7%BE%8E%E9%A3%9F&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.2070801118162,113.540563682755"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r032.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "coord_accuracy": "official",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r033",
+      "name": "順泰美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛海鮮小炒"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛海鮮小炒"
+      ],
+      "area": "氹仔",
+      "address": "RUA DE CHIU CHAU, N.° 28, KINGLIGHT GARDEN(FOK YUEN, FAI YUEN, LEI YUEN, KAM YUEN), R/C AC, TAIPA.",
+      "lat": 22.1575383067676,
+      "lng": 113.552474367413,
+      "phone": null,
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9150123",
+        "amap": "https://uri.amap.com/marker?position=113.552474367413,22.1575383067676&name=%E9%A0%86%E6%B3%B0%E7%BE%8E%E9%A3%9F&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.1575383067676,113.552474367413"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r033.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "coord_accuracy": "official",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r034",
+      "name": "貼地氣",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛街頭小食"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛街頭小食"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%B2%BC%E5%9C%B0%E6%B0%A3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%B2%BC%E5%9C%B0%E6%B0%A3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r034.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r035",
+      "name": "順記牛雜",
+      "aliases": [
+        "頌記牛雜"
+      ],
+      "awards": [
+        {
+          "category": "我最愛街頭小食"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛街頭小食"
+      ],
+      "area": "氹仔",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%A0%86%E8%A8%98%E7%89%9B%E9%9B%9C%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%A0%86%E8%A8%98%E7%89%9B%E9%9B%9C%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原值隨自動比對地址而來，已移除。",
+      "intro": null,
+      "address_note": "地址待補：原值來自自動比對，已移除。",
+      "photo": "assets/photos/r035.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "quality_note": "旅遊局對應商戶為「榮記牛雜（上葡京店）」，與名單「順記牛雜」不符；相關地址、電話、座標、連結已移除，待核實。",
+      "area_note": "僅地區級資訊，街道地址與座標待補",
+      "sources": [
+        "mgto_rest.json（錯配查核）",
+        "名單圖：source-25cats.jpg"
+      ],
+      "is_branch": false
+    },
+    {
+      "id": "r036",
+      "name": "新記美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛街頭小食"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛街頭小食"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%96%B0%E8%A8%98%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%96%B0%E8%A8%98%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r036.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r037",
+      "name": "Alves Cafe 阿維斯咖啡",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛咖啡"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛咖啡"
+      ],
+      "area": "澳門半島",
+      "address": "ESTRADA DE CACILHAS, NOS.49-53, EDF. HOI FU GARDEN, R/C, FLAT A, MACAU.",
+      "lat": 22.20303839053711,
+      "lng": 113.54973211884499,
+      "phone": "+853 2857 1846",
+      "hours": "07:00 to 23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9000045",
+        "amap": "https://uri.amap.com/search?keyword=Alves%20Cafe%20%E9%98%BF%E7%B6%AD%E6%96%AF%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Alves%20Cafe%20%E9%98%BF%E7%B6%AD%E6%96%AF%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "旅遊局對應商戶「阿維斯咖啡」（自動比對，請以高德／現場為準）",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r037.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「阿維斯咖啡」，與本頁店名不同（可能為自動比對結果）；地址與電話僅供參考，請自行核對。",
+      "coord_accuracy": "unverified",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r038",
+      "name": "D Light Dessert Café（迪恩甜品）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛咖啡"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛咖啡"
+      ],
+      "area": "澳門半島",
+      "address": "RUA DA RIBEIRA DO PATANE, NO 90-A, EDF. LEI HANG, R/C A E K/C, MACAU.",
+      "lat": 22.202944024167447,
+      "lng": 113.54016870260239,
+      "phone": "+853 2855 6332",
+      "hours": "08:00 to 02:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9130080",
+        "amap": "https://uri.amap.com/search?keyword=D%20Light%20Dessert%20Caf%C3%A9%EF%BC%88%E8%BF%AA%E6%81%A9%E7%94%9C%E5%93%81%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=D%20Light%20Dessert%20Caf%C3%A9%EF%BC%88%E8%BF%AA%E6%81%A9%E7%94%9C%E5%93%81%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "旅遊局對應商戶「迪恩甜品」（自動比對，請以高德／現場為準）",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r038.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「迪恩甜品」，與本頁店名不同（可能為自動比對結果）；地址與電話僅供參考，請自行核對。",
+      "coord_accuracy": "unverified",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r039",
+      "name": "意茶舍",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛咖啡"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛咖啡"
+      ],
+      "area": "澳門半島",
+      "address": "AVENIDA PANORÂMICA DO LAGO NAM VAN, N.°S 470-756, AUTO - SILO DE NAM VAN, CAVE I-1, MACAU.",
+      "lat": 22.189486233745438,
+      "lng": 113.53882491588593,
+      "phone": "+853 6639 9466",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9210021",
+        "amap": "https://uri.amap.com/marker?position=113.53882491588593,22.189486233745438&name=%E6%84%8F%E8%8C%B6%E8%88%8D&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.189486233745438,113.53882491588593"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r039.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "coord_accuracy": "official",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r040",
+      "name": "舒淇廚房",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%88%92%E6%B7%87%E5%BB%9A%E6%88%BF%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%88%92%E6%B7%87%E5%BB%9A%E6%88%BF%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r040.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r041",
+      "name": "楊枝金撈甜品（氹仔泉澧店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "氹仔",
+      "address": "氹仔孫逸仙博士大馬路606號泉澧花園地下C",
+      "lat": 22.16149,
+      "lng": 113.55606,
+      "phone": "+853 2856 3080",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/search?keyword=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B0%B9%E4%BB%94%E6%B3%89%E6%BE%A7%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B0%B9%E4%BB%94%E6%B3%89%E6%BE%A7%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": null,
+      "photo": "assets/photos/r041.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「楊枝金撈甜品」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r042",
+      "name": "seekbakery",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=seekbakery%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=seekbakery%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r042.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r043",
+      "name": "Room 8 弄（韋爸工坊）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=Room%208%20%E5%BC%84%EF%BC%88%E9%9F%8B%E7%88%B8%E5%B7%A5%E5%9D%8A%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Room%208%20%E5%BC%84%EF%BC%88%E9%9F%8B%E7%88%B8%E5%B7%A5%E5%9D%8A%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原值隨自動比對地址而來，已移除。",
+      "intro": null,
+      "address_note": "地址待補：原值來自自動比對，已移除。",
+      "photo": "assets/photos/r043.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "quality_note": "旅遊局對應商戶名稱為「8」，與「Room 8 弄（韋爸工坊）」不符；相關地址、電話、座標、連結已移除，待核實。",
+      "area_note": "僅地區級資訊，街道地址與座標待補",
+      "sources": [
+        "mgto_rest.json（錯配查核）",
+        "名單圖：source-25cats.jpg"
+      ],
+      "is_branch": false
+    },
+    {
+      "id": "r044",
+      "name": "美心餅店（水坑尾店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門水坑尾街112號地下",
+      "lat": 22.1958,
+      "lng": 113.5432,
+      "phone": "+853 2838 5883",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E6%B0%B4%E5%9D%91%E5%B0%BE%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E6%B0%B4%E5%9D%91%E5%B0%BE%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r044.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r045",
+      "name": "Sam's Workshop",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=Sam%27s%20Workshop%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Sam%27s%20Workshop%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r045.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r046",
+      "name": "烏東村",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛日本菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛日本菜"
+      ],
+      "area": "路氹",
+      "address": "COTAI, junto à Rotunda da Central Térmica de Coloane, loja F08 do piso 1 (L1) do Hotel \"LISBOETA\"",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 6828 0197",
+      "hours": "Monday to Sunday  11:00~21:30",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/14577",
+        "amap": "https://uri.amap.com/search?keyword=%E7%83%8F%E6%9D%B1%E6%9D%91%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%83%8F%E6%9D%B1%E6%9D%91%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原地區標「路環」，但地址為 COTAI（路氹）、原座標卻落在澳門半島，三者不一致，原值已移除。",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r046.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「烏東村（葡京人）」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "原地區標「路環」，但地址為 COTAI（路氹）、原座標卻落在澳門半島，三者不一致；地區已依地址文字判定，座標待補，不以座標推定。"
+    },
+    {
+      "id": "r047",
+      "name": "櫻川壽司",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛日本菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛日本菜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%AB%BB%E5%B7%9D%E5%A3%BD%E5%8F%B8%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%AB%BB%E5%B7%9D%E5%A3%BD%E5%8F%B8%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r047.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r048",
+      "name": "千笹日本料理",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛日本菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛日本菜"
+      ],
+      "area": "氹仔",
+      "address": "氹仔島南部遊艇碼頭鄰近西堤圓形地，\"百老匯酒店\"配套大樓（二）地面層及一樓層",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 2882 3287",
+      "hours": "Monday to Sunday  12:00~15:00\nMonday to Sunday  18:00~04:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/13121",
+        "amap": "https://uri.amap.com/search?keyword=%E5%8D%83%E7%AC%B9%E6%97%A5%E6%9C%AC%E6%96%99%E7%90%86%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%8D%83%E7%AC%B9%E6%97%A5%E6%9C%AC%E6%96%99%E7%90%86%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r048.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:13121",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "missing",
+      "is_branch": false
+    },
+    {
+      "id": "r049",
+      "name": "泰原味",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛東南亞菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛東南亞菜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%B3%B0%E5%8E%9F%E5%91%B3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B3%B0%E5%8E%9F%E5%91%B3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r049.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r050",
+      "name": "金庫餐廳（回力酒店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛東南亞菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛東南亞菜"
+      ],
+      "area": "澳門半島",
+      "address": "澳門「回力」酒店範圍（精確舖位待補）",
+      "lat": 22.1965,
+      "lng": 113.5495,
+      "phone": "+853 8801 2787",
+      "hours": "24 Hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "http://www.oceanus-macau.com/#!zh-hant/hotel",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/13348",
+        "amap": "https://uri.amap.com/search?keyword=%E9%87%91%E5%BA%AB%E9%A4%90%E5%BB%B3%EF%BC%88%E5%9B%9E%E5%8A%9B%E9%85%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%87%91%E5%BA%AB%E9%A4%90%E5%BB%B3%EF%BC%88%E5%9B%9E%E5%8A%9B%E9%85%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標為酒店範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r050.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「金庫餐廳」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r051",
+      "name": "泰皇宮泰國餐廳",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛東南亞菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛東南亞菜"
+      ],
+      "area": "氹仔",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%B3%B0%E7%9A%87%E5%AE%AE%E6%B3%B0%E5%9C%8B%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B3%B0%E7%9A%87%E5%AE%AE%E6%B3%B0%E5%9C%8B%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r051.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r052",
+      "name": "璇宮餐廳",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛西餐"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛西餐"
+      ],
+      "area": "澳門半島",
+      "address": "Rua de Pequim, n.º 199, 25.º andar do Hotel \"METROPARK\", Macau",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 8790 3261",
+      "hours": "Wednesday to Monday  11:30~18:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "http://www.ctgh.com",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4252",
+        "amap": "https://uri.amap.com/search?keyword=%E7%92%87%E5%AE%AE%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%92%87%E5%AE%AE%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r052.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「京澳璇宮」，與本頁店名不同（可能為自動比對結果）；地址與電話僅供參考，請自行核對。",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r053",
+      "name": "Healer Bar",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛西餐"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛西餐"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=Healer%20Bar%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Healer%20Bar%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r053.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r054",
+      "name": "低卡美感 喜悅福海",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛西餐"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛西餐"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E4%BD%8E%E5%8D%A1%E7%BE%8E%E6%84%9F%20%E5%96%9C%E6%82%85%E7%A6%8F%E6%B5%B7%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E4%BD%8E%E5%8D%A1%E7%BE%8E%E6%84%9F%20%E5%96%9C%E6%82%85%E7%A6%8F%E6%B5%B7%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r054.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r055",
+      "name": "葡賞",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛葡國菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛葡國菜"
+      ],
+      "area": "路氹",
+      "address": "路氹填海區，射擊路，溜冰路，網球路及機場大馬路，\"上葡京\"酒店2樓",
+      "lat": 22.1215,
+      "lng": 113.551,
+      "phone": "+853 8881 1800",
+      "hours": "Monday to Sunday  12:00~22:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/14404",
+        "amap": "https://uri.amap.com/search?keyword=%E8%91%A1%E8%B3%9E%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%91%A1%E8%B3%9E%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（路環一帶（待精準））",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r055.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:14404",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "approx",
+      "is_branch": false
+    },
+    {
+      "id": "r056",
+      "name": "船屋",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛葡國菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛葡國菜"
+      ],
+      "area": "澳門半島",
+      "address": "澳門河邊新街289-AA號和289-BA號地下",
+      "lat": 22.18703990155539,
+      "lng": 113.53115379810333,
+      "phone": "+853 2831 3193",
+      "hours": "Monday to Sunday  12:30~15:00\nMonday to Sunday  18:30~23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "http://alorcha.com/en/home",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4116",
+        "amap": "https://uri.amap.com/marker?position=113.53115379810333,22.18703990155539&name=%E8%88%B9%E5%B1%8B&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.18703990155539,113.53115379810333"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r056.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4116",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r057",
+      "name": "余榮記咖啡葡國餐",
+      "aliases": [
+        "余榮記咖啡葡國餐廳"
+      ],
+      "awards": [
+        {
+          "category": "我最愛葡國菜"
+        },
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        },
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "我最愛葡國菜",
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": "澳門板樟堂街附近",
+      "lat": 22.194,
+      "lng": 113.5405,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E4%BD%99%E6%A6%AE%E8%A8%98%E5%92%96%E5%95%A1%E8%91%A1%E5%9C%8B%E9%A4%90%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E4%BD%99%E6%A6%AE%E8%A8%98%E5%92%96%E5%95%A1%E8%91%A1%E5%9C%8B%E9%A4%90%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（公開商戶近似位置）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r057.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg",
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r058",
+      "name": "澳門小成都",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛川湘菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛川湘菜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E5%B0%8F%E6%88%90%E9%83%BD%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E5%B0%8F%E6%88%90%E9%83%BD%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r058.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r059",
+      "name": "又一川酸辣粉",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛川湘菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛川湘菜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%8F%88%E4%B8%80%E5%B7%9D%E9%85%B8%E8%BE%A3%E7%B2%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%8F%88%E4%B8%80%E5%B7%9D%E9%85%B8%E8%BE%A3%E7%B2%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r059.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r060",
+      "name": "湘川館酸辣粉",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛川湘菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛川湘菜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%B9%98%E5%B7%9D%E9%A4%A8%E9%85%B8%E8%BE%A3%E7%B2%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B9%98%E5%B7%9D%E9%A4%A8%E9%85%B8%E8%BE%A3%E7%B2%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r060.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r061",
+      "name": "漢城韓國燒烤火鍋",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛韓國料理"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛韓國料理"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BC%A2%E5%9F%8E%E9%9F%93%E5%9C%8B%E7%87%92%E7%83%A4%E7%81%AB%E9%8D%8B%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BC%A2%E5%9F%8E%E9%9F%93%E5%9C%8B%E7%87%92%E7%83%A4%E7%81%AB%E9%8D%8B%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r061.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r062",
+      "name": "濟州島韓國料理",
+      "aliases": [
+        "清州島韓國料理"
+      ],
+      "awards": [
+        {
+          "category": "我最愛韓國料理"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛韓國料理"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BF%9F%E5%B7%9E%E5%B3%B6%E9%9F%93%E5%9C%8B%E6%96%99%E7%90%86%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BF%9F%E5%B7%9E%E5%B3%B6%E9%9F%93%E5%9C%8B%E6%96%99%E7%90%86%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r062.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r063",
+      "name": "Goobne Chicken Macau 貢乃烤雞",
+      "aliases": [
+        "Goobne Chicken Macau"
+      ],
+      "awards": [
+        {
+          "category": "我最愛韓國料理"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛韓國料理"
+      ],
+      "area": "氹仔",
+      "address": "RUA DE SENG TOU, NOS.197-203, LAI CHUI KOK, R/C, LOJA J, TAIPA.",
+      "lat": 22.15728064875952,
+      "lng": 113.55536878108978,
+      "phone": "+853 2883 5999",
+      "hours": "11:00 to 02:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9070056",
+        "amap": "https://uri.amap.com/search?keyword=Goobne%20Chicken%20Macau%20%E8%B2%A2%E4%B9%83%E7%83%A4%E9%9B%9E%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Goobne%20Chicken%20Macau%20%E8%B2%A2%E4%B9%83%E7%83%A4%E9%9B%9E%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "旅遊局對應商戶「貢乃」（自動比對，請以高德／現場為準）",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r063.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「貢乃」，與本頁店名不同（可能為自動比對結果）；地址與電話僅供參考，請自行核對。",
+      "coord_accuracy": "unverified",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r064",
+      "name": "榕樹頭雞煲燒烤館",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛燒烤"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛燒烤"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A6%95%E6%A8%B9%E9%A0%AD%E9%9B%9E%E7%85%B2%E7%87%92%E7%83%A4%E9%A4%A8%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%95%E6%A8%B9%E9%A0%AD%E9%9B%9E%E7%85%B2%E7%87%92%E7%83%A4%E9%A4%A8%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r064.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r065",
+      "name": "MEAT UP Niku Bar",
+      "aliases": [
+        "MEAT UP"
+      ],
+      "awards": [
+        {
+          "category": "我最愛燒烤"
+        },
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "2026心動味力Top10"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        },
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        },
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "我最愛燒烤",
+        "心動味力榜",
+        "2026心動味力Top10"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.195,
+      "lng": 113.5435,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=MEAT%20UP%20Niku%20Bar%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=MEAT%20UP%20Niku%20Bar%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r065.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg",
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r066",
+      "name": "麻辣金燒",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛燒烤"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛燒烤"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%BA%BB%E8%BE%A3%E9%87%91%E7%87%92%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%BA%BB%E8%BE%A3%E9%87%91%E7%87%92%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r066.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r067",
+      "name": "Rukas2+",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒吧"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒吧"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=Rukas2%2B%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Rukas2%2B%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r067.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r068",
+      "name": "Cheers Pub",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒吧"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒吧"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=Cheers%20Pub%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Cheers%20Pub%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r068.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r069",
+      "name": "CEO（Neway-富豪）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒吧"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒吧"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=CEO%EF%BC%88Neway-%E5%AF%8C%E8%B1%AA%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=CEO%EF%BC%88Neway-%E5%AF%8C%E8%B1%AA%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r069.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r070",
+      "name": "向廚",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛創意私房菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛創意私房菜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%90%91%E5%BB%9A%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%90%91%E5%BB%9A%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r070.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r071",
+      "name": "時夜",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛創意私房菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛創意私房菜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%99%82%E5%A4%9C%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%99%82%E5%A4%9C%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r071.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r072",
+      "name": "尋味順德",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛創意私房菜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛創意私房菜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%B0%8B%E5%91%B3%E9%A0%86%E5%BE%B7%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%B0%8B%E5%91%B3%E9%A0%86%E5%BE%B7%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r072.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r073",
+      "name": "田耕閣養生館",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛素食"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛素食"
+      ],
+      "area": "路氹",
+      "address": "COTAI, Rua do Tiro, Rua da Patinagem, Rua de Ténis e Avenida do Aeroporto, piso 2 (L02) do Hotel \"PALÁCIO GRANDE LISBOA\"",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 8881 0710",
+      "hours": "Monday to Sunday  10:00~22:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/14528",
+        "amap": "https://uri.amap.com/search?keyword=%E7%94%B0%E8%80%95%E9%96%A3%E9%A4%8A%E7%94%9F%E9%A4%A8%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%94%B0%E8%80%95%E9%96%A3%E9%A4%8A%E7%94%9F%E9%A4%A8%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r073.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「田耕閣養生館（上葡京店）」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r074",
+      "name": "愛素食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛素食"
+        },
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "五指毛桃焗百靈菇貝貝瓜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        },
+        {
+          "id": "golden",
+          "label": "金蓮花菜式獎"
+        }
+      ],
+      "categories": [
+        "我最愛素食",
+        "金蓮花菜式獎"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.197,
+      "lng": 113.544,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%84%9B%E7%B4%A0%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%84%9B%E7%B4%A0%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r074.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-25cats.jpg",
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r075",
+      "name": "VEGA VEGA 我行我素",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛素食"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛素食"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=VEGA%20VEGA%20%E6%88%91%E8%A1%8C%E6%88%91%E7%B4%A0%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=VEGA%20VEGA%20%E6%88%91%E8%A1%8C%E6%88%91%E7%B4%A0%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原值隨自動比對地址而來，已移除。",
+      "intro": null,
+      "address_note": "地址待補：原值來自自動比對，已移除。",
+      "photo": "assets/photos/r075.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "quality_note": "旅遊局對應商戶為「我餐廳」，與「VEGA VEGA 我行我素」不符；相關地址、電話、座標、連結已移除，待核實。",
+      "area_note": "僅地區級資訊，街道地址與座標待補",
+      "sources": [
+        "mgto_rest.json（錯配查核）",
+        "名單圖：source-25cats.jpg"
+      ],
+      "is_branch": false
+    },
+    {
+      "id": "r076",
+      "name": "沙利文餐廳",
+      "aliases": [
+        "沙利文餐廳（Solmar）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "2026心動味力Top10"
+        },
+        {
+          "category": "中國文旅金馬獎·名菜獎"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        },
+        {
+          "id": "horse_dish",
+          "label": "中國文旅金馬獎·名菜"
+        },
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "心動味力榜",
+        "2026心動味力Top10",
+        "中國文旅金馬獎·名菜獎"
+      ],
+      "area": "澳門半島",
+      "address": "澳門南灣大馬路510-512號地下和閣樓",
+      "lat": 22.1919952,
+      "lng": 113.5405749,
+      "phone": "+853 2888 1881",
+      "hours": "Monday to Sunday  11:30~22:30",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.facebook.com/restaurantesolmar/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4756",
+        "amap": "https://uri.amap.com/marker?position=113.5405749,22.1919952&name=%E6%B2%99%E5%88%A9%E6%96%87%E9%A4%90%E5%BB%B3&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.1919952,113.5405749"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料；消費者委員會商戶資料／沙利文官方 Facebook",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r076.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4756",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r077",
+      "name": "澳義",
+      "aliases": [
+        "澳義（Antica Trattoria）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        },
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "心動味力榜",
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E7%BE%A9%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E7%BE%A9%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r077.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r078",
+      "name": "藍點小食",
+      "aliases": [
+        "藍點小食（Blue Point）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%97%8D%E9%BB%9E%E5%B0%8F%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%97%8D%E9%BB%9E%E5%B0%8F%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r078.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r079",
+      "name": "MOON ON PLANET",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=MOON%20ON%20PLANET%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=MOON%20ON%20PLANET%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r079.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r080",
+      "name": "南洋咖啡",
+      "aliases": [
+        "南洋咖啡（Nam Ieong）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "氹仔",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%8D%97%E6%B4%8B%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%8D%97%E6%B4%8B%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原值隨自動比對地址而來，已移除。",
+      "address_note": "地址待補：原值來自自動比對，已移除。",
+      "intro": null,
+      "photo": "assets/photos/r080.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "quality_note": "旅遊局對應商戶為「1983南洋美食」，與「南洋咖啡」不符；相關地址、電話、座標、連結已移除，待核實。",
+      "area_note": "僅地區級資訊，街道地址與座標待補",
+      "sources": [
+        "mgto_rest.json（錯配查核）",
+        "名單圖：source-other.jpg"
+      ],
+      "is_branch": false
+    },
+    {
+      "id": "r081",
+      "name": "Mygolf • Bistro",
+      "aliases": [
+        "Mygolf · Bistro"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "氹仔",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=Mygolf%20%E2%80%A2%20Bistro%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Mygolf%20%E2%80%A2%20Bistro%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r081.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r082",
+      "name": "搭枱茶餐廳",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        },
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜",
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.1965,
+      "lng": 113.5425,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%90%AD%E6%9E%B1%E8%8C%B6%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%90%AD%E6%9E%B1%E8%8C%B6%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r082.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r083",
+      "name": "誠昌飯店",
+      "aliases": [
+        "誠昌飯店（Seng Cheong）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "2026心動味力Top10"
+        },
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "水蟹粥"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "golden",
+          "label": "金蓮花菜式獎"
+        },
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        },
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "心動味力榜",
+        "2026心動味力Top10",
+        "金蓮花菜式獎"
+      ],
+      "area": "澳門半島",
+      "address": "澳門新馬路／議事亭前地附近",
+      "lat": 22.1933,
+      "lng": 113.54,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%AA%A0%E6%98%8C%E9%A3%AF%E5%BA%97%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%AA%A0%E6%98%8C%E9%A3%AF%E5%BA%97%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（公開商戶近似位置）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r083.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r084",
+      "name": "地堡街茶餐廳",
+      "aliases": [
+        "地堡茶餐廳"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "2026心動味力Top10"
+        },
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "干免治牛肉飯"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "golden",
+          "label": "金蓮花菜式獎"
+        },
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        },
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "心動味力榜",
+        "2026心動味力Top10",
+        "金蓮花菜式獎"
+      ],
+      "area": "澳門半島",
+      "address": "澳門地堡街",
+      "lat": 22.1958,
+      "lng": 113.545,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%9C%B0%E5%A0%A1%E8%A1%97%E8%8C%B6%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%9C%B0%E5%A0%A1%E8%A1%97%E8%8C%B6%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（街名公開位置）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r084.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r085",
+      "name": "自由咖啡",
+      "aliases": [
+        "自由咖啡（Free Coffee）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%87%AA%E7%94%B1%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%87%AA%E7%94%B1%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r085.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r086",
+      "name": "大利來記餐廳",
+      "aliases": [
+        "大利來記餐廳（Tai Lei Loi Kei）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "氹仔",
+      "address": "氹仔告利雅施利華街35號，地庫層、地面層及1樓",
+      "lat": 22.1605,
+      "lng": 113.5555,
+      "phone": "+853 2882 7150",
+      "hours": "Monday to Sunday  08:00~14:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/11544",
+        "amap": "https://uri.amap.com/search?keyword=%E5%A4%A7%E5%88%A9%E4%BE%86%E8%A8%98%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E5%88%A9%E4%BE%86%E8%A8%98%E9%A4%90%E5%BB%B3%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（官也街一帶）",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r086.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:11544",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "approx",
+      "is_branch": false
+    },
+    {
+      "id": "r087",
+      "name": "銀龍粉麵咖啡（連勝店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": "澳門連勝馬路24號德利閣地下A及閣仔",
+      "lat": 22.2005,
+      "lng": 113.5408,
+      "phone": "+853 2835 7702",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E9%80%A3%E5%8B%9D%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E9%80%A3%E5%8B%9D%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r087.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r088",
+      "name": "中天冰室",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.1968,
+      "lng": 113.5428,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E4%B8%AD%E5%A4%A9%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E4%B8%AD%E5%A4%A9%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r088.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r089",
+      "name": "太和冰室",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.1972,
+      "lng": 113.5418,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%A4%AA%E5%92%8C%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%A4%AA%E5%92%8C%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r089.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r090",
+      "name": "水平方",
+      "aliases": [
+        "水平方（Water Square）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%B0%B4%E5%B9%B3%E6%96%B9%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B0%B4%E5%B9%B3%E6%96%B9%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r090.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r091",
+      "name": "FLAT IRON AND THE LASAGNA FACTORY",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=FLAT%20IRON%20AND%20THE%20LASAGNA%20FACTORY%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=FLAT%20IRON%20AND%20THE%20LASAGNA%20FACTORY%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r091.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r092",
+      "name": "松花湖水餃",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        },
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "心動味力榜",
+        "旅遊餐飲名店"
+      ],
+      "area": "氹仔",
+      "address": "氹仔島南部遊艇碼頭鄰近西堤圓形地，\"百老匯酒店\"配套大樓（一）一樓層",
+      "lat": 22.141063291850777,
+      "lng": 113.56176853179932,
+      "phone": "+853 2836 6133",
+      "hours": "Monday to Sunday  12:00~04:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/13126",
+        "amap": "https://uri.amap.com/marker?position=113.56176853179932,22.141063291850777&name=%E6%9D%BE%E8%8A%B1%E6%B9%96%E6%B0%B4%E9%A4%83&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.141063291850777,113.56176853179932"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r092.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:13126",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r093",
+      "name": "大豐滿",
+      "aliases": [
+        "大豐滿燒烤"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        },
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "心動味力榜",
+        "旅遊餐飲名店"
+      ],
+      "area": "路氹",
+      "address": "路氹填海區，路氹連貫公路，第一地塊，第3地段，\"澳門巴黎人\"酒店第5層（L5）3561舖",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 2885 5388",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/14305",
+        "amap": "https://uri.amap.com/search?keyword=%E5%A4%A7%E8%B1%90%E6%BB%BF%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E8%B1%90%E6%BB%BF%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r093.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「大豐滿（巴黎人店）」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r094",
+      "name": "可萊士中國漢堡",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%8F%AF%E8%90%8A%E5%A3%AB%E4%B8%AD%E5%9C%8B%E6%BC%A2%E5%A0%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%8F%AF%E8%90%8A%E5%A3%AB%E4%B8%AD%E5%9C%8B%E6%BC%A2%E5%A0%A1%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r094.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r095",
+      "name": "皇家咖啡",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%9A%87%E5%AE%B6%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9A%87%E5%AE%B6%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原值隨自動比對地址而來，已移除。",
+      "intro": null,
+      "address_note": "地址待補：原值來自自動比對，已移除。",
+      "photo": "assets/photos/r095.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "quality_note": "旅遊局對應商戶為「皇家葡萄餚」（澳門旅遊塔），與「皇家咖啡」不符；相關地址、電話、座標、連結已移除，待核實。",
+      "area_note": "僅地區級資訊，街道地址與座標待補",
+      "sources": [
+        "mgto_rest.json（錯配查核）",
+        "名單圖：source-other.jpg"
+      ],
+      "is_branch": false
+    },
+    {
+      "id": "r096",
+      "name": "荔枝碗",
+      "aliases": [
+        "荔枝碗（Lai Chi Vun）"
+      ],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        },
+        {
+          "category": "中國文旅金馬獎·名菜獎"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        },
+        {
+          "id": "horse_dish",
+          "label": "中國文旅金馬獎·名菜"
+        }
+      ],
+      "categories": [
+        "心動味力榜",
+        "中國文旅金馬獎·名菜獎"
+      ],
+      "area": "路環",
+      "address": "澳門路環荔枝碗村",
+      "lat": 22.1185,
+      "lng": 113.5525,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%8D%94%E6%9E%9D%E7%A2%97%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%8D%94%E6%9E%9D%E7%A2%97%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（荔枝碗村公開地標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r096.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r097",
+      "name": "鮮味王",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "2026心動味力Top10"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "2026心動味力Top10"
+      ],
+      "area": "澳門半島",
+      "address": "澳門黑沙環新街御景灣第一座地下及一樓A及H座",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 2876 2580",
+      "hours": "Monday to Sunday  15:00~03:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/12535",
+        "amap": "https://uri.amap.com/search?keyword=%E9%AE%AE%E5%91%B3%E7%8E%8B%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%AE%AE%E5%91%B3%E7%8E%8B%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r097.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:12535",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "missing",
+      "is_branch": false
+    },
+    {
+      "id": "r098",
+      "name": "帝濠軒",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "2026心動味力Top10"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "2026心動味力Top10"
+      ],
+      "area": "澳門半島",
+      "address": "澳門上海街51號和北京街106-I號，\"帝濠酒店\"1樓",
+      "lat": 22.191073222403467,
+      "lng": 113.54805707931519,
+      "phone": "+853 2878 0229",
+      "hours": "Monday to Sunday  07:00~10:00\nMonday to Sunday  10:30~15:00\nMonday to Sunday  17:00~23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4175",
+        "amap": "https://uri.amap.com/marker?position=113.54805707931519,22.191073222403467&name=%E5%B8%9D%E6%BF%A0%E8%BB%92&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.191073222403467,113.54805707931519"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r098.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4175",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r099",
+      "name": "澳門抹茶",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "2026心動味力Top10"
+        },
+        {
+          "category": "中國文旅金馬獎·年度傑出創意餐飲品牌"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "horse_person",
+          "label": "中國文旅金馬獎·人物企業"
+        },
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "2026心動味力Top10",
+        "中國文旅金馬獎·年度傑出創意餐飲品牌"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E6%8A%B9%E8%8C%B6%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E6%8A%B9%E8%8C%B6%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r099.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r100",
+      "name": "澳門空中躍薈 DinnerInTheSkyMacao",
+      "aliases": [
+        "DinnerInTheSkyMacao",
+        "澳門空中躍薈"
+      ],
+      "awards": [
+        {
+          "category": "2026心動味力Top10"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "2026心動味力Top10"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹（空中餐廳活動點，位置或變）",
+      "lat": 22.148,
+      "lng": 113.555,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.dinnerinthesky.com.mo/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E7%A9%BA%E4%B8%AD%E8%BA%8D%E8%96%88%20DinnerInTheSkyMacao%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%A9%BA%E4%B8%AD%E8%BA%8D%E8%96%88%20DinnerInTheSkyMacao%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（活動式場地）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r100.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r101",
+      "name": "佛笑樓",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "2026心動味力Top10"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "2026心動味力Top10"
+      ],
+      "area": "澳門半島",
+      "address": "澳門福隆新街64號",
+      "lat": 22.194723,
+      "lng": 113.537558,
+      "phone": "+853 2857 3585",
+      "hours": "Monday to Sunday  12:00~23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4726",
+        "amap": "https://uri.amap.com/marker?position=113.537558,22.194723&name=%E4%BD%9B%E7%AC%91%E6%A8%93&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.194723,113.537558"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r101.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4726",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r102",
+      "name": "筱琳牛雜",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "2026心動味力Top10"
+        },
+        {
+          "category": "中國文旅金馬獎·名菜獎"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "horse_dish",
+          "label": "中國文旅金馬獎·名菜"
+        },
+        {
+          "id": "top10",
+          "label": "2026心動味力Top10"
+        }
+      ],
+      "categories": [
+        "2026心動味力Top10",
+        "中國文旅金馬獎·名菜獎"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.199,
+      "lng": 113.543,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%AD%B1%E7%90%B3%E7%89%9B%E9%9B%9C%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%AD%B1%E7%90%B3%E7%89%9B%E9%9B%9C%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r102.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r103",
+      "name": "正宗鳳城手信",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "花椒豬柳肉乾"
+        },
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "芫荽肉鬆蛋捲"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "golden",
+          "label": "金蓮花菜式獎"
+        }
+      ],
+      "categories": [
+        "金蓮花菜式獎"
+      ],
+      "area": "澳門半島",
+      "address": "澳門（手信店，分店以地圖為準）",
+      "lat": 22.1935,
+      "lng": 113.5405,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%AD%A3%E5%AE%97%E9%B3%B3%E5%9F%8E%E6%89%8B%E4%BF%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%AD%A3%E5%AE%97%E9%B3%B3%E5%9F%8E%E6%89%8B%E4%BF%A1%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r103.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r104",
+      "name": "大當家",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "赤金蟹黃豬扒飯"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "golden",
+          "label": "金蓮花菜式獎"
+        }
+      ],
+      "categories": [
+        "金蓮花菜式獎"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.1965,
+      "lng": 113.5438,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%A4%A7%E7%95%B6%E5%AE%B6%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E7%95%B6%E5%AE%B6%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r104.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r105",
+      "name": "連勝風行",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "風行手拉奶茶"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "golden",
+          "label": "金蓮花菜式獎"
+        }
+      ],
+      "categories": [
+        "金蓮花菜式獎"
+      ],
+      "area": "澳門半島",
+      "address": "澳門連勝馬路一帶",
+      "lat": 22.2008,
+      "lng": 113.5438,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%80%A3%E5%8B%9D%E9%A2%A8%E8%A1%8C%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%80%A3%E5%8B%9D%E9%A2%A8%E8%A1%8C%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（連勝一帶）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r105.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r106",
+      "name": "澳門永輝手信",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "傳統蛋捲"
+        },
+        {
+          "category": "金蓮花菜式獎",
+          "dish": "腰果曲奇餅乾"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "golden",
+          "label": "金蓮花菜式獎"
+        }
+      ],
+      "categories": [
+        "金蓮花菜式獎"
+      ],
+      "area": "澳門半島",
+      "address": "澳門（手信店，分店以地圖為準）",
+      "lat": 22.193,
+      "lng": 113.541,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E6%B0%B8%E8%BC%9D%E6%89%8B%E4%BF%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E6%B0%B8%E8%BC%9D%E6%89%8B%E4%BF%A1%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r106.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r107",
+      "name": "澤賢記",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "中國文旅金馬獎·名菜獎"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "horse_dish",
+          "label": "中國文旅金馬獎·名菜"
+        }
+      ],
+      "categories": [
+        "中國文旅金馬獎·名菜獎"
+      ],
+      "area": "氹仔",
+      "address": "氹仔島南部遊艇碼頭鄰近西堤圓形地，\"百老匯酒店\"配套大樓（二）地面層",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 6881 1403",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/12895",
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%A4%E8%B3%A2%E8%A8%98%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%A4%E8%B3%A2%E8%A8%98%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r107.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「澤賢記 （百老匯店）」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r108",
+      "name": "味蕾（Vivaldi）",
+      "aliases": [
+        "味蕾"
+      ],
+      "awards": [
+        {
+          "category": "中國文旅金馬獎·名菜獎"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "horse_dish",
+          "label": "中國文旅金馬獎·名菜"
+        }
+      ],
+      "categories": [
+        "中國文旅金馬獎·名菜獎"
+      ],
+      "area": "氹仔",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%91%B3%E8%95%BE%EF%BC%88Vivaldi%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%91%B3%E8%95%BE%EF%BC%88Vivaldi%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r108.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r109",
+      "name": "茶樓（上葡京綜合度假村）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "最佳酒店精選獎 · 上葡京綜合度假村"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "hotel",
+          "label": "最佳酒店精選"
+        }
+      ],
+      "categories": [
+        "最佳酒店精選獎 · 上葡京綜合度假村"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹城「上葡京」綜合度假村",
+      "lat": 22.147,
+      "lng": 113.5645,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.lisboapalace.com/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%8C%B6%E6%A8%93%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E7%B6%9C%E5%90%88%E5%BA%A6%E5%81%87%E6%9D%91%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%8C%B6%E6%A8%93%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E7%B6%9C%E5%90%88%E5%BA%A6%E5%81%87%E6%9D%91%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標為度假村範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r109.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r110",
+      "name": "Div嬅（新濠影滙）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "最佳酒店精選獎 · 新濠影滙"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "hotel",
+          "label": "最佳酒店精選"
+        }
+      ],
+      "categories": [
+        "最佳酒店精選獎 · 新濠影滙"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹城「新濠影滙」",
+      "lat": 22.1405,
+      "lng": 113.563,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=Div%E5%AC%85%EF%BC%88%E6%96%B0%E6%BF%A0%E5%BD%B1%E6%BB%99%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=Div%E5%AC%85%EF%BC%88%E6%96%B0%E6%BF%A0%E5%BD%B1%E6%BB%99%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標為度假村範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r110.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r111",
+      "name": "馥樂庭（永利皇宮）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "最佳酒店精選獎 · 永利皇宮"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "hotel",
+          "label": "最佳酒店精選"
+        }
+      ],
+      "categories": [
+        "最佳酒店精選獎 · 永利皇宮"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹城「永利皇宮」",
+      "lat": 22.1465,
+      "lng": 113.571,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%A6%A5%E6%A8%82%E5%BA%AD%EF%BC%88%E6%B0%B8%E5%88%A9%E7%9A%87%E5%AE%AE%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%A6%A5%E6%A8%82%E5%BA%AD%EF%BC%88%E6%B0%B8%E5%88%A9%E7%9A%87%E5%AE%AE%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標為度假村範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r111.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r112",
+      "name": "尚坊（澳門銀河）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "最佳酒店精選獎 · 澳門銀河"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "hotel",
+          "label": "最佳酒店精選"
+        }
+      ],
+      "categories": [
+        "最佳酒店精選獎 · 澳門銀河"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹城「澳門銀河」",
+      "lat": 22.1485,
+      "lng": 113.554,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%B0%9A%E5%9D%8A%EF%BC%88%E6%BE%B3%E9%96%80%E9%8A%80%E6%B2%B3%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%B0%9A%E5%9D%8A%EF%BC%88%E6%BE%B3%E9%96%80%E9%8A%80%E6%B2%B3%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標為度假村範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r112.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r113",
+      "name": "淮揚曉宴（倫敦人酒店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "最佳酒店精選獎 · 倫敦人酒店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "hotel",
+          "label": "最佳酒店精選"
+        }
+      ],
+      "categories": [
+        "最佳酒店精選獎 · 倫敦人酒店"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹城「倫敦人」綜合度假村",
+      "lat": 22.1488,
+      "lng": 113.5665,
+      "phone": "+853 8113 8908",
+      "hours": "Friday to Saturday  17:30~24:00 / Sunday to Tuesday  17:30~23:00 / Thursday  17:30~23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.londonermacao.com/restaurants/huaiyang-garden.html",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/14047",
+        "amap": "https://uri.amap.com/search?keyword=%E6%B7%AE%E6%8F%9A%E6%9B%89%E5%AE%B4%EF%BC%88%E5%80%AB%E6%95%A6%E4%BA%BA%E9%85%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B7%AE%E6%8F%9A%E6%9B%89%E5%AE%B4%EF%BC%88%E5%80%AB%E6%95%A6%E4%BA%BA%E9%85%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標為度假村範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r113.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「淮揚曉宴」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r114",
+      "name": "淳（美獅美高梅）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "最佳酒店精選獎 · 美獅美高梅"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "hotel",
+          "label": "最佳酒店精選"
+        }
+      ],
+      "categories": [
+        "最佳酒店精選獎 · 美獅美高梅"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹城「美獅美高梅」",
+      "lat": 22.145,
+      "lng": 113.5655,
+      "phone": "+853 8806 2388",
+      "hours": "Monday to Sunday  12:00~15:00 / Monday to Sunday  18:00~22:30",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "http://www.mgm.com/en/cotai/dining/chun",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/13343",
+        "amap": "https://uri.amap.com/search?keyword=%E6%B7%B3%EF%BC%88%E7%BE%8E%E7%8D%85%E7%BE%8E%E9%AB%98%E6%A2%85%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B7%B3%EF%BC%88%E7%BE%8E%E7%8D%85%E7%BE%8E%E9%AB%98%E6%A2%85%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標為度假村範圍約略位置",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r114.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「淳」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r115",
+      "name": "東湖海鮮火鍋酒家",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門友誼大馬路金華閣251號和1字樓\"CB\"商場",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 2878 2299",
+      "hours": "24 Hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4054",
+        "amap": "https://uri.amap.com/search?keyword=%E6%9D%B1%E6%B9%96%E6%B5%B7%E9%AE%AE%E7%81%AB%E9%8D%8B%E9%85%92%E5%AE%B6%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E6%B9%96%E6%B5%B7%E9%AE%AE%E7%81%AB%E9%8D%8B%E9%85%92%E5%AE%B6%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r115.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4054",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "missing",
+      "is_branch": false
+    },
+    {
+      "id": "r116",
+      "name": "東湖海鮮火鍋酒家（英皇店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門友誼大馬路金華閣251號和1字樓\"CB\"商場",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 2878 2299",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/4054",
+        "amap": "https://uri.amap.com/search?keyword=%E6%9D%B1%E6%B9%96%E6%B5%B7%E9%AE%AE%E7%81%AB%E9%8D%8B%E9%85%92%E5%AE%B6%EF%BC%88%E8%8B%B1%E7%9A%87%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E6%B9%96%E6%B5%B7%E9%AE%AE%E7%81%AB%E9%8D%8B%E9%85%92%E5%AE%B6%EF%BC%88%E8%8B%B1%E7%9A%87%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r116.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「東湖海鮮火鍋酒家」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "missing",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r117",
+      "name": "好好順海鮮火鍋飯店",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%A5%BD%E5%A5%BD%E9%A0%86%E6%B5%B7%E9%AE%AE%E7%81%AB%E9%8D%8B%E9%A3%AF%E5%BA%97%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%A5%BD%E5%A5%BD%E9%A0%86%E6%B5%B7%E9%AE%AE%E7%81%AB%E9%8D%8B%E9%A3%AF%E5%BA%97%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原值隨自動比對地址而來，已移除。",
+      "intro": null,
+      "address_note": "地址待補：原值來自自動比對，已移除。",
+      "photo": "assets/photos/r117.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "quality_note": "旅遊局對應商戶為「好彩海鮮火鍋飯店」，與「好好順海鮮火鍋飯店」不符；相關地址、電話、座標、連結已移除，待核實。",
+      "area_note": "僅地區級資訊，街道地址與座標待補",
+      "sources": [
+        "mgto_rest.json（錯配查核）",
+        "名單圖：source-other.jpg"
+      ],
+      "is_branch": false
+    },
+    {
+      "id": "r118",
+      "name": "德悅軒",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%BE%B7%E6%82%85%E8%BB%92%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%BE%B7%E6%82%85%E8%BB%92%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r118.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r119",
+      "name": "氹仔大排檔",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "氹仔",
+      "address": null,
+      "lat": 22.1565,
+      "lng": 113.555,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%B0%B9%E4%BB%94%E5%A4%A7%E6%8E%92%E6%AA%94%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B0%B9%E4%BB%94%E5%A4%A7%E6%8E%92%E6%AA%94%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r119.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r120",
+      "name": "氹仔大排檔（官也街店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "氹仔",
+      "address": "澳門氹仔官也街",
+      "lat": 22.1538,
+      "lng": 113.5588,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%B0%B9%E4%BB%94%E5%A4%A7%E6%8E%92%E6%AA%94%EF%BC%88%E5%AE%98%E4%B9%9F%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B0%B9%E4%BB%94%E5%A4%A7%E6%8E%92%E6%AA%94%EF%BC%88%E5%AE%98%E4%B9%9F%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（官也街）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r120.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r121",
+      "name": "新益美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": "RUA DE KUN IAM TONG, NO.29, EDF. JARDINS SUN YICK, R/C E S/L C, MACAU.",
+      "lat": 22.20596420074973,
+      "lng": 113.55112016201019,
+      "phone": "+853 2848 1046",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9110080",
+        "amap": "https://uri.amap.com/marker?position=113.55112016201019,22.20596420074973&name=%E6%96%B0%E7%9B%8A%E7%BE%8E%E9%A3%9F&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.20596420074973,113.55112016201019"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r121.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "link_note": "旅遊局頁名為「新益食店」，與本頁店名不同（可能為自動比對結果）；地址與電話僅供參考，請自行核對。",
+      "coord_accuracy": "official",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r122",
+      "name": "氹仔漁村",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "路氹",
+      "address": "路氹填海區，蓮花海濱大馬路東面及望德聖母灣大馬路南面，\"銀河\"酒店一樓（L1）",
+      "lat": 22.154,
+      "lng": 113.556,
+      "phone": "+853 8883 2110",
+      "hours": "Monday to Sunday  11:30~15:00\nMonday to Sunday  17:30~22:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "http://www.galaxymacau.com/dining/restaurants/tam-chai-yu-chun/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/11822",
+        "amap": "https://uri.amap.com/search?keyword=%E6%B0%B9%E4%BB%94%E6%BC%81%E6%9D%91%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%B0%B9%E4%BB%94%E6%BC%81%E6%9D%91%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（氹仔）",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r122.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:11822",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "approx",
+      "is_branch": false
+    },
+    {
+      "id": "r123",
+      "name": "李家宴",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%9D%8E%E5%AE%B6%E5%AE%B4%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%9D%8E%E5%AE%B6%E5%AE%B4%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r123.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r124",
+      "name": "李家菜（百老匯店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "氹仔",
+      "address": "Sul da Marina Taipa-Sul, junto à Rotunda do Dique Oeste, r/c do \"Amenity Block 1\" do \"HOTEL BROADWAY\", Taipa",
+      "lat": 22.1475,
+      "lng": 113.553,
+      "phone": "+853 2882 9918",
+      "hours": "Monday to Sunday  12:00~15:00\nMonday to Sunday  18:00~23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/13112",
+        "amap": "https://uri.amap.com/search?keyword=%E6%9D%8E%E5%AE%B6%E8%8F%9C%EF%BC%88%E7%99%BE%E8%80%81%E5%8C%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%9D%8E%E5%AE%B6%E8%8F%9C%EF%BC%88%E7%99%BE%E8%80%81%E5%8C%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（百老匯一帶）",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r124.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局頁名為「李家菜（百老匯）」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r125",
+      "name": "美家咖啡（百老匯店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "路氹",
+      "address": "澳門路氹百老匯",
+      "lat": 22.1475,
+      "lng": 113.5532,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E5%AE%B6%E5%92%96%E5%95%A1%EF%BC%88%E7%99%BE%E8%80%81%E5%8C%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%AE%B6%E5%92%96%E5%95%A1%EF%BC%88%E7%99%BE%E8%80%81%E5%8C%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（百老匯範圍）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r125.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r126",
+      "name": "莫義記",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "氹仔",
+      "address": "澳門氹仔官也街",
+      "lat": 22.1535,
+      "lng": 113.559,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E8%8E%AB%E7%BE%A9%E8%A8%98%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E8%8E%AB%E7%BE%A9%E8%A8%98%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（官也街公開商戶）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r126.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r127",
+      "name": "DIGREEN",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=DIGREEN%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=DIGREEN%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r127.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r128",
+      "name": "天福台式鐵板燒",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%A4%A9%E7%A6%8F%E5%8F%B0%E5%BC%8F%E9%90%B5%E6%9D%BF%E7%87%92%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A9%E7%A6%8F%E5%8F%B0%E5%BC%8F%E9%90%B5%E6%9D%BF%E7%87%92%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r128.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r129",
+      "name": "榮記豆腐麵",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.1975,
+      "lng": 113.542,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A6%AE%E8%A8%98%E8%B1%86%E8%85%90%E9%BA%B5%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E8%B1%86%E8%85%90%E9%BA%B5%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r129.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r130",
+      "name": "大三巴胡椒餅",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門大三巴牌坊附近",
+      "lat": 22.198,
+      "lng": 113.5408,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%A4%A7%E4%B8%89%E5%B7%B4%E8%83%A1%E6%A4%92%E9%A4%85%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E4%B8%89%E5%B7%B4%E8%83%A1%E6%A4%92%E9%A4%85%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（大三巴一帶）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r130.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r131",
+      "name": "馥迎樓",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "路氹",
+      "address": "路氹填海區，蓮花路619，637，691，697，811，873，905，949，981及1013號，新濠影滙，一樓（1/F），舖位PUG-F005（電影製作業區）",
+      "lat": null,
+      "lng": null,
+      "phone": "+853 2882 2002",
+      "hours": "Monday to Sunday  11:30~14:30\nMonday to Sunday  17:30~22:30",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/13168",
+        "amap": "https://uri.amap.com/search?keyword=%E9%A6%A5%E8%BF%8E%E6%A8%93%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%A6%A5%E8%BF%8E%E6%A8%93%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r131.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:13168",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "missing",
+      "is_branch": false
+    },
+    {
+      "id": "r132",
+      "name": "陳老太",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.194,
+      "lng": 113.5428,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%99%B3%E8%80%81%E5%A4%AA%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%99%B3%E8%80%81%E5%A4%AA%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r132.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r133",
+      "name": "佩德羅葡國餐",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "旅遊餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "travel",
+          "label": "旅遊餐飲名店"
+        }
+      ],
+      "categories": [
+        "旅遊餐飲名店"
+      ],
+      "area": "氹仔",
+      "address": "RUA DOS MERCADORES, N.° 38A, RUA DOS NEGOCIANTES, N.° 12A, CAVE, R/C, 1º ANDAR E 2º ANDAR, TAIPA.",
+      "lat": 22.1525660790358,
+      "lng": 113.55589527079,
+      "phone": null,
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9240007",
+        "amap": "https://uri.amap.com/marker?position=113.55589527079,22.1525660790358&name=%E4%BD%A9%E5%BE%B7%E7%BE%85%E8%91%A1%E5%9C%8B%E9%A4%90&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.1525660790358,113.55589527079"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r133.jpg",
+      "photo_note": "澳門旅遊局公開圖",
+      "coord_accuracy": "official",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r134",
+      "name": "俊榮咖啡美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E4%BF%8A%E6%A6%AE%E5%92%96%E5%95%A1%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E4%BF%8A%E6%A6%AE%E5%92%96%E5%95%A1%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r134.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r135",
+      "name": "澳門王子冰室（上葡京店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "路氹",
+      "address": "路氹填海區，射擊路，溜冰路，網球路及機場大馬路，\"上葡京\"酒店二樓",
+      "lat": 22.1458,
+      "lng": 113.5602,
+      "phone": "+853 8881 0710",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/14525",
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "intro": null,
+      "photo": "assets/photos/r135.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:14525",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "approx",
+      "is_branch": true
+    },
+    {
+      "id": "r136",
+      "name": "金夜燒",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%87%91%E5%A4%9C%E7%87%92%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%87%91%E5%A4%9C%E7%87%92%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r136.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r137",
+      "name": "漁兵衛",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BC%81%E5%85%B5%E8%A1%9B%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BC%81%E5%85%B5%E8%A1%9B%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r137.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r138",
+      "name": "萬豪軒",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門長崎街35號，51號A和51號B新華大廈2樓",
+      "lat": 22.192139,
+      "lng": 113.551147,
+      "phone": "+853 2870 6623",
+      "hours": "Monday to Sunday  09:00~23:00",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/4254",
+        "amap": "https://uri.amap.com/marker?position=113.551147,22.192139&name=%E8%90%AC%E8%B1%AA%E8%BB%92&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=22.192139,113.551147"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": null,
+      "intro": null,
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "photo": "assets/photos/r138.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:4254",
+        "名單圖：source-other.jpg"
+      ],
+      "coord_accuracy": "official",
+      "is_branch": false
+    },
+    {
+      "id": "r139",
+      "name": "漢倫記冰室",
+      "aliases": [
+        "漢倫冰室"
+      ],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.1975,
+      "lng": 113.5415,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BC%A2%E5%80%AB%E8%A8%98%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BC%A2%E5%80%AB%E8%A8%98%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r139.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r140",
+      "name": "里斯咖啡",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "路環",
+      "address": "路環水鴨街8號地下和一樓",
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%87%8C%E6%96%AF%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%87%8C%E6%96%AF%E5%92%96%E5%95%A1%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "座標待補：地址為路環水鴨街，但原座標落在澳門半島，原值已移除。",
+      "intro": null,
+      "address_note": null,
+      "photo": "assets/photos/r140.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "旅遊局對應商戶名為「里斯本地帶餐廳」，與名單「里斯咖啡」不一致；已移除該連結與電話，地址（路環水鴨街）保留但待核實。",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "地址為路環水鴨街，但原座標落在澳門半島；地區已依地址文字判定，座標待補，不以座標推定。"
+    },
+    {
+      "id": "r141",
+      "name": "鞠婆婆綿綿冰",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%9E%A0%E5%A9%86%E5%A9%86%E7%B6%BF%E7%B6%BF%E5%86%B0%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%9E%A0%E5%A9%86%E5%A9%86%E7%B6%BF%E7%B6%BF%E5%86%B0%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r141.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r142",
+      "name": "D1美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=D1%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=D1%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r142.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r143",
+      "name": "本島茶餐室",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%9C%AC%E5%B3%B6%E8%8C%B6%E9%A4%90%E5%AE%A4%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%9C%AC%E5%B3%B6%E8%8C%B6%E9%A4%90%E5%AE%A4%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r143.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r144",
+      "name": "均安隆美食",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E5%9D%87%E5%AE%89%E9%9A%86%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E5%9D%87%E5%AE%89%E9%9A%86%E7%BE%8E%E9%A3%9F%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r144.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r145",
+      "name": "馬交冰室",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": 22.196,
+      "lng": 113.5408,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%A6%AC%E4%BA%A4%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%A6%AC%E4%BA%A4%E5%86%B0%E5%AE%A4%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r145.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r146",
+      "name": "慧賢養生中藥房",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "最佳藥膳湯水"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "soup",
+          "label": "最佳藥膳湯水"
+        }
+      ],
+      "categories": [
+        "最佳藥膳湯水"
+      ],
+      "area": "澳門半島",
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%85%A7%E8%B3%A2%E9%A4%8A%E7%94%9F%E4%B8%AD%E8%97%A5%E6%88%BF%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%85%A7%E8%B3%A2%E9%A4%8A%E7%94%9F%E4%B8%AD%E8%97%A5%E6%88%BF%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "座標待補：原有值為約略估計，無可靠來源，已移除以免誤導。",
+      "address_note": "街道地址待補（原為地區級佔位文字）",
+      "intro": null,
+      "photo": "assets/photos/r146.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "missing",
+      "is_branch": false,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ],
+      "area_note": "僅地區級資訊，街道地址與座標待補"
+    },
+    {
+      "id": "r147",
+      "name": "盛記白粥（台山店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門台山巴波沙大馬路264號南惠閣第二座",
+      "lat": 22.2108,
+      "lng": 113.5482,
+      "phone": "+853 2840 3931",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E5%8F%B0%E5%B1%B1%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E5%8F%B0%E5%B1%B1%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r147.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r148",
+      "name": "盛記白粥（氹仔店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "氹仔",
+      "address": "氹仔孫逸仙博士大馬路257號利民大廈地下D",
+      "lat": 22.1598,
+      "lng": 113.5564,
+      "phone": "+853 2853 5127",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E6%B0%B9%E4%BB%94%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%9B%9B%E8%A8%98%E7%99%BD%E7%B2%A5%EF%BC%88%E6%B0%B9%E4%BB%94%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r148.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r149",
+      "name": "榮記牛雜（大三巴店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門大三巴右街龍珠大廈地下B舖",
+      "lat": 22.1978,
+      "lng": 113.5407,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%A4%A7%E4%B8%89%E5%B7%B4%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%A4%A7%E4%B8%89%E5%B7%B4%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r149.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r150",
+      "name": "榮記牛雜（北京街店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門北京街159號海冠中心地下T號舖",
+      "lat": 22.1918,
+      "lng": 113.5458,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%8C%97%E4%BA%AC%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E5%8C%97%E4%BA%AC%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r150.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r151",
+      "name": "榮記牛雜（科英布拉街店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "澳門半島",
+      "address": "澳門科英布拉街503號百德大廈B室地下U",
+      "lat": 22.1885,
+      "lng": 113.5502,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E7%A7%91%E8%8B%B1%E5%B8%83%E6%8B%89%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E7%A7%91%E8%8B%B1%E5%B8%83%E6%8B%89%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r151.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r152",
+      "name": "榮記牛雜（上葡京店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛老字號"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛老字號"
+      ],
+      "area": "路氹",
+      "address": "路氹填海區，射擊路，溜冰路，網球路及機場大馬路，\"上葡京\" 酒店二樓",
+      "lat": 22.1458,
+      "lng": 113.5602,
+      "phone": "+853 8881 0710",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A6%AE%E8%A8%98%E7%89%9B%E9%9B%9C%EF%BC%88%E4%B8%8A%E8%91%A1%E4%BA%AC%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "intro": null,
+      "photo": "assets/photos/r152.jpg",
+      "photo_note": "圖片非官方",
+      "sources": [
+        "mgto_rest:14527",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "approx",
+      "is_branch": true
+    },
+    {
+      "id": "r153",
+      "name": "翠華餐廳（百老匯店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒店餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒店餐廳"
+      ],
+      "area": "路氹",
+      "address": "路氹蓮花海濱大馬路百老匯美食街E-G009-15號舖",
+      "lat": 22.1452,
+      "lng": 113.5598,
+      "phone": "+853 8883 1828",
+      "hours": "24 Hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.tsuiwah.com/index.php/tc/shoplocation/tsuiwah-broadway",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/12897",
+        "amap": "https://uri.amap.com/search?keyword=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E7%99%BE%E8%80%81%E5%8C%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E7%99%BE%E8%80%81%E5%8C%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": null,
+      "photo": "assets/photos/r153.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源",
+      "link_note": "旅遊局頁名為「翠華餐廳」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "sources": [
+        "mgto_rest:12897",
+        "名單圖：source-25cats.jpg"
+      ],
+      "coord_accuracy": "approx",
+      "is_branch": true
+    },
+    {
+      "id": "r154",
+      "name": "翠華餐廳（星際店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛酒店餐廳"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛酒店餐廳"
+      ],
+      "area": "澳門半島",
+      "address": "澳門仙德麗街338號，\"星際酒店\"1樓（娛樂場內）",
+      "lat": 22.1929,
+      "lng": 113.5508,
+      "phone": "+853 8290 8686",
+      "hours": "24 Hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.tsuiwah.com/index.php/tc/shoplocation/tsuiwah-stars",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/restaurant/14397",
+        "amap": "https://uri.amap.com/search?keyword=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E6%98%9F%E9%9A%9B%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BF%A0%E8%8F%AF%E9%A4%90%E5%BB%B3%EF%BC%88%E6%98%9F%E9%9A%9B%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": null,
+      "photo": "assets/photos/r154.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "澳門旅遊局公開餐飲資料（中文地址）",
+      "sources": [
+        "mgto_rest:14397",
+        "mgto_rest:14397",
+        "名單圖：source-25cats.jpg"
+      ],
+      "link_note": "旅遊局頁名為「翠華餐廳」，屬同一品牌的分店／主店；本頁分店資料未必與該頁一致，請自行核對。",
+      "coord_accuracy": "approx",
+      "is_branch": true
+    },
+    {
+      "id": "r155",
+      "name": "楊枝金撈甜品（沙梨頭總店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "澳門半島",
+      "address": "澳門爹美刁施拿地大馬路31-B號樂斯大廈地下J座",
+      "lat": 22.2008,
+      "lng": 113.5368,
+      "phone": "+853 2895 0543",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/search?keyword=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B2%99%E6%A2%A8%E9%A0%AD%E7%B8%BD%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B2%99%E6%A2%A8%E9%A0%AD%E7%B8%BD%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": null,
+      "photo": "assets/photos/r155.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源",
+      "link_note": "旅遊局連結僅對應品牌其中一間分店（qtsas:9020086），未必是本分店；待核實。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r156",
+      "name": "楊枝金撈甜品（高士德培正店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "澳門半島",
+      "address": "澳門賈伯樂提督街36B-36C號永昌大廈BR/C",
+      "lat": 22.2039,
+      "lng": 113.5442,
+      "phone": "+853 2822 6822",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/search?keyword=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E9%AB%98%E5%A3%AB%E5%BE%B7%E5%9F%B9%E6%AD%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E9%AB%98%E5%A3%AB%E5%BE%B7%E5%9F%B9%E6%AD%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": null,
+      "photo": "assets/photos/r156.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源",
+      "link_note": "旅遊局連結僅對應品牌其中一間分店（qtsas:9020086），未必是本分店；待核實。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r157",
+      "name": "楊枝金撈甜品（黑沙環廣華店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "澳門半島",
+      "address": "澳門黑沙環新街501號廣華新邨第2座地下B座",
+      "lat": 22.2095,
+      "lng": 113.5528,
+      "phone": "+853 2876 8536",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/search?keyword=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E9%BB%91%E6%B2%99%E7%92%B0%E5%BB%A3%E8%8F%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E9%BB%91%E6%B2%99%E7%92%B0%E5%BB%A3%E8%8F%AF%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": null,
+      "photo": "assets/photos/r157.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源",
+      "link_note": "旅遊局連結僅對應品牌其中一間分店（qtsas:9020086），未必是本分店；待核實。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r158",
+      "name": "楊枝金撈甜品（氹仔泉鴻外賣店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛甜品"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛甜品"
+      ],
+      "area": "氹仔",
+      "address": "氹仔孫逸仙博士大馬路696號泉鴻花園福苑地下C鋪",
+      "lat": 22.1605,
+      "lng": 113.5578,
+      "phone": "+853 6282 4020",
+      "hours": "24 hours",
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://goldenmixdesserts.com/shops/",
+        "mgto": "https://www.macaotourism.gov.mo/zh-hant/dining/qtsas-restaurant/9020086",
+        "amap": "https://uri.amap.com/search?keyword=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B0%B9%E4%BB%94%E6%B3%89%E9%B4%BB%E5%A4%96%E8%B3%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%A5%8A%E6%9E%9D%E9%87%91%E6%92%88%E7%94%9C%E5%93%81%EF%BC%88%E6%B0%B9%E4%BB%94%E6%B3%89%E9%B4%BB%E5%A4%96%E8%B3%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "intro": null,
+      "photo": "assets/photos/r158.jpg",
+      "photo_note": "圖片非官方",
+      "address_note": "非官網來源",
+      "link_note": "旅遊局連結僅對應品牌其中一間分店（qtsas:9020086），未必是本分店；待核實。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r159",
+      "name": "美心餅店（二龍喉店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門士多鳥拜斯大馬路22B號平安大廈地下",
+      "lat": 22.2002,
+      "lng": 113.5478,
+      "phone": "+853 2857 1149",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E4%BA%8C%E9%BE%8D%E5%96%89%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E4%BA%8C%E9%BE%8D%E5%96%89%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r159.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r160",
+      "name": "美心餅店（南灣店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門南灣大馬路623號時代商業中心地下",
+      "lat": 22.1908,
+      "lng": 113.5422,
+      "phone": "+853 2851 0708",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E5%8D%97%E7%81%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E5%8D%97%E7%81%A3%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r160.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r161",
+      "name": "美心餅店（新橋店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門渡船街14號F地下",
+      "lat": 22.1992,
+      "lng": 113.5392,
+      "phone": "+853 2857 6902",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E6%96%B0%E6%A9%8B%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E6%96%B0%E6%A9%8B%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r161.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r162",
+      "name": "美心餅店（祐漢店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門祐漢新邨第三街順利樓第1座地下A009室",
+      "lat": 22.2108,
+      "lng": 113.5522,
+      "phone": "+853 2841 5484",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E7%A5%90%E6%BC%A2%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E7%A5%90%E6%BC%A2%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r162.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r163",
+      "name": "美心餅店（至尊花城店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "我最愛烘焙店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "cats",
+          "label": "25類獲獎"
+        }
+      ],
+      "categories": [
+        "我最愛烘焙店"
+      ],
+      "area": "氹仔",
+      "address": "氹仔成都街171-175號至尊花城地下",
+      "lat": 22.1578,
+      "lng": 113.5552,
+      "phone": "+853 2884 2586",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": "https://www.maxims.com.hk/",
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E8%87%B3%E5%B0%8A%E8%8A%B1%E5%9F%8E%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E5%BF%83%E9%A4%85%E5%BA%97%EF%BC%88%E8%87%B3%E5%B0%8A%E8%8A%B1%E5%9F%8E%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r163.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-25cats.jpg"
+      ]
+    },
+    {
+      "id": "r164",
+      "name": "銀龍粉麵咖啡（渡船街店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "澳門半島",
+      "address": "澳門渡船街9號地下C舖",
+      "lat": 22.1992,
+      "lng": 113.5392,
+      "phone": "+853 2835 8919",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E6%B8%A1%E8%88%B9%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E6%B8%A1%E8%88%B9%E8%A1%97%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r164.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r165",
+      "name": "銀龍粉麵咖啡（南新店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "氹仔",
+      "address": "氹仔廣東大馬路154F-154G號南新花園第四座地下C舖",
+      "lat": 22.1568,
+      "lng": 113.5548,
+      "phone": "+853 2882 0593",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E5%8D%97%E6%96%B0%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E5%8D%97%E6%96%B0%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r165.jpg",
+      "photo_note": "圖片非官方",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r166",
+      "name": "銀龍粉麵咖啡（美景花園店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "心動味力榜"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "heart",
+          "label": "心動味力榜"
+        }
+      ],
+      "categories": [
+        "心動味力榜"
+      ],
+      "area": "氹仔",
+      "address": "氹仔布拉干薩街37-Y號美景花園",
+      "lat": 22.1588,
+      "lng": 113.5568,
+      "phone": "+853 2835 7702",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E7%BE%8E%E6%99%AF%E8%8A%B1%E5%9C%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E9%8A%80%E9%BE%8D%E7%B2%89%E9%BA%B5%E5%92%96%E5%95%A1%EF%BC%88%E7%BE%8E%E6%99%AF%E8%8A%B1%E5%9C%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r166.jpg",
+      "photo_note": "圖片非官方",
+      "quality_note": "電話 +853 2835 7702 與「銀龍粉麵咖啡（連勝店）」相同，未能獨立核實是否共用，暫保留並標註。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r167",
+      "name": "澳門王子冰室（濠景花園店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "氹仔",
+      "address": "氹仔成都街297-303號濠景花園第21、23座地下F",
+      "lat": 22.1565,
+      "lng": 113.5568,
+      "phone": null,
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E6%BF%A0%E6%99%AF%E8%8A%B1%E5%9C%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E6%BF%A0%E6%99%AF%E8%8A%B1%E5%9C%92%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r167.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "已移除：原連結指向上葡京店（旅遊局 14525），與本分店不符。",
+      "quality_note": "電話待補：原值與上葡京店相同，未獨立核實，已移除。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    },
+    {
+      "id": "r168",
+      "name": "澳門王子冰室（皇朝店）",
+      "aliases": [],
+      "awards": [
+        {
+          "category": "社區餐飲名店"
+        }
+      ],
+      "award_groups": [
+        {
+          "id": "community",
+          "label": "社區餐飲名店"
+        }
+      ],
+      "categories": [
+        "社區餐飲名店"
+      ],
+      "area": "澳門半島",
+      "address": "澳門倫敦路10號萬裕花園地下O舖",
+      "lat": 22.18814,
+      "lng": 113.5523,
+      "phone": "+853 2828 3310",
+      "hours": null,
+      "price_range": null,
+      "signature": null,
+      "links": {
+        "official": null,
+        "mgto": null,
+        "amap": "https://uri.amap.com/search?keyword=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E7%9A%87%E6%9C%9D%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80&city=820000&src=macau-food-map",
+        "maps_fallback": "https://www.google.com/maps/search/?api=1&query=%E6%BE%B3%E9%96%80%E7%8E%8B%E5%AD%90%E5%86%B0%E5%AE%A4%EF%BC%88%E7%9A%87%E6%9C%9D%E5%BA%97%EF%BC%89%20%E6%BE%B3%E9%96%80"
+      },
+      "source": "第十一屆我最愛餐廳選舉名單；澳門旅遊局公開餐飲資料",
+      "coord_note": "非官網來源（分店公開地址近似座標）",
+      "address_note": "非官網來源",
+      "intro": null,
+      "photo": "assets/photos/r168.jpg",
+      "photo_note": "圖片非官方",
+      "link_note": "已移除：原連結指向上葡京店（旅遊局 14525），與本分店不符。",
+      "coord_accuracy": "approx",
+      "is_branch": true,
+      "sources": [
+        "名單圖：source-other.jpg"
+      ]
+    }
+  ],
+  "filter_areas": [
+    "澳門半島",
+    "氹仔",
+    "路環",
+    "路氹"
+  ]
+};
