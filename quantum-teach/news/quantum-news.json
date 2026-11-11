@@ -1,6 +1,48 @@
 {
-  "updated": "2026-11-01T10:26:49+08:00",
+  "updated": "2026-11-11T08:45:04+08:00",
   "items": [
+    {
+      "id": "20",
+      "date": "2026-11-11",
+      "title": "【經典光「帶住」量子光走，或令複雜量子行為更易模擬】",
+      "summary": "聖路易斯大學、柏林 Max Born Institute（馬克斯·玻恩研究所）同柏林洪堡大學以理論加數值實驗指出：若讓量子光同較強經典光場一齊喺多模非線性光學系統中傳播，經典非線性動力學可驅動單光子、雙光子態趨向熱平衡。團隊認為呢條途徑或可喺較易取得嘅光學架構上模擬部分複雜量子行為，而不必先製造極難量產嘅超強單光子非線性材料。研究並非已經交付嘅量子電腦，亦不是已量產嘅光學晶片。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122128129077337526&id=61590125804782",
+      "source_url": "https://phys.org/news/2026-11-classicalquantum-interactions-complex-quantum-behavior.html",
+      "status": "published",
+      "tags": [
+        "量子物理",
+        "光子",
+        "光學"
+      ]
+    },
+    {
+      "id": "21",
+      "date": "2026-11-11",
+      "title": "【澳洲新創矽量子晶片據報喺資料中心實地測試，創辦人話可望減 AI 用電】",
+      "summary": "中央社編譯法新社報道：澳洲新創 Diraq 開發以矽晶片為基底嘅小型量子系統，據報正在雪梨一座商用資料中心做實地測試；創辦人 Andrew Dzurak（安德魯·祖拉克）表示技術可望降低 AI 資料中心用電，並稱 5 年內可分擔運算負荷——呢啲屬創辦人展望，並非已證實嘅節電實績。報道未寫 qubit 數目或機房名稱；「可在資料中心室溫下運作」唔等於已證明量子位元本身可喺室溫運算。藥物成本等數字亦係公司估算，不是已落地成果。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122128129425337526&id=61590125804782",
+      "source_url": "https://www.cna.com.tw/news/ait/202611100352.aspx",
+      "status": "published",
+      "tags": [
+        "量子運算",
+        "矽晶片",
+        "人工智能"
+      ]
+    },
+    {
+      "id": "2026-11-11-26",
+      "date": "2026-11-11",
+      "title": "【用磁場切換磁波「左旋定右旋」，或為未來量子技術提供新可能】",
+      "summary": "美國能源部 Ames National Laboratory（艾姆斯國家實驗室）研究人員喺籠目金屬／亞鐵磁體（例如 ErMn₆Sn₆）中，發現可用外加磁場改變材料磁狀態，從而切換磁振子（magnons，磁波）嘅左旋或右旋手性，並且能以相對較少能量做到。因為磁振傳遞資訊不必移動電荷，呢個機制被視為未來磁性量子資訊技術嘅一條可能路徑。目前仍然係材料同物理機制上嘅進展，並不是已經上市嘅量子電腦或商用手性元件。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122128129833337526&id=61590125804782",
+      "source_url": "https://phys.org/news/2026-11-scientists-magnetic-future-quantum-technologies.html",
+      "status": "published",
+      "tags": [
+        "量子物理",
+        "磁振",
+        "材料科學"
+      ]
+    },
     {
       "id": "30",
       "date": "2026-11-01",
