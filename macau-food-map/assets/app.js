@@ -1,11 +1,12 @@
 /* 澳門美食地圖 · 前端邏輯
-   純靜態：本機 Leaflet + OpenStreetMap；無需任何 API key 或建構步驟。 */
+   純靜態：本機 Leaflet + 免金鑰公開底圖；無需任何 API key 或建構步驟。
+   官方高德／Google 底圖屬選用：由站方自行申請金鑰，於 config.local.js 設定。 */
 (() => {
   'use strict';
 
   const MACAU_CENTER = [22.175, 113.55];
   const MQ = window.matchMedia('(max-width: 999px)');
-  const VERSION = '20261112';
+  const VERSION = '20261112d';
   const el = {};
   [
     'panel', 'list', 'search', 'btnClear', 'suggestions', 'resultCount', 'resultHint',
@@ -107,6 +108,7 @@
     const acc = r.coord_accuracy;
     if (acc === 'official') out.push('<span class="tag blue">位置已核實</span>');
     else if (acc === 'approx') out.push('<span class="tag warn">約略位置</span>');
+    else if (acc === 'unverified') out.push('<span class="tag warn">位置待核實</span>');
     else out.push('<span class="tag warn">位置待補</span>');
     if (!r.address) out.push('<span class="tag warn">地址待補</span>');
     if (r.is_branch) out.push('<span class="tag">品牌分店</span>');
@@ -118,11 +120,48 @@
     zoomControl: false, attributionControl: true, preferCanvas: false,
   }).setView(MACAU_CENTER, 12);
   L.control.zoom({ position: 'topright' }).addTo(map);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap 貢獻者 · 導航：高德地圖深連結',
-    updateWhenIdle: true,
+  /* 底圖：內建圖層全部免金鑰、可公開使用，並保留正確署名。
+     官方高德／Google 底圖需要站方自行申請的金鑰，且不得使用來路不明的瓦片網址；
+     若有合法來源，可透過 config.local.js 的 extraTileLayers 加入圖層選單。 */
+  const MAP_CFG = window.__MACAU_FOOD_MAP_CONFIG__ || {};
+  const NAV_CREDIT = ' · 導航：高德地圖／Google 地圖深連結';
+  const baseLayers = {
+    'OpenStreetMap': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap 貢獻者' + NAV_CREDIT,
+      updateWhenIdle: true,
+    }),
+    '簡約街道（CARTO）': L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19, subdomains: 'abcd',
+      attribution: '&copy; OpenStreetMap 貢獻者 &copy; CARTO' + NAV_CREDIT,
+      updateWhenIdle: true,
+    }),
+    '街道圖（CARTO Voyager）': L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19, subdomains: 'abcd',
+      attribution: '&copy; OpenStreetMap 貢獻者 &copy; CARTO' + NAV_CREDIT,
+      updateWhenIdle: true,
+    }),
+  };
+  const initialLayerName = MAP_CFG.defaultBaseLayer && baseLayers[MAP_CFG.defaultBaseLayer]
+    ? MAP_CFG.defaultBaseLayer : 'OpenStreetMap';
+  baseLayers[initialLayerName].addTo(map);
+
+  const layersControl = L.control.layers(baseLayers, null, {
+    position: 'topright', collapsed: true,
   }).addTo(map);
+
+  // 本機設定掛鉤：只接受站方自行取得、合法授權的官方瓦片來源。
+  // 不內建、不推測任何高德／Google 爬取瓦片 URL，也不把金鑰寫進應用程式碼。
+  (Array.isArray(MAP_CFG.extraTileLayers) ? MAP_CFG.extraTileLayers : []).forEach((cfg) => {
+    if (!cfg || typeof cfg.name !== 'string' || typeof cfg.url !== 'string') return;
+    if (!/\{z\}/.test(cfg.url) || !/\{x\}/.test(cfg.url) || !/\{y\}/.test(cfg.url)) return;
+    layersControl.addBaseLayer(L.tileLayer(cfg.url, {
+      maxZoom: Number(cfg.maxZoom) || 19,
+      subdomains: cfg.subdomains || 'abc',
+      attribution: (cfg.attribution || '地圖資料由站方提供') + NAV_CREDIT,
+      updateWhenIdle: true,
+    }), cfg.name);
+  });
 
   const clusterLayer = L.layerGroup().addTo(map);
   const pinLayer = L.layerGroup().addTo(map);
@@ -353,7 +392,11 @@
     info.push(row('價位', r.price_range ? esc(r.price_range) : '<span class="pending">待補</span>'));
     if (dishes.length) info.push(row('獲獎菜式', esc(dishes.join('、'))));
     else info.push(row('招牌菜', '<span class="pending">待補</span>'));
-    info.push(row('位置狀態', `${statusTags(r)}${r.coord_accuracy === 'approx' ? '<br><span class="pending">標記只代表建築／地區範圍，非店舖精確位置</span>' : ''}`));
+    const coordHint = r.coord_accuracy === 'approx'
+      ? '<br><span class="pending">標記只代表建築／地區範圍，非店舖精確位置</span>'
+      : (r.coord_accuracy === 'unverified'
+        ? '<br><span class="pending">同名多店／分店待核實，請用導航按鈕以店名搜尋</span>' : '');
+    info.push(row('位置狀態', `${statusTags(r)}${coordHint}`));
 
     const actions = [];
     if (r.links && r.links.amap) {
@@ -906,20 +949,25 @@
 
   /* ------------------------------------------------------------ 啟動
      優先 fetch JSON（http／GitHub Pages）；file:// 直接開檔時瀏覽器會擋 fetch，
-     降級載入同源的 data/restaurants.js（由 fix_data.py 同步產出）。 */
+     故直接改用同源的 data/restaurants.js（與 restaurants.json 同步產出），
+     避免無謂的 CORS 錯誤。 */
+  function loadViaScript() {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = `data/restaurants.js?v=${VERSION}`;
+      s.onload = () => window.__MACAU_FOOD_DATA__
+        ? resolve(window.__MACAU_FOOD_DATA__)
+        : reject(new Error('資料檔格式不正確'));
+      s.onerror = () => reject(new Error('無法載入餐廳資料'));
+      document.head.appendChild(s);
+    });
+  }
   function loadData() {
     if (window.__MACAU_FOOD_DATA__) return Promise.resolve(window.__MACAU_FOOD_DATA__);
+    if (location.protocol === 'file:') return loadViaScript();
     return fetch(`data/restaurants.json?v=${VERSION}`)
       .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .catch(() => new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = `data/restaurants.js?v=${VERSION}`;
-        s.onload = () => window.__MACAU_FOOD_DATA__
-          ? resolve(window.__MACAU_FOOD_DATA__)
-          : reject(new Error('資料檔格式不正確'));
-        s.onerror = () => reject(new Error('無法載入餐廳資料'));
-        document.head.appendChild(s);
-      }));
+      .catch(loadViaScript);
   }
 
   loadData()
