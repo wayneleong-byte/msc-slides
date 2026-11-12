@@ -1,6 +1,20 @@
 {
-  "updated": "2026-11-11T08:45:04+08:00",
+  "updated": "2026-11-12T08:39:58+08:00",
   "items": [
+    {
+      "id": "2026-11-12-26",
+      "date": "2026-11-12",
+      "title": "【測量迄今最小物體之間嘅引力，係尋找量子引力嘅一步，並非已偵測到量子引力】",
+      "summary": "中山大學 Shan-Qing Yang 團隊用微型扭力天平，測量了迄今最小一對質量之間嘅引力吸引——兩塊各重僅 7.6 毫克嘅 silicon wafers（矽晶片）。喺最近距離算出嘅微小拉力僅 471 attonewtons（阿牛頓），並與牛頓定律相符；由此計算嘅引力常數 G 亦同國際建議值相符，不確定度為 5.3%。呢個仍然遠遠談不上量子引力，但係尋找 quantum gravity（量子引力）過程中比以往更接近嘅一步，並非已經偵測到量子引力。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122128296081337526&id=61590125804782",
+      "source_url": "https://www.sciencealert.com/scientists-measure-gravitational-pull-between-the-smallest-objects-yet-in-quest-for-quantum-gravity",
+      "status": "published",
+      "tags": [
+        "量子引力",
+        "引力",
+        "物理"
+      ]
+    },
     {
       "id": "20",
       "date": "2026-11-11",
