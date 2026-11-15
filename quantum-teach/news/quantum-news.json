@@ -1,6 +1,20 @@
 {
-  "updated": "2026-11-12T08:39:58+08:00",
+  "updated": "2026-11-15T15:32:24+08:00",
   "items": [
+    {
+      "id": "34",
+      "date": "2026-11-15",
+      "title": "【物理學家提出「超電流」技術，可在不破壞量子態嘅情況下讀取量子位元】",
+      "summary": "中國與巴西研究者喺 Physical Review B 發表理論方案（英文題名 Andreev qubit readout from dynamic interference supercurrent，2026 年 8 月 5 日；不是預印本）：用 Andreev qubit（安德烈夫量子位元）自身產生、無需外加電壓嘅振盪 supercurrent（超電流）讀取狀態，建模準確度可高達 99.85%。ScienceAlert 寫明沒有實際實驗，呢個 99.85% 只係建模上限，不是已製成裝置或通用量子電腦上嘅非破壞讀取實績，方法亦未消除量子測量嘅根本問題。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122128709691337526&id=61590125804782",
+      "source_url": "https://www.sciencealert.com/physicists-propose-a-supercurrent-to-read-qubits-without-destroying-their-quantum-state",
+      "status": "published",
+      "tags": [
+        "量子運算",
+        "超電流",
+        "安德烈夫量子位元"
+      ]
+    },
     {
       "id": "2026-11-12-26",
       "date": "2026-11-12",
