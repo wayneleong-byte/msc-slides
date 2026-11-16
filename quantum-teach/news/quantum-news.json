@@ -1,6 +1,20 @@
 {
-  "updated": "2026-11-15T15:32:24+08:00",
+  "updated": "2026-11-16T09:58:32+08:00",
   "items": [
+    {
+      "id": "2026-11-16-13",
+      "date": "2026-11-16",
+      "title": "【在超冷氣體中捕捉到纏繞嘅量子渦流】",
+      "summary": "劍橋大學 Sebastian Morris 團隊，首次把超冷鉀原子 Bose–Einstein condensate（BEC，玻色–愛因斯坦凝聚態）中，纏繞量子渦流嘅鬆解過程當場捕捉到。佢哋喺均勻圓柱光阱裡擾亂氣體，再打開相互作用，釋放後放大約 3.5 倍並拍攝薄切片，估計單位體積渦線總長度，用以檢驗 Vinen turbulence（Vinen 湍流）。更密嘅纏結衰減更快，後來喺阱壁失落；衰減不取決於相互作用強度。phys.org 報道用「確認」呢套理論，論文摘要則寫衰減「符合」Vinen 超量子湍流嘅預測；呢個係對既有預測嘅實驗對照，不是量子湍流問題已經解決。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122128812033337526&id=61590125804782",
+      "source_url": "https://phys.org/news/2026-11-tangled-quantum-whirlpools-caught-unraveling.html",
+      "status": "published",
+      "tags": [
+        "量子湍流",
+        "超冷原子",
+        "玻色–愛因斯坦凝聚態"
+      ]
+    },
     {
       "id": "34",
       "date": "2026-11-15",
