@@ -1,6 +1,20 @@
 {
-  "updated": "2026-11-16T09:58:32+08:00",
+  "updated": "2026-11-18T09:32:19+08:00",
   "items": [
+    {
+      "id": "2026-11-18-11",
+      "date": "2026-11-18",
+      "title": "【量子電腦嘅運算能力已強大到難以核對。科學家們提出了一項解決方案。】",
+      "summary": "University of Innsbruck（因斯布魯克大學）等機構團隊，喺離子阱 quantum simulator（量子模擬器）上提出核對方法：先在 10 個 trapped ions（困離子）上用仍然可以進行嘅古典計算檢驗模型與誤差界限，再擴到 51 個困離子，把不確定性轉成可量化誤差範圍。論文 Bounded-Error Quantum Simulation via Hamiltonian and Lindbladian Learning 於 2026 年 8 月 13 日發表喺 Physical Review X（16, 031037）；ScienceDaily 標示 11 月 16 日，不是期刊發表日。標題「難以核對」講嘅係古典電腦愈來愈難直接比較呢個正在加劇嘅問題，唔係量子電腦已經無法核對，亦唔係已取代古典電腦；報道同摘要都未列具體誤差百分比。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122129118003337526&id=61590125804782",
+      "source_url": "https://www.sciencedaily.com/releases/2026/11/261115085557.htm",
+      "status": "published",
+      "tags": [
+        "量子模擬",
+        "量子運算",
+        "離子阱"
+      ]
+    },
     {
       "id": "2026-11-16-13",
       "date": "2026-11-16",
