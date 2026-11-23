@@ -73,7 +73,7 @@ npm run loud       # 響度
 
 ## 可調常數
 
-- `src/input.ts`：`REGION`（鏡頭哪一部分對到全螢幕）、`PINCH_ON`／`PINCH_OFF`、`PINCH_PREPARE`、`FREEZE_MS`、`OPEN_MIN`
+- `src/input.ts`：`REGION`（鏡頭哪一部分對到全螢幕，現為 `{ x0: 0.26, x1: 0.74, y0: 0.22, y1: 0.68 }`）、`PINCH_ON`／`PINCH_OFF`、`PINCH_PREPARE`、`FREEZE_MS`、`OPEN_MIN`
 - `src/rules.ts`：`STABLE_MS`（200）、`HYST`（0.15 格）、`ROUND_MAX_S`、`QUESTION_COUNT`、`PREFERRED_CHALLENGE_MIN_PAIRS`
 - `src/main.ts`：`REST_AFTER_S`（90）、`SESSION_SOFT_S`（480）、`END_DELAY_MS`、`NEXT_Q_DELAY_MS`
 - `src/scene.ts`：`ROW_S`（跳數每行秒數）及各色
