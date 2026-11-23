@@ -9,35 +9,39 @@
     <title>排一排｜九九乘法表</title>
     <meta name="description" content="用手把格子拉開，看看幾個幾。澳門小學數學科表內乘法的鏡頭互動練習，影像永不離機。" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='5' width='9' height='9' rx='2' fill='%23b5651d'/%3E%3Crect x='18' y='5' width='9' height='9' rx='2' fill='%23b5651d'/%3E%3Crect x='5' y='18' width='9' height='9' rx='2' fill='%23b5651d'/%3E%3C/svg%3E" />
-    <script type="module" crossorigin src="./assets/index-ZljAm0Ba.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-RPbHwm-d.css">
+    <script type="module" crossorigin src="./assets/index-Lj46OegW.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Dp3_mZfI.css">
   </head>
   <body>
     <div id="app" class="app" data-phase="title">
       <p id="live" class="sr-only" aria-live="polite" aria-atomic="true"></p>
 
-      <!-- 標題 -->
+      <!-- 主頁 -->
       <section id="title" class="card" aria-labelledby="t-h">
         <h1 id="t-h">排一排</h1>
         <p class="sub">九九乘法表</p>
         <p class="lead">用手把格子拉開，看看幾個幾。</p>
-        <div class="row">
+
+        <div id="home-cam">
           <div class="cam-ask">
-            <button id="b-cam" type="button" class="primary">開啟鏡頭，開始排</button>
+            <button id="b-cam" type="button" class="primary">開啟鏡頭</button>
             <p class="why">鏡頭只用來看你的手怎麼排，格子會跟著手動。<strong>影像永不離機。</strong>第一次要載入手部偵測，需要一點時間。</p>
+            <button id="b-mouse" type="button" class="ghost">先不用鏡頭，用滑鼠或鍵盤</button>
           </div>
-          <div class="cam-ask">
-            <button id="b-mouse" type="button" class="ghost">用滑鼠或鍵盤開始</button>
-          </div>
+          <p id="err" class="err" role="status"></p>
         </div>
-        <p id="err" class="err" role="status"></p>
-        <fieldset class="modes">
-          <legend>玩法（可以先不選）</legend>
-          <label class="chip"><input type="radio" name="mode-t" value="explore" checked />自由探索</label>
-          <label class="chip"><input type="radio" name="mode-t" value="listen" />聽一聽，排一排</label>
-          <label class="chip"><input type="radio" name="mode-t" value="pattern" />找規律</label>
-        </fieldset>
-        <p class="small">滑鼠：拖曳格子右下角的圓點，點一下格子蓋印。鍵盤：方向鍵改行列，空白鍵蓋印，M 靜音。</p>
+
+        <div id="home-modes" class="hidden">
+          <p id="home-cam-note" class="small" role="status"></p>
+          <div class="mode-pick" role="group" aria-label="選擇玩法">
+            <p class="sub-h">選擇玩法</p>
+            <button id="b-mode-listen" type="button" class="primary">聽一聽，排一排</button>
+            <button id="b-mode-challenge" type="button" class="primary">九九乘法大挑戰</button>
+          </div>
+          <button id="b-cam-retry" type="button" class="ghost hidden">再開啟鏡頭</button>
+          <p class="small">滑鼠：拖曳格子右下角的圓點，點一下格子蓋印。鍵盤：方向鍵改行列，空白鍵蓋印，M 靜音。</p>
+        </div>
+
         <div class="tools">
           <button type="button" class="js-mute">靜音</button>
           <button type="button" class="js-motion">暫停動畫</button>
@@ -56,7 +60,7 @@
         </div>
         <p id="prompt" class="prompt"></p>
         <p id="note" class="note"></p>
-        <p class="stats">已點亮 <span id="score">0</span> / 81 格　<span class="label">本回</span> <span id="time">0:00</span></p>
+        <p class="stats"><span id="score-line">已點亮 <span id="score">0</span> / 81 格</span>　<span class="label">本回</span> <span id="time">0:00</span></p>
       </header>
 
       <!-- 畫面 -->
@@ -83,6 +87,7 @@
         </div>
         <button id="b-stamp" type="button" class="primary">蓋到表上</button>
         <button id="b-finish" type="button" class="ghost">完成，看結果</button>
+        <button id="b-home" type="button" class="ghost">回主頁</button>
         <div class="tools">
           <button type="button" class="js-mute">靜音</button>
           <button type="button" class="js-motion">暫停動畫</button>
@@ -97,14 +102,11 @@
         <p id="r-best" class="small"></p>
         <h3 class="sub-h">今次的發現</h3>
         <ul id="r-found" class="found"></ul>
-        <button id="b-again" type="button" class="primary">再玩一次</button>
-        <fieldset class="modes">
-          <legend>下一回玩法</legend>
-          <label class="chip"><input type="radio" name="mode-r" value="explore" checked />自由探索</label>
-          <label class="chip"><input type="radio" name="mode-r" value="listen" />聽一聽，排一排</label>
-          <label class="chip"><input type="radio" name="mode-r" value="pattern" />找規律</label>
-        </fieldset>
-        <p class="small">也可以捏合手指，或按空白鍵再玩。</p>
+        <div class="tools">
+          <button id="b-again" type="button" class="primary">再玩一次</button>
+          <button id="b-home-r" type="button" class="ghost">回主頁</button>
+        </div>
+        <p class="small">也可以捏合手指，或按空白鍵再玩同一種玩法。</p>
         <div class="tools">
           <button type="button" class="js-mute">靜音</button>
           <button type="button" class="js-motion">暫停動畫</button>
@@ -116,8 +118,10 @@
     <dialog id="help" aria-labelledby="help-h" closedby="any">
       <h2 id="help-h">怎麼玩</h2>
       <ul>
-        <li>把手掌張開，放在鏡頭前。手向右，列變多；手向下，行變多。</li>
-        <li>捏合拇指和食指，就把這個乘法蓋到九九表上。換過來的那一格也會亮。</li>
+        <li>先進主頁。按「開啟鏡頭」才會開鏡頭；若不想用鏡頭，或鏡頭不能開，可改用滑鼠、觸控或鍵盤，兩種玩法都可以進。</li>
+        <li>「聽一聽，排一排」：題目會規定要排哪一行、哪一列，排好後蓋印。蓋對時，換過來的那一格也會亮。</li>
+        <li>「九九乘法大挑戰」：題目會說一個積，例如 12。請蓋滿表內所有積是這個數的格子。正確會變綠色並叮一聲；錯了會閃紅，並發出錯誤音。還沒蓋完就顯示「請繼續」。這一玩法不會自動點亮交換格。</li>
+        <li>把手掌張開，放在鏡頭前。手向右，列變多；手向下，行變多。捏合拇指和食指，就把這個乘法蓋到九九表上。</li>
         <li>手可以放下，格子會留在這裡。</li>
         <li>滑鼠：拖曳格子右下角的圓點，點一下格子蓋印。</li>
         <li>鍵盤：上下改行，左右改列，空白鍵或 Enter 蓋印，M 靜音。</li>
