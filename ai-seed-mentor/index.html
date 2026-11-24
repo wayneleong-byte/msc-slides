@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI種子導師計劃｜階梯式賦能資訊圖</title>
+<style>
+  :root{
+    --ink:#14243a; --ink2:#3f5876; --muted:#70849c;
+    --line:#dbe5ef; --paper:#f5f8fc; --card:#ffffff;
+    --navy:#123a63; --blue:#1f6fb2; --cyan:#18a6a6;
+    --gold:#d99a2b; --green:#2f8f6b; --coral:#d9694e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9eef5;color:var(--ink);
+       font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .poster{width:1200px;margin:28px auto;background:var(--paper);position:relative;overflow:hidden;
+          box-shadow:0 24px 70px rgba(20,36,58,.18)}
+  .hero{background:linear-gradient(125deg,#0d2f52 0%,#154a7a 52%,#167f8a 100%);color:#fff;
+        padding:46px 58px 40px;position:relative;overflow:hidden}
+  .hero:after{content:"";position:absolute;right:-120px;top:-170px;width:520px;height:520px;border-radius:50%;
+              border:1px solid rgba(255,255,255,.14);box-shadow:0 0 0 58px rgba(255,255,255,.045),0 0 0 116px rgba(255,255,255,.03)}
+  .kicker{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.22em;
+          color:#bfe3ee;border:1px solid rgba(255,255,255,.32);padding:7px 14px;border-radius:999px}
+  .kicker i{width:7px;height:7px;background:#6fe0c8;border-radius:50%;display:block}
+  h1{margin:20px 0 8px;font-size:52px;letter-spacing:.04em;line-height:1.14;font-weight:800}
+  .sub{font-size:19px;color:#d5e8f5;max-width:760px;line-height:1.65}
+  .hero-meta{display:flex;gap:34px;margin-top:30px;position:relative;z-index:2}
+  .hero-meta div{border-left:2px solid rgba(255,255,255,.28);padding-left:14px}
+  .hero-meta b{display:block;font-size:22px;letter-spacing:.02em}
+  .hero-meta span{font-size:12px;color:#b9d6e8;letter-spacing:.14em}
+  .body{padding:34px 58px 44px}
+  .sec-head{display:flex;align-items:center;gap:12px;margin:0 0 18px}
+  .sec-head .no{width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;
+                display:grid;place-items:center;font-size:13px;font-weight:800;letter-spacing:.05em}
+  .sec-head h2{font-size:23px;margin:0;letter-spacing:.04em}
+  .sec-head .en{font-size:11px;letter-spacing:.2em;color:var(--muted);margin-left:auto;text-transform:uppercase}
+  .rule{height:1px;background:var(--line);margin:0 0 22px}
+
+  /* 階梯 */
+  .ladder{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:34px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px 18px;
+        position:relative;box-shadow:0 6px 18px rgba(20,36,58,.05)}
+  .step:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:14px 0 0 14px}
+  .step.s1:before{background:var(--cyan)} .step.s2:before{background:var(--blue)} .step.s3:before{background:var(--gold)}
+  .step .tag{font-size:12px;letter-spacing:.18em;color:var(--muted);font-weight:700}
+  .step h3{font-size:26px;margin:8px 0 2px}
+  .step .hrs{font-size:44px;font-weight:800;line-height:1;letter-spacing:-.02em}
+  .step.s1 .hrs{color:var(--cyan)} .step.s2 .hrs{color:var(--blue)} .step.s3 .hrs{color:var(--gold)}
+  .step .hrs small{font-size:16px;font-weight:700;color:var(--ink2);margin-left:3px}
+  .step .units{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);
+               font-size:13px;color:var(--ink2);display:flex;justify-content:space-between}
+  .step .units b{color:var(--ink);font-size:16px}
+  .total{display:flex;align-items:center;gap:18px;background:#eaf2f8;border:1px solid #d2e2ef;border-radius:14px;
+         padding:16px 22px;margin-top:-14px;margin-bottom:34px}
+  .total .sum{font-size:34px;font-weight:800;color:var(--navy);white-space:nowrap}
+  .total .sum span{font-size:15px;color:var(--ink2);font-weight:600}
+  .total .txt{font-size:14px;color:var(--ink2);line-height:1.7;border-left:1px solid #c3d7e6;padding-left:18px}
+
+  /* 生態 */
+  .eco{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:16px;margin-bottom:34px}
+  .ecocard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .ecocard h4{margin:0 0 12px;font-size:15px;letter-spacing:.06em;display:flex;align-items:center;gap:8px}
+  .ecocard h4:before{content:"";width:8px;height:8px;border-radius:2px;background:var(--navy)}
+  .pill{display:inline-block;padding:7px 11px;border-radius:8px;font-size:13px;font-weight:600;
+        background:#eef4f9;color:var(--ink2);margin:0 6px 8px 0;border:1px solid #e0eaf2}
+  .pill.a{background:#fff3e6;color:#9a6114;border-color:#f2dcbf}
+  .pill.t{background:#e8f5fb;color:#12618c;border-color:#cbe6f2}
+  .pill.g{background:#e9f6f0;color:#1f6b50;border-color:#c9e6d9}
+  .note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:2px}
+
+  /* 時間線 */
+  .track{position:relative;margin:8px 0 0}
+  .track-line{position:absolute;left:26px;right:26px;top:35px;height:4px;border-radius:4px;
+              background:linear-gradient(90deg,var(--cyan),var(--blue) 60%,var(--gold));opacity:.9}
+  .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative;z-index:1}
+  .phase{text-align:center}
+  .dot{width:74px;height:74px;margin:0 auto 14px;border-radius:50%;background:var(--card);
+       border:4px solid var(--blue);display:grid;place-items:center;position:relative;z-index:2;
+       box-shadow:0 0 0 6px var(--paper)}
+  .phase:nth-child(1) .dot{border-color:var(--cyan)}
+  .phase:nth-child(4) .dot{border-color:var(--gold)}
+  .dot b{font-size:12px;line-height:1.25;color:var(--ink);font-weight:800}
+  .phase h4{font-size:16px;margin:0 0 4px}
+  .phase .date{font-size:12px;color:var(--muted);letter-spacing:.04em;margin-bottom:12px}
+  .phase ul{list-style:none;padding:0;margin:0;text-align:left;background:var(--card);border:1px solid var(--line);
+            border-radius:12px;padding:14px 14px 12px;min-height:132px}
+  .phase li{font-size:12.5px;line-height:1.55;color:var(--ink2);padding-left:14px;position:relative;margin-bottom:9px}
+  .phase li:last-child{margin-bottom:0}
+  .phase li:before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+  .phase:nth-child(1) li:before{background:var(--cyan)} .phase:nth-child(4) li:before{background:var(--gold)}
+  .launch{margin-top:22px;background:linear-gradient(100deg,#123a63,#176f83);color:#fff;border-radius:14px;
+          padding:18px 24px;display:flex;align-items:center;gap:20px}
+  .launch .big{font-size:26px;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+  .launch .desc{font-size:13.5px;color:#d8edf4;line-height:1.65;border-left:1px solid rgba(255,255,255,.3);padding-left:20px}
+  .footer{display:flex;justify-content:space-between;align-items:center;padding:18px 58px 26px;
+          font-size:11px;color:var(--muted);letter-spacing:.08em}
+
+  .sources{width:min(1200px,100%);margin:28px auto 0;display:flex;flex-direction:column;gap:28px}
+  .sources figure{margin:0}
+  .sources img{display:block;width:100%;height:auto;background:var(--card);
+               box-shadow:0 24px 70px rgba(20,36,58,.18)}
+  .sources figcaption{margin-top:8px;text-align:center;font-size:13px;letter-spacing:.06em;color:var(--ink2)}
+  @media print{
+    body{background:#fff}
+    .poster{width:100%;margin:0;box-shadow:none}
+    .sources{width:100%;margin:0 0 12px}
+    .sources img{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+<section class="sources" aria-label="計劃資訊圖">
+  <figure>
+    <img src="assets/overview.png" width="2336" height="1744" alt="AI種子導師計劃資訊圖。定位：階梯式賦能，培育社區教師隊伍，讓AI應用延伸至社區。合作對象：阿里、騰訊。課程內容：需成立專業委員會協助製定。階梯式賦能三階段課程：基礎課程16小時、8個單元；進階課程24小時、12個單元；高階課程36小時、18個單元。總課時76小時，合共3個階段、30個單元，每單元2小時。時間線依序為基礎、進階、高階。專業委員會由大專院校專家及阿里、騰訊專家組成。首批學員：街總、工聯、婦聯。">
+    <figcaption>AI種子導師計劃</figcaption>
+  </figure>
+  <figure>
+    <img src="assets/timeline.png" width="2336" height="1744" alt="阿里 × 騰訊 AI 課程計劃推進時間線與工作藍圖。整合阿里與騰訊的 AI 資源、專業認證與課程體系，聯動政府及業界，於2027年第二季正式推出面向本地的 AI 課程計劃。整體時間線總覽：籌備與建設期（2025/11/28 – 2027年第一季），其後為正式推行期（2027年第二季）。圖內列出各階段節點、核心工作項目（按工作範疇）、階段性成果與里程碑，以及預期成效。">
+    <figcaption>阿里 × 騰訊 AI 課程計劃　推進時間線與工作藍圖</figcaption>
+  </figure>
+</section>
+<div class="poster">
+
+  <header class="hero">
+    <div class="kicker"><i></i> COMMUNITY AI CAPACITY BUILDING</div>
+    <h1>AI種子導師計劃</h1>
+    <div class="sub">階梯式賦能，培育社區教師隊伍<br>讓 AI 應用由課室出發，延伸至社區每個角落。</div>
+    <div class="hero-meta">
+      <div><b>3 級</b><span>階梯式課程</span></div>
+      <div><b>76 小時</b><span>總課時</span></div>
+      <div><b>38 單元</b><span>每單元 2 小時</span></div>
+      <div><b>2027 Q2</b><span>正式展開</span></div>
+    </div>
+  </header>
+
+  <main class="body">
+
+    <section>
+      <div class="sec-head"><span class="no">01</span><h2>階梯式課程架構</h2><span class="en">Curriculum Ladder</span></div>
+      <div class="rule"></div>
+      <div class="ladder">
+        <div class="step s1">
+          <div class="tag">LEVEL 01 · 基礎</div>
+          <h3>基礎級</h3>
+          <div class="hrs">16<small>小時</small></div>
+          <div class="units"><span>單元數</span><b>8 單元</b></div>
+        </div>
+        <div class="step s2">
+          <div class="tag">LEVEL 02 · 進階</div>
+          <h3>進階級</h3>
+          <div class="hrs">24<small>小時</small></div>
+          <div class="units"><span>單元數</span><b>12 單元</b></div>
+        </div>
+        <div class="step s3">
+          <div class="tag">LEVEL 03 · 高階</div>
+          <h3>高階級</h3>
+          <div class="hrs">36<small>小時</small></div>
+          <div class="units"><span>單元數</span><b>18 單元</b></div>
+        </div>
+      </div>
+      <div class="total">
+        <div class="sum">16 + 24 + 36 = 76 <span>小時</span></div>
+        <div class="txt">全部課程以 <b>每單元 2 小時</b> 設計，共 <b>38 個單元</b>；由基礎應用、進階實戰到高階帶領能力，逐級培育種子導師。</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">02</span><h2>協作生態與首批學員</h2><span class="en">Ecosystem &amp; Cohort</span></div>
+      <div class="rule"></div>
+      <div class="eco">
+        <div class="ecocard">
+          <h4>專業委員會</h4>
+          <span class="pill">大專院校</span>
+          <span class="pill a">阿里專家</span>
+          <span class="pill t">騰訊專家</span>
+          <div class="note">由專業委員會協助制定課程內容，確保專業性與實務導向。</div>
+        </div>
+        <div class="ecocard">
+          <h4>技術與平台合作</h4>
+          <span class="pill a">阿里雲 · 帳號及算力</span>
+          <span class="pill t">騰訊 · AI 工具及認證</span>
+          <div class="note">同事須完成工具熟習、考取認證，並落實採購與贊助安排。</div>
+        </div>
+        <div class="ecocard">
+          <h4>首批學員</h4>
+          <span class="pill g">街總</span>
+          <span class="pill g">工聯</span>
+          <span class="pill g">婦聯</span>
+          <div class="note">以社區團體骨干為起點，形成可複製的社區導師培訓隊伍。</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><span class="no">03</span><h2>推行時間線</h2><span class="en">Roadmap · 2026.11.28 → 2027 Q2</span></div>
+      <div class="rule"></div>
+      <div class="track">
+        <div class="track-line"></div>
+        <div class="phases">
+
+          <div class="phase">
+            <div class="dot"><b>階段一<br>11.28–12月</b></div>
+            <h4>工具熟習</h4>
+            <div class="date">2026 / Q4 起動</div>
+            <ul>
+              <li>負責同事熟習阿里平台</li>
+              <li>採購阿里帳號及算力</li>
+              <li>熟習騰訊 AI 工具應用並考取認證</li>
+            </ul>
+          </div>
+
+          <div class="phase">
+            <div class="dot"><b>階段二<br>12月–1月</b></div>
+            <h4>制度與合作</h4>
+            <div class="date">2026 / Q4 – 2027 / Q1</div>
+            <ul>
+              <li>成立專業委員會，協助制定課程</li>
+              <li>打通教青局及人才發展委員會</li>
+              <li>將課程列入白名單</li>
+              <li>確定阿里、騰訊合作關係</li>
+            </ul>
+          </div>
+
+          <div class="phase">
+            <div class="dot"><b>階段三<br>2027 / Q1</b></div>
+            <h4>前期鋪墊</h4>
+            <div class="date">2027 / 第一季</div>
+            <ul>
+              <li>前期宣傳及與相關社團聯絡鋪墊</li>
+              <li>對接首批學員：街總、工聯、婦聯</li>
+              <li>準備正式推出所需帳號及算力採購</li>
+              <li>落實贊助安排</li>
+            </ul>
+          </div>
+
+          <div class="phase">
+            <div class="dot"><b>階段四<br>2027 / Q2</b></div>
+            <h4>正式推出</h4>
+            <div class="date">2027 / 第二季</div>
+            <ul>
+              <li>計劃正式展開</li>
+              <li>按基礎／進階／高階三級開班</li>
+              <li>培育社區教師隊伍</li>
+              <li>推動 AI 應用延伸至社區</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div class="launch">
+        <div class="big">2027 第二季｜正式展開</div>
+        <div class="desc">由 11 月 28 日起完成工具準備、專業委員會、白名單、合作確認、宣傳與資源到位，<br>以 76 小時階梯課程正式啟動社區 AI 種子導師培育。</div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>AI 種子導師計劃 · 階梯式賦能 · 培育社區教師隊伍</span>
+    <span>INFOGRAPHIC / 2026.11</span>
+  </footer>
+
+</div>
+</body>
+</html>
