@@ -1,6 +1,48 @@
 {
-  "updated": "2026-11-18T09:32:19+08:00",
+  "updated": "2026-11-28",
   "items": [
+    {
+      "id": "2026-11-28-33",
+      "date": "2026-11-28",
+      "title": "【「量子錯誤修正創下新紀錄」：科學家表示，這一突破使強大嘅容錯量子電腦更接近現實】",
+      "summary": "Quantinuum 嘅 Helios 在量子記憶錯誤更正測試中錄得 0.0005% 失敗率，碼距 7 約每 20 萬輪一次不可更正錯誤；同 Google Willow 嘅 0.0772% 對照要分清離子阱同超導架構並不相同。預印本 Quantum error correction well below the color code threshold 由 A. Lavasani、A. C. Potter 等撰寫，arXiv: 2610.24077，2026-10-16，尚未同行評審。文中 30,000 對 900,000 物理量子位元係公司估計，尚未由獨立評審證實，亦不是已經建成；仍有大量工程工作，不是已經建成實用容錯量子電腦。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122130785421337526&id=61590125804782",
+      "source_url": "https://www.livescience.com/technology/quantum/a-new-record-in-quantum-error-correction-scientists-say-breakthrough-brings-powerful-fault-tolerant-quantum-computers-closer-to-reality",
+      "status": "published",
+      "tags": [
+        "量子錯誤更正",
+        "量子運算",
+        "離子阱"
+      ]
+    },
+    {
+      "id": "2026-11-28-32",
+      "date": "2026-11-28",
+      "title": "【科學家發現一個有367年歷史嘅物理問題出現量子層面嘅新轉折】",
+      "summary": "Georgios K. Simopoulos 等提出 Quantum Tautochrone for photons and atoms，把惠更斯 1659 年嘅等時問題寫成量子版本：在特定設計嘅波導或原子晶格中，從不同位置出發嘅粒子可以同時匯聚。預印本編號 arXiv: 2611.32319，2026-11-24，尚未同行評審。量子等時效應目前只存在於數學同模擬，不是已經造出實驗裝置。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122130785103337526&id=61590125804782",
+      "source_url": "https://www.sciencealert.com/scientists-discover-a-quantum-twist-on-a-367-year-old-physics-problem",
+      "status": "published",
+      "tags": [
+        "量子物理",
+        "等時問題",
+        "預印本"
+      ]
+    },
+    {
+      "id": "2026-11-28-26",
+      "date": "2026-11-28",
+      "title": "【物理學家成功捕捉反物質，這項突破或可解釋宇宙為何存在】",
+      "summary": "T. G. Myers、G. Gabrielse 等把單個正電子捕獲、冷卻到約 300 毫開爾文，並用微波操控其量子能級，實驗室可困住數月。論文 One-Positron Quantum Cyclotron 發表於 Physical Review Letters 2026; 137 (17): 173001，DOI: 10.1103/gbkc-6nlj（論文日期 2026 年 10 月 21 日）。同電子一樣精密嘅磁矩比較仍是下一步，尚未測到差異，因此尚未解釋宇宙為何存在。按規則，反物質阱屬 borderline，預設納入。",
+      "fb_url": "https://www.facebook.com/permalink.php?story_fbid=122130784875337526&id=61590125804782",
+      "source_url": "https://www.sciencedaily.com/releases/2026/11/261124055849.htm",
+      "status": "published",
+      "tags": [
+        "反物質",
+        "正電子",
+        "精密測量"
+      ]
+    },
     {
       "id": "2026-11-18-11",
       "date": "2026-11-18",
